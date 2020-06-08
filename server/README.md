@@ -1,1 +1,1 @@
-Server template using ExpressJS, PostgreSQL and Typescript
+Server template using Node with Express, PostgreSQL and Typescript

@@ -1,4 +1,4 @@
-const pg = require('pg');
+import pg from 'pg';
 
 const dbConfig = {
     user: 'postgres',
@@ -15,23 +15,22 @@ const client = new pg.Client (
     dbConfig
 );
 
-client.connect(function(err) {
+client.connect(function(err: any) {
     if(err) {
         return console.error('could not connect to postgres', err);
     }
-    client.query('SELECT NOW() AS "theTime"', function(err, result) {
+    client.query('SELECT NOW() AS "theTime"', function(err: any, result: any) {
         if(err) {
             return console.error('error running query', err);
         }
         console.log(result.rows[0].theTime);
-        // >> output: 2018-08-23T14:02:57.117Z
         client.end();
     });
 });
 
-module.exports = {
-    query: (text, params) => {
-        return pool.query(text, params)
-    },
-    connect: () => pool.connect(),
+
+export const query = (text: string, params: any[]) => {
+    return pool.query(text, params)
 };
+
+export const connect = () => pool.connect();
