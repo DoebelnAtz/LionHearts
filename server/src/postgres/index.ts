@@ -1,9 +1,9 @@
 import pg from 'pg';
 
 const dbConfig = {
-    user: 'postgres',
-    host: '0.0.0.0',
-    database: 'test',
+    user: 'admin',
+    host: '161.35.219.99',
+    database: 'lionheart',
     password: process.env.db || 'password'
 };
 
