@@ -3,6 +3,7 @@ class CustomError extends Error {
 		public response: string = 'Internal server error',
 		public status: number = 500,
 		public description: string = '',
+		public message: string = ''
 	) {
 		super();
 	}

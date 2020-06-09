@@ -9,11 +9,13 @@
   "author": "aadlercr",
   "license": "MIT",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-validator": "^6.5.0",
+    "jsonwebtoken": "^8.5.1",
     "pg": "^8.2.1",
     "winston": "^3.2.1"
   },
@@ -26,9 +28,11 @@
     "useTabs": true
   },
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.2",
     "@types/body-parser": "^1.19.0",
     "@types/cors": "^2.8.6",
     "@types/express": "^4.17.6",
+    "@types/jsonwebtoken": "^8.5.0",
     "@types/node": "^14.0.9",
     "@types/pg": "^7.14.3",
     "nodemon": "^2.0.4",
