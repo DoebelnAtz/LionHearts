@@ -15,6 +15,7 @@ const NavBar = () => {
             </NavBarLinksDiv>
         </NavBarDiv>
     )
+
 };
 
 export default NavBar;
