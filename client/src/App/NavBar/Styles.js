@@ -17,11 +17,17 @@ export const NavBarLogoDiv = styled.div`
 export const NavBarLinksDiv = styled.div`
     margin: auto auto;
     position: relative;
-    right: 100px;
+`;
+
+export const NavBarMemberIcon = styled.div`
+  margin: auto 0;
+  position: relative;
+  right: 100px;
 `;
 
 export const NavBarLink = styled.span`
     color: white;
     ${font.DCBold};
+    font-size: 20px;
     padding: 2vw;
 `;

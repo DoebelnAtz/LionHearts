@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import {color, colorAdjust} from "../../../Styles";
+import {color, font} from "../../../Styles";
 
 export const ImgDiv = styled.div`
   height: 100%;
@@ -16,4 +16,14 @@ export const BGImg = styled.div`
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
+`;
+
+export const Vision = styled.h1`
+    ${font.DCBold};
+    font-size: 96px;
+    position: relative;
+    left: 100px;
+    top: 300px;
+    margin: 0;
+    color: white;
 `;
