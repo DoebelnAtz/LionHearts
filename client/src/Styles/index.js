@@ -7,7 +7,7 @@ export const colorAdjust = {
 	darken: (color, amount) =>
 		Color(color)
 			.darken(amount)
-			.string(),
+			.hex(),
 	lighten: (color, amount) =>
 		Color(color)
 			.lighten(amount)
@@ -41,7 +41,9 @@ export const units = {
 
 export const font = {
 	DCBold: css`
-		font-family: din-condensed-bold;
+		font-family: din-condensed-bold,sans-serif;
+		font-size: 20px;
+		line-height: 40px;
 	`,
 	VItalic: css`
 		font-family: volkhov-italic;
@@ -50,7 +52,7 @@ export const font = {
 		font-family: roboto-regular;
 	`,
 	RBold: css`
-		font-family: roboto-bold;
+		font-family: roboto-bold,sans-serif;
 	`,
 	title: css`
 		font-size: 36px;

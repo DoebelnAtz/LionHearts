@@ -5,9 +5,11 @@ import {BGImg, ImgDiv} from "./Styles";
 
 const HomeImg = () => {
     return (
-        <ImgDiv>
-           <BGImg src={HomePNG}/>
-        </ImgDiv>
+        <BGImg src={HomePNG}>
+            <ImgDiv>
+
+            </ImgDiv>
+        </BGImg>
     )
 };
 
