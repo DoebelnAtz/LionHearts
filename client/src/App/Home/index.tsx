@@ -4,6 +4,7 @@ import NavBar from "../NavBar";
 import { HomeDiv } from "./Styles";
 import HomeImg from "./HomeImg";
 import SummarySection from "./SummarySection";
+import EventSection from "./EventSection";
 
 const Home: React.FC = () => {
     return (
@@ -11,6 +12,7 @@ const Home: React.FC = () => {
            <NavBar/>
            <HomeImg/>
            <SummarySection/>
+           <EventSection/>
         </HomeDiv>
     )
 };

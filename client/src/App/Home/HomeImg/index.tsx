@@ -7,7 +7,7 @@ const HomeImg = () => {
     return (
         <BGImg src={HomePNG}>
             <ImgDiv>
-                <Vision>Tomorrow, built by you</Vision>
+                <Vision>Tomorrow, built by you.</Vision>
             </ImgDiv>
         </BGImg>
     )

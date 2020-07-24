@@ -5,6 +5,7 @@ import { useGet, useWidth } from '../Hooks';
 
 import Home from "./Home";
 import './base.css';
+import Signup from "./Signup";
 
 function App() {
     const [isMobile] = useWidth();
@@ -14,6 +15,9 @@ function App() {
         <Route exact path={'/'}>
                 <Home/>
         </Route>
+          <Route exact path={'/signup'}>
+              <Signup/>
+          </Route>
       </Switch>
     </AppDiv>
   );
