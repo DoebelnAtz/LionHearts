@@ -4,7 +4,7 @@ import NavBar from "../NavBar";
 import { HomeDiv } from "./Styles";
 import HomeImg from "./HomeImg";
 
-const Home = () => {
+const Home: React.FC = () => {
     return (
         <HomeDiv>
            <NavBar/>

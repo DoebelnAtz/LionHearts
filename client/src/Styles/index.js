@@ -41,9 +41,7 @@ export const units = {
 
 export const font = {
 	DCBold: css`
-		font-family: din-condensed-bold,sans-serif;
-		font-size: 20px;
-		line-height: 40px;
+		font-family: din-condensed-bold;
 	`,
 	VItalic: css`
 		font-family: volkhov-italic;
