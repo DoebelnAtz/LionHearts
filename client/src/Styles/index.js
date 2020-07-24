@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
 import Color from 'color';
 
-const baseColor = '#161616';
+const baseColor = '#ffffff';
 
 export const colorAdjust = {
 	darken: (color, amount) =>
@@ -19,15 +19,18 @@ export const colorAdjust = {
 };
 
 export const color = {
-	primary: '#AC7BC2',
-	secondary: '#E0AB79',
-	tertiary: '#86D889',
-	siteBG: baseColor,
-	siteBG1: colorAdjust.lighten(baseColor, 0.5),
-	siteBG2: colorAdjust.lighten(baseColor, 1.0),
-	siteBG3: colorAdjust.lighten(baseColor, 1.5),
-	siteBG4: colorAdjust.lighten(baseColor, 2.0),
-	siteBG5: colorAdjust.lighten(baseColor, 2.5),
+	primary: '#0064FF',
+	primaryShade: colorAdjust.lighten('#0064FF', 0.5),
+	secondary: '#FF684F',
+	secondaryShade: colorAdjust.lighten('#FF684F', 0.5),
+	tertiary: '#FFE8D8',
+	tertiaryShade: colorAdjust.lighten('#FFE8D8', 0.5),
+	BG0: baseColor,
+	BG1: colorAdjust.lighten(baseColor, 0.5),
+	BG2: colorAdjust.lighten(baseColor, 1.0),
+	BG3: colorAdjust.lighten(baseColor, 1.5),
+	BG4: colorAdjust.lighten(baseColor, 2.0),
+	BG5: colorAdjust.lighten(baseColor, 2.5),
 	textColor: colorAdjust.lighten(baseColor, 0.15),
 };
 
@@ -37,6 +40,18 @@ export const units = {
 };
 
 export const font = {
+	DCBold: css`
+		font-family: din-condensed-bold;
+	`,
+	VItalic: css`
+		font-family: volkhov-italic;
+	`,
+	RReg: css`
+		font-family: roboto-regular;
+	`,
+	RBold: css`
+		font-family: roboto-bold;
+	`,
 	title: css`
 		font-size: 36px;
 		letter-spacing: 2px;
@@ -85,11 +100,11 @@ export const modal = {
 		right: 20%;
 		top: 15%;
 		max-height: 80vh;
-		padding: ${length.margin};
-		border: 5px solid ${color.siteBG2};
+		padding: ${units.margin};
+		border: 5px solid ${color.BG2};
 		border-radius: 2px;
 		margin: auto;
-		background: ${color.siteBG2};
+		background: ${color.BG2};
 		overflow: auto;
 		z-index: 10;
 		${layout.col};
@@ -136,7 +151,7 @@ export const components = {
 	input: css`
 		border-radius: 4px;
 		padding-left: 10px;
-		background-color: ${color.siteBG1};
+		background-color: ${color.BG1};
 		color: ${color.primary};
 		height: 36px;
 		font-size: 16px;
@@ -152,17 +167,17 @@ export const components = {
 		letter-spacing: 1px;
 		line-height: 30px;
 		${font.text};
-		background-color: ${color.siteBG2};
+		background-color: ${color.BG2};
 		${cursor.clickable};
 		border: 1px solid ${color.primary};
-		border-radius: ${length.radius};
+		border-radius: ${units.radius};
 		transition: background-color 0.1s;
 		font-size: 14px;
 		&:focus {
 			outline: none;
 		}
 		&:hover {
-			background-color: ${colorAdjust.darken(color.siteBG2, 0.1)};
+			background-color: ${colorAdjust.darken(color.BG2, 0.1)};
 		}
 	`,
 };
@@ -171,4 +186,3 @@ export const RowDiv = styled.div`
 	${layout.row};
 	margin: ${props => props.margin ? props.margin : '0'};
 `;
-
