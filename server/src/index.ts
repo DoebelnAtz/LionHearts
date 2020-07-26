@@ -1,4 +1,4 @@
-import {checkToken, handleError, logRequests} from './middleware';
+import { checkToken, handleError, logRequests } from './middleware';
 import express from 'express';
 import * as bodyParser from 'body-parser';
 import cors from 'cors';
@@ -21,7 +21,19 @@ app.use('/', logRequests);
 app.use('/api/applications', applicationRouter);
 app.use('/api', checkToken);
 app.use('/api/test', testRouter);
+app.use(function (req, res, next) {
+	res.status(404);
+
+	if (req.accepts('html')) {
+		res.render('404', { url: req.url });
+		return;
+	}
+
+	if (req.accepts('json')) {
+		res.send({ error: 'Not found' });
+		return;
+	}
+
+	res.type('txt').send('Not found');
+});
 app.use(handleError);
-
-
-

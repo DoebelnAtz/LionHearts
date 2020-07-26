@@ -9,13 +9,16 @@ import {
 } from './Styles';
 import { makeRequest } from '../../../Api';
 import queryString from 'query-string';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 import { useGet } from '../../../Hooks';
+import { makeId } from '../../../Utils';
 
 const ApplyFormSection: React.FC = () => {
 	const location = useLocation();
-
-	const applicationId: any = queryString.parse(location.search)?.application;
+	const history = useHistory();
+	const applicationId: any =
+		queryString.parse(location.search)?.application ||
+		history.push(`/apply?application=${makeId(15)}`);
 
 	const [selectedFile, setSelectedFile] = useState<File>();
 	// const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
@@ -152,6 +155,46 @@ const ApplyFormSection: React.FC = () => {
 		}
 	};
 
+	const handleSubmit = async (e: React.SyntheticEvent) => {
+		e.preventDefault();
+		if (
+			input.email.length &&
+			input.firstname.length &&
+			input.lastname.length &&
+			input.description.length
+		) {
+			try {
+				await makeRequest('/applications/create_application', 'POST', {
+					applicationId: applicationId,
+					firstname: input.firstname,
+					lastname: input.lastname,
+					email: input.email,
+					description: input.description,
+				});
+			} catch (e) {
+				console.log(e.response);
+				if (e.response.data.code === 2 || e.response.data.code === 3) {
+					history.push(`/apply?application=${makeId(15)}`);
+				} else if (e.response.data.code === 1) {
+					setErrors({
+						...errors,
+						emailError: 'This email has already been used',
+					});
+				}
+			}
+		} else {
+			setErrors({
+				...errors,
+				FNError: input.firstname.length ? '' : 'Firstname required',
+				LNError: input.lastname.length ? '' : 'Lastname required',
+				emailError: input.email.length ? '' : 'Email required',
+				descriptionError: input.description.length
+					? ''
+					: 'Description required',
+			});
+		}
+	};
+
 	return (
 		<ApplyFormSectionDiv>
 			<FormDiv>
@@ -164,6 +207,7 @@ const ApplyFormSection: React.FC = () => {
 							value={input.firstname}
 							onChange={handleFNameChange}
 						/>
+						<FormError>{errors.FNError}</FormError>
 					</label>
 					<label>
 						Lastname
@@ -173,6 +217,7 @@ const ApplyFormSection: React.FC = () => {
 							value={input.lastname}
 							onChange={handleLNameChange}
 						/>
+						<FormError>{errors.LNError}</FormError>
 					</label>
 					<label>
 						Email address
@@ -182,6 +227,7 @@ const ApplyFormSection: React.FC = () => {
 							value={input.email}
 							onChange={handleEmailChange}
 						/>
+						<FormError>{errors.emailError}</FormError>
 					</label>
 					<label>
 						Why do you want to join Lionhearts?
@@ -189,6 +235,7 @@ const ApplyFormSection: React.FC = () => {
 							value={input.description}
 							onChange={handleDescriptionChange}
 						/>
+						<FormError>{errors.descriptionError}</FormError>
 					</label>
 
 					<label>
@@ -197,11 +244,13 @@ const ApplyFormSection: React.FC = () => {
 						<FormError>{errors.fileError}</FormError>
 					</label>
 					<button disabled={!selectedFile} onClick={handleFileUpload}>
-						UPLOAD
+						UPLOAD FILE
 					</button>
 					{!!uploadedFiles?.length && <p>Uploaded files:</p>}
 					{renderUploadedFiles()}
-					<button type={'submit'}>SUBMIT</button>
+					<button type={'submit'} onClick={handleSubmit}>
+						SUBMIT
+					</button>
 				</ApplyForm>
 			</FormDiv>
 		</ApplyFormSectionDiv>

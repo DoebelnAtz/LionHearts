@@ -63,7 +63,7 @@ export const font = {
 		color: ${color.primary};
 	`,
 	error: css`
-		font-size: 20px;
+		font-size: 18px!important;
 		font-family: din-condensed-bold;
 		color: red !important;
 	`,

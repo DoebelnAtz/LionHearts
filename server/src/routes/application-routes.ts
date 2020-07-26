@@ -5,6 +5,7 @@ import fs from 'fs';
 const applicationRouter = express.Router();
 
 import {
+	createApplication,
 	deleteApplicationFile,
 	getApplicationIdFiles,
 	uploadApplicationFile,
@@ -13,7 +14,7 @@ import { check } from 'express-validator';
 
 const storage = multer.diskStorage({
 	destination: function (req, file, cb) {
-		const path = `./applications/${req.params.applicationId}`;
+		const path = `./member-applications/${req.params.applicationId}`;
 		if (!fs.existsSync(path)) {
 			fs.mkdirSync(path);
 		}
@@ -27,6 +28,18 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 applicationRouter.get('/files/:applicationId', getApplicationIdFiles);
+
+applicationRouter.post(
+	'/create_application',
+	[
+		check('applicationId').not().isEmpty(),
+		check('firstname').not().isEmpty(),
+		check('lastname').not().isEmpty(),
+		check('email').isEmail(),
+		check('description').not().isEmpty(),
+	],
+	createApplication,
+);
 
 applicationRouter.post(
 	'/upload-file/:applicationId',

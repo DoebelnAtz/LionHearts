@@ -59,10 +59,12 @@ export const logRequests: RequestHandler = (req, res, next) => {
 };
 
 export const handleError: ErrorRequestHandler = (error, req, res, next) => {
-	errorLogger.error(
-		`${error.status}: ${error.description} | code: ${error.code}`,
-	);
+	errorLogger.error(`${error.status}: ${error.description}`);
 	return res
 		.status(error.status)
-		.json({ error: error.response, message: error.message });
+		.json({
+			error: error.response,
+			message: error.message,
+			code: error.code || 0,
+		});
 };
