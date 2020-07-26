@@ -1,7 +1,7 @@
 const express = require('express');
 const { check } = require('express-validator');
 const authRouter = express.Router();
-const authController = require('../controllers/auth-controllers');
+import { signup } from "../controllers/auth-controllers";
 
 authRouter.post(
 	'/signup',
@@ -14,9 +14,9 @@ authRouter.post(
             .isEmpty(),
 		check('email')
             .isEmail(),
-		check('password').isLength({ min: 8 }),
+		check('password').isLength({ min: 7 }),
 	],
-	authController.signUp,
+	signup,
 );
 
 export default authRouter

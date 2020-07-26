@@ -30,4 +30,8 @@ export const NavBarLink = styled.span`
     ${font.DCBold};
     font-size: 20px;
     padding: 2vw;
+    & a {
+         color: white;
+         text-decoration: none;
+    }
 `;

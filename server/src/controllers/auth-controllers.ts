@@ -13,7 +13,7 @@ export const signup = catchErrors(async (req, res) => {
 
     let existingUser = await query(`SELECT email FROM users WHERE email = $1`, [email]);
 
-    if(!existingUser.rows.length) {
+    if(!!existingUser.rows.length) {
         throw new CustomError(
             `User already exists`,
             401,

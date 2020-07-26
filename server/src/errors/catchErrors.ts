@@ -9,6 +9,7 @@ export const catchErrors = (
 	return async (req, res, next): Promise<any> => {
 		const errors = validationResult(req);
 		if (!errors.isEmpty()) {
+			console.log(errors);
 			return next(
 				new CustomError(
 					`${errorMessage}: invalid input`,

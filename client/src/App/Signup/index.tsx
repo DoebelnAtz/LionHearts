@@ -47,16 +47,19 @@ const Signup: React.FC = () => {
 		});
 	};
 
-	const handleSignup = async () => {
+	const handleSignup = async (e: any) => {
+		e.preventDefault();
 		if (
 			!!input.lastname.length &&
 			!!input.firstname.length &&
 			!!input.email.length &&
 			!!input.password.length
 		) {
+			console.log(input);
+
 			try {
 				await makeRequest('/auth/signup', 'POST', {
-					fistname: input.firstname,
+					firstname: input.firstname,
 					lastname: input.lastname,
 					email: input.email,
 					password: input.password,
