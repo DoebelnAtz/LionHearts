@@ -21,11 +21,13 @@ export const catchErrors = (
 		try {
 			return await requestHandler(req, res, next);
 		} catch (error) {
+			console.log('caught error:');
 			next(
 				new CustomError(
 					error.response?.length ? error.response : errorMessage,
 					error.status || 500,
 					error.description || error,
+					error.message,
 				),
 			);
 		}

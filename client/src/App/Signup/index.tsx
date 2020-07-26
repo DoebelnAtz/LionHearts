@@ -77,7 +77,7 @@ const Signup: React.FC = () => {
 					<input
 						autoComplete={'no'}
 						type={'text'}
-						placeholder={'firsname'}
+						placeholder={'firstname'}
 						value={input.firstname}
 						onChange={handleFNameChange}
 					/>

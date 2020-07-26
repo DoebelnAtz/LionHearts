@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import {color, components} from "../../../Styles";
+import {color, components, cursor, font} from "../../../Styles";
 
 export const ApplyFormSectionDiv = styled.div`
     width: 100%;
@@ -18,6 +18,19 @@ export const FormDiv = styled.div`
     flex-direction: column;
 `;
 
+export const FormError = styled.p`
+    ${font.error};
+`;
+
+export const RemoveFileSpan = styled.span`
+    font-size: 18px;
+    ${cursor.clickable};
+    & :hover {
+        text-decoration: underline !important;
+        text-decoration-color: ${color.primary};
+    }
+`;
+
 export const ApplyForm = styled.form`
     display: flex;
     flex-direction: column;
@@ -25,6 +38,11 @@ export const ApplyForm = styled.form`
         ${components.labeledInput};
     }
     & button {
-        ${components.buttonWhite
+        ${components.buttonWhite};
+        margin-bottom: 10px;
+    }
+    & p {
+        ${font.text};
+        margin: 5px 0;
     }
 `;

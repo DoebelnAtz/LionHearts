@@ -60,6 +60,12 @@ export const font = {
 		font-size: 20px;
 		font-family: din-condensed-bold;
 		letter-spacing: 0.5px;
+		color: ${color.primary};
+	`,
+	error: css`
+		font-size: 20px;
+		font-family: din-condensed-bold;
+		color: red !important;
 	`,
 	link: css`
 		text-decoration: none;
@@ -183,6 +189,9 @@ export const components = {
 			padding: 6px;
 			resize: vertical;
 		}
+		& textarea:focus {
+		 	outline: none;
+		}
 	`,
 	buttonWhite: css`
 		padding: 2px 7px;
@@ -200,6 +209,17 @@ export const components = {
 		}
 		&:hover {
 			background-color: ${colorAdjust.darken(color.BG2, 0.1)};
+		}
+		&:disabled {
+			color: ${color.primary}90;
+			border-color: ${color.primary}90;
+			${cursor.notAllowed};
+		}
+		&:disabled:hover {
+			color: ${color.primary}90;
+			border-color: ${color.primary}90;
+			${cursor.notAllowed};
+			background-color: white;
 		}
 	`,
 };
