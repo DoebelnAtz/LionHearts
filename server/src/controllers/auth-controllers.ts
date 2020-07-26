@@ -25,7 +25,7 @@ export const signup = catchErrors(async (req, res) => {
 	hashedPassword = await hash(password, 10);
 	const client = await connect();
 	await transaction(async () => {
-	    query(`
+	    await query(`
 	        INSERT INTO users (firstname, lastname, password, email, username)
 	        VALUES ($1, $2, $3, $4, $5)
 	    `, [firstname, lastname, hashedPassword, email, firstname + lastname.charAt(0)])
