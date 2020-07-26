@@ -1,33 +1,40 @@
-import React, { ChangeEvent, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { ApplyForm, ApplyFormSectionDiv, FormDiv } from './Styles';
 import { makeRequest } from '../../../Api';
-import { strict } from 'assert';
+import queryString from 'query-string';
+import { useLocation } from 'react-router-dom';
 
 const ApplyFormSection: React.FC = () => {
 	const [selectedFile, setSelectedFile] = useState<File>();
 	const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
+
 	const handleFileChange = (event: any) => {
 		console.log(event.target.files);
 		setSelectedFile(event.target.files[0]);
 	};
+	const location = useLocation();
+
+	const applicationId: any = queryString.parse(location.search)?.application;
 
 	const handleFileUpload = async (e: any) => {
 		e.preventDefault();
 		const data = new FormData();
-		if (!!selectedFile) {
+		console.log(selectedFile);
+		if (!!selectedFile && selectedFile.size < 50000) {
 			data.append('file', selectedFile);
 			try {
-				await makeRequest('/applications/upload-file', 'POST', data);
+				await makeRequest(
+					`/applications/upload-file/${applicationId}`,
+					'POST',
+					data,
+				);
 				setUploadedFiles([...uploadedFiles, selectedFile]);
-				console.log(uploadedFiles);
 			} catch (e) {}
 		}
 	};
 
 	const renderUploadedFiles = () => {
-		console.log(uploadedFiles);
 		return uploadedFiles.map((file: any, index) => {
-			console.log('files:');
 			return (
 				<div key={index}>
 					<p>{file.name}</p>

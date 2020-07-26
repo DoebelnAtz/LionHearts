@@ -5,7 +5,7 @@ const applicationRouter = express.Router();
 import { uploadApplicationFile } from "../controllers/application-controllers";
 
 applicationRouter.post(
-    '/upload-file',
+    '/upload-file/:applicationId',
     uploadApplicationFile
 );
 
