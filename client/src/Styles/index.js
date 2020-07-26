@@ -57,8 +57,9 @@ export const font = {
 		letter-spacing: 2px;
 	`,
 	text: css`
-		font-size: 14px;
-		letter-spacing: 1px;
+		font-size: 20px;
+		font-family: din-condensed-bold;
+		letter-spacing: 0.5px;
 	`,
 	link: css`
 		text-decoration: none;
@@ -161,18 +162,39 @@ export const components = {
 			border: 1px solid ${colorAdjust.darken(color.primary, 0.2)};
 		}
 	`,
-	button: css`
+	labeledInput: css`
+		${font.DCBold};
+		font-size: 20px;
+		color: ${color.primary};
+		display: flex;
+		flex-direction: column;
+		margin: 10px 0;
+		& input {
+			background-color: ${color.tertiary};
+			border: none;
+			padding: 6px;	
+		}
+		& input:focus {
+			outline: none;
+		}
+		& textarea {
+			background-color: ${color.tertiary};
+			border: none;
+			padding: 6px;
+			resize: vertical;
+		}
+	`,
+	buttonWhite: css`
 		padding: 2px 7px;
-		height: 36px;
 		letter-spacing: 1px;
-		line-height: 30px;
 		${font.text};
+		height: 32px;
+		line-height: 30px;
 		background-color: ${color.BG2};
 		${cursor.clickable};
-		border: 1px solid ${color.primary};
-		border-radius: ${units.radius};
+		border: 2px solid ${color.primary};
 		transition: background-color 0.1s;
-		font-size: 14px;
+		color: ${color.primary};
 		&:focus {
 			outline: none;
 		}
