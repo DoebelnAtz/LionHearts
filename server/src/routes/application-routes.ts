@@ -6,6 +6,7 @@ const applicationRouter = express.Router();
 
 import {
 	deleteApplicationFile,
+	getApplicationIdFiles,
 	uploadApplicationFile,
 } from '../controllers/application-controllers';
 import { check } from 'express-validator';
@@ -24,6 +25,8 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage: storage });
+
+applicationRouter.get('/files/:applicationId', getApplicationIdFiles);
 
 applicationRouter.post(
 	'/upload-file/:applicationId',

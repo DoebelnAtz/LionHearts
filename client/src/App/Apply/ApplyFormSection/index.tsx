@@ -5,14 +5,25 @@ import {
 	FormDiv,
 	FormError,
 	RemoveFileSpan,
+	UploadedFilesDiv,
 } from './Styles';
 import { makeRequest } from '../../../Api';
 import queryString from 'query-string';
 import { useLocation } from 'react-router-dom';
+import { useGet } from '../../../Hooks';
 
 const ApplyFormSection: React.FC = () => {
+	const location = useLocation();
+
+	const applicationId: any = queryString.parse(location.search)?.application;
+
 	const [selectedFile, setSelectedFile] = useState<File>();
-	const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
+	// const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
+
+	const [uploadedFiles, setUploadedFiles] = useGet<File[]>(
+		`/applications/files/${applicationId}`,
+	);
+
 	const [input, setInput] = useState({
 		email: '',
 		firstname: '',
@@ -74,9 +85,6 @@ const ApplyFormSection: React.FC = () => {
 			setErrors({ ...errors, fileError: '' });
 		}
 	};
-	const location = useLocation();
-
-	const applicationId: any = queryString.parse(location.search)?.application;
 
 	const handleFileUpload = async (e: any) => {
 		e.preventDefault();
@@ -91,6 +99,7 @@ const ApplyFormSection: React.FC = () => {
 					data,
 				);
 				if (
+					!!uploadedFiles &&
 					!uploadedFiles.find(
 						(file) => file.name === selectedFile.name,
 					)
@@ -107,35 +116,40 @@ const ApplyFormSection: React.FC = () => {
 		}
 	};
 
-	const handleFileRemoval = async (e: MouseEvent, fileName: string) => {
+	const handleFileRemoval = async (e: any, fileName: string) => {
 		e.stopPropagation();
 		try {
 			await makeRequest('/applications/delete-file', 'DELETE', {
 				applicationId,
 				fileName,
 			});
-			setUploadedFiles(
-				uploadedFiles.filter((file) => file.name !== fileName),
-			);
+			uploadedFiles &&
+				setUploadedFiles(
+					uploadedFiles.filter((file) => file.name !== fileName),
+				);
 		} catch (e) {
 			console.log(e);
 		}
 	};
 
 	const renderUploadedFiles = () => {
-		return uploadedFiles.map((file: any, index) => {
-			return (
-				<div style={{ display: 'flex' }} key={index}>
-					<span>{file.name}</span>
-					<RemoveFileSpan
-						style={{ marginLeft: 'auto' }}
-						onClick={(e: any) => handleFileRemoval(e, file.name)}
-					>
-						remove file
-					</RemoveFileSpan>
-				</div>
-			);
-		});
+		if (uploadedFiles) {
+			return uploadedFiles.map((file: any, index) => {
+				return (
+					<UploadedFilesDiv key={index}>
+						<span>{file.name}</span>
+						<RemoveFileSpan
+							style={{ marginLeft: 'auto' }}
+							onClick={(e: any) =>
+								handleFileRemoval(e, file.name)
+							}
+						>
+							remove file
+						</RemoveFileSpan>
+					</UploadedFilesDiv>
+				);
+			});
+		}
 	};
 
 	return (
@@ -176,15 +190,17 @@ const ApplyFormSection: React.FC = () => {
 							onChange={handleDescriptionChange}
 						/>
 					</label>
+
 					<label>
-						Attached files
-						{renderUploadedFiles()}
+						Attach files
 						<input type={'file'} onChange={handleFileChange} />
 						<FormError>{errors.fileError}</FormError>
 					</label>
 					<button disabled={!selectedFile} onClick={handleFileUpload}>
 						UPLOAD
 					</button>
+					{!!uploadedFiles?.length && <p>Uploaded files:</p>}
+					{renderUploadedFiles()}
 					<button type={'submit'}>SUBMIT</button>
 				</ApplyForm>
 			</FormDiv>

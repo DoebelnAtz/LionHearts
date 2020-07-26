@@ -31,6 +31,12 @@ export const RemoveFileSpan = styled.span`
     }
 `;
 
+export const UploadedFilesDiv = styled.div`
+    display: flex;
+    ${font.text};
+    margin-bottom: 5px;
+`;
+
 export const ApplyForm = styled.form`
     display: flex;
     flex-direction: column;

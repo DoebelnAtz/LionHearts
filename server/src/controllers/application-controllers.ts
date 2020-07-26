@@ -1,6 +1,20 @@
 import { catchErrors } from '../errors/catchErrors';
 import fs from 'fs';
-import CustomError from '../errors/customError';
+
+export const getApplicationIdFiles = catchErrors(async (req, res, next) => {
+	const path = `./applications/${req.params.applicationId}/`;
+	console.log(path);
+	let files: any = [];
+	if (!!fs.existsSync(path)) {
+		fs.readdirSync(path).forEach((file) => {
+			console.log(file);
+			files.push({ name: file });
+		});
+	} else {
+		console.log('no files found');
+	}
+	res.json(files);
+}, 'Failed to get application files');
 
 export const uploadApplicationFile = catchErrors(async (req, res, next) => {
 	const file = req.file; // file passed from client
