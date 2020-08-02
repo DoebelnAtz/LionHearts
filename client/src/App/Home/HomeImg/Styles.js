@@ -23,7 +23,8 @@ export const Vision = styled.h1`
     font-size: 96px;
     position: relative;
     left: 100px;
-    top: 300px;
+    top: 240px;
     margin: 0;
+    width: calc(100% - 100px);
     color: white;
 `;

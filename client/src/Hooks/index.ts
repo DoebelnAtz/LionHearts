@@ -2,7 +2,10 @@ import { RefObject, useContext, useEffect, useRef, useState } from 'react';
 import { makeRequest } from '../Api';
 import { WidthContext } from '../Context/WidthContext';
 import { useHistory } from 'react-router';
+import { useLayoutEffect } from 'react';
 
+export const useIsomorphicLayoutEffect =
+	typeof window !== 'undefined' ? useLayoutEffect : useEffect;
 // custom hook for easy modal dismissal
 export const useDismiss = (
 	refInside: RefObject<HTMLDivElement | null>,
@@ -30,6 +33,68 @@ export const useDismiss = (
 			document.removeEventListener('mousedown', handleClick);
 		};
 	}, []);
+};
+
+const isBrowser = typeof window !== `undefined`;
+
+function getScrollPosition({ element, useWindow }: any) {
+	if (!isBrowser) return { x: 0, y: 0 };
+
+	const target = element ? element.current : document.body;
+	const position = target.getBoundingClientRect();
+
+	return useWindow
+		? { x: window.scrollX, y: window.scrollY }
+		: { x: position.left, y: position.top };
+}
+
+export function useScrollPosition(
+	effect?: any,
+	deps?: [],
+	element?: boolean,
+	useWindow?: boolean,
+	wait?: null,
+) {
+	const position = useRef(getScrollPosition({ useWindow }));
+
+	let throttleTimeout: NodeJS.Timeout | null = null;
+
+	const callBack = () => {
+		const currPos = getScrollPosition({ element, useWindow });
+		effect({ prevPos: position.current, currPos });
+		position.current = currPos;
+		throttleTimeout = null;
+	};
+
+	useIsomorphicLayoutEffect(() => {
+		if (!isBrowser) {
+			return;
+		}
+
+		const handleScroll = () => {
+			if (wait) {
+				if (throttleTimeout === null) {
+					throttleTimeout = setTimeout(callBack, wait);
+				}
+			} else {
+				callBack();
+			}
+		};
+
+		window.addEventListener('scroll', handleScroll);
+
+		return () => {
+			window.removeEventListener('scroll', handleScroll);
+			throttleTimeout && clearTimeout(throttleTimeout);
+		};
+	}, deps);
+}
+
+useScrollPosition.defaultProps = {
+	deps: [],
+	element: false,
+	useWindow: false,
+	wait: null,
 };
 
 // A hook that helps with checking if a component is mounted,
@@ -65,10 +130,28 @@ export const useWidth = () => {
 	return [width <= 600, width];
 };
 
-export function useGet<F>(
-	url: string,
-	conditional = true,
-) {
+export const useScroll = () => {
+	const [scroll, setScroll] = useState(0);
+
+	useEffect(() => {
+		const handleScroll = (e: WheelEvent) => {
+			console.log(window.pageYOffset);
+			if (scroll + e.deltaY >= 0) {
+				setScroll(scroll + e.deltaY);
+			} else {
+				!!scroll && setScroll(0);
+			}
+		};
+		window.addEventListener('wheel', handleScroll);
+		return () => {
+			console.log('stopped listening');
+			window.removeEventListener('wheel', handleScroll);
+		};
+	}, [scroll]);
+	return [scroll];
+};
+
+export function useGet<F>(url: string, conditional = true) {
 	const [data, setData] = useState<F>();
 	const [isLoading, setIsLoading] = useState<boolean>(true);
 	const resp = useRef<any>(null);

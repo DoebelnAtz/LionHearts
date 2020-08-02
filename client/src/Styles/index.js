@@ -44,7 +44,7 @@ export const font = {
 		font-family: din-condensed-bold;
 	`,
 	VItalic: css`
-		font-family: volkhov-italic;
+		font-family: volkhov-italic, Serif;
 	`,
 	RReg: css`
 		font-family: roboto-regular;
@@ -209,6 +209,35 @@ export const components = {
 		}
 		&:hover {
 			background-color: ${colorAdjust.darken(color.BG2, 0.1)};
+		}
+		&:disabled {
+			color: ${color.primary}90;
+			border-color: ${color.primary}90;
+			${cursor.notAllowed};
+		}
+		&:disabled:hover {
+			color: ${color.primary}90;
+			border-color: ${color.primary}90;
+			${cursor.notAllowed};
+			background-color: white;
+		}
+	`,
+	buttonBlue: css`
+		padding: 2px 7px;
+		letter-spacing: 1px;
+		${font.text};
+		height: 32px;
+		line-height: 30px;
+		background-color: ${color.primary};
+		${cursor.clickable};
+		border: 2px solid ${color.BG0};
+		transition: background-color 0.1s;
+		color: ${color.BG0};
+		&:focus {
+			outline: none;
+		}
+		&:hover {
+			background-color: ${colorAdjust.darken(color.primary, 0.1)};
 		}
 		&:disabled {
 			color: ${color.primary}90;

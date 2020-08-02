@@ -7,20 +7,25 @@ import Home from './Home';
 import './base.css';
 import Signup from './Signup';
 import Apply from './Apply';
+import Footer from './Footer';
 
 function App() {
 	const [isMobile] = useWidth();
 	return (
 		<AppDiv>
 			<Switch>
-				<Route exact path={'/'}>
-					<Home />
-				</Route>
-				<Route exact path={'/signup'}>
-					<Signup />
-				</Route>
-				<Route exact path={'/apply'}>
-					<Apply />
+				<Route path={'/'}>
+					<Switch>
+						<Route exact path={'/'}>
+							<Home />
+						</Route>
+						<Route exact path={'/signup'}>
+							<Signup />
+						</Route>
+						<Route exact path={'/apply'}>
+							<Apply />
+						</Route>
+					</Switch>
 				</Route>
 			</Switch>
 		</AppDiv>

@@ -7,7 +7,6 @@ import ApplyFormSection from './ApplyFormSection';
 const Apply: React.FC = () => {
 	return (
 		<ApplyDiv>
-			<NavBar />
 			<HomeImg />
 			<ApplyFormSection />
 		</ApplyDiv>

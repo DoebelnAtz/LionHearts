@@ -1,10 +1,10 @@
 import styled from "styled-components";
-import { font } from "../../Styles";
+import { font, color } from "../../Styles";
 
 export const NavBarDiv = styled.div`
   width: 100%;
   height: 60px;
-  position: fixed;
+  position: relative;
   display: flex;
 `;
 
@@ -26,12 +26,12 @@ export const NavBarMemberIcon = styled.div`
 `;
 
 export const NavBarLink = styled.span`
-    color: white;
+    color: ${props => props.inverse ? `${color.primary}` :`${color.BG0}`};
     ${font.DCBold};
     font-size: 20px;
-    padding: 2vw;
+    padding: 0 2vw;
     & a {
-         color: white;
+         color: ${props => props.inverse ? `${color.primary}` :`${color.BG0}`};;
          text-decoration: none;
     }
 `;
