@@ -13,7 +13,7 @@ export const EventListDiv = styled.div`
     max-width: 1600px;
     width: 80%;
     margin: auto 100px;
-`
+`;
 
 export const EventsHeader = styled.h1`
       ${font.DCBold};

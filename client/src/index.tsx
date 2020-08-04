@@ -3,12 +3,15 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import { BrowserRouter } from 'react-router-dom';
 import * as serviceWorker from './serviceWorker';
+import { WidthContextProvider } from './Context/WidthContext';
 
 ReactDOM.render(
 	<React.StrictMode>
-		<BrowserRouter>
-			<App />
-		</BrowserRouter>
+		<WidthContextProvider>
+			<BrowserRouter>
+				<App />
+			</BrowserRouter>
+		</WidthContextProvider>
 	</React.StrictMode>,
 	document.getElementById('root'),
 );

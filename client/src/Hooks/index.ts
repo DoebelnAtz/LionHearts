@@ -127,7 +127,7 @@ export const useWidth = () => {
 		};
 	});
 	// return value for width and a boolean for convenient isMobile check
-	return [width <= 600, width];
+	return [width <= 900, width];
 };
 
 export const useScroll = () => {
