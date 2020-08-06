@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import {animated} from 'react-spring'
 import {font, color, cursor} from "../../Styles";
 
 export const NavBarDiv = styled.div`
@@ -43,25 +44,42 @@ export const MenuBtnDiv = styled.div`
     left: 100px;
 `;
 
-export const BurgerTopDiv = styled.div`
+export const BurgerTopDiv = styled(animated.div)`
     width: 30px;
     height: 3px;
-    border-radius: 1px;
-    transform: translateY(-4px);
+    border-radius: 0px;
+    position: relative;
+    //transform: translateY(-4px);
     background-color: white;
 `;
 
 export const BurgerMidDiv = styled.div`
     width: 30px;
     height: 3px;
-    border-radius: 1px;
+    display: block;
+    position: relative;
+    border-radius: 0px;
     background-color: white;
 `;
 
-export const BurgerBotDiv = styled.div`
+export const BurgerBotDiv = styled(animated.div)`
     width: 30px;
     height: 3px;
-    border-radius: 1px;
-    transform: translateY(4px);
+    position: relative;
+    border-radius: 0px;
+    //transform: translateY(4px);
     background-color: white;
+`;
+
+
+export const TopHelperDiv = styled(animated.div)`
+    
+`;
+
+export const MidHelperDiv = styled(animated.div)`
+    
+`;
+
+export const BotHelperDiv = styled(animated.div)`
+    
 `;
