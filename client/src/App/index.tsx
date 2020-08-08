@@ -8,6 +8,7 @@ import './base.css';
 import Signup from './Signup';
 import Apply from './Apply';
 import Footer from './Footer';
+import LoginPopup from './LoginPopup';
 
 function App() {
 	const [isMobile] = useWidth();
@@ -18,6 +19,10 @@ function App() {
 					<Switch>
 						<Route exact path={'/'}>
 							<Home />
+						</Route>
+						<Route exact path={'/login'}>
+							<Home />
+							<LoginPopup />
 						</Route>
 						<Route exact path={'/signup'}>
 							<Signup />

@@ -178,6 +178,9 @@ export const components = {
 		& input {
 			background-color: ${color.tertiary};
 			border: none;
+			caret-color: ${color.primary};
+			caret-shape: block;
+			color: ${color.primary};
 			padding: 6px;	
 		}
 		& input:focus {

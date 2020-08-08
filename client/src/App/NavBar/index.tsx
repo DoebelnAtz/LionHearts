@@ -1,9 +1,6 @@
 import React, { useRef, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import {
-	BotHelperDiv,
-	BurgerBotDiv,
-	BurgerMidDiv,
-	BurgerTopDiv,
 	MenuBtnDiv,
 	MidHelperDiv,
 	NavBarDiv,
@@ -31,6 +28,7 @@ import MobileNav from './MobileNav';
 const NavBar = () => {
 	const [isMobile] = useWidth();
 	const [expandMenu, setExpandMenu] = useState(false);
+	const history = useHistory();
 	const burgerRef = useRef<HTMLDivElement>(null);
 	return (
 		<NavBarDiv>
@@ -60,7 +58,10 @@ const NavBar = () => {
 					</NavBarLink>
 				</NavBarLinksDiv>
 			)}
-			<NavBarMemberIcon isMobile={isMobile}>
+			<NavBarMemberIcon
+				onClick={() => history.push('/login')}
+				isMobile={isMobile}
+			>
 				<img src={MemberIcon} />
 			</NavBarMemberIcon>
 		</NavBarDiv>

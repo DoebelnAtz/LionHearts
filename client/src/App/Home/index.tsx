@@ -8,6 +8,8 @@ import EventSection from './EventSection';
 import ApplyNow from './ApplyNowSection';
 import Footer from '../Footer';
 import NewsSection from './NewsSection';
+import { Route } from 'react-router-dom';
+import LoginPopup from '../LoginPopup';
 
 const Home: React.FC = () => {
 	return (

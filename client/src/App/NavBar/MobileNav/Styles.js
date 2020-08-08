@@ -8,6 +8,7 @@ export const MobileNavDiv = styled(animated.div)`
     display: flex;
     transition: height linear 1s;
     width: 100%;
+    z-index: 2;
     position: absolute;
     flex-direction: column;
     flex-wrap: nowrap;

@@ -3,21 +3,21 @@ export const capitalizeFirst = (string: string) => {
 };
 
 export const getLocal = (item: string) => {
-    if (item) {
-        return JSON.parse(localStorage.getItem(item) || '');
-    } else {
-        return null;
-    }
+	if (item) {
+		return JSON.parse(localStorage.getItem(item) || '');
+	} else {
+		return null;
+	}
 };
 
-export const setLocal = (name: string, jsonItem: { items: any }) => {
+export const setLocal = (name: string, jsonItem: any) => {
 	localStorage.setItem(name, JSON.stringify(jsonItem));
 };
 
 export const calculateTimeSince = (isoString: string) => {
 	let then = new Date(isoString);
 	// @ts-ignore
-    var seconds = Math.floor((new Date() - then) / 1000); // remove two hours for timezone...
+	var seconds = Math.floor((new Date() - then) / 1000); // remove two hours for timezone...
 
 	var interval = Math.floor(seconds / 31536000);
 
@@ -47,12 +47,15 @@ export const calculateTimeSince = (isoString: string) => {
 	);
 };
 
-export const makeId =(length: number) => {
-   var result           = '';
-   var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-   var charactersLength = characters.length;
-   for ( var i = 0; i < length; i++ ) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength));
-   }
-   return result;
+export const makeId = (length: number) => {
+	var result = '';
+	var characters =
+		'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+	var charactersLength = characters.length;
+	for (var i = 0; i < length; i++) {
+		result += characters.charAt(
+			Math.floor(Math.random() * charactersLength),
+		);
+	}
+	return result;
 };

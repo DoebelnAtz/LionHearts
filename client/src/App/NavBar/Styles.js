@@ -20,12 +20,14 @@ export const NavBarLogoDiv = styled.div`
 export const NavBarLinksDiv = styled.div`
     margin: auto auto;
     position: relative;
+    z-index: 3;
 `;
 
 export const NavBarMemberIcon = styled.div`
   //margin: ${props => props.isMobile ? 'auto min(10vw, 100px) auto 0' : 'auto 0 auto auto'};
   position: relative;
   margin: auto 0;
+  ${cursor.clickable};
   right: min(10vw, 100px);
   z-index: 3;
   //right: ${props => props.isMobile ? '0' : 'min(10vw, 100px)'};
@@ -35,7 +37,9 @@ export const NavBarLink = styled.span`
     color: ${props => props.inverse ? `${color.primary}` :`${color.BG0}`};
     ${font.DCBold};
     font-size: 20px;
+    z-index: 3;
     padding: 0 2vw;
+    ${cursor.clickable};
     & a {
          color: ${props => props.inverse ? `${color.primary}` :`${color.BG0}`};;
          text-decoration: none;

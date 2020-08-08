@@ -1,52 +1,58 @@
 import styled from 'styled-components';
 
-import { color, cursor, layout, length, modal } from '../../../Styles/SharedStyles';
+import {color, layout, cursor, colorAdjust} from "../../../Styles";
 
 export const OutsideDiv = styled.div`
-	${modal.outside}
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	display: flex;
+	background-color: rgba(0, 0, 0, 0.7);
+	z-index: 11;
 `;
 
 export const InsideDiv = styled.div`
-	${modal.inside};
+	margin: auto;
+	max-height: 80vh;
+	border: 5px solid ${color.BG2};
+	background: ${color.BG2};
+	overflow: auto;
+	z-index: 10;
+	display: flex;
+	flex-direction: column;
 	border-radius: 8px;
-	padding: 0;
 	overflow: unset;
-	${props => props.isMobile && `
-		top: 5%;
-		left: 2%;
-		right: 2%;
-	`};
-	border-width: 5px;
-	border-color: ${color.siteBG3};
+	border-color: ${color.BG3};
 `;
 
 export const ModalButtonsRow = styled.div`
 	${layout.row};
 	height: 40px;
-	background-color: ${color.siteBG3};
+	background-color: ${color.BG3};
 `;
 
 export const CloseButton = styled.span`
 	${cursor.clickable};
 	font-size: 28px;
-	color: ${color.siteBG1};
+	color: ${color.primary};
 	line-height: 40px;
 	font-weight: 600;
 	margin-left: auto;
-	margin-right: ${length.margin};
+	margin-right: 10px;
 	&:hover {
 		transition: color 0.1s;
-		color: ${color.siteBG}
+		color: ${colorAdjust.darken(color.primary, 0.2)};
 	}
 
 `;
 
 export const ModalContent = styled.div`
-	overflow-y: scroll;
 	overflow-x: hidden;
-	border-top: 4px solid ${color.siteBG2};
+	border-top: 4px solid ${color.BG2};
 	max-height: 70vh;
-	border-radius: ${length.radius};
-	padding: 7px 2px 0 7px;
 	
 `;
