@@ -24,7 +24,7 @@ export const CallToAction = styled.h2`
     color: #ffffff;
     text-decoration: underline;
     text-decoration-color: ${color.secondary};
-    font-size: 51px;
+    font-size: min(51px, 12vw);
     line-height: 52px;
     margin: auto 0 60px 0;
 `;

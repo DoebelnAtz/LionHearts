@@ -20,10 +20,11 @@ export const BGImg = styled.div`
 
 export const Vision = styled.h1`
     ${font.DCBold};
-    font-size: 96px;
+    font-size: min(96px, 15vw);
     position: relative;
-    left: 100px;
+    left: min(10vw, 100px);
     top: 240px;
+    z-index: 1;
     margin: 0;
     width: calc(100% - 100px);
     color: white;

@@ -1,11 +1,8 @@
-import React from 'react';
+import React, { useRef } from 'react';
 
 const LoginPopup = () => {
-    return (
-        <div>
-           login
-        </div>
-    )
+	const loginModal = useRef<HTMLDivElement>(null);
+	return <div>login</div>;
 };
 
 export default LoginPopup;

@@ -10,6 +10,7 @@ export const useIsomorphicLayoutEffect =
 export const useDismiss = (
 	refInside: RefObject<HTMLDivElement | null>,
 	close: () => void,
+	exclude?: RefObject<HTMLElement | null>,
 ) => {
 	const handleEsc = (e: KeyboardEvent) => {
 		if (e.key !== 'Escape') return;
@@ -22,7 +23,11 @@ export const useDismiss = (
 	};
 	const handleClick = (e: MouseEvent) => {
 		let target = e.target as HTMLDivElement;
-		if (refInside?.current?.contains(target)) return;
+		if (
+			refInside?.current?.contains(target) ||
+			exclude?.current?.contains(target)
+		)
+			return;
 		else close();
 	};
 	useEffect(() => {

@@ -26,19 +26,25 @@ import { Link } from 'react-router-dom';
 import { makeId } from '../../Utils';
 import { useWidth } from '../../Hooks';
 import MenuBurger from '../Components/MenuBurger';
+import MobileNav from './MobileNav';
 
 const NavBar = () => {
 	const [isMobile] = useWidth();
 	const [expandMenu, setExpandMenu] = useState(false);
-
+	const burgerRef = useRef<HTMLDivElement>(null);
 	return (
 		<NavBarDiv>
+			<MobileNav
+				expanded={expandMenu}
+				setExpanded={setExpandMenu}
+				expandRef={burgerRef}
+			/>
 			{isMobile && (
-				<MenuBtnDiv>
+				<MenuBtnDiv ref={burgerRef}>
 					<MenuBurger open={expandMenu} setOpen={setExpandMenu} />
 				</MenuBtnDiv>
 			)}
-			<NavBarLogoDiv isMobile={isMobile}>
+			<NavBarLogoDiv id={'Navbar Logo'} isMobile={isMobile}>
 				<Logo />
 			</NavBarLogoDiv>
 			{!isMobile && (
@@ -54,7 +60,7 @@ const NavBar = () => {
 					</NavBarLink>
 				</NavBarLinksDiv>
 			)}
-			<NavBarMemberIcon>
+			<NavBarMemberIcon isMobile={isMobile}>
 				<img src={MemberIcon} />
 			</NavBarMemberIcon>
 		</NavBarDiv>

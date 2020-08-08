@@ -12,7 +12,9 @@ export const NavBarDiv = styled.div`
 export const NavBarLogoDiv = styled.div`
   margin: ${props => props.isMobile ? 'auto': 'auto 0 auto 0'};
   position: relative;
-  left: 100px;
+  z-index: 3;
+  
+  left: ${props => props.isMobile ? '0': 'min(10vw, 100px)'};
 `;
 
 export const NavBarLinksDiv = styled.div`
@@ -21,9 +23,12 @@ export const NavBarLinksDiv = styled.div`
 `;
 
 export const NavBarMemberIcon = styled.div`
-  margin: auto 0 auto auto;
+  //margin: ${props => props.isMobile ? 'auto min(10vw, 100px) auto 0' : 'auto 0 auto auto'};
   position: relative;
-  right: ${props => props.isMobile ? '0' : '100px'};
+  margin: auto 0;
+  right: min(10vw, 100px);
+  z-index: 3;
+  //right: ${props => props.isMobile ? '0' : 'min(10vw, 100px)'};
 `;
 
 export const NavBarLink = styled.span`
@@ -41,7 +46,7 @@ export const MenuBtnDiv = styled.div`
     position: relative;
     margin: auto 0;
     ${cursor.clickable};
-    left: 100px;
+    left: min(10vw, 100px);
 `;
 
 export const BurgerTopDiv = styled(animated.div)`

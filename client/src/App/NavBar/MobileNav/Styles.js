@@ -1,0 +1,57 @@
+import styled from "styled-components";
+import {animated} from 'react-spring'
+
+import {color, cursor, font} from "../../../Styles";
+
+export const MobileNavDiv = styled(animated.div)`
+    background-color: ${color.primary};
+    display: flex;
+    transition: height linear 1s;
+    width: 100%;
+    position: absolute;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    opacity: 1;
+`;
+
+export const MobileNavLinks = styled(animated.div)`
+    display: flex;
+    padding-top: 60px;
+    width: 100%;
+    position: absolute;
+    z-index: 2;
+    background-color: ${props => props.isMobile ? color.primary : `${color.primary}00`};
+    flex-direction: column;
+    text-align: center;
+`;
+
+export const MobileLinkContainer = styled(animated.div)`
+    padding: 20px 0;
+    border-top: 3px solid ${color.BG0};
+    display: flex;
+    flex-direction: column;
+`;
+
+export const MobileNavLink = styled(animated.span)`
+    color: ${props => props.inverse ? `${color.primary}` :`${color.BG0}`};
+    ${font.DCBold};
+    font-size: 40px;
+    ${cursor.clickable};
+    padding: 0 1vw;
+    height: 60px;
+    margin: 10px auto;
+    width: fit-content;
+    line-height: 70px;
+    & a {
+         color: ${props => props.inverse ? `${color.primary}` :`${color.BG0}`};;
+         text-decoration: none;
+    }
+    & a:hover {
+          background-color: ${color.BG0};
+          color: ${color.primary};
+    }
+    &:hover {
+        background-color: ${color.BG0};
+        color: ${color.primary};
+    }
+`;

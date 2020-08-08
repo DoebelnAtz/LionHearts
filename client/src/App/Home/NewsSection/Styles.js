@@ -18,5 +18,5 @@ export const NewsListDiv = styled.div`
 export const NewsHeader = styled.h1`
       ${font.DCBold};
       color: ${color.primary};
-      font-size: 96px;
+      font-size: min(96px, 16vw);
 `;

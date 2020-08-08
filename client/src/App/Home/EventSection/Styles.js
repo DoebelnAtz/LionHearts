@@ -18,5 +18,6 @@ export const EventListDiv = styled.div`
 export const EventsHeader = styled.h1`
       ${font.DCBold};
       color: ${color.primary};
-      font-size: 96px;
+      width: 40vw;
+      font-size: min(96px, 16vw);
 `;
