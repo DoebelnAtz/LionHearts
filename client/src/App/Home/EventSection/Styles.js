@@ -12,7 +12,7 @@ export const EventSectionDiv = styled.div`
 export const EventListDiv = styled.div`
     max-width: 1600px;
     width: 80%;
-    margin: auto 100px;
+    margin: auto min(10vw, 100px);
 `;
 
 export const EventsHeader = styled.h1`

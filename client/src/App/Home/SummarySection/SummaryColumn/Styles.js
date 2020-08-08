@@ -3,7 +3,7 @@ import {font, color} from "../../../../Styles";
 
 export const SummaryColumnDiv = styled.div`
     padding: 2vw;
-    width: ${props => props.isMobile ? '60%' : '33%'};
+    width: ${props => props.isMobile ? '80%' : '33%'};
 `;
 
 export const SummaryColumnTitle = styled.h2`

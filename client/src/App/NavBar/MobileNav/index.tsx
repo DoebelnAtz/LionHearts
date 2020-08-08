@@ -36,7 +36,7 @@ const MobileNav: React.FC<{
 	const expandMenu = useSpring({
 		ref: menuRef,
 		from: { height: '0px' },
-		to: { height: !expanded ? '0px' : '500px' },
+		to: { height: !expanded ? '0px' : '450px' },
 	});
 
 	const fadeIn = useSpring({

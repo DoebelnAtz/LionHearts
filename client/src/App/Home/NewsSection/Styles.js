@@ -12,7 +12,7 @@ export const NewsSectionDiv = styled.div`
 export const NewsListDiv = styled.div`
     max-width: 1600px;
     width: 80%;
-    margin: auto 100px;
+    margin: auto min(10vw, 100px);
 `
 
 export const NewsHeader = styled.h1`

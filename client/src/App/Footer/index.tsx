@@ -8,27 +8,37 @@ import {
 } from './Styles';
 import Logo from '../Logo';
 import { makeId } from '../../Utils';
-import { NavBarLink, NavBarLinksDiv } from '../NavBar/Styles';
+import { FooterNavBarLink, FooterNavBarLinksDiv } from './Styles';
 import { Link } from 'react-router-dom';
+import { useWidth } from '../../Hooks';
 
 const Footer: React.FC = () => {
+	const [isMobile] = useWidth();
 	return (
 		<FooterDiv>
-			<FooterContentDiv>
-				<LinkDiv id={'link'}>
+			<FooterContentDiv isMobile={isMobile}>
+				<LinkDiv isMobile={isMobile} id={'link'}>
 					<Logo inverse />
 					<FooterNavDiv id={'footer-nav'}>
-						<NavBarLinksDiv>
-							<NavBarLink inverse>ABOUT US</NavBarLink>
-							<NavBarLink inverse>COMMUNITY</NavBarLink>
-							<NavBarLink inverse>EVENTS</NavBarLink>
-							<NavBarLink inverse>NEWS</NavBarLink>
-							<NavBarLink inverse>
+						<FooterNavBarLinksDiv isMobile={isMobile}>
+							<FooterNavBarLink inverse isMobile={isMobile}>
+								ABOUT US
+							</FooterNavBarLink>
+							<FooterNavBarLink inverse isMobile={isMobile}>
+								COMMUNITY
+							</FooterNavBarLink>
+							<FooterNavBarLink inverse isMobile={isMobile}>
+								EVENTS
+							</FooterNavBarLink>
+							<FooterNavBarLink inverse isMobile={isMobile}>
+								NEWS
+							</FooterNavBarLink>
+							<FooterNavBarLink inverse isMobile={isMobile}>
 								<Link to={`/apply?application=${makeId(16)}`}>
 									APPLY
 								</Link>
-							</NavBarLink>
-						</NavBarLinksDiv>
+							</FooterNavBarLink>
+						</FooterNavBarLinksDiv>
 					</FooterNavDiv>
 					<SoMeLinksDiv></SoMeLinksDiv>
 				</LinkDiv>
