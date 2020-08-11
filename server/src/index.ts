@@ -16,8 +16,8 @@ console.log(`Server started, listening on port: ${port}`);
 
 app.use(cors());
 app.use(bodyParser.json());
-app.use('/', logRequests);
 app.use('/api/auth', authRouter);
+app.use('/', logRequests);
 app.use('/api/applications', applicationRouter);
 app.use('/api', checkToken);
 app.use('/api/test', testRouter);

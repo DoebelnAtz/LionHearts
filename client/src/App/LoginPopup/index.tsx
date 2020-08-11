@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useRef, useState } from 'react';
+import React, { ChangeEvent, SyntheticEvent, useRef, useState } from 'react';
 import Modal from '../Components/Modal';
 import { useDismiss } from '../../Hooks';
 import { useHistory } from 'react-router-dom';
@@ -23,7 +23,9 @@ const LoginPopup = () => {
 		password: '',
 	});
 
-	const handleLogin = async () => {
+	const handleLogin = async (e: SyntheticEvent) => {
+		console.log('logging in');
+		e.preventDefault();
 		try {
 			let resp = await makeRequest('/auth/login', 'post', {
 				username: input.username,
@@ -36,6 +38,7 @@ const LoginPopup = () => {
 					refreshToken: resp.data.refreshToken,
 				});
 			}
+			history.push('/members');
 		} catch (e) {
 			console.log(e);
 		}
@@ -65,30 +68,32 @@ const LoginPopup = () => {
 			}}
 		>
 			<LoginDiv>
-				<UsernameDiv>
-					<label>
-						Username
-						<input
-							placeholder={'username'}
-							value={input.username}
-							onChange={handleUsernameChange}
-						/>
-					</label>
-				</UsernameDiv>
-				<PasswordDiv>
-					<label>
-						Password
-						<input
-							value={input.password}
-							onChange={handlePasswordChange}
-							placeholder={'password'}
-							type={'password'}
-						/>
-					</label>
-				</PasswordDiv>
-				<ButtonDiv>
-					<LoginButton onClick={handleLogin}>Login</LoginButton>
-				</ButtonDiv>
+				<form>
+					<UsernameDiv>
+						<label>
+							Username
+							<input
+								placeholder={'username'}
+								value={input.username}
+								onChange={handleUsernameChange}
+							/>
+						</label>
+					</UsernameDiv>
+					<PasswordDiv>
+						<label>
+							Password
+							<input
+								value={input.password}
+								onChange={handlePasswordChange}
+								placeholder={'password'}
+								type={'password'}
+							/>
+						</label>
+					</PasswordDiv>
+					<ButtonDiv>
+						<LoginButton onClick={handleLogin}>Login</LoginButton>
+					</ButtonDiv>
+				</form>
 			</LoginDiv>
 		</Modal>
 	);

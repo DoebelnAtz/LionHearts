@@ -20,17 +20,17 @@ export const colorAdjust = {
 
 export const color = {
 	primary: '#0064FF',
-	primaryShade: colorAdjust.lighten('#0064FF', 0.5),
+	primaryShade: colorAdjust.darken('#0064FF', 0.5),
 	secondary: '#FF684F',
-	secondaryShade: colorAdjust.lighten('#FF684F', 0.5),
+	secondaryShade: colorAdjust.darken('#FF684F', 0.5),
 	tertiary: '#FFE8D8',
-	tertiaryShade: colorAdjust.lighten('#FFE8D8', 0.5),
+	tertiaryShade: colorAdjust.darken('#FFE8D8', 0.5),
 	BG0: baseColor,
-	BG1: colorAdjust.lighten(baseColor, 0.5),
-	BG2: colorAdjust.lighten(baseColor, 1.0),
-	BG3: colorAdjust.lighten(baseColor, 1.5),
-	BG4: colorAdjust.lighten(baseColor, 2.0),
-	BG5: colorAdjust.lighten(baseColor, 2.5),
+	BG1: colorAdjust.darken(baseColor, 0.1),
+	BG2: colorAdjust.darken(baseColor, 0.2),
+	BG3: colorAdjust.darken(baseColor, 0.3),
+	BG4: colorAdjust.darken(baseColor, 0.4),
+	BG5: colorAdjust.darken(baseColor, 0.5),
 	textColor: colorAdjust.lighten(baseColor, 0.15),
 };
 

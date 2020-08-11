@@ -20,7 +20,7 @@ import {
 
 import MemberIcon from '../../assets/images/profile_icon.png';
 import { Link } from 'react-router-dom';
-import { makeId } from '../../Utils';
+import { getLocal, makeId } from '../../Utils';
 import { useWidth } from '../../Hooks';
 import MenuBurger from '../Components/MenuBurger';
 import MobileNav from './MobileNav';
@@ -30,6 +30,15 @@ const NavBar = () => {
 	const [expandMenu, setExpandMenu] = useState(false);
 	const history = useHistory();
 	const burgerRef = useRef<HTMLDivElement>(null);
+
+	const handleMemberIconClick = () => {
+		if (getLocal('user')) {
+			history.push('/members');
+		} else {
+			history.push('/login');
+		}
+	};
+
 	return (
 		<NavBarDiv>
 			<MobileNav
@@ -59,7 +68,7 @@ const NavBar = () => {
 				</NavBarLinksDiv>
 			)}
 			<NavBarMemberIcon
-				onClick={() => history.push('/login')}
+				onClick={handleMemberIconClick}
 				isMobile={isMobile}
 			>
 				<img src={MemberIcon} />

@@ -9,12 +9,20 @@ import Signup from './Signup';
 import Apply from './Apply';
 import Footer from './Footer';
 import LoginPopup from './LoginPopup';
+import MembersHome from './Members';
 
 function App() {
 	const [isMobile] = useWidth();
 	return (
 		<AppDiv>
 			<Switch>
+				<Route path={'/members'}>
+					<Switch>
+						<Route exact path={'/members'}>
+							<MembersHome />
+						</Route>
+					</Switch>
+				</Route>
 				<Route path={'/'}>
 					<Switch>
 						<Route exact path={'/'}>

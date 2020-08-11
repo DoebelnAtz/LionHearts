@@ -16,13 +16,16 @@ export const makeRequest = async (url: string, method: any, data: any = {}) => {
 				'Content-Type': 'application/json',
 				Authorization:
 					'Bearer ' +
-					(localStorage.getItem('token')
-						? getLocal('token').token
+					(localStorage.getItem('user')
+						? getLocal('user').token
 						: ''),
-				'x-refresh-token': getLocal('token')?.refreshToken,
+				'x-refresh-token': localStorage.getItem('user')
+					? getLocal('user')?.refreshToken
+					: '',
 			},
 		});
 	} catch (e) {
+		console.log(e);
 		if (!e.response) {
 			//window.location.replace('/505');
 		} else if (e.response.status === 401) {
@@ -33,10 +36,12 @@ export const makeRequest = async (url: string, method: any, data: any = {}) => {
 					'Content-Type': 'application/json',
 					Authorization:
 						'Bearer ' +
-						(localStorage.getItem('token')
-							? getLocal('token').token
+						(localStorage.getItem('user')
+							? getLocal('user').token
 							: ''),
-					'x-refresh-token': getLocal('token')?.refreshToken,
+					'x-refresh-token': localStorage.getItem('user')
+						? getLocal('user')?.refreshToken
+						: '',
 				},
 			});
 			if (refreshAttempt.data) {

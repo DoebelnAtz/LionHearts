@@ -66,7 +66,6 @@ const MobileNav: React.FC<{
 	return (
 		<MobileNavLinks
 			id={'Mobile Nav'}
-			expanded={expanded}
 			style={expandMenu}
 			isMobile={isMobile}
 		>

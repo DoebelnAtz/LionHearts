@@ -3,10 +3,14 @@ export const capitalizeFirst = (string: string) => {
 };
 
 export const getLocal = (item: string) => {
-	if (item) {
-		return JSON.parse(localStorage.getItem(item) || '');
-	} else {
-		return null;
+	try {
+		if (item) {
+			return JSON.parse(localStorage.getItem(item) || '');
+		} else {
+			return null;
+		}
+	} catch (e) {
+		return false;
 	}
 };
 
