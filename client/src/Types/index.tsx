@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 export function createCtx<A>(defaultValue: A) {
 	type UpdateType = React.Dispatch<React.SetStateAction<typeof defaultValue>>;
@@ -12,4 +12,11 @@ export function createCtx<A>(defaultValue: A) {
 		return <ctx.Provider value={{ state, update }} {...props} />;
 	}
 	return [ctx, Provider] as const;
+}
+
+export interface Application {
+	firstname: string;
+	lastname: string;
+	submitted: string;
+	application_status: string;
 }

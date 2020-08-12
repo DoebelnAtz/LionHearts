@@ -27,6 +27,8 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
+applicationRouter.get('/');
+
 applicationRouter.get('/files/:applicationId', getApplicationIdFiles);
 
 applicationRouter.post(

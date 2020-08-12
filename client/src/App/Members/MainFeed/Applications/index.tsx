@@ -1,9 +1,14 @@
 import React from 'react';
-import { useNav } from '../../../../Hooks';
+import { useGet, useNav } from '../../../../Hooks';
+import { Application } from '../../../../Types';
 
 const Applications: React.FC = () => {
 	useNav('Applications');
-	return <div>Applications</div>;
+
+	const [applications, setApplications] = useGet<Application>(
+		'/applications',
+	);
+	return <div>{applications}</div>;
 };
 
 export default Applications;

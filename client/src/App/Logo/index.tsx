@@ -19,7 +19,6 @@ const Logo: React.FC<{ inverse?: boolean }> = ({ inverse = false }) => {
 				xmlns={'http://www.w3.org/2000/svg'}
 				xmlnsXlink={'http://www.w3.org/1999/xlink'}
 			>
-				<title>Fill 1</title>
 				<defs>
 					<polygon
 						id="path-1"

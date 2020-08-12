@@ -158,7 +158,7 @@ export const components = {
 	input: css`
 		border-radius: 4px;
 		padding-left: 10px;
-		background-color: ${color.BG1};
+		background-color: ${color.BG0};
 		color: ${color.primary};
 		height: 36px;
 		font-size: 16px;
@@ -202,7 +202,7 @@ export const components = {
 		${font.text};
 		height: 32px;
 		line-height: 30px;
-		background-color: ${color.BG2};
+		background-color: ${color.BG0};
 		${cursor.clickable};
 		border: 2px solid ${color.primary};
 		transition: background-color 0.1s;
@@ -211,7 +211,7 @@ export const components = {
 			outline: none;
 		}
 		&:hover {
-			background-color: ${colorAdjust.darken(color.BG2, 0.1)};
+			background-color: ${colorAdjust.darken(color.BG0, 0.1)};
 		}
 		&:disabled {
 			color: ${color.primary}90;

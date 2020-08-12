@@ -10,18 +10,10 @@ import { useWidth } from '../../../Hooks';
 
 type ModalProps = {
 	inside: RefObject<HTMLDivElement>;
-	saveCondition?: boolean;
-	save?: () => Promise<boolean>;
 	close: () => void;
 };
 
-const Modal: React.FC<ModalProps> = ({
-	save = async () => true,
-	saveCondition = false,
-	children,
-	inside,
-	close,
-}) => {
+const Modal: React.FC<ModalProps> = ({ children, inside, close }) => {
 	const [, isMobile] = useWidth();
 	return (
 		<OutsideDiv>

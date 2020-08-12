@@ -34,6 +34,16 @@ export const deleteApplicationFile = catchErrors(async (req, res, next) => {
 	res.json({ success: true, message: `deleted: ${fileName}` });
 }, 'Failed to delete file');
 
+export const getApplications = catchErrors(async (req, res) => {
+	let applications = await query(
+		`SELECT firstname, lastname, application_status, submitted
+			FROM applications
+	`,
+		[],
+	);
+	res.status(200).json(applications.rows);
+}, 'Failed to get applications');
+
 export const createApplication = catchErrors(async (req, res, next) => {
 	const { applicationId, firstname, lastname, email, description } = req.body;
 	console.log('application received');
