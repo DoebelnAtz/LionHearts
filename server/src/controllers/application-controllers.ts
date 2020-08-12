@@ -36,12 +36,13 @@ export const deleteApplicationFile = catchErrors(async (req, res, next) => {
 
 export const getApplications = catchErrors(async (req, res) => {
 	let applications = await query(
-		`SELECT firstname, lastname, application_status, submitted
+		`SELECT a_id, firstname, lastname, application_status, submitted
 			FROM applications
 	`,
 		[],
 	);
-	res.status(200).json(applications.rows);
+	console.log(applications.rows);
+	res.json(applications.rows);
 }, 'Failed to get applications');
 
 export const createApplication = catchErrors(async (req, res, next) => {

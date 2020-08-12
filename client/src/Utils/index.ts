@@ -43,8 +43,10 @@ export const setLocal = (name: string, jsonItem: any) => {
 
 export const calculateTimeSince = (isoString: string) => {
 	let then = new Date(isoString);
+	let offset = new Date().getTimezoneOffset();
+	//console.log(offset);
 	// @ts-ignore
-	var seconds = Math.floor((new Date() - then) / 1000); // remove two hours for timezone...
+	var seconds = Math.floor((new Date() - then) / 1000); // convert to seconds..
 
 	var interval = Math.floor(seconds / 31536000);
 

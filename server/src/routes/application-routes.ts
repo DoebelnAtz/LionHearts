@@ -8,6 +8,7 @@ import {
 	createApplication,
 	deleteApplicationFile,
 	getApplicationIdFiles,
+	getApplications,
 	uploadApplicationFile,
 } from '../controllers/application-controllers';
 import { check } from 'express-validator';
@@ -27,7 +28,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-applicationRouter.get('/');
+applicationRouter.get('/', getApplications);
 
 applicationRouter.get('/files/:applicationId', getApplicationIdFiles);
 
