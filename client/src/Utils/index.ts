@@ -14,6 +14,29 @@ export const getLocal = (item: string) => {
 	}
 };
 
+export const checkAuth = () => {
+	try {
+		let user: any = '';
+		if ((user = getLocal('user'))) {
+			switch (user.user.role) {
+				case 'superuser':
+					return 4;
+				case 'admin':
+					return 3;
+				case 'publisher':
+					return 2;
+				case 'member':
+					return 1;
+			}
+		} else {
+			return false;
+		}
+	} catch (e) {
+		return false;
+	}
+	return false;
+};
+
 export const setLocal = (name: string, jsonItem: any) => {
 	localStorage.setItem(name, JSON.stringify(jsonItem));
 };

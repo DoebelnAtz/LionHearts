@@ -55,7 +55,7 @@ export const login = catchErrors(async (req, res, next) => {
 	let existingUser;
 
 	existingUser = await query(
-		'SELECT username, u_id, password FROM users WHERE username = $1',
+		'SELECT username, u_id, password, role FROM users WHERE username = $1',
 		[username.toLowerCase()],
 	);
 	existingUser = existingUser.rows[0];
@@ -110,7 +110,11 @@ export const login = catchErrors(async (req, res, next) => {
 		message: 'Authentication successful!',
 		token: token,
 		refreshToken: refreshToken,
-		user: { username: existingUser.username, u_id: existingUser.u_id },
+		user: {
+			username: existingUser.username,
+			u_id: existingUser.u_id,
+			role: existingUser.role,
+		},
 	});
 }, 'Failed to log in');
 

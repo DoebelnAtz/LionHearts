@@ -6,12 +6,12 @@ import {color, units} from "../../Styles";
 export const MemberHomeDiv = styled.div`
     height: 100%;
     width: 100%;
-    background-color: ${color.BG1};
+    background-color: ${color.BG0};
     display: flex;
 `;
 
 export const MemberHomeMainDiv = styled.div`
-    height: calc(100% - ${units.margin} * 2);
+    height: calc(100%);
     width: min(calc(100% - ${units.margin} * 2), 1400px);
     margin: auto;
 `;
@@ -38,8 +38,8 @@ export const EventFeedDiv = styled.div`
 
 export const MemberViewDiv = styled.div`
      background-color: ${color.BG0};
-    margin: 0 calc(${units.margin});
-    width: calc(100% - ${MemberNavigationWidth} - ${units.margin} * 2 - ${EventFeedWidth});
+    margin: 0 5px;
+    width: calc(100% - ${MemberNavigationWidth} - ${units.margin} - ${EventFeedWidth});
 `;
 
 
