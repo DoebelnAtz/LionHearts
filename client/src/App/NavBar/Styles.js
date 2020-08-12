@@ -21,6 +21,7 @@ export const NavBarLinksDiv = styled.div`
     margin: auto auto;
     position: relative;
     z-index: 3;
+    display: flex;
 `;
 
 export const NavBarMemberIcon = styled.div`
@@ -33,17 +34,28 @@ export const NavBarMemberIcon = styled.div`
   //right: ${props => props.isMobile ? '0' : 'min(10vw, 100px)'};
 `;
 
-export const NavBarLink = styled.span`
+export const NavBarLink = styled.div`
     color: ${props => props.inverse ? `${color.primary}` :`${color.BG0}`};
     ${font.DCBold};
     font-size: 20px;
     z-index: 3;
-    padding: 0 2vw;
+    height: 22px;
+    line-height: 30px;
+    padding: 0 1vw;
+    margin: 0 1vw;
     ${cursor.clickable};
     & a {
          color: ${props => props.inverse ? `${color.primary}` :`${color.BG0}`};;
          text-decoration: none;
     }
+    &:hover {
+        background-color: ${color.BG0};
+        color: ${color.primary};
+        & a {
+            color: ${color.primary};
+        }
+    };
+    
 `;
 
 export const MenuBtnDiv = styled.div`

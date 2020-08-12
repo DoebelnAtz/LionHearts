@@ -56,14 +56,20 @@ const NavBar = () => {
 			</NavBarLogoDiv>
 			{!isMobile && (
 				<NavBarLinksDiv>
-					<NavBarLink>ABOUT US</NavBarLink>
-					<NavBarLink>COMMUNITY</NavBarLink>
-					<NavBarLink>EVENTS</NavBarLink>
-					<NavBarLink>NEWS</NavBarLink>
 					<NavBarLink>
-						<Link to={`/apply?application=${makeId(16)}`}>
-							APPLY
-						</Link>
+						<Link to={`/about-us`}>ABOUT US</Link>
+					</NavBarLink>
+					<NavBarLink>
+						<Link to={`/community`}>COMMUNITY</Link>
+					</NavBarLink>
+					<NavBarLink>
+						<Link to={`/events`}>EVENTS</Link>
+					</NavBarLink>
+					<NavBarLink>
+						<Link to={`/news`}>NEWS</Link>
+					</NavBarLink>
+					<NavBarLink>
+						<Link to={`/apply`}>APPLY</Link>
 					</NavBarLink>
 				</NavBarLinksDiv>
 			)}
