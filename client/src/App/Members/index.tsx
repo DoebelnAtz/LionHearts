@@ -13,6 +13,7 @@ import Navigation from './Navigation';
 import MainFeed from './MainFeed';
 import EventFeed from './EventFeed';
 import { getLocal } from '../../Utils';
+import { CurrentNavContextProvider } from '../../Context/CurrentNavContext';
 
 const MembersHome: React.FC = () => {
 	const history = useHistory();
@@ -24,21 +25,23 @@ const MembersHome: React.FC = () => {
 		}
 	}, []);
 	return (
-		<MemberHomeDiv>
-			<MemberHomeMainDiv>
-				<MemberMainDiv>
-					<MemberNavigationDiv>
-						<Navigation />
-					</MemberNavigationDiv>
-					<MemberViewDiv>
-						<MainFeed />
-					</MemberViewDiv>
-					<EventFeedDiv>
-						<EventFeed />
-					</EventFeedDiv>
-				</MemberMainDiv>
-			</MemberHomeMainDiv>
-		</MemberHomeDiv>
+		<CurrentNavContextProvider>
+			<MemberHomeDiv>
+				<MemberHomeMainDiv>
+					<MemberMainDiv>
+						<MemberNavigationDiv>
+							<Navigation />
+						</MemberNavigationDiv>
+						<MemberViewDiv>
+							<MainFeed />
+						</MemberViewDiv>
+						<EventFeedDiv>
+							<EventFeed />
+						</EventFeedDiv>
+					</MemberMainDiv>
+				</MemberHomeMainDiv>
+			</MemberHomeDiv>
+		</CurrentNavContextProvider>
 	);
 };
 

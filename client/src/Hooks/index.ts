@@ -3,6 +3,14 @@ import { makeRequest } from '../Api';
 import { WidthContext } from '../Context/WidthContext';
 import { useHistory } from 'react-router';
 import { useLayoutEffect } from 'react';
+import { CurrentNavContext } from '../Context/CurrentNavContext';
+
+export const useNav = (current: string) => {
+	const { update } = useContext(CurrentNavContext);
+	useEffect(() => {
+		update(current);
+	}, [current]);
+};
 
 export const useIsomorphicLayoutEffect =
 	typeof window !== 'undefined' ? useLayoutEffect : useEffect;

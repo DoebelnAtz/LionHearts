@@ -18,7 +18,7 @@ function App() {
 			<Switch>
 				<Route path={'/members'}>
 					<Switch>
-						<Route exact path={'/members'}>
+						<Route path={'/members'}>
 							<MembersHome />
 						</Route>
 					</Switch>
