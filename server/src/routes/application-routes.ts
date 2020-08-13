@@ -1,8 +1,7 @@
 import express from 'express';
 import multer from 'multer';
 import fs from 'fs';
-
-const applicationRouter = express.Router();
+import { check } from 'express-validator';
 
 import {
 	createApplication,
@@ -11,7 +10,8 @@ import {
 	getApplications,
 	uploadApplicationFile,
 } from '../controllers/application-controllers';
-import { check } from 'express-validator';
+
+const applicationRouter = express.Router();
 
 const storage = multer.diskStorage({
 	destination: function (req, file, cb) {

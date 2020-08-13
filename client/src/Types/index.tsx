@@ -26,4 +26,5 @@ export interface MemberEvent {
 	e_id: number;
 	title: string;
 	time: string;
+	status: string;
 }

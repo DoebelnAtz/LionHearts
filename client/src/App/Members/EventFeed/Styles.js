@@ -17,16 +17,19 @@ export const EventCard = styled.div`
     width: calc(100% - ${units.margin} * 2);
     padding: ${units.margin};
     border-bottom: 2px solid ${color.BG2};
+    &:last-child {
+        border-bottom: none;
+    }
 `;
 
 export const EventCardTitle = styled.span`
-    ${font.DCBold};
-    font-size: 22px;
+    ${font.RBold};
+    font-size: 18px;
     color: ${color.primary};
 `;
 
 export const EventTitleSpan = styled.span`
-    margin: auto auto auto 0;
+    margin: auto auto auto ${units.margin};
     ${font.DCBold};
     font-size: 26px;
     color: ${color.primary};
@@ -36,4 +39,6 @@ export const EventFeedDiv = styled.div`
     background-color: ${color.BG1};
     width: calc(100% - ${units.margin} * 1);
     margin: ${units.margin};
+    border-radius: ${units.radius};
+    padding-bottom: ${units.margin};
 `;

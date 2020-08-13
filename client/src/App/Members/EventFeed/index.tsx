@@ -18,7 +18,10 @@ const EventFeed: React.FC = () => {
 		return events?.map((event) => {
 			return (
 				<EventCard>
-					<EventCardTitle>{event.title}</EventCardTitle>
+					<EventCardTitle>
+						{event.title}
+						{event.status}
+					</EventCardTitle>
 				</EventCard>
 			);
 		});
