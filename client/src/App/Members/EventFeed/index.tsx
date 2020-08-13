@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import EventCalendar from '../../Components/EventCalendar';
 import {
 	EventFeedDiv,
@@ -13,18 +13,29 @@ import EventCard from './EventCard';
 
 const EventFeed: React.FC = () => {
 	const [events, setEvents] = useGet<MemberEvent[]>('/events');
+	const [highlightedEvents, setHighlightedEvents] = useState<Date[]>([]);
 
 	const renderEvents = () => {
 		return events?.map((event) => {
-			return <EventCard card={event} />;
+			return <EventCard key={event.e_id} card={event} />;
 		});
 	};
+
+	const handleDateHover = (date: Date) => {
+		console.log(date);
+	};
+
 	return (
 		<EventFeedDiv>
 			<EventTitleDiv>
 				<EventTitleSpan>Events</EventTitleSpan>
 			</EventTitleDiv>
-			<EventCalendar />
+			<EventCalendar
+				onDayHover={handleDateHover}
+				highlightedDates={
+					events && events?.map((event) => new Date(event.time))
+				}
+			/>
 			<EventList>{renderEvents()}</EventList>
 		</EventFeedDiv>
 	);

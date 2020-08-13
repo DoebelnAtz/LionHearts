@@ -45,7 +45,7 @@ export const makeRequest = async (url: string, method: any, data: any = {}) => {
 				},
 			});
 			if (refreshAttempt.data) {
-				setLocal('token', refreshAttempt.data);
+				setLocal('user', refreshAttempt.data);
 			}
 		} else {
 			throw e;

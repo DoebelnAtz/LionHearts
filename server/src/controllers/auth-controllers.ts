@@ -89,7 +89,11 @@ export const login = catchErrors(async (req, res, next) => {
 		);
 	}
 	let token = sign(
-		{ username: username, u_id: existingUser.u_id },
+		{
+			username: username,
+			u_id: existingUser.u_id,
+			role: existingUser.role,
+		},
 		config.secret,
 		{
 			expiresIn: '24h', // expires in 24 hours
@@ -97,7 +101,11 @@ export const login = catchErrors(async (req, res, next) => {
 	);
 
 	let refreshToken = sign(
-		{ username: username, u_id: existingUser.u_id },
+		{
+			username: username,
+			u_id: existingUser.u_id,
+			role: existingUser.role,
+		},
 		config.refreshSecret,
 		{
 			expiresIn: '4d', // expires in 4 days
@@ -127,6 +135,7 @@ export const refreshToken = catchErrors(async (req, res) => {
 			'Failed to find refresh token header',
 		);
 	}
+
 	if (refreshToken.startsWith('Bearer ')) {
 		refreshToken = refreshToken.slice(7, refreshToken.length);
 	}
@@ -144,7 +153,11 @@ export const refreshToken = catchErrors(async (req, res) => {
 					);
 				} else {
 					let token = jwt.sign(
-						{ username: decoded.username, u_id: decoded.u_id },
+						{
+							username: decoded.username,
+							u_id: decoded.u_id,
+							role: decoded.role,
+						},
 						config.secret,
 						{
 							expiresIn: '24h', // expires in 24 hours
@@ -152,7 +165,11 @@ export const refreshToken = catchErrors(async (req, res) => {
 					);
 
 					let refreshToken = jwt.sign(
-						{ username: decoded.username, u_id: decoded.u_id },
+						{
+							username: decoded.username,
+							u_id: decoded.u_id,
+							role: decoded.role,
+						},
 						config.refreshSecret,
 						{
 							expiresIn: '4d', // expires in 4 days
@@ -164,6 +181,7 @@ export const refreshToken = catchErrors(async (req, res) => {
 						user: {
 							username: decoded.username,
 							u_id: decoded.u_id,
+							role: decoded.role,
 						},
 					});
 				}
