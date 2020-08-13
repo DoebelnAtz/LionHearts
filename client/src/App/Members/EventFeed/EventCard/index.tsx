@@ -6,9 +6,10 @@ import { makeRequest } from '../../../../Api';
 
 type EventCardProps = {
 	card: MemberEvent;
+	highlighted?: boolean;
 };
 
-const EventCard: React.FC<EventCardProps> = ({ card }) => {
+const EventCard: React.FC<EventCardProps> = ({ card, highlighted = false }) => {
 	const [eventCard, setEventCard] = useState<MemberEvent>(card);
 
 	const handleEventStatusChange = async (newStatus: string) => {
@@ -26,7 +27,7 @@ const EventCard: React.FC<EventCardProps> = ({ card }) => {
 	};
 
 	return (
-		<EventCardDiv key={eventCard.e_id}>
+		<EventCardDiv highlighted={highlighted} key={eventCard.e_id}>
 			<EventCardTitle>{eventCard.title}</EventCardTitle>
 			<EventCardResponseRow>
 				Respond:

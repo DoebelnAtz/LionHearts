@@ -1,23 +1,21 @@
 import React, { useState } from 'react';
 
-import Calendar from 'react-calendar';
-// @ts-ignore
-import SimpleReactCalendar from 'simple-react-calendar';
+import Calendar, { DateCallback } from 'react-calendar';
 import './calendar.css';
 
 type CalendarProps = {
 	disabledDates?: { start: Date; end: Date; title: string }[];
 	highlightedDates?: Date[];
-	onDayHover?: (date: Date) => any;
+	onDayClick?: DateCallback;
 };
 
 const EventCalendar: React.FC<CalendarProps> = ({
 	disabledDates,
 	highlightedDates,
-	onDayHover,
+	onDayClick,
 }) => {
 	const [selectedDay, setSelectedDay] = useState<Date>(new Date());
-
+	console.log(new Date().toDateString());
 	return (
 		<Calendar
 			minDetail={'month'}
@@ -25,11 +23,13 @@ const EventCalendar: React.FC<CalendarProps> = ({
 			next2Label={null}
 			prevLabel={''}
 			nextLabel={''}
+			onClickDay={onDayClick}
 			tileClassName={({ date, view }) => {
 				if (
 					highlightedDates &&
 					highlightedDates.find(
-						(focusDate) => focusDate.getDate() === date.getDate(),
+						(focusDate) =>
+							focusDate.toDateString() === date.toDateString(),
 					)
 				) {
 					return 'is-highlighted';

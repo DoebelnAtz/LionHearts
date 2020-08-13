@@ -13,16 +13,37 @@ import EventCard from './EventCard';
 
 const EventFeed: React.FC = () => {
 	const [events, setEvents] = useGet<MemberEvent[]>('/events');
-	const [highlightedEvents, setHighlightedEvents] = useState<Date[]>([]);
+	const [highlightedEvents, setHighlightedEvents] = useState<MemberEvent[]>(
+		[],
+	);
 
 	const renderEvents = () => {
 		return events?.map((event) => {
-			return <EventCard key={event.e_id} card={event} />;
+			return (
+				<EventCard
+					key={event.e_id}
+					highlighted={
+						!!highlightedEvents.find(
+							(highlighted) => highlighted.e_id === event.e_id,
+						)
+					}
+					card={event}
+				/>
+			);
 		});
 	};
 
-	const handleDateHover = (date: Date) => {
-		console.log(date);
+	const handleDateClick = (value: Date) => {
+		events &&
+			setHighlightedEvents(
+				events.filter((event) => {
+					return (
+						new Date(event.time).toDateString() ===
+						value.toDateString()
+					);
+				}),
+			);
+		console.log(highlightedEvents);
 	};
 
 	return (
@@ -31,7 +52,7 @@ const EventFeed: React.FC = () => {
 				<EventTitleSpan>Events</EventTitleSpan>
 			</EventTitleDiv>
 			<EventCalendar
-				onDayHover={handleDateHover}
+				onDayClick={handleDateClick}
 				highlightedDates={
 					events && events?.map((event) => new Date(event.time))
 				}
