@@ -23,7 +23,6 @@ const EventCard: React.FC<EventCardProps> = ({ card, highlighted = false }) => {
 			});
 		} catch (e) {
 			setEventCard({ ...eventCard, status: oldValue });
-			console.log(e);
 		}
 	};
 

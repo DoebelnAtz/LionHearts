@@ -4,18 +4,16 @@ import Calendar, { DateCallback } from 'react-calendar';
 import './calendar.css';
 
 type CalendarProps = {
-	disabledDates?: { start: Date; end: Date; title: string }[];
+	selectedDay: Date | null;
 	highlightedDates?: Date[];
 	onDayClick?: DateCallback;
 };
 
 const EventCalendar: React.FC<CalendarProps> = ({
-	disabledDates,
 	highlightedDates,
 	onDayClick,
+	selectedDay,
 }) => {
-	const [selectedDay, setSelectedDay] = useState<Date>(new Date());
-	console.log(new Date().toDateString());
 	return (
 		<Calendar
 			minDetail={'month'}
@@ -25,6 +23,7 @@ const EventCalendar: React.FC<CalendarProps> = ({
 			nextLabel={''}
 			onClickDay={onDayClick}
 			tileClassName={({ date, view }) => {
+				let returnClass = null;
 				if (
 					highlightedDates &&
 					highlightedDates.find(
@@ -32,10 +31,12 @@ const EventCalendar: React.FC<CalendarProps> = ({
 							focusDate.toDateString() === date.toDateString(),
 					)
 				) {
-					return 'is-highlighted';
-				} else {
-					return null;
+					returnClass = 'is-highlighted';
 				}
+				if (selectedDay?.toDateString() === date.toDateString()) {
+					returnClass = returnClass + ' is-selected';
+				}
+				return returnClass;
 			}}
 		/>
 	);

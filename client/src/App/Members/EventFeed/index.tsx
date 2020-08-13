@@ -16,6 +16,7 @@ const EventFeed: React.FC = () => {
 	const [highlightedEvents, setHighlightedEvents] = useState<MemberEvent[]>(
 		[],
 	);
+	const [selectedDay, setSelectedDay] = useState<Date | null>(null);
 
 	const renderEvents = () => {
 		return events?.map((event) => {
@@ -43,7 +44,7 @@ const EventFeed: React.FC = () => {
 					);
 				}),
 			);
-		console.log(highlightedEvents);
+		setSelectedDay(value);
 	};
 
 	return (
@@ -53,6 +54,7 @@ const EventFeed: React.FC = () => {
 			</EventTitleDiv>
 			<EventCalendar
 				onDayClick={handleDateClick}
+				selectedDay={selectedDay}
 				highlightedDates={
 					events && events?.map((event) => new Date(event.time))
 				}
