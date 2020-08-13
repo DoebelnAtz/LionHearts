@@ -24,7 +24,7 @@ export const MemberHeaderDiv = styled.div`
 `;
 
 const MemberNavigationWidth = '220px';
-const EventFeedWidth = '200px';
+const EventFeedWidth = '240px';
 
 export const MemberNavigationDiv = styled.div`
      background-color: ${color.BG0};

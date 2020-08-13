@@ -38,6 +38,7 @@ export const UserOptionDropDown = styled.div`
         position: relative;
         bottom: 5px;
         left: 5px;
+        height: 10px;
     }
 `;
 
