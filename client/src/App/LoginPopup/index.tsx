@@ -37,8 +37,9 @@ const LoginPopup = () => {
 					user: resp.data.user,
 					refreshToken: resp.data.refreshToken,
 				});
+				history.push('/members');
 			}
-			history.push('/members');
+
 		} catch (e) {
 			console.log(e);
 		}

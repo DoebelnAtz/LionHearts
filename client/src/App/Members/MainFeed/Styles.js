@@ -33,17 +33,11 @@ export const UserOptionDropDown = styled.div`
     font-size: 26px;
     position: relative;
     ${cursor.clickable};
-    right: 24px;
-    &:after {
-      content: "▼";
-      padding: 12px 2px;
-      position: absolute;
-      ${cursor.clickable};
-      font-size: 20px;
-      top: -10px;
-      z-index: 1;
-      text-align: center;
-      height: 100%;
+    right: 4px;
+    & img {
+        position: relative;
+        bottom: 5px;
+        left: 5px;
     }
 `;
 

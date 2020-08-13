@@ -1,10 +1,9 @@
 import styled from 'styled-components';
-import { color, font, cursor } from "../../Styles";
+import { color, font, cursor, units } from "../../Styles";
 
 export const FooterDiv = styled.div`
     background-color: ${color.BG0};
     display: flex;
-    height: 100px;
 `;
 
 export const FooterContentDiv = styled.div`
@@ -15,6 +14,7 @@ export const FooterContentDiv = styled.div`
     height: 100%;
     width: 100%;
 
+
 `;
 
 export const LinkDiv = styled.div`
@@ -22,16 +22,17 @@ export const LinkDiv = styled.div`
     height: 30px;
     flex-direction: ${props => props.isMobile ? 'column' : 'row'};
     width: 100%;
+    padding: ${units.margin};
 `;
 
 export const FooterNavDiv = styled.div`
     flex-wrap: nowrap;
     display: flex;
-    margin: ${props => props.isMobile ? 'auto auto' : 'auto auto auto 0'};
+    margin: ${props => !props.isMobile ? 'auto auto' : 'auto auto auto 0'};
 `;
 
 export const FooterNavBarLinksDiv = styled.div`
-    margin: ${props => props.isMobile ? 'auto auto' : 'auto auto auto 0'};
+    margin: ${props => !props.isMobile ? 'auto auto' : 'auto auto auto 0'};
     position: relative;
     display: flex;
     padding-top: 10px;
@@ -43,8 +44,9 @@ export const FooterNavBarLink = styled.span`
     color: ${props => props.inverse ? `${color.primary}` :`${color.BG0}`};
     ${font.DCBold};
     font-size: 20px;
+    line-height: 20px;
     z-index: 3;
-    padding: ${props => props.isMobile ? '10px 0' : '0 2vw'};
+    padding: ${props => props.isMobile ? '10px 0' : '0 1vw'};
     ${cursor.clickable};
     & a {
          color: ${props => props.inverse ? `${color.primary}` :`${color.BG0}`};;
@@ -55,4 +57,8 @@ export const FooterNavBarLink = styled.span`
 export const SoMeLinksDiv = styled.div`
     flex-wrap: nowrap;
     display: flex;
+    & img {
+        margin: auto 2vw 0 0;
+        height: 26px;
+    }
 `;

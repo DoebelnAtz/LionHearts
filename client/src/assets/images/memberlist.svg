@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+    <title>Icons / UI / Memberlist</title>
+    <g id="Icons-/-UI-/-Memberlist" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect x="0" y="0" width="24" height="24"></rect>
+        <circle id="Oval-Copy" stroke="#0064FF" stroke-width="2" cx="8" cy="6" r="3"></circle>
+        <path d="M2,15 C2,11.6864 4.6864,9 8,9 C11.3136,9 14,11.6864 14,15" id="Stroke-1" stroke="#0064FF" stroke-width="2"></path>
+        <circle id="Oval-Copy-2" stroke="#0064FF" stroke-width="2" fill="#FFFFFF" cx="16" cy="12" r="3"></circle>
+        <path d="M10,21 C10,17.6864 12.6864,15 16,15 C19.3136,15 22,17.6864 22,21" id="Stroke-1-Copy" stroke="#0064FF" stroke-width="2"></path>
+    </g>
+</svg>

@@ -6,6 +6,7 @@ export const NavItemDiv = styled.div`
     width: calc(100% - ${units.margin});
     background-color: ${color.BG0};
     ${cursor.clickable};
+    display: flex;
     &:hover {
         transition: background-color 0.1s;
         background-color: ${color.tertiary};
@@ -14,7 +15,11 @@ export const NavItemDiv = styled.div`
 `;
 
 export const NavItemIcon = styled.div`
-
+    margin: auto ${units.margin} auto 0;
+    height: 30px;
+    & img {
+        height: 30px;
+    }
 `;
 
 export const NavItemTitle = styled(Link)`

@@ -23,7 +23,7 @@ export const MemberHeaderDiv = styled.div`
      height: ${MemberHeaderHeight};
 `;
 
-const MemberNavigationWidth = '200px';
+const MemberNavigationWidth = '220px';
 const EventFeedWidth = '200px';
 
 export const MemberNavigationDiv = styled.div`

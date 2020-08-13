@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="background: #A2A2A200;">
+    <title>Icons / UI / Log in / Blue</title>
+    <defs>
+        <circle id="path-1" cx="11" cy="11" r="11"></circle>
+    </defs>
+    <g id="Icons-/-UI-/-Log-in-/-Blue" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect fill="#A2A2A200" x="0" y="0" width="24" height="24"></rect>
+        <circle id="Oval-Copy" stroke="#0064FF" stroke-width="2" cx="12" cy="11" r="4"></circle>
+        <g id="Oval" transform="translate(1.000000, 1.000000)">
+            <mask id="mask-2" fill="white">
+                <use xlink:href="#path-1"></use>
+            </mask>
+            <g id="Mask"></g>
+            <circle stroke="#0064FF" stroke-width="2" mask="url(#mask-2)" cx="11" cy="21" r="7"></circle>
+        </g>
+        <circle id="Oval" stroke="#0064FF" stroke-width="2" cx="12" cy="12" r="10"></circle>
+    </g>
+</svg>

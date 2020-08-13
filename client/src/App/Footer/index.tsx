@@ -11,6 +11,13 @@ import { makeId } from '../../Utils';
 import { FooterNavBarLink, FooterNavBarLinksDiv } from './Styles';
 import { Link } from 'react-router-dom';
 import { useWidth } from '../../Hooks';
+import igIcon from '../../assets/images/ig_icon.png';
+import fbIcon from '../../assets/images/facebook_icon.png';
+import ytIcon from '../../assets/images/yt_icon.png';
+import twitterIcon from '../../assets/images/twitter_icon.png';
+import linkedinIcon from '../../assets/images/linkedin_icon.png';
+import {NavBarLink} from "../NavBar/Styles";
+
 
 const Footer: React.FC = () => {
 	const [isMobile] = useWidth();
@@ -19,19 +26,19 @@ const Footer: React.FC = () => {
 			<FooterContentDiv isMobile={isMobile}>
 				<LinkDiv isMobile={isMobile} id={'link'}>
 					<Logo inverse />
-					<FooterNavDiv id={'footer-nav'}>
+					<FooterNavDiv  isMobile={isMobile} id={'footer-nav'}>
 						<FooterNavBarLinksDiv isMobile={isMobile}>
 							<FooterNavBarLink inverse isMobile={isMobile}>
-								ABOUT US
+								<Link to={`/about-us`}>ABOUT US</Link>
 							</FooterNavBarLink>
 							<FooterNavBarLink inverse isMobile={isMobile}>
-								COMMUNITY
+								<Link to={`/community`}>COMMUNITY</Link>
 							</FooterNavBarLink>
 							<FooterNavBarLink inverse isMobile={isMobile}>
-								EVENTS
+								<Link to={`/events`}>EVENTS</Link>
 							</FooterNavBarLink>
 							<FooterNavBarLink inverse isMobile={isMobile}>
-								NEWS
+								<Link to={`/news`}>NEWS</Link>
 							</FooterNavBarLink>
 							<FooterNavBarLink inverse isMobile={isMobile}>
 								<Link to={`/apply?application=${makeId(16)}`}>
@@ -40,7 +47,13 @@ const Footer: React.FC = () => {
 							</FooterNavBarLink>
 						</FooterNavBarLinksDiv>
 					</FooterNavDiv>
-					<SoMeLinksDiv></SoMeLinksDiv>
+					<SoMeLinksDiv>
+						<img src={fbIcon} alt={'Lionhearts facebook'}/>
+						<img src={twitterIcon} alt={'Lionhearts Twitter'}/>
+						<img src={linkedinIcon} alt={'Lionhearts linkedIn'}/>
+						<img src={igIcon} alt={'Lionhearts Instagram'}/>
+						<img src={ytIcon} alt={'Lionhearts Youtube'}/>
+					</SoMeLinksDiv>
 				</LinkDiv>
 			</FooterContentDiv>
 		</FooterDiv>

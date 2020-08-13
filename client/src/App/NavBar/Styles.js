@@ -25,13 +25,16 @@ export const NavBarLinksDiv = styled.div`
 `;
 
 export const NavBarMemberIcon = styled.div`
-  //margin: ${props => props.isMobile ? 'auto min(10vw, 100px) auto 0' : 'auto 0 auto auto'};
+  margin: ${props => props.isMobile ? 'auto min(10vw, 100px) auto 0' : 'auto 0 auto auto'};
   position: relative;
   margin: auto 0;
   ${cursor.clickable};
   right: min(10vw, 100px);
   z-index: 3;
-  //right: ${props => props.isMobile ? '0' : 'min(10vw, 100px)'};
+  & img {
+        height: 30px;
+        width: 30px;
+  }
 `;
 
 export const NavBarLink = styled.div`

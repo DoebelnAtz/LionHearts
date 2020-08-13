@@ -18,7 +18,7 @@ import {
 	useTransition,
 } from 'react-spring';
 
-import MemberIcon from '../../assets/images/profile_icon.png';
+import MemberIcon from '../../assets/images/white_member.svg';
 import { Link } from 'react-router-dom';
 import { getLocal, makeId } from '../../Utils';
 import { useWidth } from '../../Hooks';
