@@ -39,7 +39,7 @@ const MainFeed: React.FC = () => {
 				>
 					Hello{' '}
 					{capitalizeFirst(
-						getLocal('user').user.username.substr(
+						getLocal('user').user?.username.substr(
 							0,
 							getLocal('user').user.username.length - 1,
 						),

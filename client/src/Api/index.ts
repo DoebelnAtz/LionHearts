@@ -31,7 +31,7 @@ export const makeRequest = async (url: string, method: any, data: any = {}) => {
 		} else if (e.response.status === 401) {
 			let refreshAttempt = await axios({
 				url: `${backendUrl}/api/auth/refresh_token`,
-				method: 'POST',
+				method: method,
 				headers: {
 					'Content-Type': 'application/json',
 					Authorization:

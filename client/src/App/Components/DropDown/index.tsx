@@ -9,6 +9,8 @@ import {
 } from './Styles';
 import React, { useEffect, useRef, useState } from 'react';
 
+import dropdownIcon from '../../../assets/images/dropdown.png';
+
 type DropDownProps = {
 	state: string;
 	// function that takes a string input and is run on option change
@@ -134,16 +136,9 @@ const DropDownComponent: React.FC<DropDownProps> = ({
 				onClick={() => handleClick()}
 				height={height}
 			>
-				{text ? (
-					<span>{`${text ? text : ''}${capitalizeFirst(
-						state,
-					)}`}</span>
-				) : (
-					<div>
-						{children}
-						<span>{state}</span>
-					</div>
-				)}
+				{children}
+				<span>{state}</span>
+				<img src={dropdownIcon} />
 			</CurrentOption>
 			{expanded && (
 				<DropDownList
