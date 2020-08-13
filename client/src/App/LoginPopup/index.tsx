@@ -39,7 +39,6 @@ const LoginPopup = () => {
 				});
 				history.push('/members');
 			}
-
 		} catch (e) {
 			console.log(e);
 		}

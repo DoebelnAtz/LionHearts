@@ -11,7 +11,7 @@ export const MainFeedHeader = styled.div`
     width: 100%;
     display: flex;
     height: 47px;
-    border-bottom: 10px solid ${color.BG1};
+    border-bottom: 10px solid ${color.BG2};
 `;
 
 export const MainFeedContent = styled.div`

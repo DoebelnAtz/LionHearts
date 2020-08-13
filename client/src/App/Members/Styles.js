@@ -24,7 +24,7 @@ export const MemberHeaderDiv = styled.div`
 `;
 
 const MemberNavigationWidth = '220px';
-const EventFeedWidth = '240px';
+const EventFeedWidth = '250px';
 
 export const MemberNavigationDiv = styled.div`
      background-color: ${color.BG0};
@@ -32,7 +32,7 @@ export const MemberNavigationDiv = styled.div`
 `;
 
 export const EventFeedDiv = styled.div`
-     background-color: ${color.BG0};
+    background-color: ${color.BG0};
     width: ${EventFeedWidth};
 `;
 
@@ -47,5 +47,5 @@ export const MemberMainDiv = styled.div`
     width: 100%;
     height: calc(100%);
     display: flex;
-     background-color: ${color.BG1};
+     background-color: ${color.BG2};
 `;

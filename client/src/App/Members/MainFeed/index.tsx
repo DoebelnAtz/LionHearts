@@ -14,7 +14,7 @@ import MemberList from './Members';
 import Applications from './Applications';
 import { capitalizeFirst, getLocal } from '../../../Utils';
 import { useDismiss } from '../../../Hooks';
-import dropdownIcon from '../../../assets/images/dropdown.png'
+import dropdownIcon from '../../../assets/images/dropdown.png';
 
 const MainFeed: React.FC = () => {
 	const { state } = useContext(CurrentNavContext);
@@ -44,7 +44,7 @@ const MainFeed: React.FC = () => {
 							getLocal('user').user.username.length - 1,
 						),
 					)}
-					<img src={dropdownIcon}/>
+					<img src={dropdownIcon} />
 					{expandOptions && (
 						<UserOptionsMenu>
 							<UserOption onClick={handleLogout}>

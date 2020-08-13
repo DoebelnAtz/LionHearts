@@ -21,3 +21,9 @@ export interface Application {
 	submitted: string;
 	application_status: string;
 }
+
+export interface MemberEvent {
+	e_id: number;
+	title: string;
+	time: string;
+}

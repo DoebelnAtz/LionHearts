@@ -16,8 +16,7 @@ import fbIcon from '../../assets/images/facebook_icon.png';
 import ytIcon from '../../assets/images/yt_icon.png';
 import twitterIcon from '../../assets/images/twitter_icon.png';
 import linkedinIcon from '../../assets/images/linkedin_icon.png';
-import {NavBarLink} from "../NavBar/Styles";
-
+import { NavBarLink } from '../NavBar/Styles';
 
 const Footer: React.FC = () => {
 	const [isMobile] = useWidth();
@@ -26,7 +25,7 @@ const Footer: React.FC = () => {
 			<FooterContentDiv isMobile={isMobile}>
 				<LinkDiv isMobile={isMobile} id={'link'}>
 					<Logo inverse />
-					<FooterNavDiv  isMobile={isMobile} id={'footer-nav'}>
+					<FooterNavDiv isMobile={isMobile} id={'footer-nav'}>
 						<FooterNavBarLinksDiv isMobile={isMobile}>
 							<FooterNavBarLink inverse isMobile={isMobile}>
 								<Link to={`/about-us`}>ABOUT US</Link>
@@ -48,11 +47,11 @@ const Footer: React.FC = () => {
 						</FooterNavBarLinksDiv>
 					</FooterNavDiv>
 					<SoMeLinksDiv>
-						<img src={fbIcon} alt={'Lionhearts facebook'}/>
-						<img src={twitterIcon} alt={'Lionhearts Twitter'}/>
-						<img src={linkedinIcon} alt={'Lionhearts linkedIn'}/>
-						<img src={igIcon} alt={'Lionhearts Instagram'}/>
-						<img src={ytIcon} alt={'Lionhearts Youtube'}/>
+						<img src={fbIcon} alt={'Lionhearts facebook'} />
+						<img src={twitterIcon} alt={'Lionhearts Twitter'} />
+						<img src={linkedinIcon} alt={'Lionhearts linkedIn'} />
+						<img src={igIcon} alt={'Lionhearts Instagram'} />
+						<img src={ytIcon} alt={'Lionhearts Youtube'} />
 					</SoMeLinksDiv>
 				</LinkDiv>
 			</FooterContentDiv>

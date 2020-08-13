@@ -4,7 +4,7 @@ import NavLogo from './NavLogo';
 import NavItem from './NavItem';
 
 import MembersIcon from '../../../assets/images/memberlist.svg';
-import ProfileIcon from '../../../assets/images/blue_member.svg'
+import ProfileIcon from '../../../assets/images/blue_member.svg';
 import { checkAuth } from '../../../Utils';
 
 const Navigation: React.FC = () => {
@@ -12,11 +12,10 @@ const Navigation: React.FC = () => {
 		<MemberNavDiv>
 			<NavLogo />
 			<NavItem title={'Members'} path={'/members/list'}>
-				<img src={MembersIcon}/>
+				<img src={MembersIcon} />
 			</NavItem>
 			<NavItem title={'Profile'} path={'/members/profile'}>
-				<img src={ProfileIcon}/>
-
+				<img src={ProfileIcon} />
 			</NavItem>
 			{checkAuth() > 2 && (
 				<NavItem

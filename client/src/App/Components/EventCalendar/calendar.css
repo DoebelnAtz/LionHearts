@@ -1,5 +1,6 @@
 .calendar {
     border: 2px solid var(--colorprimary);
+    margin: 10px;
 }
 
 .calendar-month_header_title {

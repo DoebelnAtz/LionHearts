@@ -27,11 +27,11 @@ export const color = {
 	tertiaryShade: colorAdjust.darken('#FFE8D8', 0.2),
 	text: '#232323',
 	BG0: baseColor,
-	BG1: colorAdjust.darken(baseColor, 0.1),
-	BG2: colorAdjust.darken(baseColor, 0.2),
-	BG3: colorAdjust.darken(baseColor, 0.3),
-	BG4: colorAdjust.darken(baseColor, 0.4),
-	BG5: colorAdjust.darken(baseColor, 0.5),
+	BG1: colorAdjust.darken(baseColor, 0.05),
+	BG2: colorAdjust.darken(baseColor, 0.1),
+	BG3: colorAdjust.darken(baseColor, 0.15),
+	BG4: colorAdjust.darken(baseColor, 0.2),
+	BG5: colorAdjust.darken(baseColor, 0.25),
 	textColor: colorAdjust.lighten(baseColor, 0.15),
 };
 
