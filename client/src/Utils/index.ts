@@ -47,32 +47,47 @@ export const calculateTimeSince = (isoString: string) => {
 	//console.log(offset);
 	// @ts-ignore
 	var seconds = Math.floor((new Date() - then) / 1000); // convert to seconds..
-
 	var interval = Math.floor(seconds / 31536000);
 
+	let suffix = interval < 0 ? '' : ' ago';
+	let prefix = interval < 0 ? 'in ' : '';
+	seconds = seconds * (prefix ? -1 : 1);
+
 	if (interval > 1) {
-		return interval + (interval === 1 ? ' year' : ' years') + ' ago';
+		return (
+			prefix + interval + (interval === 1 ? ' year' : ' years') + suffix
+		);
 	}
 	interval = Math.floor(seconds / 2592000);
 	if (interval >= 1) {
-		return interval + (interval === 1 ? ' month' : 'months') + ' ago';
+		return (
+			prefix + interval + (interval === 1 ? ' month' : 'months') + suffix
+		);
 	}
 	interval = Math.floor(seconds / 86400);
 	if (interval >= 1) {
-		return interval + (interval === 1 ? ' day' : ' days') + ' ago';
+		return prefix + interval + (interval === 1 ? ' day' : ' days') + suffix;
 	}
 	interval = Math.floor(seconds / 3600);
 	if (interval >= 1) {
-		return interval + (interval === 1 ? ' hour' : ' hours') + ' ago';
+		return (
+			prefix + interval + (interval === 1 ? ' hour' : ' hours') + suffix
+		);
 	}
 	interval = Math.floor(seconds / 60);
 	if (interval >= 1) {
-		return interval + (interval === 1 ? ' minute' : ' minutes') + ' ago';
+		return (
+			prefix +
+			interval +
+			(interval === 1 ? ' minute' : ' minutes') +
+			suffix
+		);
 	}
 	return (
+		prefix +
 		Math.floor(seconds) +
 		(Math.floor(seconds) === 1 ? ' second' : ' seconds') +
-		' ago'
+		suffix
 	);
 };
 

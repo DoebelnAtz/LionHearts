@@ -25,6 +25,6 @@ export interface Application {
 export interface MemberEvent {
 	e_id: number;
 	title: string;
-	time: Date;
+	time: string;
 	status: string;
 }

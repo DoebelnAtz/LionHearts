@@ -3,6 +3,7 @@ import { MemberEvent } from '../../../../Types';
 import { EventCardResponseRow, EventCardTitle, EventCardDiv } from './Styles';
 import DropDownComponent from '../../../Components/DropDown';
 import { makeRequest } from '../../../../Api';
+import { calculateTimeSince } from '../../../../Utils';
 
 type EventCardProps = {
 	card: MemberEvent;
@@ -39,6 +40,7 @@ const EventCard: React.FC<EventCardProps> = ({ card, highlighted = false }) => {
 					height={'20px'}
 				/>
 			</EventCardResponseRow>
+			{calculateTimeSince(eventCard.time)}
 		</EventCardDiv>
 	);
 };
