@@ -24,7 +24,7 @@ export const color = {
 	secondary: '#FF684F',
 	secondaryShade: colorAdjust.darken('#FF684F', 0.2),
 	tertiary: '#FFE8D8',
-	tertiaryShade: colorAdjust.darken('#FFE8D8', 0.2),
+	tertiaryShade: colorAdjust.darken('#FFE8D8', 0.1),
 	text: '#232323',
 	BG0: baseColor,
 	BG1: colorAdjust.darken(baseColor, 0.05),

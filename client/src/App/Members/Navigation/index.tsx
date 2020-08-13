@@ -18,10 +18,9 @@ const Navigation: React.FC = () => {
 				<img src={ProfileIcon} />
 			</NavItem>
 			{checkAuth() > 2 && (
-				<NavItem
-					title={'Applications'}
-					path={'/members/applications'}
-				/>
+				<NavItem title={'Applications'} path={'/members/applications'}>
+					<img src={ProfileIcon} />
+				</NavItem>
 			)}
 		</MemberNavDiv>
 	);

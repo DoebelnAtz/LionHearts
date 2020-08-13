@@ -27,6 +27,7 @@ export const NavItemTitle = styled(Link)`
     color: ${color.primary};
     ${cursor.clickable};
     font-size: 34px;
+    letter-spacing: 1px;
     line-height: 60px;
     text-decoration: none;
 `;

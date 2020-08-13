@@ -16,7 +16,8 @@ export const MemberHomeMainDiv = styled.div`
     margin: auto;
 `;
 
-const MemberHeaderHeight = '70px';
+const MemberHeaderHeight = '90px';
+
 
 export const MemberHeaderDiv = styled.div`
      background-color: ${color.BG0};

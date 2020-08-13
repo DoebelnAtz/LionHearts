@@ -33,26 +33,6 @@ const MainFeed: React.FC = () => {
 		<MainFeedDiv>
 			<MainFeedHeader>
 				<MainFeedLocation>{state}</MainFeedLocation>
-				<UserOptionDropDown
-					ref={dropdown}
-					onClick={() => setExpandOptions(!expandOptions)}
-				>
-					Hello{' '}
-					{capitalizeFirst(
-						getLocal('user').user?.username.substr(
-							0,
-							getLocal('user').user.username.length - 1,
-						),
-					)}
-					<img src={dropdownIcon} />
-					{expandOptions && (
-						<UserOptionsMenu>
-							<UserOption onClick={handleLogout}>
-								Logout
-							</UserOption>
-						</UserOptionsMenu>
-					)}
-				</UserOptionDropDown>
 			</MainFeedHeader>
 			<MainFeedContent>
 				<Switch>

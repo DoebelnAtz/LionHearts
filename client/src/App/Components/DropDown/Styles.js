@@ -7,11 +7,11 @@ export const DropDown = styled.div`
 	position: relative;
 	${font.text};
 	font-size: 14px;
-	background-color: ${color.BG2};
+	background-color: ${color.tertiary};
 	width: ${(props) => props.width};
 	height: ${(props) => props.height};
 	&:hover {
-		background-color: ${colorAdjust.darken(color.BG2, 0.1)};
+		background-color: ${color.tertiary};
 	}
 `;
 
@@ -21,7 +21,7 @@ export const CurrentOption = styled.div`
 	font-size: calc(${props => props.height} - 4px);
 	line-height: calc(${props => props.height} + 2px);
 	border: 1px solid ${color.primary};
-	border-radius: 4px 4px ${(props) => (props.expanded ? '0 0' : '4px 4px')};
+	//border-radius: 4px 4px ${(props) => (props.expanded ? '0 0' : '4px 4px')};
 	border-bottom: ${(props) => (props.expanded ? 'none' : '')};
 	${cursor.clickable};
 	text-overflow: ellipsis;
@@ -31,7 +31,7 @@ export const CurrentOption = styled.div`
 	display: flex;
 	text-align: center;
 	& span {
-		margin: 0 auto;
+		margin: 0 auto 0 0;
 	}
 	& img {
 		margin: auto 0;
@@ -42,17 +42,15 @@ export const CurrentOption = styled.div`
 export const DropDownList = styled.div`
 	position: ${(props) => (props.modalOverflow ? 'fixed' : 'absolute')};
 	//right: -1px;
-	width: calc(${(props) => props.width} - 6px);
-	background-color: ${color.BG2};
+	width: calc(${(props) => props.width} - 2px);
+	background-color: ${color.BG0};
 	z-index: 5;
-	padding: 2px;
 	max-height: 300px;
 	overflow-y: auto;
 	overflow-x: hidden;
 	//top: calc(${(props) => `${props.height}`} - 1px);
-	border-radius: 0 0 4px 4px;
+	//border-radius: 0 0 4px 4px;
 	border: 1px solid ${color.primary};
-	border-top: none;
 `;
 
 export const SearchInput = styled.input`
@@ -63,26 +61,25 @@ export const SearchInput = styled.input`
 `;
 
 export const Option = styled.div`
-	text-align: center;
 	${font.text};
 	font-size: 15px;
 	letter-spacing: 0;
 	text-overflow: ellipsis;
 	overflow: hidden;
 	white-space: nowrap;
-	height: ${(props) => props.height};
-	width: calc(100% - 16px);
+	height: calc(${(props) => props.height} - 1px);
+	width: calc(100% - 9px);
 	line-height: ${(props) => props.height};
-	margin: 2px;
-	padding: 0 6px;
+	margin: 0 auto;
+	padding: 0 4px;
+	text-align: left;
 	background-color: ${(props) =>
 		props.highlighted
-			? colorAdjust.darken(color.BG1, 0.15)
-			: colorAdjust.darken(color.BG2, 0.2)};
-	border-radius: 4px;
+			? color.tertiary
+			: color.BG1};
 	transition: background-color 0.1s;
 	${cursor.clickable};
 	&:hover {
-		background-color: ${colorAdjust.darken(color.BG1, 0.11)};
+		background-color: ${color.tertiaryShade};
 	}
 `;
