@@ -19,10 +19,11 @@ export const getEvents = catchErrors(async (req, res) => {
 }, 'Failed to get events');
 
 export const joinEvent = catchErrors(async (req, res) => {
-	const { eventId, userId, status } = req.body;
+	const { eventId, status } = req.body;
+	const userId = req.decoded.u_id;
 	let event = await query(
 		`
-        SELECT e_id, FROM events WHERE e_id=$1
+        SELECT e_id FROM events WHERE e_id=$1
     `,
 		[eventId],
 	);
@@ -34,14 +35,14 @@ export const joinEvent = catchErrors(async (req, res) => {
 		[eventId, userId],
 	);
 
-	let client = connect();
+	const client = await connect();
 	await transaction(
 		async () => {
 			if (!previousParticipation.rows.length) {
 				query(
 					`
 	            INSERT INTO event_participants (e_id, u_id, status)
-	            VALUES($1, $2)
+	            VALUES($1, $2, $3)
 	        `,
 					[eventId, userId, status],
 				);

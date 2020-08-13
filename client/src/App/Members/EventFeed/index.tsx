@@ -1,8 +1,6 @@
 import React from 'react';
 import EventCalendar from '../../Components/EventCalendar';
 import {
-	EventCard,
-	EventCardTitle,
 	EventFeedDiv,
 	EventList,
 	EventTitleDiv,
@@ -10,20 +8,15 @@ import {
 } from './Styles';
 import { useGet } from '../../../Hooks';
 import { MemberEvent } from '../../../Types';
+import DropDownComponent from '../../Components/DropDown';
+import EventCard from './EventCard';
 
 const EventFeed: React.FC = () => {
 	const [events, setEvents] = useGet<MemberEvent[]>('/events');
 
 	const renderEvents = () => {
 		return events?.map((event) => {
-			return (
-				<EventCard>
-					<EventCardTitle>
-						{event.title}
-						{event.status}
-					</EventCardTitle>
-				</EventCard>
-			);
+			return <EventCard card={event} />;
 		});
 	};
 	return (
