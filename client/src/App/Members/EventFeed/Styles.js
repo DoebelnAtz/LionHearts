@@ -28,4 +28,5 @@ export const EventFeedDiv = styled.div`
     margin: ${units.margin};
     border-radius: ${units.radius};
     padding-bottom: ${units.margin};
+
 `;

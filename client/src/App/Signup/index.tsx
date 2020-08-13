@@ -1,9 +1,37 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, {ChangeEvent, useEffect, useState} from 'react';
 import { SignupDiv, SignupForm } from './Styles';
 import Input from '../Components/Input';
 import { makeRequest } from '../../Api';
+import queryString from "query-string";
+import {makeId} from "../../Utils";
+import {useHistory, useLocation} from "react-router";
+import {log} from "util";
 
 const Signup: React.FC = () => {
+
+
+	const history = useHistory();
+	const location = useLocation();
+
+	const applicationId: any =
+		queryString.parse(location.search)?.application;
+
+
+	const validateApplicationId = async () => {
+		try {
+
+			let resp = await makeRequest(`/applications/${applicationId}`, 'GET')
+			console.log(resp, applicationId);
+		} catch (e) {
+			console.log(e);
+
+		}
+	};
+
+	useEffect(() => {
+		validateApplicationId();
+	}, [applicationId]);
+
 	const [input, setInput] = useState({
 		email: '',
 		firstname: '',
