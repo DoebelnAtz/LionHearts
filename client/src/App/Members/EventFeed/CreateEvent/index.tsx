@@ -33,7 +33,7 @@ const CreateEvent: React.FC<CreateEventProps> = ({
 	setEvents,
 	events,
 }) => {
-	const [expanded, setExpanded] = useState(true);
+	const [expanded, setExpanded] = useState(false);
 	const [hour, setHour] = useState<string>('12');
 	const [minute, setMinute] = useState<string>('00');
 	const [title, setTitle] = useState<string>('');

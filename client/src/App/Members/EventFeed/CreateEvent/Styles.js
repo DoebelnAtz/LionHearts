@@ -25,12 +25,14 @@ export const SelectedDateDiv = styled.div`
 export const SelectedDateLabel = styled.span`
     margin: auto auto auto 0;
     ${font.RReg};
+    line-height: 14px;
     font-size: 14px;
 
 `;
 
 export const SelectedDateInfo = styled.span`
     ${font.DCBold};
+    margin: auto 0;
     color: ${color.primary};
 `;
 

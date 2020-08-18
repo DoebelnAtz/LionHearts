@@ -22,9 +22,9 @@ app.use(bodyParser.json());
 app.use('/api/auth', authRouter);
 app.use('/api/files', fileRouter);
 app.use('/', logRequests);
+app.use('/api/applications', applicationRouter);
 app.use('/api', checkToken);
 app.use('/api/token-auth', tokenAuthRouter);
-app.use('/api/applications', applicationRouter);
 app.use('/api/events', eventRouter);
 app.use('/api/test', testRouter);
 app.use(function (req, res, next) {

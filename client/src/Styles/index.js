@@ -42,13 +42,13 @@ export const units = {
 
 export const font = {
 	DCBold: css`
-		font-family: din-condensed-bold;
+		font-family: din-condensed-bold,sans-serif;
 	`,
 	VItalic: css`
-		font-family: volkhov-italic, Serif;
+		font-family: volkhov-italic, serif;
 	`,
 	RReg: css`
-		font-family: roboto-regular;
+		font-family: roboto-regular,sans-serif;
 	`,
 	RBold: css`
 		font-family: roboto-bold,sans-serif;
@@ -59,13 +59,13 @@ export const font = {
 	`,
 	text: css`
 		font-size: 20px;
-		font-family: din-condensed-bold;
+		font-family: din-condensed-bold,sans-serif;
 		letter-spacing: 0.5px;
 		color: ${color.primary};
 	`,
 	error: css`
 		font-size: 18px!important;
-		font-family: din-condensed-bold;
+		font-family: din-condensed-bold,sans-serif;
 		color: red !important;
 	`,
 	link: css`

@@ -42,7 +42,7 @@ const EventCard: React.FC<EventCardProps> = ({ card, highlighted = false }) => {
 					state={eventCard.status || 'respond'}
 					setSelect={handleEventStatusChange}
 					optionList={['going', 'maybe', 'not going']}
-					width={'100px'}
+					width={'78px'}
 					height={'20px'}
 				/>
 			</EventCardResponseRow>

@@ -1,7 +1,24 @@
 import { catchErrors } from '../errors/catchErrors';
 import fs from 'fs';
+import http from 'http';
+import url from 'url';
+import path from 'path';
 import { query } from '../postgres';
 import CustomError from '../errors/customError';
+
+const mime = {
+	html: 'text/html',
+	txt: 'text/plain',
+	css: 'text/css',
+	gif: 'image/gif',
+	jpg: 'image/jpeg',
+	png: 'image/png',
+	pdf: 'application/pdf',
+	svg: 'image/svg+xml',
+	js: 'application/javascript',
+};
+
+const fileRegX = /(?:\.([^.]+))?$/;
 
 export const getApplicationIdFiles = catchErrors(async (req, res, next) => {
 	const path = `./member-applications/${req.params.applicationId}/`;
@@ -19,10 +36,29 @@ export const getApplicationIdFiles = catchErrors(async (req, res, next) => {
 }, 'Failed to get application files');
 
 export const uploadApplicationFile = catchErrors(async (req, res, next) => {
-	const file = req.file; // file passed from client
-	//const body = req.body; // all other values passed from the client, like name, etc..
+	const file = req.file;
 	res.json(file);
 }, 'failed to upload file');
+
+export const getApplicationFile = catchErrors(async (req, res) => {
+	const application = req.query.application;
+	const file = req.query.file;
+
+	const filePath = `./member-applications/${application}/${file}`;
+	// @ts-ignore
+	let type = mime[path.extname(file).slice(1)] || 'text/plain';
+
+	let f = fs.createReadStream(filePath);
+	f.on('open', function () {
+		res.set('Content-Type', type);
+		f.pipe(res);
+	});
+	f.on('error', function () {
+		res.set('Content-Type', 'text/plain');
+		res.status(404).end('Not found');
+	});
+	console.log(filePath);
+}, 'Failed to get file');
 
 export const deleteApplicationFile = catchErrors(async (req, res, next) => {
 	const { applicationId, fileName } = req.body;
