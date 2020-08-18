@@ -13,6 +13,7 @@ import MainFeed from './MainFeed';
 import EventFeed from './EventFeed';
 import { getLocal } from '../../Utils';
 import { CurrentNavContextProvider } from '../../Context/CurrentNavContext';
+import { useAuth } from '../../Hooks';
 
 const MembersHome: React.FC = () => {
 	const history = useHistory();
@@ -23,6 +24,7 @@ const MembersHome: React.FC = () => {
 			history.push('/');
 		}
 	}, []);
+	useAuth();
 	return (
 		<CurrentNavContextProvider>
 			<MemberHomeDiv>

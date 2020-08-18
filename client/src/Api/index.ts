@@ -20,7 +20,7 @@ export const makeRequest = async (url: string, method: any, data: any = {}) => {
 						? getLocal('user').token
 						: ''),
 				'x-refresh-token': localStorage.getItem('user')
-					? getLocal('user')?.refreshToken
+					? getLocal('user').refreshToken
 					: '',
 			},
 		});
@@ -40,7 +40,7 @@ export const makeRequest = async (url: string, method: any, data: any = {}) => {
 							? getLocal('user').token
 							: ''),
 					'x-refresh-token': localStorage.getItem('user')
-						? getLocal('user')?.refreshToken
+						? getLocal('user').refreshToken
 						: '',
 				},
 			});

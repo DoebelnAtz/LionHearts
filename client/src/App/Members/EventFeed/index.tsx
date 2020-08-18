@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import EventCalendar from '../../Components/EventCalendar';
 import {
 	EventFeedDiv,
@@ -6,10 +6,12 @@ import {
 	EventTitleDiv,
 	EventTitleSpan,
 } from './Styles';
-import { useGet } from '../../../Hooks';
+import { useAuth, useGet } from '../../../Hooks';
 import { MemberEvent } from '../../../Types';
 import DropDownComponent from '../../Components/DropDown';
 import EventCard from './EventCard';
+import CreateEvent from './CreateEvent';
+import { AuthContext } from '../../../Context/AuthContext';
 
 const EventFeed: React.FC = () => {
 	const [events, setEvents] = useGet<MemberEvent[]>('/events');
@@ -17,6 +19,7 @@ const EventFeed: React.FC = () => {
 		[],
 	);
 	const [selectedDay, setSelectedDay] = useState<Date | null>(null);
+	const { state: level, update } = useContext(AuthContext);
 
 	const renderEvents = () => {
 		return events?.map((event) => {
@@ -46,7 +49,7 @@ const EventFeed: React.FC = () => {
 			);
 		setSelectedDay(value);
 	};
-
+	console.log(level);
 	return (
 		<EventFeedDiv>
 			<EventTitleDiv>
@@ -59,6 +62,7 @@ const EventFeed: React.FC = () => {
 					events && events?.map((event) => new Date(event.time))
 				}
 			/>
+			{level > 1 && <CreateEvent selectedDay={selectedDay} />}
 			<EventList>{renderEvents()}</EventList>
 		</EventFeedDiv>
 	);

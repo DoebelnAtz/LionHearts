@@ -157,16 +157,16 @@ export const cursor = {
 
 export const components = {
 	input: css`
-		border-radius: 4px;
-		padding-left: 10px;
-		background-color: ${color.BG0};
-		color: ${color.primary};
-		height: 36px;
-		font-size: 16px;
-		border: 1px solid ${color.primary};
+		${font.DCBold};
+
+		background-color: ${color.tertiary};
+			border: none;
+			caret-color: ${color.primary};
+			caret-shape: block;
+			color: ${color.primary};
+			padding: 6px;	
 		&:focus {
 			outline: none;
-			border: 1px solid ${colorAdjust.darken(color.primary, 0.2)};
 		}
 	`,
 	labeledInput: css`

@@ -41,7 +41,6 @@ export const getApplications = catchErrors(async (req, res) => {
 	`,
 		[],
 	);
-	console.log(applications.rows);
 	res.json(applications.rows);
 }, 'Failed to get applications');
 

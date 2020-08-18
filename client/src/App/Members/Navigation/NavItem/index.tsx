@@ -17,7 +17,7 @@ const NavItem: React.FC<NavItemProps> = ({ title, path, children }) => {
 	return (
 		<NavItemDiv onClick={handleNavItemClick}>
 			<NavItemIcon>{children}</NavItemIcon>
-			<NavItemTitle>{title}</NavItemTitle>
+			<NavItemTitle to={path}>{title}</NavItemTitle>
 		</NavItemDiv>
 	);
 };

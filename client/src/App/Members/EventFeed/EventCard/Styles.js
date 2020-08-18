@@ -27,20 +27,12 @@ export const EventCardResponseRow = styled.div`
     }
 `;
 
-export const EventCardButtonGoing = styled.div`
-    width: 33%;
-    ${font.RReg};
-    background-color: ${props => props.status === 'going' ? '#adff81' : '#7ec573'};
+export const EventCardTimeUntilDiv = styled.div`
+    width: 100%;
+    margin-top: 5px;
 `;
 
-export const EventCardButtonMaybe = styled.div`
-    width: 33%;
+export const EventCardTimeUntilSpan = styled.span`
     ${font.RReg};
-    background-color: ${props => props.status === 'maybe' ? '#50ff50' : '#20ff20'};
-`;
-
-export const EventCardButtonNo = styled.div`
-    width: 33%;
-    ${font.RReg};
-    background-color: ${props => props.status === 'rejected' ? '#50ff50' : '#20ff20'};
+    font-size: 14px;
 `;

@@ -20,6 +20,6 @@ authRouter.post(
 	login,
 );
 
-authRouter.post('/refresh_token', refreshToken);
+authRouter.use('/refresh_token', refreshToken);
 
 export default authRouter;

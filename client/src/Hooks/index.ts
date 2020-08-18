@@ -4,6 +4,8 @@ import { WidthContext } from '../Context/WidthContext';
 import { useHistory } from 'react-router';
 import { useLayoutEffect } from 'react';
 import { CurrentNavContext } from '../Context/CurrentNavContext';
+import { getLocal } from '../Utils';
+import { AuthContext } from '../Context/AuthContext';
 
 export const useNav = (current: string) => {
 	const { update } = useContext(CurrentNavContext);
@@ -195,3 +197,19 @@ export function useGet<F>(url: string, conditional = true) {
 	}, [url, conditional]);
 	return [data, setData, isLoading] as const;
 }
+
+export const useAuth = () => {
+	const { state, update } = useContext(AuthContext);
+	useEffect(() => {
+		async function checkAuth() {
+			try {
+				let resp = await makeRequest('/token-auth/check-auth', 'GET');
+				resp && update(resp.data.accessLevel);
+			} catch (e) {
+				console.log(e);
+				update(0);
+			}
+		}
+		checkAuth();
+	}, [getLocal('user').user?.token]);
+};

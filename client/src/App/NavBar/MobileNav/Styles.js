@@ -54,5 +54,8 @@ export const MobileNavLink = styled(animated.span)`
     &:hover {
         background-color: ${color.BG0};
         color: ${color.primary};
+        & a {
+            color: ${color.primary};
+        }
     }
 `;

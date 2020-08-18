@@ -1,9 +1,16 @@
 import React, { useState } from 'react';
 import { MemberEvent } from '../../../../Types';
-import { EventCardResponseRow, EventCardTitle, EventCardDiv } from './Styles';
+import {
+	EventCardResponseRow,
+	EventCardTitle,
+	EventCardDiv,
+	EventCardTimeUntilDiv,
+	EventCardTimeUntilSpan,
+} from './Styles';
 import DropDownComponent from '../../../Components/DropDown';
 import { makeRequest } from '../../../../Api';
 import { calculateTimeSince } from '../../../../Utils';
+import { EventTitleSpan } from '../Styles';
 
 type EventCardProps = {
 	card: MemberEvent;
@@ -39,7 +46,11 @@ const EventCard: React.FC<EventCardProps> = ({ card, highlighted = false }) => {
 					height={'20px'}
 				/>
 			</EventCardResponseRow>
-			{calculateTimeSince(eventCard.time)}
+			<EventCardTimeUntilDiv>
+				<EventCardTimeUntilSpan>
+					{calculateTimeSince(eventCard.time)}
+				</EventCardTimeUntilSpan>
+			</EventCardTimeUntilDiv>
 		</EventCardDiv>
 	);
 };

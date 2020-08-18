@@ -42,7 +42,7 @@ const NavBar = () => {
 	return (
 		<NavBarDiv>
 			<MobileNav
-				expanded={expandMenu}
+				expanded={!!(expandMenu && isMobile)}
 				setExpanded={setExpandMenu}
 				expandRef={burgerRef}
 			/>

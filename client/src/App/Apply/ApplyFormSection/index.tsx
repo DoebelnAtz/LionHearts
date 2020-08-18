@@ -24,7 +24,7 @@ const ApplyFormSection: React.FC = () => {
 	// const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
 
 	const [uploadedFiles, setUploadedFiles] = useGet<File[]>(
-		`/applications/files/${applicationId}`,
+		`/files/${applicationId}`,
 	);
 
 	const [input, setInput] = useState({
@@ -97,7 +97,7 @@ const ApplyFormSection: React.FC = () => {
 			data.append('file', selectedFile);
 			try {
 				await makeRequest(
-					`/applications/upload-file/${applicationId}`,
+					`/files/upload-file/${applicationId}`,
 					'POST',
 					data,
 				);
@@ -122,7 +122,7 @@ const ApplyFormSection: React.FC = () => {
 	const handleFileRemoval = async (e: any, fileName: string) => {
 		e.stopPropagation();
 		try {
-			await makeRequest('/applications/delete-file', 'DELETE', {
+			await makeRequest('/files/delete-file', 'DELETE', {
 				applicationId,
 				fileName,
 			});
@@ -164,7 +164,7 @@ const ApplyFormSection: React.FC = () => {
 			input.description.length
 		) {
 			try {
-				await makeRequest('/applications/create_application', 'POST', {
+				await makeRequest('/files/create_application', 'POST', {
 					applicationId: applicationId,
 					firstname: input.firstname,
 					lastname: input.lastname,

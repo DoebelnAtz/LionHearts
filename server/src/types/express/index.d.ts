@@ -3,6 +3,7 @@ declare namespace Express {
 		decoded: {
 			u_id: number;
 			username: string;
+			role: string;
 		};
 	}
 }

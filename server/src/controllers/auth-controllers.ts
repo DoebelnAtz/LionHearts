@@ -126,8 +126,31 @@ export const login = catchErrors(async (req, res, next) => {
 	});
 }, 'Failed to log in');
 
+export const checkUserAuth = catchErrors(async (req, res) => {
+	let { role } = req.decoded;
+	let accessLevel = 0;
+	switch (role) {
+		case 'superuser':
+			accessLevel = 4;
+			break;
+		case 'admin':
+			accessLevel = 3;
+			break;
+		case 'publisher':
+			accessLevel = 2;
+			break;
+		case 'member':
+			accessLevel = 1;
+			break;
+		default:
+			accessLevel = 0;
+	}
+	res.send({ role, accessLevel });
+}, 'Failed to check user role');
+
 export const refreshToken = catchErrors(async (req, res) => {
 	let refreshToken = req.headers['x-refresh-token'] as string;
+	console.log(refreshToken);
 	if (!refreshToken) {
 		throw new CustomError(
 			'Failed to refresh token',

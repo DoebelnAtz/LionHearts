@@ -3,7 +3,6 @@ import { query, connect } from '../postgres';
 import { transaction } from '../errors/transaction';
 
 export const getEvents = catchErrors(async (req, res) => {
-	console.log(req.decoded);
 	let events = await query(
 		`
         SELECT e.e_id, e.title, e.time, p.status FROM events e LEFT JOIN 
@@ -60,3 +59,29 @@ export const joinEvent = catchErrors(async (req, res) => {
 	);
 	res.status(201).json({ success: true });
 }, 'Failed to join event');
+
+export const createEvent = catchErrors(async (req, res) => {
+	const { title, time } = req.body;
+
+	const userId = req.decoded.u_id;
+
+	const client = await connect();
+	await transaction(
+		async () => {
+			query(
+				`
+	            INSERT INTO events (title, creator, time) VALUES
+	            ($1, $2, $3);
+	        `,
+				[title, userId, time],
+			);
+		},
+		client,
+		'Failed to create event',
+	);
+	res.status(201).json({
+		title,
+		creator: req.decoded.username,
+		time: time,
+	});
+}, 'Failed to create event');

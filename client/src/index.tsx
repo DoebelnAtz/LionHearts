@@ -4,13 +4,16 @@ import App from './App';
 import { BrowserRouter } from 'react-router-dom';
 import * as serviceWorker from './serviceWorker';
 import { WidthContextProvider } from './Context/WidthContext';
+import { AuthContextProvider } from './Context/AuthContext';
 
 ReactDOM.render(
 	<React.StrictMode>
 		<WidthContextProvider>
-			<BrowserRouter>
-				<App />
-			</BrowserRouter>
+			<AuthContextProvider>
+				<BrowserRouter>
+					<App />
+				</BrowserRouter>
+			</AuthContextProvider>
 		</WidthContextProvider>
 	</React.StrictMode>,
 	document.getElementById('root'),
