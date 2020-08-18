@@ -3,8 +3,10 @@ import EventCalendar from '../../Components/EventCalendar';
 import {
 	EventFeedDiv,
 	EventList,
+	EventListOptionDiv,
 	EventTitleDiv,
 	EventTitleSpan,
+	FilterOptionLabel,
 } from './Styles';
 import { useAuth, useGet } from '../../../Hooks';
 import { MemberEvent } from '../../../Types';
@@ -20,6 +22,11 @@ const EventFeed: React.FC = () => {
 	);
 	const [selectedDay, setSelectedDay] = useState<Date | null>(null);
 	const { state: level, update } = useContext(AuthContext);
+	const [eventFilter, setEventFilter] = useState('all');
+
+	const handleFilterChange = (newFilter: string) => {
+		setEventFilter(newFilter);
+	};
 
 	const renderEvents = () => {
 		return events?.map((event) => {
@@ -62,7 +69,23 @@ const EventFeed: React.FC = () => {
 					events && events?.map((event) => new Date(event.time))
 				}
 			/>
-			{level > 1 && <CreateEvent selectedDay={selectedDay} />}
+			{level > 1 && (
+				<CreateEvent
+					selectedDay={selectedDay}
+					setEvents={setEvents}
+					events={events}
+				/>
+			)}
+			<EventListOptionDiv>
+				<FilterOptionLabel>Show:</FilterOptionLabel>
+				<DropDownComponent
+					state={eventFilter}
+					setSelect={handleFilterChange}
+					optionList={['all', 'upcoming', 'past']}
+					width={'80px'}
+					height={'20px'}
+				/>
+			</EventListOptionDiv>
 			<EventList>{renderEvents()}</EventList>
 		</EventFeedDiv>
 	);

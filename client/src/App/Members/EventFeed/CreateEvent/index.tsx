@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, Dispatch, SetStateAction, useState } from 'react';
 import {
 	CreateEventButton,
 	CreateEventDiv,
@@ -16,15 +16,23 @@ import {
 	SelectedTitleLabel,
 	SelectTimeInput,
 	SubmitButton,
+	TitleResult,
 } from './Styles';
 import { useSpring } from 'react-spring';
 import { makeRequest } from '../../../../Api';
+import { MemberEvent } from '../../../../Types';
 
 type CreateEventProps = {
 	selectedDay: Date | null;
+	setEvents: Dispatch<SetStateAction<MemberEvent[] | undefined>>;
+	events: MemberEvent[] | undefined;
 };
 
-const CreateEvent: React.FC<CreateEventProps> = ({ selectedDay }) => {
+const CreateEvent: React.FC<CreateEventProps> = ({
+	selectedDay,
+	setEvents,
+	events,
+}) => {
 	const [expanded, setExpanded] = useState(true);
 	const [hour, setHour] = useState<string>('12');
 	const [minute, setMinute] = useState<string>('00');
@@ -87,13 +95,17 @@ const CreateEvent: React.FC<CreateEventProps> = ({ selectedDay }) => {
 	};
 
 	const handleEventCreation = async () => {
-		try {
-			let resp = await makeRequest('/events/create_event', 'POST', {
-				title: title,
-				time: createDate(),
-			});
-		} catch (e) {
-			console.log(e);
+		if (createDate() && title.length) {
+			try {
+				let resp = await makeRequest('/events/create_event', 'POST', {
+					title: title,
+					time: createDate(),
+				});
+				events && resp && setEvents([...events, resp.data]);
+				setExpanded(false);
+			} catch (e) {
+				console.log(e);
+			}
 		}
 	};
 
@@ -133,14 +145,15 @@ const CreateEvent: React.FC<CreateEventProps> = ({ selectedDay }) => {
 							placeholder={'title'}
 						/>
 					</SelectedTitleDiv>
-					<DateResult>{getDateResult()}</DateResult>
-					<SubmitButton
-						onClick={handleEventCreation}
-						disabled={!createDate() || !title.length}
-					>
-						Submit
-					</SubmitButton>
 				</EventCreationForm>
+				<TitleResult>{`Title: ${title}`}</TitleResult>
+				<DateResult>{`Time: ${getDateResult()}`}</DateResult>
+				<SubmitButton
+					onClick={handleEventCreation}
+					disabled={!createDate() || !title.length}
+				>
+					Submit
+				</SubmitButton>
 			</EventCreationDiv>
 			<CreateEventButton onClick={() => setExpanded(!expanded)}>
 				{expanded ? 'Close' : 'New Event'}

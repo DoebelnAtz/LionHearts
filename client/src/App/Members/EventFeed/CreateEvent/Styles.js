@@ -18,12 +18,15 @@ export const EventCreationDiv = styled(animated.div)`
 
 export const SelectedDateDiv = styled.div`
     width: 100%;
+    height: 26px;
     display: flex;
 `;
 
 export const SelectedDateLabel = styled.span`
-    margin-right: auto;
+    margin: auto auto auto 0;
     ${font.RReg};
+    font-size: 14px;
+
 `;
 
 export const SelectedDateInfo = styled.span`
@@ -34,14 +37,16 @@ export const SelectedDateInfo = styled.span`
 export const SelectedTimeDiv = styled.div`
     width: 100%;
     display: flex;
-    
+    height: 26px;
 `;
 
 
 
 export const SelectedTimeLabel = styled.span`
-    margin-right: auto;
+    margin: auto auto auto 0;
      ${font.RReg};
+     font-size: 14px;
+
 `;
 
 export const SelectedTimeInfo = styled.div`
@@ -51,17 +56,19 @@ export const SelectedTimeInfo = styled.div`
 export const SelectTimeInput = styled.input`
     ${components.input};
     width: 16px;
-    height: 14px;
+    height: 12px;
 `;
 
 export const SelectedTitleDiv = styled.div`
     width: 100%;
     display: flex;
+    height: 26px;
 `;
 
 export const SelectedTitleLabel = styled.span`
-    margin-right: auto;
+    margin: auto auto auto 0;
      ${font.RReg};
+     font-size: 14px;
 `;
 
 export const SelectedTitleInfo = styled.input`
@@ -78,19 +85,32 @@ export const EventCreationForm = styled.div`
     height: 100%;
     overflow-y: hidden;
     &>div {
-        margin: 10px 0;
+        margin: 5px 0;
 
     }
 `;
 
 export const DateResult = styled.div`
-    margin-top: auto!important;
-    width: 100%;
+    width: calc(100% - ${units.margin} * 2);
+    font-size: 18px;
+    margin: 0 auto;
+    color: ${color.primary};
+
+`;
+
+export const TitleResult = styled.div`
+    margin: auto auto 5px auto!important;
+    padding: 10px 0 0 ${units.margin};
+    width: calc(100% - ${units.margin});
+    font-size: 18px;
+
+    border-top: 1px solid ${color.BG2};
+    color: ${color.primary};
 `;
 
 export const SubmitButton = styled.button`
     ${components.buttonWhite};
-    width: 100%;
+    width: calc(100% - ${units.margin} * 2);
     margin: 5px auto;
 `;
 
