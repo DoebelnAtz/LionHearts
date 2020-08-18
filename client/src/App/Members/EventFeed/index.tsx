@@ -16,16 +16,35 @@ import CreateEvent from './CreateEvent';
 import { AuthContext } from '../../../Context/AuthContext';
 
 const EventFeed: React.FC = () => {
-	const [events, setEvents] = useGet<MemberEvent[]>('/events');
+	const [eventFilter, setEventFilter] = useState('all');
+
+	const [events, setEvents] = useGet<MemberEvent[]>(
+		`/events?filter=${eventFilter}`,
+	);
 	const [highlightedEvents, setHighlightedEvents] = useState<MemberEvent[]>(
 		[],
 	);
 	const [selectedDay, setSelectedDay] = useState<Date | null>(null);
 	const { state: level, update } = useContext(AuthContext);
-	const [eventFilter, setEventFilter] = useState('all');
 
 	const handleFilterChange = (newFilter: string) => {
 		setEventFilter(newFilter);
+		// switch (eventFilter) {
+		// 	case 'upcoming':
+		// 		events &&
+		// 			setEvents(
+		// 				events?.filter((e) => new Date(e.time) < new Date()),
+		// 			);
+		// 		break;
+		// 	case 'past':
+		// 		events &&
+		// 			setEvents(
+		// 				events?.filter((e) => new Date(e.time) > new Date()),
+		// 			);
+		// 		break;
+		// 	default:
+		// 		break;
+		// }
 	};
 
 	const renderEvents = () => {

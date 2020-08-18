@@ -3,16 +3,46 @@ import { query, connect } from '../postgres';
 import { transaction } from '../errors/transaction';
 
 export const getEvents = catchErrors(async (req, res) => {
-	let events = await query(
-		`
-        SELECT e.e_id, e.title, e.time, p.status FROM events e LEFT JOIN 
-        (
-        SELECT e_id, u_id, status 
-        FROM event_participants WHERE u_id = $1
-        ) p ON p.e_id = e.e_id
-    `,
-		[req.decoded.u_id],
-	);
+	let filter = req.query.filter;
+	let events;
+	switch (filter) {
+		case 'upcoming':
+			events = await query(
+				`
+			SELECT e.e_id, e.title, e.time, p.status FROM events e LEFT JOIN 
+			(
+			SELECT e_id, u_id, status 
+			FROM event_participants WHERE u_id = $1
+			) p ON p.e_id = e.e_id WHERE e.time > NOW()
+			`,
+				[req.decoded.u_id],
+			);
+			break;
+		case 'past':
+			events = await query(
+				`
+			SELECT e.e_id, e.title, e.time, p.status FROM events e LEFT JOIN 
+			(
+			SELECT e_id, u_id, status 
+			FROM event_participants WHERE u_id = $1
+			) p ON p.e_id = e.e_id WHERE e.time < NOW()
+			`,
+				[req.decoded.u_id],
+			);
+			break;
+		default:
+			events = await query(
+				`
+			SELECT e.e_id, e.title, e.time, p.status FROM events e LEFT JOIN 
+			(
+			SELECT e_id, u_id, status 
+			FROM event_participants WHERE u_id = $1
+			) p ON p.e_id = e.e_id
+			`,
+				[req.decoded.u_id],
+			);
+			break;
+	}
 
 	res.json(events.rows);
 }, 'Failed to get events');
