@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import {color, units, font} from "../../../../Styles";
+import {color, units, font, cursor} from "../../../../Styles";
 
 export const MemberListDiv = styled.div`
     width: 100%;
@@ -23,6 +23,11 @@ export const MemberListCard = styled.div`
     display: flex;
     flex-direction: column;
     border: 2px solid ${color.tertiary};
+    ${cursor.clickable};
+    &:hover {
+        background-color: ${color.BG1};
+        transition: background-color 0.1s;
+    }
 `;
 
 export const MemberCardContent = styled.div`

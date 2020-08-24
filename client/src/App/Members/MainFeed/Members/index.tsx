@@ -1,6 +1,7 @@
 import React from 'react';
 import { useGet, useNav } from '../../../../Hooks';
 import { Profile } from '../../../../Types';
+import { useHistory } from 'react-router-dom';
 import {
 	MemberCardContent,
 	MemberCardName,
@@ -15,13 +16,21 @@ import ProfilePic from '../../../Components/ProfilePic';
 const MemberList: React.FC = () => {
 	useNav('Members');
 	const [members, setMembers] = useGet<Profile[]>('/profiles/');
+	const history = useHistory();
+
+	const handleMemberClick = (uid: number) => {
+		history.push(`/members/profile/${uid}`);
+	};
 
 	const renderMembers = () => {
 		return (
 			members &&
 			members.map((member) => {
 				return (
-					<MemberListCard>
+					<MemberListCard
+						onClick={() => handleMemberClick(member.u_id)}
+						key={member.u_id}
+					>
 						<MemberCardPic>
 							<ProfilePic src={member.profile_pic} />
 						</MemberCardPic>

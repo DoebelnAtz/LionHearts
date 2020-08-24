@@ -1,15 +1,13 @@
 import axios from 'axios';
 import { getLocal, setLocal } from '../Utils';
-
-//const backendUrl = 'https://lionhearts.fi';
-const backendUrl = 'http://localhost:5000';
+import config from '../config.json';
 
 export const makeRequest = async (url: string, method: any, data: any = {}) => {
 	let resp;
 
 	try {
 		resp = await axios({
-			url: `${backendUrl}/api${url}`,
+			url: `${config.url}/api${url}`,
 			method: method,
 			data: data,
 			headers: {
@@ -30,7 +28,7 @@ export const makeRequest = async (url: string, method: any, data: any = {}) => {
 			//window.location.replace('/505');
 		} else if (e.response.status === 401) {
 			let refreshAttempt = await axios({
-				url: `${backendUrl}/api/auth/refresh_token`,
+				url: `${config.url}/api/auth/refresh_token`,
 				method: method,
 				headers: {
 					'Content-Type': 'application/json',

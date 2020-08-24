@@ -1,9 +1,11 @@
 import React from 'react';
 import { useGet, useNav } from '../../../../Hooks';
+import { useHistory } from 'react-router-dom';
 import { Application } from '../../../../Types';
 import {
 	ApplicantName,
 	ApplicantStatus,
+	ApplicationCard,
 	ApplicationDiv,
 	ApplicationInfoLabel,
 	ApplicationInfoName,
@@ -14,10 +16,14 @@ import { calculateTimeSince } from '../../../../Utils';
 
 const Applications: React.FC = () => {
 	useNav('Applications');
-
+	const history = useHistory();
 	const [applications, setApplications] = useGet<Application[]>(
 		'/applications',
 	);
+
+	const handleApplicationClick = (aid: number) => {
+		history.push(`/members/applications/${aid}`);
+	};
 
 	const getApplicationStatusColor = (applicationStatus: string) => {
 		switch (applicationStatus) {
@@ -35,7 +41,10 @@ const Applications: React.FC = () => {
 			applications &&
 			applications.map((application) => {
 				return (
-					<ApplicationDiv key={application.a_id}>
+					<ApplicationCard
+						key={application.a_id}
+						onClick={() => handleApplicationClick(application.a_id)}
+					>
 						<ApplicationInfoName>
 							<ApplicationInfoLabel>Name:</ApplicationInfoLabel>
 							<ApplicantName>
@@ -60,13 +69,13 @@ const Applications: React.FC = () => {
 								{`${application.application_status}`}
 							</ApplicantStatus>
 						</ApplicationInfoStatus>
-					</ApplicationDiv>
+					</ApplicationCard>
 				);
 			})
 		);
 	};
 
-	return <div>{renderApplications()}</div>;
+	return <ApplicationDiv>{renderApplications()}</ApplicationDiv>;
 };
 
 export default Applications;

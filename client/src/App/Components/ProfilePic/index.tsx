@@ -1,10 +1,10 @@
 import React from 'react';
 import { ProfilePicture } from './Styles';
-
+import { url } from '../../../config.json';
 const ProfilePic: React.FC<{ src: string }> = ({ src }) => {
 	return (
 		<ProfilePicture
-			src={`http://localhost:5000/api/files/profile_picture?fileName=${src}`}
+			src={`${url}/api/files/profile_picture?fileName=${src}`}
 		/>
 	);
 };

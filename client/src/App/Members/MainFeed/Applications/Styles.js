@@ -2,11 +2,16 @@ import styled from "styled-components";
 import {color, colorAdjust, cursor, font, units} from "../../../../Styles";
 
 export const ApplicationDiv = styled.div`
+    width: 100%;
+`;
+
+export const ApplicationCard = styled.div`
     width: calc(100% - ${units.margin} * 2);
-    border-bottom: 2px solid ${color.BG1};
-    padding: ${units.margin};
     height: 50px;
+    margin: 5px auto;
+    padding: 5px;
     display: flex;
+    border: 2px solid ${color.tertiary};
     ${cursor.clickable};
     &:hover {
         transition: background-color 0.1s;

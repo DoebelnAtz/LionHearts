@@ -32,7 +32,6 @@ export const color = {
 	BG3: colorAdjust.darken(baseColor, 0.15),
 	BG4: colorAdjust.darken(baseColor, 0.2),
 	BG5: colorAdjust.darken(baseColor, 0.25),
-	textColor: colorAdjust.lighten(baseColor, 0.15),
 };
 
 export const units = {

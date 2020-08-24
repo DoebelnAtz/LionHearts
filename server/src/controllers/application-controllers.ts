@@ -35,6 +35,20 @@ export const getApplicationIdFiles = catchErrors(async (req, res, next) => {
 	res.json(files);
 }, 'Failed to get application files');
 
+export const getApplicationById = catchErrors(async (req, res) => {
+	const aid = req.params.aid;
+
+	let application = await query(
+		`
+		SELECT application_id, email, description, a_id, firstname, lastname
+		FROM applications WHERE a_id = $1
+	`,
+		[aid],
+	);
+
+	res.json(application.rows[0]);
+}, 'Failed to get application by id');
+
 export const uploadApplicationFile = catchErrors(async (req, res, next) => {
 	const file = req.file;
 	res.json(file);
@@ -43,7 +57,6 @@ export const uploadApplicationFile = catchErrors(async (req, res, next) => {
 export const getApplicationFile = catchErrors(async (req, res) => {
 	const application = req.query.application;
 	const file = req.query.file;
-
 	const filePath = `./member-applications/${application}/${file}`;
 	// @ts-ignore
 	let type = mime[path.extname(file).slice(1)] || 'text/plain';

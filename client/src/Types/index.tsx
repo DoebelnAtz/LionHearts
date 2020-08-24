@@ -16,8 +16,11 @@ export function createCtx<A>(defaultValue: A) {
 
 export interface Application {
 	a_id: number;
+	application_id: string;
 	firstname: string;
 	lastname: string;
+	description: string;
+	email: string;
 	submitted: string;
 	application_status: string;
 }
