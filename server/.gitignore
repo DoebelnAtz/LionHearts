@@ -1,5 +1,7 @@
 /node_modules/
 /logs/
 .env
-/member-applications/*
-/profile-pictures/*
+!/member-applications/
+/member-applications/**
+!/profile-pictures/
+/profile-pictures/**

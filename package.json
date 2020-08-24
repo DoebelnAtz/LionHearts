@@ -1,0 +1,24 @@
+{
+  "name": "lionhearts",
+  "version": "1.0.0",
+  "description": "Lionhearts app",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "cd client && npm start",
+    "server": "cd server && npm start",
+    "dev": "concurrently \"npm start\" \"npm run server\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DoebelnAtz/LionHearts.git"
+  },
+  "author": "doebelnatz",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DoebelnAtz/LionHearts/issues"
+  },
+  "homepage": "https://github.com/DoebelnAtz/LionHearts#readme",
+  "devDependencies": {
+    "concurrently": "^5.3.0"
+  }
+}
