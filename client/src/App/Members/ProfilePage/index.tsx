@@ -16,6 +16,7 @@ import {
 	ProfilePageContactDiv,
 	ProfilePageContent,
 	ProfilePageDiv,
+	ProfilePageEditButtons,
 	ProfilePageInfo,
 	ProfilePageName,
 	ProfilePageNameDiv,
@@ -23,7 +24,10 @@ import {
 	ProfilePictureDiv,
 } from './Styles';
 import CogWheel from '../../../assets/images/cogwheel_blue.png';
+import CheckMark from '../../../assets/images/check.png';
+import CloseIcon from '../../../assets/images/close.png';
 import { checkUser } from '../../../Utils';
+import { makeRequest } from '../../../Api';
 
 const ProfilePage: React.FC = () => {
 	const params = useParams<{ uid: string }>();
@@ -50,6 +54,20 @@ const ProfilePage: React.FC = () => {
 		}
 	};
 
+	const handleChangeSave = async () => {
+		try {
+			profile &&
+				(await makeRequest(`/profiles/update_profile`, 'PUT', {
+					email: profile.email,
+					bio: profile.bio,
+					phone: profile.phone,
+				}));
+			setEditing(false);
+		} catch (e) {
+			console.log(e);
+		}
+	};
+
 	return (
 		<ProfilePageDiv>
 			<ProfilePageInfo>
@@ -70,11 +88,25 @@ const ProfilePage: React.FC = () => {
 						<Location>Living in Helsinki</Location>
 					</OccupationInfoDiv>
 				</ProfilePageNameDiv>
-				{profile && checkUser(profile?.u_id) && (
-					<EditProfileButton
-						onClick={() => setEditing(!editing)}
-						url={CogWheel}
-					/>
+				{profile && checkUser(profile?.u_id) && !editing ? (
+					<ProfilePageEditButtons>
+						<EditProfileButton
+							onClick={() => setEditing(!editing)}
+							url={CogWheel}
+						/>
+					</ProfilePageEditButtons>
+				) : (
+					<ProfilePageEditButtons>
+						<EditProfileButton
+							onClick={() => handleChangeSave()}
+							url={CheckMark}
+						/>
+
+						<EditProfileButton
+							onClick={() => setEditing(false)}
+							url={CloseIcon}
+						/>
+					</ProfilePageEditButtons>
 				)}
 			</ProfilePageInfo>
 			<ProfilePageContent>

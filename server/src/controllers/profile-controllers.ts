@@ -3,8 +3,9 @@ import fs from 'fs';
 import http from 'http';
 import url from 'url';
 import path from 'path';
-import { query } from '../postgres';
+import { connect, query } from '../postgres';
 import CustomError from '../errors/customError';
+import { transaction } from '../errors/transaction';
 
 const mime = {
 	html: 'text/html',
@@ -50,6 +51,26 @@ export const getProfileById = catchErrors(async (req, res) => {
 
 	res.json(profile.rows[0]);
 }, 'Failed to get profile');
+
+export const updateProfile = catchErrors(async (req, res) => {
+	const userId = req.decoded.u_id;
+	const { phone, email, bio } = req.body;
+
+	const client = await connect();
+	await transaction(
+		async () => {
+			query(
+				`
+	            UPDATE users SET email=$1, phone=$2, bio=$3 WHERE u_id = $4
+	        `,
+				[email, phone, bio, userId],
+			);
+		},
+		client,
+		'Failed to update profile',
+	);
+	res.status(201).json({ success: true });
+}, 'Failed to update profile');
 
 export const getProfiles = catchErrors(async (req, res) => {
 	let profiles = await query(`

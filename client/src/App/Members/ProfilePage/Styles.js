@@ -12,15 +12,26 @@ export const ProfilePageInfo = styled.div`
     padding: 5%;
 `;
 
+export const ProfilePageEditButtons = styled.div`
+    margin-left: auto;
+    display: flex;
+`;
+
+
 export const EditProfileButton = styled.div`
     background-image: url("${props => props.url}");
     height: 20px;
     z-index: 3;
+    
     background-position: center;
     background-size: contain;
     width: 20px;
+    border-bottom: 2px solid ${color.tertiary};
     ${cursor.clickable};
-    margin-left: auto;
+    &:hover {
+        border-bottom: 2px solid ${color.secondary};
+        transition: border-bottom-color 0.1s;
+    }
 `;
 
 
@@ -88,7 +99,6 @@ export const ContactInfo = styled.input`
     font-size: 14px;
     border: ${props => props.disabled ? 'none' : `1px solid ${color.primary}`};
     background-color: ${props => props.disabled ? 'none' : `${color.tertiary}`};
-
 `;
 
 export const ProfilePageContent = styled.div`
