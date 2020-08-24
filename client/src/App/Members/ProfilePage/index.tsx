@@ -21,12 +21,12 @@ import {
 	ProfilePicture,
 	ProfilePictureDiv,
 } from './Styles';
-
+import { checkUser } from '../../../Utils';
 const ProfilePage: React.FC = () => {
 	const params = useParams<{ uid: string }>();
 
 	const [profile, setProfile] = useGet<Profile>(`/profiles/${params.uid}`);
-
+	//console.log(profile && checkUser(profile?.u_id));
 	return (
 		<ProfilePageDiv>
 			<ProfilePageInfo>

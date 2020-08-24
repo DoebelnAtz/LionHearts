@@ -14,6 +14,15 @@ export const getLocal = (item: string) => {
 	}
 };
 
+export const checkUser = (uid: number) => {
+	try {
+		let userId = getLocal('user').user.u_id;
+		return uid === userId;
+	} catch (e) {
+		return false;
+	}
+};
+
 export const checkAuth = () => {
 	try {
 		let user: any = '';

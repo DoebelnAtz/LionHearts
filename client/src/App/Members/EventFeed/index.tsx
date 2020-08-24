@@ -75,7 +75,6 @@ const EventFeed: React.FC = () => {
 			);
 		setSelectedDay(value);
 	};
-	console.log(level);
 	return (
 		<EventFeedDiv>
 			<EventTitleDiv>
