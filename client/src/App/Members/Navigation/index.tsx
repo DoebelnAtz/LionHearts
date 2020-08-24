@@ -5,7 +5,7 @@ import NavItem from './NavItem';
 
 import MembersIcon from '../../../assets/images/memberlist.svg';
 import ProfileIcon from '../../../assets/images/blue_member.svg';
-import { checkAuth } from '../../../Utils';
+import { checkAuth, getLocal } from '../../../Utils';
 
 const Navigation: React.FC = () => {
 	return (
@@ -14,7 +14,10 @@ const Navigation: React.FC = () => {
 			<NavItem title={'Members'} path={'/members/list'}>
 				<img src={MembersIcon} />
 			</NavItem>
-			<NavItem title={'Profile'} path={'/members/profile'}>
+			<NavItem
+				title={'Profile'}
+				path={`/members/profile/${getLocal('user').user.u_id}`}
+			>
 				<img src={ProfileIcon} />
 			</NavItem>
 			{checkAuth() > 2 && (

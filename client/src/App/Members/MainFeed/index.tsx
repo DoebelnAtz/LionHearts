@@ -15,6 +15,7 @@ import Applications from './Applications';
 import { capitalizeFirst, getLocal } from '../../../Utils';
 import { useDismiss } from '../../../Hooks';
 import dropdownIcon from '../../../assets/images/dropdown.png';
+import ProfilePage from '../ProfilePage';
 
 const MainFeed: React.FC = () => {
 	const { state } = useContext(CurrentNavContext);
@@ -41,6 +42,9 @@ const MainFeed: React.FC = () => {
 					</Route>
 					<Route exact path={'/members/applications'}>
 						<Applications />
+					</Route>
+					<Route exact path={'/members/profile/:uid'}>
+						<ProfilePage />
 					</Route>
 				</Switch>
 			</MainFeedContent>

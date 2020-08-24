@@ -9,6 +9,7 @@ import {
 	getApplicationIdFiles,
 	uploadApplicationFile,
 } from '../controllers/application-controllers';
+import { getProfilePicture } from '../controllers/profile-controllers';
 
 const fileRouter = express.Router();
 
@@ -38,6 +39,8 @@ fileRouter.delete(
 	[check('applicationId').not().isEmpty(), check('fileName').not().isEmpty()],
 	deleteApplicationFile,
 );
+
+fileRouter.get('/profile_picture', getProfilePicture);
 
 fileRouter.get('/:applicationId', getApplicationIdFiles);
 

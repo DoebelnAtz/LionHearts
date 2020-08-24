@@ -1,4 +1,5 @@
 /node_modules/
 /logs/
 .env
-/member-applications/
+/member-applications/*
+/profile-pictures/*

@@ -22,6 +22,15 @@ export interface Application {
 	application_status: string;
 }
 
+export interface Profile {
+	u_id: number;
+	firstname: string;
+	lastname: string;
+	email: string;
+	profile_pic: string;
+	bio: string;
+}
+
 export interface MemberEvent {
 	e_id: number;
 	title: string;
