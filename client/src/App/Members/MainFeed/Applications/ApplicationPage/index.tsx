@@ -73,11 +73,34 @@ const ApplicationPage: React.FC = () => {
 		<ApplicationPageDiv>
 			<ApplicantInfoDiv inline>
 				<ApplicantInfoLabel>Name:</ApplicantInfoLabel>
-				<ApplicantInfo>{`${application?.firstname} ${application?.lastname}`}</ApplicantInfo>
+				<ApplicantInfo>
+					{application &&
+						`${application?.firstname} ${application?.lastname}`}
+				</ApplicantInfo>
 			</ApplicantInfoDiv>
 			<ApplicantInfoDiv inline>
 				<ApplicantInfoLabel>Email:</ApplicantInfoLabel>
-				<ApplicantInfo>{`${application?.email}`}</ApplicantInfo>
+				<ApplicantInfo>
+					{application && application.email}
+				</ApplicantInfo>
+			</ApplicantInfoDiv>
+			<ApplicantInfoDiv inline>
+				<ApplicantInfoLabel>Submitted:</ApplicantInfoLabel>
+				<ApplicantInfo>
+					{application &&
+						new Date(application.submitted).toLocaleString(
+							'en-GB',
+							{
+								timeZone: 'UTC',
+							},
+						)}
+				</ApplicantInfo>
+			</ApplicantInfoDiv>
+			<ApplicantInfoDiv inline>
+				<ApplicantInfoLabel>Status:</ApplicantInfoLabel>
+				<ApplicantInfo>
+					{application && application.application_status}
+				</ApplicantInfo>
 			</ApplicantInfoDiv>
 			<ApplicantInfoDiv>
 				<ApplicantInfoLabel>Description:</ApplicantInfoLabel>

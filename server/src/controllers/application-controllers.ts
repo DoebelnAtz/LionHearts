@@ -1,7 +1,5 @@
 import { catchErrors } from '../errors/catchErrors';
 import fs from 'fs';
-import http from 'http';
-import url from 'url';
 import path from 'path';
 import { query } from '../postgres';
 import CustomError from '../errors/customError';
@@ -17,8 +15,6 @@ const mime = {
 	svg: 'image/svg+xml',
 	js: 'application/javascript',
 };
-
-const fileRegX = /(?:\.([^.]+))?$/;
 
 export const getApplicationIdFiles = catchErrors(async (req, res, next) => {
 	const path = `./member-applications/${req.params.applicationId}/`;
@@ -40,7 +36,7 @@ export const getApplicationById = catchErrors(async (req, res) => {
 
 	let application = await query(
 		`
-		SELECT application_id, email, description, a_id, firstname, lastname
+		SELECT application_id, email, description, a_id, firstname, lastname, submitted, application_status
 		FROM applications WHERE a_id = $1
 	`,
 		[aid],

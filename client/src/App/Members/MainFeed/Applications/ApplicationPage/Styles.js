@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import {font, color, units} from "../../../../../Styles";
+import {font, color, units, cursor} from "../../../../../Styles";
 
 export const ApplicationPageDiv = styled.div`
     height: 100%;
@@ -38,7 +38,10 @@ export const ApplicantName = styled.span`
     
 `;
 
-export const ApplicantFiles = styled.a`
+export const ApplicantFiles = styled.span`
     ${font.RReg};
-    text-decoration: none;
+    ${cursor.clickable};
+    &:hover {
+      color: ${color.primary};
+    }
 `;
