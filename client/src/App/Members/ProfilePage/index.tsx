@@ -20,7 +20,6 @@ import {
 	ProfilePageInfo,
 	ProfilePageName,
 	ProfilePageNameDiv,
-	ProfilePicture,
 	ProfilePictureDiv,
 } from './Styles';
 import CogWheel from '../../../assets/images/cogwheel_blue.png';
@@ -30,11 +29,15 @@ import { checkUser } from '../../../Utils';
 import { makeRequest } from '../../../Api';
 import TextEditor from '../../Components/TextEditor';
 import ProfilePic from '../../Components/ProfilePic';
+import DropDownComponent from '../../Components/DropDown';
 
 const ProfilePage: React.FC = () => {
 	const params = useParams<{ uid: string }>();
-	const [editing, setEditing] = useState(false);
+	const [editing, setEditing] = useState(true);
 	const [profile, setProfile] = useGet<Profile>(`/profiles/${params.uid}`);
+	const [locations, setLocations] = useGet<{ name: string; l_id: number }[]>(
+		'/profiles/locations',
+	);
 
 	const handleEmailChange = (e: ChangeEvent) => {
 		let target = e.target as HTMLInputElement;
@@ -79,6 +82,15 @@ const ProfilePage: React.FC = () => {
 		}
 	};
 
+	const handleLocationChange = (newLocation: string) => {
+		if (profile) {
+			setProfile({
+				...profile,
+				location: newLocation,
+			});
+		}
+	};
+
 	return (
 		<ProfilePageDiv>
 			<ProfilePageInfo>
@@ -94,7 +106,26 @@ const ProfilePage: React.FC = () => {
 					</ProfilePageName>
 					<OccupationInfoDiv>
 						<PlaceOfStudy>Student at Hive Helsinki</PlaceOfStudy>
-						<Location>Living in Helsinki</Location>
+						<Location>
+							Living in{' '}
+							{profile && editing ? (
+								<DropDownComponent
+									state={profile.location}
+									setSelect={(newLoc) =>
+										handleLocationChange(newLoc)
+									}
+									optionList={
+										locations
+											? locations.map((loc) => loc.name)
+											: []
+									}
+									width={'100px'}
+									height={'22px'}
+								/>
+							) : (
+								profile?.location
+							)}
+						</Location>
 					</OccupationInfoDiv>
 				</ProfilePageNameDiv>
 				{profile && checkUser(profile?.u_id) && !editing ? (

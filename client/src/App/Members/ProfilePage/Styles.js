@@ -38,7 +38,7 @@ export const EditProfileButton = styled.div`
 export const ProfilePageNameDiv = styled.div`
     display: flex;
     flex-direction: column;
-    margin: auto ${units.margin};
+    margin: auto 0 auto 3vw;
 `;
 
 export const ProfilePageName = styled.span`
@@ -63,10 +63,13 @@ export const PlaceOfStudy = styled.span`
     text-transform: uppercase;
 `;
 
-export const Location = styled.span`
+export const Location = styled.div`
     ${font.DCBold};
     font-size: 18px;
+    line-height: 28px;
     color: ${color.primary};
+    display: flex;
+    
     text-transform: uppercase;
 `;
 
@@ -107,7 +110,7 @@ export const ProfilePageContent = styled.div`
 `;
 
 export const ProfilePageBioDiv = styled.div`
-    margin-left: calc(2vw + ${units.margin});
+    margin-left: 3vw;
     width: 100%;
 `;
 
@@ -123,16 +126,7 @@ export const ProfilePageBio = styled.p`
 `;
 
 export const ProfilePictureDiv = styled.div`
-    height: 100%;
-    width: 16vw;
-`;
-
-export const ProfilePicture = styled.div`
-    background-image: url("${props => props.url}");
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
-    height: 16vw;
-    border-radius: 8vw;
-    width: 16vw;
+    height: min(16vw, 200px);
+    display: flex;
+    width: min(16vw, 200px);
 `;

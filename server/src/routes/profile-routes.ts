@@ -1,5 +1,6 @@
 import express from 'express';
 import {
+	getLocations,
 	getProfileById,
 	getProfiles,
 	updateProfile,
@@ -9,6 +10,8 @@ import { check } from 'express-validator';
 const profileRouter = express.Router();
 
 profileRouter.get('/', getProfiles);
+
+profileRouter.get('/locations', getLocations);
 
 profileRouter.get('/:uid', getProfileById);
 

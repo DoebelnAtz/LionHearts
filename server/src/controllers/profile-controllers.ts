@@ -43,8 +43,10 @@ export const getProfileById = catchErrors(async (req, res) => {
 
 	let profile = await query(
 		`
-        SELECT username, firstname, lastname, phone,
-        email, profile_pic, bio, u_id FROM users WHERE u_id = $1
+        SELECT u.username, u.firstname, u.lastname, u.phone,
+        u.email, u.profile_pic, u.bio, u.u_id, l.name AS location FROM users u JOIN locations l
+        ON u.location = l.l_id
+        WHERE u_id = $1
     `,
 		[userId],
 	);
@@ -80,3 +82,11 @@ export const getProfiles = catchErrors(async (req, res) => {
 
 	res.json(profiles.rows);
 }, 'Failed to get profiles');
+
+export const getLocations = catchErrors(async (req, res) => {
+	let locations = await query(`
+		SELECT name, l_id FROM locations
+	`);
+
+	res.json(locations.rows);
+}, 'Failed to get locations');

@@ -5,7 +5,8 @@ import {colorAdjust, components, cursor, font, color, units} from "../../../Styl
 
 export const DropDown = styled.div`
 	position: relative;
-	${font.text};
+	${font.RBold};
+	color: ${color.primary};
 	font-size: 14px;
 	background-color: ${color.tertiary};
 	width: ${(props) => props.width};
@@ -18,8 +19,7 @@ export const DropDown = styled.div`
 export const CurrentOption = styled.div`
 	padding: 0 5px;
 	height: ${props => props.height};
-	font-size: calc(${props => props.height} - 4px);
-	line-height: calc(${props => props.height} + 3px);
+	font-size: calc(${props => props.height} - 6px);
 	border: 1px solid ${color.primary};
 	//border-radius: 4px 4px ${(props) => (props.expanded ? '0 0' : '4px 4px')};
 	border-bottom: ${(props) => (props.expanded ? 'none' : '')};
@@ -27,15 +27,16 @@ export const CurrentOption = styled.div`
 	text-overflow: ellipsis;
 	overflow: hidden;
 	white-space: nowrap;
-	vertical-align: middle;
 	display: flex;
 	text-align: center;
 	& span {
-		margin: 0 auto 0 0;
+		vertical-align: middle;
+		line-height: ${props => props.height};
+		margin: auto 0;
 	}
 	& img {
-		margin: auto 0;
-		height: calc(${props => props.height} - 14px);
+		margin: auto 0 auto auto;
+		height: calc(6px + ${props => props.height} * 0.1);
 	}
 `;
 

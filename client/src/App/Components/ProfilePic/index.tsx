@@ -1,16 +1,17 @@
 import React from 'react';
 import { ProfilePicture } from './Styles';
 import { url } from '../../../config.json';
-const ProfilePic: React.FC<{ src: string }> = ({ src }) => {
-	if (src) {
-		return (
-			<ProfilePicture
-				src={`${url}/api/files/profile_picture?fileName=${src}`}
-			/>
-		);
-	} else {
-		return <div></div>;
-	}
+import ProfilePlaceHolder from '../../../assets/images/profile_placeholder.png';
+const ProfilePic: React.FC<{ src: string | undefined }> = ({ src }) => {
+	return (
+		<ProfilePicture
+			src={
+				src
+					? `${url}/api/files/profile_picture?fileName=${src}`
+					: ProfilePlaceHolder
+			}
+		/>
+	);
 };
 
 export default ProfilePic;

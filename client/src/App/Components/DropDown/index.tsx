@@ -138,7 +138,7 @@ const DropDownComponent: React.FC<DropDownProps> = ({
 			>
 				{children}
 				<span>{state}</span>
-				<img src={dropdownIcon} />
+				<img src={dropdownIcon} alt={'v'} />
 			</CurrentOption>
 			{expanded && (
 				<DropDownList

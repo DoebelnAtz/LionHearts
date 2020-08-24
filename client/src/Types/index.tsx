@@ -27,6 +27,7 @@ export interface Application {
 
 export interface Profile {
 	u_id: number;
+	location: string;
 	phone: string;
 	firstname: string;
 	lastname: string;
