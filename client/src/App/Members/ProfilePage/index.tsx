@@ -29,6 +29,7 @@ import CloseIcon from '../../../assets/images/close.png';
 import { checkUser } from '../../../Utils';
 import { makeRequest } from '../../../Api';
 import TextEditor from '../../Components/TextEditor';
+import ProfilePic from '../../Components/ProfilePic';
 
 const ProfilePage: React.FC = () => {
 	const params = useParams<{ uid: string }>();
@@ -82,9 +83,7 @@ const ProfilePage: React.FC = () => {
 		<ProfilePageDiv>
 			<ProfilePageInfo>
 				<ProfilePictureDiv>
-					<ProfilePicture
-						url={`http://localhost:5000/api/files/profile_picture?fileName=${profile?.profile_pic}`}
-					/>
+					<ProfilePic src={profile?.profile_pic} />
 				</ProfilePictureDiv>
 				<ProfilePageNameDiv>
 					<ProfilePageName>

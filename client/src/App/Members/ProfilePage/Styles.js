@@ -107,7 +107,7 @@ export const ProfilePageContent = styled.div`
 `;
 
 export const ProfilePageBioDiv = styled.div`
-    margin-left: 2vw;
+    margin-left: calc(2vw + ${units.margin});
     width: 100%;
 `;
 
@@ -124,7 +124,7 @@ export const ProfilePageBio = styled.p`
 
 export const ProfilePictureDiv = styled.div`
     height: 100%;
-    width: 18vw;
+    width: 16vw;
 `;
 
 export const ProfilePicture = styled.div`
