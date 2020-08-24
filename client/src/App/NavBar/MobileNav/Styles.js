@@ -40,12 +40,14 @@ export const MobileNavLink = styled(animated.span)`
     ${cursor.clickable};
     padding: 0 1vw;
     height: 60px;
+    text-transform: uppercase;
     margin: 10px auto;
     width: fit-content;
     line-height: 70px;
     & a {
          color: ${props => props.inverse ? `${color.primary}` :`${color.BG0}`};;
          text-decoration: none;
+         text-transform: uppercase;
     }
     & a:hover {
           background-color: ${color.BG0};

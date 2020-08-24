@@ -1,7 +1,12 @@
 import express from 'express';
-import { getProfileById } from '../controllers/profile-controllers';
+import {
+	getProfileById,
+	getProfiles,
+} from '../controllers/profile-controllers';
 
 const profileRouter = express.Router();
+
+profileRouter.get('/', getProfiles);
 
 profileRouter.get('/:uid', getProfileById);
 

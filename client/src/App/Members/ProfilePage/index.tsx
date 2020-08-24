@@ -25,7 +25,7 @@ import {
 const ProfilePage: React.FC = () => {
 	const params = useParams<{ uid: string }>();
 
-	const [profile, setProfile] = useGet<Profile>(`/profile/${params.uid}`);
+	const [profile, setProfile] = useGet<Profile>(`/profiles/${params.uid}`);
 
 	return (
 		<ProfilePageDiv>

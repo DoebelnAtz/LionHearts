@@ -26,7 +26,8 @@ export const NavItemTitle = styled(Link)`
     ${font.DCBold};
     color: ${color.primary};
     ${cursor.clickable};
-    font-size: 34px;
+    text-transform: uppercase;
+    font-size: 26px;
     letter-spacing: 1px;
     line-height: 60px;
     text-decoration: none;

@@ -24,7 +24,7 @@ app.use('/api/auth', authRouter);
 app.use('/api/files', fileRouter);
 app.use('/', logRequests);
 app.use('/api/applications', applicationRouter);
-app.use('/api/profile', profileRouter);
+app.use('/api/profiles', profileRouter);
 app.use('/api', checkToken);
 app.use('/api/token-auth', tokenAuthRouter);
 app.use('/api/events', eventRouter);

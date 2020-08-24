@@ -27,6 +27,7 @@ export const MainFeedLocation = styled.span`
     font-size: 26px;
     line-height: 26px;
     position: relative;
+    text-transform: uppercase;
     letter-spacing: 0.5px;
     top: 4px;
     margin: auto 0 auto ${units.margin};
