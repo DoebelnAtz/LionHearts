@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import {color, font, units} from "../../../Styles";
+import {color, cursor, font, units} from "../../../Styles";
 
 export const ProfilePageDiv = styled.div`
     height: 100%;
@@ -8,9 +8,21 @@ export const ProfilePageDiv = styled.div`
 
 export const ProfilePageInfo = styled.div`
     display: flex;
-    
+    background-color: ${color.tertiary};
     padding: 5%;
 `;
+
+export const EditProfileButton = styled.div`
+    background-image: url("${props => props.url}");
+    height: 20px;
+    z-index: 3;
+    background-position: center;
+    background-size: contain;
+    width: 20px;
+    ${cursor.clickable};
+    margin-left: auto;
+`;
+
 
 export const ProfilePageNameDiv = styled.div`
     display: flex;
@@ -66,11 +78,17 @@ export const ContactInfoDiv = styled.div`
     padding: ${units.margin} 0;
 `;
 
-export const ContactInfo = styled.span`
+export const ContactInfo = styled.input`
     color: ${color.primary};
     ${font.DCBold};
+    width: calc(100% - ${units.margin} * 1);
+    height: ${props => props.disabled ? '22px' : `20px`};
     letter-spacing: 0.5px;
+    margin: 5px 0;
     font-size: 14px;
+    border: ${props => props.disabled ? 'none' : `1px solid ${color.primary}`};
+    background-color: ${props => props.disabled ? 'none' : `${color.tertiary}`};
+
 `;
 
 export const ProfilePageContent = styled.div`

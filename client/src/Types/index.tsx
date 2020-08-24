@@ -27,6 +27,7 @@ export interface Application {
 
 export interface Profile {
 	u_id: number;
+	phone: string;
 	firstname: string;
 	lastname: string;
 	email: string;

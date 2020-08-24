@@ -42,7 +42,7 @@ export const getProfileById = catchErrors(async (req, res) => {
 
 	let profile = await query(
 		`
-        SELECT username, firstname, lastname, 
+        SELECT username, firstname, lastname, phone,
         email, profile_pic, bio, u_id FROM users WHERE u_id = $1
     `,
 		[userId],
