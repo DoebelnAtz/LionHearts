@@ -107,7 +107,8 @@ export const ProfilePageContent = styled.div`
 `;
 
 export const ProfilePageBioDiv = styled.div`
-    margin-left: ${units.margin};
+    margin-left: 2vw;
+    width: 100%;
 `;
 
 export const ProfilePageBioTitle = styled.span`

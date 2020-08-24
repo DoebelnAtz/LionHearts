@@ -28,6 +28,7 @@ import CheckMark from '../../../assets/images/check.png';
 import CloseIcon from '../../../assets/images/close.png';
 import { checkUser } from '../../../Utils';
 import { makeRequest } from '../../../Api';
+import TextEditor from '../../Components/TextEditor';
 
 const ProfilePage: React.FC = () => {
 	const params = useParams<{ uid: string }>();
@@ -50,6 +51,15 @@ const ProfilePage: React.FC = () => {
 			setProfile({
 				...profile,
 				phone: target.value,
+			});
+		}
+	};
+
+	const handleBioChange = (e: string) => {
+		if (profile) {
+			setProfile({
+				...profile,
+				bio: e,
 			});
 		}
 	};
@@ -127,7 +137,13 @@ const ProfilePage: React.FC = () => {
 				</ProfilePageContactDiv>
 				<ProfilePageBioDiv>
 					<ProfilePageBioTitle>BIO</ProfilePageBioTitle>
-					<ProfilePageBio>{profile && profile.bio}</ProfilePageBio>
+					{profile && (
+						<TextEditor
+							editable={editing}
+							state={profile.bio}
+							onChange={handleBioChange}
+						/>
+					)}
 				</ProfilePageBioDiv>
 			</ProfilePageContent>
 		</ProfilePageDiv>
