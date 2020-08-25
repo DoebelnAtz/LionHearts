@@ -27,16 +27,16 @@ const MembersHome: React.FC = () => {
 	useAuth();
 	return (
 		<CurrentNavContextProvider>
-			<MemberHomeDiv>
-				<MemberHomeMainDiv>
-					<MemberMainDiv>
-						<MemberNavigationDiv>
+			<MemberHomeDiv id={'member-site-container'}>
+				<MemberHomeMainDiv id={'member-site'}>
+					<MemberMainDiv id={'member-main'}>
+						<MemberNavigationDiv id={'navigation'}>
 							<Navigation />
 						</MemberNavigationDiv>
-						<MemberViewDiv>
+						<MemberViewDiv id={'mainView'}>
 							<MainFeed />
 						</MemberViewDiv>
-						<EventFeedDiv>
+						<EventFeedDiv id={'events'}>
 							<EventFeed />
 						</EventFeedDiv>
 					</MemberMainDiv>

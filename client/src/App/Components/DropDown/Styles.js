@@ -5,7 +5,7 @@ import {colorAdjust, components, cursor, font, color, units} from "../../../Styl
 
 export const DropDown = styled.div`
 	position: relative;
-	${font.RBold};
+	${font.DCBold};
 	color: ${color.primary};
 	font-size: 14px;
 	background-color: ${color.tertiary};
@@ -27,11 +27,12 @@ export const CurrentOption = styled.div`
 	text-overflow: ellipsis;
 	overflow: hidden;
 	white-space: nowrap;
+	text-transform: uppercase;
 	display: flex;
 	text-align: center;
 	& span {
 		vertical-align: middle;
-		line-height: ${props => props.height};
+		line-height: 26px;
 		margin: auto 0;
 	}
 	& img {
@@ -70,8 +71,9 @@ export const Option = styled.div`
 	white-space: nowrap;
 	height: calc(${(props) => props.height} - 1px);
 	width: calc(100% - 9px);
-	line-height: ${(props) => props.height};
+	line-height: 25px;
 	margin: 0 auto;
+	text-transform: uppercase;
 	padding: 0 4px;
 	text-align: left;
 	background-color: ${(props) =>

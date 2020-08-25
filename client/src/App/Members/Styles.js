@@ -28,12 +28,14 @@ const MemberNavigationWidth = '220px';
 const EventFeedWidth = '250px';
 
 export const MemberNavigationDiv = styled.div`
-     background-color: ${color.BG0};
+    background-color: ${color.BG0};
     width: ${MemberNavigationWidth};
 `;
 
 export const EventFeedDiv = styled.div`
     background-color: ${color.BG0};
+    height: 100%;
+    overflow-y: auto;
     width: ${EventFeedWidth};
 `;
 
@@ -46,7 +48,7 @@ export const MemberViewDiv = styled.div`
 
 export const MemberMainDiv = styled.div`
     width: 100%;
-    height: calc(100%);
+    height: 100%;
     display: flex;
      background-color: ${color.BG2};
 `;

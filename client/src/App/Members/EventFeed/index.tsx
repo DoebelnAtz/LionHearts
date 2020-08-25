@@ -101,10 +101,10 @@ const EventFeed: React.FC = () => {
 					setSelect={handleFilterChange}
 					optionList={['all', 'upcoming', 'past']}
 					width={'80px'}
-					height={'20px'}
+					height={'22px'}
 				/>
 			</EventListOptionDiv>
-			<EventList>{renderEvents()}</EventList>
+			<EventList id={'event-list'}>{renderEvents()}</EventList>
 		</EventFeedDiv>
 	);
 };

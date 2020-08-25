@@ -5,6 +5,7 @@ import NavItem from './NavItem';
 
 import MembersIcon from '../../../assets/images/memberlist.svg';
 import ProfileIcon from '../../../assets/images/blue_member.svg';
+import ConfigIcon from '../../../assets/images/cogwheel_blue.png';
 import { checkAuth, getLocal } from '../../../Utils';
 
 const Navigation: React.FC = () => {
@@ -23,6 +24,11 @@ const Navigation: React.FC = () => {
 			{checkAuth() > 2 && (
 				<NavItem title={'Applications'} path={'/members/applications'}>
 					<img src={ProfileIcon} />
+				</NavItem>
+			)}
+			{checkAuth() > 3 && (
+				<NavItem title={'Admin'} path={'/members/admin'}>
+					<img src={ConfigIcon} />
 				</NavItem>
 			)}
 		</MemberNavDiv>

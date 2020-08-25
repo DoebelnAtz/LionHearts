@@ -3,15 +3,17 @@ import {font, color, cursor, units} from "../../../../Styles";
 import {Link} from "react-router-dom";
 
 export const NavItemDiv = styled.div`
-    width: calc(100% - ${units.margin});
+    width: fit-content;
     background-color: ${color.BG0};
+    border-radius: 25px;
     ${cursor.clickable};
+    padding: ${units.margin} 15px;
     display: flex;
     &:hover {
         transition: background-color 0.1s;
         background-color: ${color.tertiary};
     }
-    height: 50px;
+    height: 30px;
 `;
 
 export const NavItemIcon = styled.div`
@@ -29,6 +31,6 @@ export const NavItemTitle = styled(Link)`
     text-transform: uppercase;
     font-size: 26px;
     letter-spacing: 1px;
-    line-height: 60px;
+    line-height: 37px;
     text-decoration: none;
 `;
