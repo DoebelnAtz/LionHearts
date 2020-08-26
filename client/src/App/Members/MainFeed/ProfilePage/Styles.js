@@ -1,5 +1,6 @@
 import styled from "styled-components";
-import {color, cursor, font, units} from "../../../../Styles";
+import {color, components, cursor, font, units} from "../../../../Styles";
+import { animated } from "react-spring";
 
 export const ProfilePageDiv = styled.div`
     height: 100%;
@@ -106,6 +107,7 @@ export const ContactInfo = styled.input`
 
 export const ProfilePageContent = styled.div`
     padding: 5%;
+    height: 50%;
     display: flex;
 `;
 
@@ -122,9 +124,8 @@ export const ProfilePageBioTitle = styled.span`
     color: ${color.primary};
 `;
 
-export const ProfilePageBio = styled.p`
-    ${font.RReg};
-    font-size: 14px;
+export const ProfilePageBio = styled.div`
+    margin-bottom: ${units.margin};
 `;
 
 
@@ -145,6 +146,33 @@ export const SkillDiv = styled.div`
     border-radius: 4px;
     margin-right: ${units.margin};
     padding: 2px 5px;
+`;
+
+export const AddSkillDiv = styled.div`
+  width: 100%;
+  display: flex;
+  margin-top: ${units.margin};
+`;
+
+
+export const AddSkillButton = styled(animated.div)`
+    background-color: ${color.tertiary};
+    border: 1px solid ${color.tertiary};
+    transition: border-radius 4s;
+    padding: 2px 0;
+    width: 34px;
+    text-align: center;
+    ${cursor.clickable};
+    &:hover {
+        border-color: ${color.tertiaryShade};
+        background-color: ${color.tertiaryShade};
+        transition: background-color 0.1s;
+    }
+`;
+
+export const AddSkillInput = styled(animated.input)`
+    width: 0;
+    ${components.input};
 `;
 
 export const SkillTitle = styled.span`

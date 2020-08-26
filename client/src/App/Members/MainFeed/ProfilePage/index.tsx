@@ -3,6 +3,9 @@ import { useParams } from 'react-router-dom';
 import { useGet } from '../../../../Hooks';
 import { Profile, Skill } from '../../../../Types';
 import {
+	AddSkillButton,
+	AddSkillDiv,
+	AddSkillInput,
 	ContactInfo,
 	ContactInfoDiv,
 	ContactTitle,
@@ -10,6 +13,7 @@ import {
 	Location,
 	OccupationInfoDiv,
 	PlaceOfStudy,
+	ProfilePageBio,
 	ProfilePageBioSkillsDiv,
 	ProfilePageBioTitle,
 	ProfilePageContactDiv,
@@ -33,15 +37,35 @@ import { makeRequest } from '../../../../Api';
 import TextEditor from '../../../Components/TextEditor';
 import ProfilePic from '../../../Components/ProfilePic';
 import DropDownComponent from '../../../Components/DropDown';
+import { useSpring } from 'react-spring';
 
 const ProfilePage: React.FC = () => {
 	const params = useParams<{ uid: string }>();
-	const [editing, setEditing] = useState(false);
+	const [editing, setEditing] = useState(true);
 	const [profile, setProfile] = useGet<Profile>(`/profiles/${params.uid}`);
 	const [locations, setLocations] = useGet<{ name: string; l_id: number }[]>(
 		'/profiles/locations',
 	);
+	const [addingSkill, setAddingSkill] = useState(true);
+
+	const expandAddSkill = useSpring({
+		width: addingSkill ? '100px' : '0',
+		padding: addingSkill ? '4px' : '0',
+		delay: addingSkill ? 100 : 0,
+	});
+
+	const expandAddSkillButton = useSpring({
+		borderRadius: addingSkill ? '4px 0px 0px 4px' : '4px 4px 4px 4px',
+		delay: addingSkill ? 0 : 400,
+	});
+
 	const [skills, setSkills] = useGet<Skill[]>(`/skills/${params.uid}`);
+
+	const [searchSkills, setSearchSkills] = useGet<Skill[]>(
+		`/skills?filter=${params.uid}`,
+		editing,
+	);
+
 	console.log(skills);
 
 	const handleEmailChange = (e: ChangeEvent) => {
@@ -184,17 +208,33 @@ const ProfilePage: React.FC = () => {
 				</ProfilePageContactDiv>
 				<ProfilePageBioSkillsDiv>
 					<ProfilePageBioTitle>BIO</ProfilePageBioTitle>
-					{profile && (
-						<TextEditor
-							editable={editing}
-							state={profile.bio}
-							onChange={handleBioChange}
-						/>
-					)}
+					<ProfilePageBio>
+						{profile && (
+							<TextEditor
+								editable={editing}
+								state={profile.bio}
+								onChange={handleBioChange}
+							/>
+						)}
+					</ProfilePageBio>
 					<ProfilePageSkillsTitle>Skills</ProfilePageSkillsTitle>
 					<ProfilePageSkillsDiv>
 						{renderSkills()}
 					</ProfilePageSkillsDiv>
+					{editing && (
+						<AddSkillDiv>
+							<AddSkillButton
+								style={expandAddSkillButton}
+								onClick={() => setAddingSkill(!addingSkill)}
+							>
+								{addingSkill ? '-' : '+'}
+							</AddSkillButton>
+							<AddSkillInput
+								style={expandAddSkill}
+								placeholder={'search'}
+							/>
+						</AddSkillDiv>
+					)}
 				</ProfilePageBioSkillsDiv>
 			</ProfilePageContent>
 		</ProfilePageDiv>

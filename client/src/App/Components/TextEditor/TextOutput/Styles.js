@@ -3,6 +3,7 @@ import { color, units, font } from '../../../../Styles';
 
 export const TextEditOutput = styled.textarea`
 	width: calc(100% - ${units.margin} * 2);
+	height: min(200px, 10vh);
 	border: none;
 	font-size: 16px;
 	letter-spacing: 0;
@@ -10,7 +11,6 @@ export const TextEditOutput = styled.textarea`
 	background-color: ${color.BG1};
 	padding: 0;
 	${font.RReg};
-	height: min(100px, 15vh);
 	resize: vertical;
 	:focus {
 		outline: none;
@@ -20,7 +20,7 @@ export const TextEditOutput = styled.textarea`
 export const TextOutput = styled.div`
 	${font.RReg};
 	width: calc(100% - ${units.margin} * 2);
-	height: calc(100% - ${units.margin} * 2);
+	height: fit-content;
 	border-radius: ${units.radius};
 	& a {
 		text-decoration: none;
