@@ -18,9 +18,22 @@ export const getSkillsByUserId = catchErrors(async (req, res) => {
 }, 'Failed to get skill by user ID');
 
 export const getSkills = catchErrors(async (req, res) => {
-	let skills = await query(`
-        SELECT title, s_id FROM skills;
-    `);
+	const userIdFilter = req.query.filter;
+
+	let skills: any;
+	if (userIdFilter) {
+		skills = await query(
+			`
+       		SELECT s.title, s.s_id FROM skills s JOIN skill_connections sc
+       		ON sc.s_id = s.s_id WHERE sc.u_id = $1 
+    	`,
+			[userIdFilter],
+		);
+	} else {
+		skills = await query(`
+       		SELECT title, s_id FROM skills
+    	`);
+	}
 
 	res.json(skills.rows);
 }, 'Failed to get skills');
