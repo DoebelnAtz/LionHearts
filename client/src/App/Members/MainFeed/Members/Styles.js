@@ -7,9 +7,19 @@ export const MemberListDiv = styled.div`
     flex-direction: column;
 `;
 
+
 export const MemberListOptions = styled.div`
-    width: 100%;
+    width: calc(100% - ${units.margin} * 2);
+    padding: ${units.margin};
+    display: flex;
     margin-bottom: 2vw;
+`;
+
+export const MemberListFilterTitle = styled.span`
+    color: ${color.primary};
+    font-size: 22px;
+    margin-right: ${units.margin};
+    ${font.DCBold};
 `;
 
 export const MemberListResultDiv = styled.div`

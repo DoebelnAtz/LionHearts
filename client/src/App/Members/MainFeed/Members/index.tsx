@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useGet, useNav } from '../../../../Hooks';
-import { Profile } from '../../../../Types';
+import { Profile, Skill } from '../../../../Types';
 import { useHistory } from 'react-router-dom';
 import {
 	MemberCardContent,
@@ -8,18 +8,48 @@ import {
 	MemberCardPic,
 	MemberListCard,
 	MemberListDiv,
+	MemberListFilterTitle,
 	MemberListOptions,
 	MemberListResultDiv,
 } from './Styles';
 import ProfilePic from '../../../Components/ProfilePic';
+import DropDownComponent from '../../../Components/DropDown';
 
 const MemberList: React.FC = () => {
 	useNav('Members');
-	const [members, setMembers] = useGet<Profile[]>('/profiles/');
+	const [skillFilter, setSkillFilter] = useState(0);
+	const [members, setMembers] = useGet<Profile[]>(
+		`/profiles?skillFilter=${skillFilter}`,
+	);
+	const [skills, setSkills] = useGet<Skill[]>(`/skills`);
+
 	const history = useHistory();
 
 	const handleMemberClick = (uid: number) => {
 		history.push(`/members/profile/${uid}`);
+	};
+
+	const findCorrespondingFilterTitle = (filterId: number) => {
+		if (skills) {
+			let correspondingFilterId = skills.find(
+				(skill) => skill.s_id === filterId,
+			);
+			return correspondingFilterId?.title || 'none';
+		}
+		return 'none';
+	};
+
+	const handleFilterChange = (newFilter: string) => {
+		if (skills) {
+			if (newFilter === findCorrespondingFilterTitle(skillFilter)) {
+				setSkillFilter(0);
+			} else {
+				let correspondingFilterId = skills.find(
+					(skill) => skill.title === newFilter,
+				);
+				setSkillFilter(correspondingFilterId?.s_id || 0);
+			}
+		}
 	};
 
 	const renderMembers = () => {
@@ -45,7 +75,20 @@ const MemberList: React.FC = () => {
 
 	return (
 		<MemberListDiv>
-			<MemberListOptions></MemberListOptions>
+			<MemberListOptions>
+				<MemberListFilterTitle>Filter skills: </MemberListFilterTitle>
+				<DropDownComponent
+					state={findCorrespondingFilterTitle(skillFilter)}
+					setSelect={handleFilterChange}
+					optionList={[
+						'none',
+						...(skills?.map((skill) => skill.title) || []),
+					]}
+					width={'140px'}
+					height={'22px'}
+					withFilter
+				/>
+			</MemberListOptions>
 			<MemberListResultDiv>{renderMembers()}</MemberListResultDiv>
 		</MemberListDiv>
 	);

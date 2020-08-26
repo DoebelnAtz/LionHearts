@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useGet } from '../../../Hooks';
-import { Profile, Skill } from '../../../Types';
+import { useGet } from '../../../../Hooks';
+import { Profile, Skill } from '../../../../Types';
 import {
 	ContactInfo,
 	ContactInfoDiv,
@@ -25,14 +25,14 @@ import {
 	SkillDiv,
 	SkillTitle,
 } from './Styles';
-import CogWheel from '../../../assets/images/cogwheel_blue.png';
-import CheckMark from '../../../assets/images/check.png';
-import CloseIcon from '../../../assets/images/close.png';
-import { checkUser } from '../../../Utils';
-import { makeRequest } from '../../../Api';
-import TextEditor from '../../Components/TextEditor';
-import ProfilePic from '../../Components/ProfilePic';
-import DropDownComponent from '../../Components/DropDown';
+import CogWheel from '../../../../assets/images/cogwheel_blue.png';
+import CheckMark from '../../../../assets/images/check.png';
+import CloseIcon from '../../../../assets/images/close.png';
+import { checkUser } from '../../../../Utils';
+import { makeRequest } from '../../../../Api';
+import TextEditor from '../../../Components/TextEditor';
+import ProfilePic from '../../../Components/ProfilePic';
+import DropDownComponent from '../../../Components/DropDown';
 
 const ProfilePage: React.FC = () => {
 	const params = useParams<{ uid: string }>();

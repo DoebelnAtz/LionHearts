@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import {color, cursor, font, units} from "../../../Styles";
+import {color, cursor, font, units} from "../../../../Styles";
 
 export const ProfilePageDiv = styled.div`
     height: 100%;

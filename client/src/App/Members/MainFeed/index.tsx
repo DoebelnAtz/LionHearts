@@ -15,9 +15,9 @@ import Applications from './Applications';
 import { capitalizeFirst, getLocal } from '../../../Utils';
 import { useDismiss } from '../../../Hooks';
 import dropdownIcon from '../../../assets/images/dropdown.png';
-import ProfilePage from '../ProfilePage';
+import ProfilePage from './ProfilePage';
 import ApplicationPage from './Applications/ApplicationPage';
-import AdminPanel from '../AdminPanel';
+import AdminPanel from './AdminPanel';
 
 const MainFeed: React.FC = () => {
 	const { state } = useContext(CurrentNavContext);
