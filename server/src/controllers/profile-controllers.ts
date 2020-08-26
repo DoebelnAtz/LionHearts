@@ -75,10 +75,24 @@ export const updateProfile = catchErrors(async (req, res) => {
 }, 'Failed to update profile');
 
 export const getProfiles = catchErrors(async (req, res) => {
-	let profiles = await query(`
-		SELECT u_id, username, firstname, lastname, email, profile_pic
-		FROM users;
+	let skillFilter = req.query.skillFilter || null;
+
+	let profiles: any;
+
+	if (skillFilter) {
+		profiles = await query(
+			`
+			SELECT u.u_id, u.username, u.firstname, u.lastname, u.email, u.profile_pic
+			FROM users u JOIN skill_connections cs ON u.u_id = cs.u_id WHERE sc.title=$1;
+		`,
+			[skillFilter],
+		);
+	} else {
+		profiles = await query(`
+			SELECT u_id, username, firstname, lastname, email, profile_pic
+			FROM users;
 	`);
+	}
 
 	res.json(profiles.rows);
 }, 'Failed to get profiles');

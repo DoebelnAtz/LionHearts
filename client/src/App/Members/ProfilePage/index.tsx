@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useGet } from '../../../Hooks';
-import { Profile } from '../../../Types';
+import { Profile, Skill } from '../../../Types';
 import {
 	ContactInfo,
 	ContactInfoDiv,
@@ -10,8 +10,7 @@ import {
 	Location,
 	OccupationInfoDiv,
 	PlaceOfStudy,
-	ProfilePageBio,
-	ProfilePageBioDiv,
+	ProfilePageBioSkillsDiv,
 	ProfilePageBioTitle,
 	ProfilePageContactDiv,
 	ProfilePageContent,
@@ -20,7 +19,11 @@ import {
 	ProfilePageInfo,
 	ProfilePageName,
 	ProfilePageNameDiv,
+	ProfilePageSkillsDiv,
+	ProfilePageSkillsTitle,
 	ProfilePictureDiv,
+	SkillDiv,
+	SkillTitle,
 } from './Styles';
 import CogWheel from '../../../assets/images/cogwheel_blue.png';
 import CheckMark from '../../../assets/images/check.png';
@@ -33,11 +36,13 @@ import DropDownComponent from '../../Components/DropDown';
 
 const ProfilePage: React.FC = () => {
 	const params = useParams<{ uid: string }>();
-	const [editing, setEditing] = useState(true);
+	const [editing, setEditing] = useState(false);
 	const [profile, setProfile] = useGet<Profile>(`/profiles/${params.uid}`);
 	const [locations, setLocations] = useGet<{ name: string; l_id: number }[]>(
 		'/profiles/locations',
 	);
+	const [skills, setSkills] = useGet<Skill[]>(`/skills/${params.uid}`);
+	console.log(skills);
 
 	const handleEmailChange = (e: ChangeEvent) => {
 		let target = e.target as HTMLInputElement;
@@ -87,6 +92,18 @@ const ProfilePage: React.FC = () => {
 			setProfile({
 				...profile,
 				location: newLocation,
+			});
+		}
+	};
+
+	const renderSkills = () => {
+		if (skills) {
+			return skills.map((skill) => {
+				return (
+					<SkillDiv key={skill.s_id}>
+						<SkillTitle>{skill.title}</SkillTitle>
+					</SkillDiv>
+				);
 			});
 		}
 	};
@@ -165,7 +182,7 @@ const ProfilePage: React.FC = () => {
 						/>
 					</ContactInfoDiv>
 				</ProfilePageContactDiv>
-				<ProfilePageBioDiv>
+				<ProfilePageBioSkillsDiv>
 					<ProfilePageBioTitle>BIO</ProfilePageBioTitle>
 					{profile && (
 						<TextEditor
@@ -174,7 +191,11 @@ const ProfilePage: React.FC = () => {
 							onChange={handleBioChange}
 						/>
 					)}
-				</ProfilePageBioDiv>
+					<ProfilePageSkillsTitle>Skills</ProfilePageSkillsTitle>
+					<ProfilePageSkillsDiv>
+						{renderSkills()}
+					</ProfilePageSkillsDiv>
+				</ProfilePageBioSkillsDiv>
 			</ProfilePageContent>
 		</ProfilePageDiv>
 	);

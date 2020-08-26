@@ -109,9 +109,11 @@ export const ProfilePageContent = styled.div`
     display: flex;
 `;
 
-export const ProfilePageBioDiv = styled.div`
+export const ProfilePageBioSkillsDiv = styled.div`
     margin-left: 3vw;
     width: 100%;
+    display: flex;
+    flex-direction: column;
 `;
 
 export const ProfilePageBioTitle = styled.span`
@@ -123,6 +125,31 @@ export const ProfilePageBioTitle = styled.span`
 export const ProfilePageBio = styled.p`
     ${font.RReg};
     font-size: 14px;
+`;
+
+
+
+export const ProfilePageSkillsTitle = styled.span`
+    ${font.DCBold};
+    font-size: 20px;
+    color: ${color.primary};
+`;
+
+export const ProfilePageSkillsDiv = styled.div`
+    width: 100%;
+    display: flex;
+`;
+
+export const SkillDiv = styled.div`
+    background-color: ${color.tertiary};
+    border-radius: 4px;
+    margin-right: ${units.margin};
+    padding: 2px 5px;
+`;
+
+export const SkillTitle = styled.span`
+    color: ${color.primary};
+    ${font.DCBold};
 `;
 
 export const ProfilePictureDiv = styled.div`

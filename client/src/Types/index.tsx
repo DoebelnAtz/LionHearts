@@ -36,6 +36,11 @@ export interface Profile {
 	bio: string;
 }
 
+export interface Skill {
+	s_id: number;
+	title: string;
+}
+
 export interface MemberEvent {
 	e_id: number;
 	title: string;
