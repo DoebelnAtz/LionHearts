@@ -38,6 +38,33 @@ export const getSkills = catchErrors(async (req, res) => {
 	res.json(skills.rows);
 }, 'Failed to get skills');
 
+export const searchSkills = catchErrors(async (req, res) => {
+	const search = req.query.q;
+	const filter = req.query.filter || 'none';
+	const limit = req.query.limit || 20;
+	const userId = req.decoded.u_id;
+
+	let skills: any;
+	if (filter === 'none') {
+		skills = await query(
+			`
+       		SELECT s.title, s.s_id FROM skills s LEFT JOIN skill_connections sc
+       		ON sc.s_id = s.s_id WHERE LOWER(s.title) LIKE $1 OR sc.u_id IS NULL LIMIT $2 
+    	`,
+			[`%${search}%`, limit],
+		);
+	} else {
+		skills = await query(
+			`
+		SELECT s.title, s.s_id FROM skills s LEFT JOIN skill_connections sc
+		ON sc.s_id = s.s_id WHERE LOWER(s.title) LIKE $1 AND (sc.u_id != $2 OR sc.u_id IS NULL) LIMIT $3
+	`,
+			[`%${search}%`, userId, limit],
+		);
+	}
+	res.json(skills.rows || []);
+}, 'Failed to search for skills');
+
 export const createSkill = catchErrors(async (req, res) => {
 	const { title } = req.body;
 
@@ -47,7 +74,7 @@ export const createSkill = catchErrors(async (req, res) => {
 
 	await transaction(
 		async () => {
-			createdSkillId = query(
+			createdSkillId = await query(
 				`
                 INSERT INTO skills (title) VALUES ($1) RETURNING s_id
             `,
@@ -67,7 +94,7 @@ export const createSkill = catchErrors(async (req, res) => {
 		);
 	}
 
-	res.status(201).json({ title, s_id: createdSkillId.rows[0] });
+	res.status(201).json({ title, s_id: createdSkillId.rows[0].s_id });
 }, 'Failed to create skill');
 
 export const addSkillToUser = catchErrors(async (req, res) => {

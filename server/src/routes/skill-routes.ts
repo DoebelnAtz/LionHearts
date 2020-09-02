@@ -5,11 +5,14 @@ import {
 	createSkill,
 	getSkills,
 	getSkillsByUserId,
+	searchSkills,
 } from '../controllers/skill-controllers';
 
 const skillRouter = express.Router();
 
 skillRouter.get('/', getSkills);
+
+skillRouter.get('/search', searchSkills);
 
 skillRouter.get('/:uid', getSkillsByUserId);
 

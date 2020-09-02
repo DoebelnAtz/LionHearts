@@ -5,10 +5,12 @@ import { Profile, Skill } from '../../../../Types';
 import {
 	AddSkillButton,
 	AddSkillDiv,
+	AddSkillHeader,
 	AddSkillInput,
 	ContactInfo,
 	ContactInfoDiv,
 	ContactTitle,
+	CreateSkillDiv,
 	EditProfileButton,
 	Location,
 	OccupationInfoDiv,
@@ -27,12 +29,13 @@ import {
 	ProfilePageSkillsTitle,
 	ProfilePictureDiv,
 	SkillDiv,
+	SkillResults,
 	SkillTitle,
 } from './Styles';
 import CogWheel from '../../../../assets/images/cogwheel_blue.png';
 import CheckMark from '../../../../assets/images/check.png';
 import CloseIcon from '../../../../assets/images/close.png';
-import { checkUser } from '../../../../Utils';
+import { checkUser, getLocal } from '../../../../Utils';
 import { makeRequest } from '../../../../Api';
 import TextEditor from '../../../Components/TextEditor';
 import ProfilePic from '../../../Components/ProfilePic';
@@ -42,12 +45,17 @@ import { useSpring } from 'react-spring';
 const ProfilePage: React.FC = () => {
 	const params = useParams<{ uid: string }>();
 	const [editing, setEditing] = useState(true);
+	const [skillSearch, setSkillSearch] = useState('');
 	const [profile, setProfile] = useGet<Profile>(`/profiles/${params.uid}`);
 	const [locations, setLocations] = useGet<{ name: string; l_id: number }[]>(
 		'/profiles/locations',
 	);
+	const [skillResults, setSkillResults] = useGet<Skill[]>(
+		`/skills/search?q=${skillSearch.toLowerCase()}&limit=20&filter=available`,
+		skillSearch !== '',
+	);
 	const [addingSkill, setAddingSkill] = useState(true);
-
+	console.log(skillResults);
 	const expandAddSkill = useSpring({
 		width: addingSkill ? '100px' : '0',
 		padding: addingSkill ? '4px' : '0',
@@ -61,12 +69,44 @@ const ProfilePage: React.FC = () => {
 
 	const [skills, setSkills] = useGet<Skill[]>(`/skills/${params.uid}`);
 
-	const [searchSkills, setSearchSkills] = useGet<Skill[]>(
-		`/skills?filter=${params.uid}`,
-		editing,
-	);
-
 	console.log(skills);
+
+	const handleSkillSearchChange = (e: ChangeEvent) => {
+		let target = e.target as HTMLInputElement;
+		if (target.value === '') {
+			setSkillResults([]);
+		}
+		setSkillSearch(target.value);
+	};
+
+	const handleSkillCreation = async () => {
+		if (
+			!(skillResults || []).find(
+				(skill) =>
+					skill.title.toLowerCase() === skillSearch.toLowerCase(),
+			)
+		) {
+			try {
+				let createdSkill = await makeRequest(
+					'/skills/create_skill',
+					'POST',
+					{
+						title: skillSearch,
+					},
+				);
+				if (createdSkill && skills) {
+					await makeRequest('/skills/add_skill', 'POST', {
+						userId: getLocal('user').user.u_id,
+						skillId: createdSkill.data?.s_id,
+					});
+
+					setSkills([...skills, createdSkill.data]);
+				}
+			} catch (e) {
+				console.log(e);
+			}
+		}
+	};
 
 	const handleEmailChange = (e: ChangeEvent) => {
 		let target = e.target as HTMLInputElement;
@@ -120,13 +160,25 @@ const ProfilePage: React.FC = () => {
 		}
 	};
 
-	const renderSkills = () => {
-		if (skills) {
-			return skills.map((skill) => {
+	const renderSkills = (sList: Skill[]) => {
+		if (sList) {
+			return sList.map((skill) => {
 				return (
 					<SkillDiv key={skill.s_id}>
 						<SkillTitle>{skill.title}</SkillTitle>
 					</SkillDiv>
+				);
+			});
+		}
+	};
+
+	const renderSkillSearchResults = () => {
+		if (skillResults) {
+			return skillResults.map((skill) => {
+				return (
+					<CreateSkillDiv key={skill.s_id}>
+						<SkillTitle>{skill.title}</SkillTitle>
+					</CreateSkillDiv>
 				);
 			});
 		}
@@ -219,7 +271,7 @@ const ProfilePage: React.FC = () => {
 					</ProfilePageBio>
 					<ProfilePageSkillsTitle>Skills</ProfilePageSkillsTitle>
 					<ProfilePageSkillsDiv>
-						{renderSkills()}
+						{skills && renderSkills(skills)}
 					</ProfilePageSkillsDiv>
 					{editing && (
 						<AddSkillDiv>
@@ -230,11 +282,30 @@ const ProfilePage: React.FC = () => {
 								{addingSkill ? '-' : '+'}
 							</AddSkillButton>
 							<AddSkillInput
+								value={skillSearch}
+								onChange={handleSkillSearchChange}
 								style={expandAddSkill}
-								placeholder={'search'}
+								placeholder={addingSkill ? 'search' : ''}
 							/>
 						</AddSkillDiv>
 					)}
+					<SkillResults>
+						{!!skillSearch.length && (
+							<CreateSkillDiv
+								disabled={(skillResults || []).find(
+									(skill) =>
+										skill.title.toLowerCase() ===
+										skillSearch.toLowerCase(),
+								)}
+								onClick={handleSkillCreation}
+							>
+								<SkillTitle>
+									Create skill: {skillSearch}
+								</SkillTitle>
+							</CreateSkillDiv>
+						)}
+						{renderSkillSearchResults()}
+					</SkillResults>
 				</ProfilePageBioSkillsDiv>
 			</ProfilePageContent>
 		</ProfilePageDiv>

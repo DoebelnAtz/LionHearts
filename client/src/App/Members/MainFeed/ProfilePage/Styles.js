@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import {color, components, cursor, font, units} from "../../../../Styles";
+import {color, colorAdjust, components, cursor, font, units} from "../../../../Styles";
 import { animated } from "react-spring";
 
 export const ProfilePageDiv = styled.div`
@@ -148,10 +148,34 @@ export const SkillDiv = styled.div`
     padding: 2px 5px;
 `;
 
+export const CreateSkillDiv = styled.div`
+    background-color: ${props => props.disabled ? colorAdjust.lighten(color.tertiary, 0.03) : color.tertiary};
+    border-radius: 4px;
+    ${props => props.disabled ? cursor.notAllowed : cursor.clickable};
+    margin-right: ${units.margin};
+    padding: 2px 5px;
+    &:hover {
+        background-color: ${props => props.disabled ? colorAdjust.lighten(color.tertiary, 0.03) : color.tertiaryShade};
+        transition: background-color 0.1s;
+    }
+`;
+export const SkillResults = styled.div`
+    width: 100%;
+    display: flex;
+    margin-top: ${units.margin};
+`;
+
+
 export const AddSkillDiv = styled.div`
   width: 100%;
   display: flex;
   margin-top: ${units.margin};
+`;
+
+export const AddSkillHeader = styled.span`
+  ${font.DCBold};
+  color: ${color.primary};
+  font-size: 20px;
 `;
 
 
@@ -173,6 +197,7 @@ export const AddSkillButton = styled(animated.div)`
 export const AddSkillInput = styled(animated.input)`
     width: 0;
     ${components.input};
+    border-radius: 0 4px 4px 0;
 `;
 
 export const SkillTitle = styled.span`
