@@ -1,6 +1,8 @@
 import { catchErrors } from '../errors/catchErrors';
 import { query, connect } from '../postgres';
 import { transaction } from '../errors/transaction';
+import CustomError from '../errors/customError';
+import { QueryResult } from 'pg';
 
 export const getEvents = catchErrors(async (req, res) => {
 	let filter = req.query.filter;
@@ -47,15 +49,68 @@ export const getEvents = catchErrors(async (req, res) => {
 	res.json(events.rows);
 }, 'Failed to get events');
 
+export const getEventById = catchErrors(async (req, res) => {
+	const eid = req.params.eid;
+
+	let event = await query(
+		`
+		SELECT e_id, title, time, u.u_id, u.username, t_id FROM events JOIN users u ON creator === u.u_id WHERE e_id = $1
+	`,
+		[eid],
+	);
+
+	if (!event.rows) {
+		throw new CustomError(
+			'Failed to find event by id',
+			404,
+			`Failed to get event matching id: ${eid}`,
+			'Event not found',
+		);
+	}
+
+	let eventComments = await query(
+		`
+		SELECT c_id, time, content, creator, u.username FROM comments JOIN users u ON creator = u.u_id WHERE t_id = $1
+	`,
+		[event.rows[0].t_id],
+	);
+
+	res.json({ ...event.rows[0], comments: eventComments.rows });
+}, 'Failed to get event by id');
+
+export const createComment = catchErrors(async (req, res) => {
+	const { content } = req.body;
+
+	let createdComment: QueryResult = {
+		command: '',
+		fields: [],
+		oid: 0,
+		rowCount: 0,
+		rows: [],
+	};
+	const client = await connect();
+	await transaction(
+		async () => {
+			let newThread = await query(`
+				INSERT INTO threads DEFAULT VALUES returning t_id
+			`);
+			createdComment = await query(
+				`
+	            INSERT INTO comments (content, t_id, creator)
+	            VALUES ($1, $2, $3) RETURNING c_id, time
+	        `,
+				[content, newThread.rows[0].t_id, req.decoded.u_id],
+			);
+		},
+		client,
+		'Failed to create comment',
+	);
+	res.status(201).json(createdComment.rows[0]);
+}, 'Failed to create comment');
+
 export const joinEvent = catchErrors(async (req, res) => {
 	const { eventId, status } = req.body;
 	const userId = req.decoded.u_id;
-	let event = await query(
-		`
-        SELECT e_id FROM events WHERE e_id=$1
-    `,
-		[eventId],
-	);
 
 	let previousParticipation = await query(
 		`
@@ -98,12 +153,23 @@ export const createEvent = catchErrors(async (req, res) => {
 	const client = await connect();
 	await transaction(
 		async () => {
-			query(
+			let thread = await query(`
+				INSERT INTO threads DEFAULT VALUES returning t_id
+			`);
+			if (!thread.rows) {
+				throw new CustomError(
+					'Failed to create event',
+					500,
+					'failed to create thread for event',
+					'Failed to create event',
+				);
+			}
+			await query(
 				`
-	            INSERT INTO events (title, creator, time) VALUES
-	            ($1, $2, $3);
+	            INSERT INTO events (title, creator, time, t_id) VALUES
+	            ($1, $2, $3, $4);
 	        `,
-				[title, userId, time],
+				[title, userId, time, thread.rows[0]],
 			);
 		},
 		client,
