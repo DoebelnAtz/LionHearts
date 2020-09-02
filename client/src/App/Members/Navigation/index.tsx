@@ -19,7 +19,7 @@ const Navigation: React.FC = () => {
 			</NavItem>
 			<NavItem
 				title={'Profile'}
-				path={`/members/profile/${getLocal('user').user.u_id}`}
+				path={`/members/profile/${getLocal('user')?.user?.u_id}`}
 			>
 				<img src={ProfileIcon} />
 			</NavItem>

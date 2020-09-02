@@ -40,9 +40,7 @@ const Footer: React.FC = () => {
 								<Link to={`/news`}>NEWS</Link>
 							</FooterNavBarLink>
 							<FooterNavBarLink inverse isMobile={isMobile}>
-								<Link to={`/apply?application=${makeId(16)}`}>
-									APPLY
-								</Link>
+								<Link to={`/apply`}>APPLY</Link>
 							</FooterNavBarLink>
 						</FooterNavBarLinksDiv>
 					</FooterNavDiv>

@@ -1,109 +1,102 @@
-import styled from "styled-components";
-import {animated} from 'react-spring'
-import {font, color, cursor} from "../../Styles";
+import styled from 'styled-components';
+import { animated } from 'react-spring';
+import { font, color, cursor } from '../../Styles';
 
 export const NavBarDiv = styled.div`
-  width: 100%;
-  height: 60px;
-  position: relative;
-  display: flex;
+	width: 100%;
+	height: 60px;
+	position: relative;
+	display: flex;
 `;
 
 export const NavBarLogoDiv = styled.div`
-  margin: ${props => props.isMobile ? 'auto': 'auto 0 auto 0'};
-  position: relative;
-  z-index: 3;
-  
-  left: ${props => props.isMobile ? '0': 'min(10vw, 100px)'};
+	margin: ${(props) => (props.isMobile ? 'auto' : 'auto 0 auto 0')};
+	position: relative;
+	z-index: 3;
+
+	left: ${(props) => (props.isMobile ? '0' : 'min(10vw, 100px)')};
 `;
 
 export const NavBarLinksDiv = styled.div`
-    margin: auto auto;
-    position: relative;
-    z-index: 3;
-    display: flex;
+	margin: auto auto;
+	position: relative;
+	z-index: 3;
+	display: flex;
 `;
 
 export const NavBarMemberIcon = styled.div`
-  margin: ${props => props.isMobile ? 'auto min(10vw, 100px) auto 0' : 'auto 0 auto auto'};
-  position: relative;
-  margin: auto 0;
-  ${cursor.clickable};
-  right: min(10vw, 100px);
-  z-index: 3;
-  & img {
-        height: 30px;
-        width: 30px;
-  }
+	margin: ${(props) =>
+		props.isMobile ? 'auto min(10vw, 100px) auto 0' : 'auto 0'};
+	position: relative;
+	${cursor.clickable};
+	right: min(10vw, 100px);
+	z-index: 3;
+	& img {
+		height: 30px;
+		width: 30px;
+	}
 `;
 
 export const NavBarLink = styled.div`
-    color: ${props => props.inverse ? `${color.primary}` :`${color.BG0}`};
-    ${font.DCBold};
-    font-size: 20px;
-    z-index: 3;
-    height: 22px;
-    line-height: 30px;
-    padding: 0 1vw;
-    margin: 0 1vw;
-    ${cursor.clickable};
-    & a {
-         color: ${props => props.inverse ? `${color.primary}` :`${color.BG0}`};;
-         text-decoration: none;
-    }
-    &:hover {
-        background-color: ${color.BG0};
-        color: ${color.primary};
-        & a {
-            color: ${color.primary};
-        }
-    };
-    
+	color: ${(props) => (props.inverse ? `${color.primary}` : `${color.BG0}`)};
+	${font.DCBold};
+	font-size: 20px;
+	z-index: 3;
+	height: 22px;
+	line-height: 30px;
+	padding: 0 1vw;
+	margin: 0 1vw;
+	${cursor.clickable};
+	& a {
+		color: ${(props) =>
+			props.inverse ? `${color.primary}` : `${color.BG0}`};
+		text-decoration: none;
+	}
+	&:hover {
+		background-color: ${color.BG0};
+		color: ${color.primary};
+		& a {
+			color: ${color.primary};
+		}
+	}
 `;
 
 export const MenuBtnDiv = styled.div`
-    position: relative;
-    margin: auto 0;
-    ${cursor.clickable};
-    left: min(10vw, 100px);
+	position: relative;
+	margin: auto 0;
+	${cursor.clickable};
+	left: min(10vw, 100px);
 `;
 
 export const BurgerTopDiv = styled(animated.div)`
-    width: 30px;
-    height: 3px;
-    border-radius: 0px;
-    position: relative;
-    //transform: translateY(-4px);
-    background-color: white;
+	width: 30px;
+	height: 3px;
+	border-radius: 0px;
+	position: relative;
+	//transform: translateY(-4px);
+	background-color: white;
 `;
 
 export const BurgerMidDiv = styled.div`
-    width: 30px;
-    height: 3px;
-    display: block;
-    position: relative;
-    border-radius: 0px;
-    background-color: white;
+	width: 30px;
+	height: 3px;
+	display: block;
+	position: relative;
+	border-radius: 0px;
+	background-color: white;
 `;
 
 export const BurgerBotDiv = styled(animated.div)`
-    width: 30px;
-    height: 3px;
-    position: relative;
-    border-radius: 0px;
-    //transform: translateY(4px);
-    background-color: white;
+	width: 30px;
+	height: 3px;
+	position: relative;
+	border-radius: 0px;
+	//transform: translateY(4px);
+	background-color: white;
 `;
 
+export const TopHelperDiv = styled(animated.div)``;
 
-export const TopHelperDiv = styled(animated.div)`
-    
-`;
+export const MidHelperDiv = styled(animated.div)``;
 
-export const MidHelperDiv = styled(animated.div)`
-    
-`;
-
-export const BotHelperDiv = styled(animated.div)`
-    
-`;
+export const BotHelperDiv = styled(animated.div)``;

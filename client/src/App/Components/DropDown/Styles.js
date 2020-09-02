@@ -1,7 +1,13 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
-
-import {colorAdjust, components, cursor, font, color, units} from "../../../Styles";
+import {
+	colorAdjust,
+	components,
+	cursor,
+	font,
+	color,
+	units,
+} from '../../../Styles';
 
 export const DropDown = styled.div`
 	position: relative;
@@ -18,8 +24,8 @@ export const DropDown = styled.div`
 
 export const CurrentOption = styled.div`
 	padding: 0 5px;
-	height: ${props => props.height};
-	font-size: calc(${props => props.height} - 6px);
+	height: ${(props) => props.height};
+	font-size: calc(${(props) => props.height} - 6px);
 	border: 1px solid ${color.primary};
 	//border-radius: 4px 4px ${(props) => (props.expanded ? '0 0' : '4px 4px')};
 	border-bottom: ${(props) => (props.expanded ? 'none' : '')};
@@ -37,7 +43,7 @@ export const CurrentOption = styled.div`
 	}
 	& img {
 		margin: auto 0 auto auto;
-		height: calc(6px + ${props => props.height} * 0.1);
+		height: calc(6px + ${(props) => props.height} * 0.1);
 	}
 `;
 
@@ -77,10 +83,8 @@ export const Option = styled.div`
 	padding: 0 4px;
 	text-align: left;
 	background-color: ${(props) =>
-		props.highlighted
-			? color.tertiary
-			: color.BG1};
-	transition: background-color 0.1s;
+		props.highlighted ? color.tertiary : color.BG1};
+	transition: background-color 0.05s;
 	${cursor.clickable};
 	&:hover {
 		background-color: ${color.tertiaryShade};

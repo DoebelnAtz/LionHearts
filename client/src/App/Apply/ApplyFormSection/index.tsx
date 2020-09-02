@@ -77,15 +77,22 @@ const ApplyFormSection: React.FC = () => {
 			email: target.value,
 		});
 	};
-	const handleFileChange = (event: any) => {
-		setSelectedFile(event.target.files[0]);
+	const handleFileChange = (files: FileList) => {
+		let targetFile = files[0];
 		// @ts-ignore
-		console.log(!!selectedFile, selectedFile?.size > 50000);
-		console.log(selectedFile?.size);
-		if (!!selectedFile && selectedFile.size > 50000) {
-			setErrors({ ...errors, fileError: 'File size exceeds 50kb' });
-		} else {
-			setErrors({ ...errors, fileError: '' });
+		if (targetFile) {
+			if (targetFile.size > 50000) {
+				setErrors({
+					...errors,
+					fileError: 'File size exceeds 50kb',
+				});
+			} else {
+				setErrors({
+					...errors,
+					fileError: '',
+				});
+				setSelectedFile(targetFile);
+			}
 		}
 	};
 
@@ -240,7 +247,12 @@ const ApplyFormSection: React.FC = () => {
 
 					<label>
 						Attach files
-						<input type={'file'} onChange={handleFileChange} />
+						<input
+							type={'file'}
+							onChange={(e: any) =>
+								handleFileChange(e.target.files)
+							}
+						/>
 						<FormError>{errors.fileError}</FormError>
 					</label>
 					<button disabled={!selectedFile} onClick={handleFileUpload}>
