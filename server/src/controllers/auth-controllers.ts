@@ -10,8 +10,16 @@ let config = require('../config');
 let jwt = require('jsonwebtoken');
 
 export const signup = catchErrors(async (req, res) => {
-	const { firstname, lastname, password, email, applicationId } = req.body;
-
+	const {
+		firstname,
+		lastname,
+		password,
+		email,
+		applicationId,
+		profilePic,
+		phone,
+	} = req.body;
+	const username = (firstname + lastname.charAt(0)).toLowerCase();
 	let application = await query(
 		`
 			SELECT application_id, 
@@ -49,15 +57,17 @@ export const signup = catchErrors(async (req, res) => {
 		async () => {
 			await query(
 				`
-	        INSERT INTO users (firstname, lastname, password, email, username)
-	        VALUES ($1, $2, $3, $4, $5)
+	        INSERT INTO users (firstname, lastname, password, email, username, phone, profile_pic)
+	        VALUES ($1, $2, $3, $4, $5, $6, $7)
 	    `,
 				[
 					firstname,
 					lastname,
 					hashedPassword,
 					email,
-					firstname + lastname.charAt(0),
+					username,
+					phone,
+					`${username}/${profilePic}`,
 				],
 			);
 		},

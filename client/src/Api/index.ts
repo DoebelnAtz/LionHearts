@@ -65,12 +65,12 @@ export const makeRequest = async (url: string, method: any, data: any = {}) => {
 					});
 				} catch (e) {
 					if (e.response.status === 401) {
-						window.location.replace('/');
+						//window.location.replace('/');
 					}
 				}
 			} catch (e) {
 				if (e.response.status === 401) {
-					window.location.replace('/');
+					//window.location.replace('/');
 				}
 			}
 		} else {

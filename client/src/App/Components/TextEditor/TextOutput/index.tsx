@@ -2,23 +2,6 @@ import React, { Fragment, useEffect, useRef, useState } from 'react';
 
 import { TextEditOutput, TextOutput } from './Styles';
 
-// To eliminate warning...
-
-console.error = (function () {
-	let error = console.error;
-
-	return function (exception: any) {
-		if (
-			(exception + '').indexOf(
-				'Warning: A component is `contentEditable`',
-			) !== 0
-		) {
-			// @ts-ignore
-			error.apply(console, arguments);
-		}
-	};
-})();
-
 type TextEditWindowOutputProps = {
 	editable: boolean;
 	state: string;
@@ -97,7 +80,7 @@ const TextEditWindowOutput: React.FC<TextEditWindowOutputProps> = ({
 				id={'texteditor'}
 				style={{ display: editing && editable ? 'block' : 'none' }}
 				ref={editOutput}
-				value={state}
+				value={state || ''}
 				onKeyDown={(e: React.KeyboardEvent) => enableTab(e)}
 				onChange={(e: React.KeyboardEvent) => handleChange(e)}
 			/>

@@ -38,6 +38,22 @@ export const getProfilePicture = catchErrors(async (req, res) => {
 	console.log(filePath);
 }, 'Failed to get file');
 
+export const uploadProfilePicture = catchErrors(async (req, res) => {
+	const client = await connect();
+	await transaction(
+		async () => {
+			query(
+				`
+	            UPDATE users SET profile_pic = $1 WHERE username = $2
+	        `,
+				[],
+			);
+		},
+		client,
+		'',
+	);
+}, 'Failed to upload profile picture');
+
 export const getProfileById = catchErrors(async (req, res) => {
 	let userId = req.params.uid;
 

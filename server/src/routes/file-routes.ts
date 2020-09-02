@@ -7,7 +7,7 @@ import {
 	createApplication,
 	deleteApplicationFile,
 	getApplicationIdFiles,
-	uploadApplicationFile,
+	uploadFile,
 } from '../controllers/application-controllers';
 import { getProfilePicture } from '../controllers/profile-controllers';
 
@@ -15,7 +15,7 @@ const fileRouter = express.Router();
 
 const storage = multer.diskStorage({
 	destination: function (req, file, cb) {
-		const path = `./member-applications/${req.params.applicationId}`;
+		const path = `./${req.params.dest}/${req.params.name}`;
 		if (!fs.existsSync(path)) {
 			fs.mkdirSync(path);
 		}
@@ -28,11 +28,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-fileRouter.post(
-	'/upload-file/:applicationId',
-	upload.single('file'),
-	uploadApplicationFile,
-);
+fileRouter.post('/upload-file/:dest/:name', upload.single('file'), uploadFile);
 
 fileRouter.delete(
 	'/delete-file',

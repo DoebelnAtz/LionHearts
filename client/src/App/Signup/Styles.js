@@ -39,6 +39,32 @@ export const LionheartsLogo = styled.img``;
 
 export const ProfilePicUploadDiv = styled.div`
 	width: 100%;
+	display: flex;
+	flex-direction: column;
+`;
+
+export const ErrorSpan = styled.span`
+	color: red;
+	${font.RBold};
+`;
+
+export const ProfilePicInput = styled.input`
+	${components.input};
+	padding: 5px;
+	margin-bottom: 5px;
+	width: calc(100% - ${units.margin});
+`;
+
+export const ProfilePicPreview = styled.img`
+	width: 40%;
+	height: 40%;
+	border-radius: 50%;
+	margin: 0 auto;
+`;
+
+export const ProfilePicUploadButton = styled.button`
+	width: 100%;
+	${components.buttonWhite};
 `;
 
 export const ApplicantInfoDiv = styled.div`

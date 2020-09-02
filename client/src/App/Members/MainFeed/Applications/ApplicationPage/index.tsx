@@ -84,7 +84,10 @@ const ApplicationPage: React.FC = () => {
 			uploadedFiles &&
 			uploadedFiles.map((file) => {
 				return (
-					<ApplicantFiles onClick={() => handleFileDl(file.name)}>
+					<ApplicantFiles
+						key={file.name}
+						onClick={() => handleFileDl(file.name)}
+					>
 						{file.name}
 					</ApplicantFiles>
 				);

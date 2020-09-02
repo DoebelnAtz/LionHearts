@@ -11,14 +11,14 @@ import { makeRequest } from '../../../Api';
 import queryString from 'query-string';
 import { useLocation, useHistory } from 'react-router-dom';
 import { useGet } from '../../../Hooks';
-import { makeId } from '../../../Utils';
+import { getLocal, makeId, setLocal } from '../../../Utils';
 
 const ApplyFormSection: React.FC = () => {
 	const location = useLocation();
 	const history = useHistory();
 	const applicationId: any =
-		queryString.parse(location.search)?.application ||
-		history.push(`/apply?application=${makeId(15)}`);
+		getLocal('application').applicationId ||
+		setLocal('application', { applicationId: makeId(15) });
 
 	const [selectedFile, setSelectedFile] = useState<File>();
 	// const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
@@ -97,7 +97,7 @@ const ApplyFormSection: React.FC = () => {
 			data.append('file', selectedFile);
 			try {
 				await makeRequest(
-					`/files/upload-file/${applicationId}`,
+					`/files/upload-file/member-applications/${applicationId}`,
 					'POST',
 					data,
 				);

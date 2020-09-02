@@ -62,7 +62,7 @@ export const getApplicationById = catchErrors(async (req, res) => {
 	res.json(application.rows[0]);
 }, 'Failed to get application by id');
 
-export const uploadApplicationFile = catchErrors(async (req, res, next) => {
+export const uploadFile = catchErrors(async (req, res, next) => {
 	const file = req.file;
 	res.json(file);
 }, 'failed to upload file');

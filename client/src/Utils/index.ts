@@ -48,6 +48,7 @@ export const checkAuth = () => {
 
 export const setLocal = (name: string, jsonItem: any) => {
 	localStorage.setItem(name, JSON.stringify(jsonItem));
+	return jsonItem;
 };
 
 export const calculateTimeSince = (isoString: string) => {

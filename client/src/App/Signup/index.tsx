@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, { ChangeEvent, SyntheticEvent, useEffect, useState } from 'react';
 import queryString from 'query-string';
 import { useHistory, useLocation } from 'react-router';
 
@@ -6,8 +6,13 @@ import {
 	ApplicantInfo,
 	ApplicantInfoDiv,
 	ApplicantLabel,
+	ErrorSpan,
 	LionheartsLogo,
 	LionheartsLogoDiv,
+	ProfilePicInput,
+	ProfilePicPreview,
+	ProfilePicUploadButton,
+	ProfilePicUploadDiv,
 	SignupDiv,
 	SignupDivContainer,
 	SignupForm,
@@ -16,17 +21,26 @@ import LionHeartsLogo from '../../assets/images/logo_complete_blue.svg';
 import { makeRequest } from '../../Api';
 import { Application } from '../../Types';
 import { useGet } from '../../Hooks';
+import LoadingButton from '../Components/LoadingButton';
+
+const acceptedTypes = ['image/jpeg', 'image/png'];
 
 const Signup: React.FC = () => {
 	const history = useHistory();
 	const location = useLocation();
-
+	const [selectedFile, setSelectedFile] = useState<File>();
 	const applicationId: any =
 		queryString.parse(location.search)?.id || history.push(`/`);
 
 	const [application, setApplication] = useGet<Application>(
 		`/auth/signup/check_auth?id=${applicationId}`,
 	);
+	const [errors, setErrors] = useState({
+		passError: '',
+		confError: '',
+		phoneError: '',
+		fileError: '',
+	});
 
 	const [input, setInput] = useState({
 		email: '',
@@ -62,25 +76,75 @@ const Signup: React.FC = () => {
 		});
 	};
 
-	const handleSignup = async (e: any) => {
-		e.preventDefault();
+	const handleFileUpload = async (event: any) => {
+		const data = new FormData();
+		console.log(selectedFile);
+		if (!!selectedFile && selectedFile.size < 80000 && application) {
+			data.append('file', selectedFile);
+			try {
+				await makeRequest(
+					`/files/upload-file/profile-pictures/${(
+						application.firstname + application.lastname.charAt(0)
+					).toLowerCase()}`,
+					'POST',
+					data,
+				);
+			} catch (e) {
+				console.log(e);
+			}
+		} else {
+		}
+	};
+
+	const handleSignup = async (event: any) => {
+		event.preventDefault();
 		if (
 			!!input.phone.length &&
-			!!input.email.length &&
 			!!input.password.length &&
-			application
+			input.password === input.passwordConfirmation &&
+			application &&
+			selectedFile
 		) {
 			console.log(input);
 
 			try {
+				await handleFileUpload(event);
 				await makeRequest('/auth/signup', 'POST', {
 					firstname: application.firstname,
 					lastname: application.lastname,
 					email: application.email,
 					password: input.password,
+					phone: input.phone,
+					profilePic: selectedFile.name,
+					applicationId: application.application_id,
 				});
 			} catch (e) {
 				console.log(e);
+				return false;
+			}
+		}
+		return true;
+	};
+	const handleFileChange = (files: FileList) => {
+		let targetFile = files[0];
+		console.log(targetFile);
+		if (targetFile) {
+			if (targetFile.size > 80000) {
+				setErrors({
+					...errors,
+					fileError: 'File size exceeds 80kb',
+				});
+			} else if (!acceptedTypes.includes(targetFile.type)) {
+				setErrors({
+					...errors,
+					fileError: 'Allowed formats: jpeg, png',
+				});
+			} else {
+				setErrors({
+					...errors,
+					fileError: '',
+				});
+				setSelectedFile(targetFile);
 			}
 		}
 	};
@@ -103,15 +167,31 @@ const Signup: React.FC = () => {
 					<ApplicantInfoDiv>
 						<ApplicantLabel>Username:</ApplicantLabel>
 						<ApplicantInfo>
-							{application?.firstname +
-								application?.lastname.charAt(0)}
+							{(
+								application?.firstname +
+								application?.lastname.charAt(0)
+							).toLowerCase()}
 						</ApplicantInfo>
 					</ApplicantInfoDiv>
 					<ApplicantInfoDiv>
 						<ApplicantLabel>Email:</ApplicantLabel>
 						<ApplicantInfo>{application?.email}</ApplicantInfo>
 					</ApplicantInfoDiv>
-
+					<ProfilePicUploadDiv>
+						<ProfilePicPreview
+							src={
+								selectedFile &&
+								URL.createObjectURL(selectedFile)
+							}
+						/>
+						<ProfilePicInput
+							type={'file'}
+							onChange={(e: any) =>
+								handleFileChange(e.target.files)
+							}
+						/>
+						<ErrorSpan>{errors.fileError}</ErrorSpan>
+					</ProfilePicUploadDiv>
 					<SignupForm>
 						<form>
 							<input
@@ -135,7 +215,9 @@ const Signup: React.FC = () => {
 								value={input.passwordConfirmation}
 								onChange={handlePasswordConfirmationChange}
 							/>
-							<button onClick={handleSignup}>Signup</button>
+							<LoadingButton onClick={handleSignup}>
+								Signup
+							</LoadingButton>
 						</form>
 					</SignupForm>
 				</SignupDivContainer>

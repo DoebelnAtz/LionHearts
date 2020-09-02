@@ -56,7 +56,6 @@ const ProfilePage: React.FC = () => {
 		skillSearch !== '',
 	);
 	const [addingSkill, setAddingSkill] = useState(true);
-	console.log(skillResults);
 	const expandAddSkill = useSpring({
 		width: addingSkill ? '100px' : '0',
 		padding: addingSkill ? '4px' : '0',
@@ -69,8 +68,6 @@ const ProfilePage: React.FC = () => {
 	});
 
 	const [skills, setSkills] = useGet<Skill[]>(`/skills/${params.uid}`);
-
-	console.log(skills);
 
 	const handleSkillSearchChange = (e: ChangeEvent) => {
 		let target = e.target as HTMLInputElement;
