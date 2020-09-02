@@ -4,6 +4,8 @@ import NavLogo from './NavLogo';
 import NavItem from './NavItem';
 
 import MembersIcon from '../../../assets/images/memberlist.svg';
+import ApplicationsIcon from '../../../assets/images/applications_icon.png';
+
 import ProfileIcon from '../../../assets/images/blue_member.svg';
 import ConfigIcon from '../../../assets/images/cogwheel_blue.png';
 import { checkAuth, getLocal } from '../../../Utils';
@@ -23,7 +25,7 @@ const Navigation: React.FC = () => {
 			</NavItem>
 			{checkAuth() > 2 && (
 				<NavItem title={'Applications'} path={'/members/applications'}>
-					<img src={ProfileIcon} />
+					<img src={ApplicationsIcon} />
 				</NavItem>
 			)}
 			{checkAuth() > 3 && (

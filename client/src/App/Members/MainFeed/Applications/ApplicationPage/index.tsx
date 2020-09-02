@@ -10,7 +10,10 @@ import {
 	ApplicantInfoDiv,
 	ApplicantInfoLabel,
 	ApplicantName,
+	ApplicationAcceptButton,
+	ApplicationDecisionButtonRow,
 	ApplicationPageDiv,
+	ApplicationRejectButton,
 } from './Styles';
 import { url } from '../../../../../config.json';
 import { Application } from '../../../../../Types';
@@ -112,6 +115,10 @@ const ApplicationPage: React.FC = () => {
 				<ApplicantInfoLabel>Files:</ApplicantInfoLabel>
 				{renderUploadedFiles()}
 			</ApplicantInfoDiv>
+			<ApplicationDecisionButtonRow>
+				<ApplicationAcceptButton>Accept</ApplicationAcceptButton>
+				<ApplicationRejectButton>Reject</ApplicationRejectButton>
+			</ApplicationDecisionButtonRow>
 		</ApplicationPageDiv>
 	);
 };

@@ -30,7 +30,7 @@ type DropDownProps = {
 	// but this causes problems in scrolling pages like resources / forum / projects
 	modalOverflow?: boolean;
 	// optional function for filter change takes in filter value as arg returning filtered options
-	onFilterChange?: (e: string) => string[];
+	onFilterChange?: (arg: string) => any[];
 };
 
 const DropDownComponent: React.FC<DropDownProps> = ({

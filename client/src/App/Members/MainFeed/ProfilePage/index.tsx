@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useGet } from '../../../../Hooks';
+import { useGet, useNav } from '../../../../Hooks';
 import { Profile, Skill } from '../../../../Types';
 import {
 	AddSkillButton,
@@ -44,6 +44,7 @@ import { useSpring } from 'react-spring';
 
 const ProfilePage: React.FC = () => {
 	const params = useParams<{ uid: string }>();
+	useNav('profile');
 	const [editing, setEditing] = useState(true);
 	const [skillSearch, setSkillSearch] = useState('');
 	const [profile, setProfile] = useGet<Profile>(`/profiles/${params.uid}`);
@@ -105,6 +106,23 @@ const ProfilePage: React.FC = () => {
 			} catch (e) {
 				console.log(e);
 			}
+		}
+	};
+
+	const handleSkillAddition = async (skill: Skill) => {
+		try {
+			if (skills && skillResults) {
+				await makeRequest('/skills/add_skill', 'POST', {
+					userId: getLocal('user').user.u_id,
+					skillId: skill.s_id,
+				});
+				setSkillResults(
+					skillResults.filter((rSkill) => rSkill.s_id !== skill.s_id),
+				);
+				setSkills([...skills, skill]);
+			}
+		} catch (e) {
+			console.log(e);
 		}
 	};
 
@@ -176,7 +194,10 @@ const ProfilePage: React.FC = () => {
 		if (skillResults) {
 			return skillResults.map((skill) => {
 				return (
-					<CreateSkillDiv key={skill.s_id}>
+					<CreateSkillDiv
+						onClick={() => handleSkillAddition(skill)}
+						key={skill.s_id}
+					>
 						<SkillTitle>{skill.title}</SkillTitle>
 					</CreateSkillDiv>
 				);
@@ -300,7 +321,7 @@ const ProfilePage: React.FC = () => {
 								onClick={handleSkillCreation}
 							>
 								<SkillTitle>
-									Create skill: {skillSearch}
+									Add skill: '{skillSearch}'
 								</SkillTitle>
 							</CreateSkillDiv>
 						)}
