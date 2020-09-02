@@ -5,7 +5,7 @@ export const TextEditOutput = styled.textarea`
 	width: calc(100% - ${units.margin} * 2);
 	height: min(200px, 10vh);
 	border: none;
-	font-size: 16px;
+	font-size: 12px;
 	letter-spacing: 0;
 	border-radius: ${units.radius};
 	background-color: ${color.BG1};

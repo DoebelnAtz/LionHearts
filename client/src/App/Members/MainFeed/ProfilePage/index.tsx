@@ -9,6 +9,7 @@ import {
 	AddSkillInput,
 	ContactInfo,
 	ContactInfoDiv,
+	ContactLink,
 	ContactTitle,
 	CreateSkillDiv,
 	EditProfileButton,
@@ -264,16 +265,28 @@ const ProfilePage: React.FC = () => {
 				<ProfilePageContactDiv>
 					<ContactTitle>CONTACT</ContactTitle>
 					<ContactInfoDiv>
-						<ContactInfo
-							disabled={!editing}
-							onChange={handleEmailChange}
-							value={profile?.email || ''}
-						/>
-						<ContactInfo
-							disabled={!editing}
-							onChange={handlePhoneChange}
-							value={profile?.phone || ''}
-						/>
+						{!editing ? (
+							<ContactLink href={`mailto:${profile?.email}`}>
+								{profile?.email}
+							</ContactLink>
+						) : (
+							<ContactInfo
+								disabled={!editing}
+								onChange={handleEmailChange}
+								value={profile?.email || ''}
+							/>
+						)}
+						{!editing ? (
+							<ContactLink href={`tel:${profile?.phone}`}>
+								{profile?.phone}
+							</ContactLink>
+						) : (
+							<ContactInfo
+								disabled={!editing}
+								onChange={handlePhoneChange}
+								value={profile?.phone || ''}
+							/>
+						)}
 					</ContactInfoDiv>
 				</ProfilePageContactDiv>
 				<ProfilePageBioSkillsDiv>

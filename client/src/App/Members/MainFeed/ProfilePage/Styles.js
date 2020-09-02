@@ -94,6 +94,8 @@ export const ContactInfoDiv = styled.div`
 	border-top: 2px solid ${color.secondary};
 	border-bottom: 2px solid ${color.secondary};
 	width: 16vw;
+	display: flex;
+	flex-direction: column;
 	padding: ${units.margin} 0;
 `;
 
@@ -109,6 +111,18 @@ export const ContactInfo = styled.input`
 		props.disabled ? 'none' : `1px solid ${color.primary}`};
 	background-color: ${(props) =>
 		props.disabled ? 'none' : `${color.tertiary}`};
+`;
+
+export const ContactLink = styled.a`
+	color: ${color.primary};
+	${font.DCBold};
+	width: calc(100% - ${units.margin} * 1);
+	height: 20px;
+	letter-spacing: 0.5px;
+	margin: 5px 3px;
+	padding: 2px 0;
+	font-size: 14px;
+	text-decoration: none;
 `;
 
 export const ProfilePageContent = styled.div`
