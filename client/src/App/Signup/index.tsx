@@ -1,50 +1,46 @@
-import React, {ChangeEvent, useEffect, useState} from 'react';
-import { SignupDiv, SignupForm } from './Styles';
-import Input from '../Components/Input';
+import React, { ChangeEvent, useEffect, useState } from 'react';
+import queryString from 'query-string';
+import { useHistory, useLocation } from 'react-router';
+
+import {
+	ApplicantInfo,
+	ApplicantInfoDiv,
+	ApplicantLabel,
+	LionheartsLogo,
+	LionheartsLogoDiv,
+	SignupDiv,
+	SignupDivContainer,
+	SignupForm,
+} from './Styles';
+import LionHeartsLogo from '../../assets/images/logo_complete_blue.svg';
 import { makeRequest } from '../../Api';
-import queryString from "query-string";
-import {makeId} from "../../Utils";
-import {useHistory, useLocation} from "react-router";
-import {log} from "util";
+import { Application } from '../../Types';
+import { useGet } from '../../Hooks';
 
 const Signup: React.FC = () => {
-
-
 	const history = useHistory();
 	const location = useLocation();
 
 	const applicationId: any =
-		queryString.parse(location.search)?.application;
+		queryString.parse(location.search)?.id || history.push(`/`);
 
-
-	const validateApplicationId = async () => {
-		try {
-
-			let resp = await makeRequest(`/applications/${applicationId}`, 'GET')
-			console.log(resp, applicationId);
-		} catch (e) {
-			console.log(e);
-
-		}
-	};
-
-	useEffect(() => {
-		validateApplicationId();
-	}, [applicationId]);
+	const [application, setApplication] = useGet<Application>(
+		`/auth/signup/check_auth?id=${applicationId}`,
+	);
 
 	const [input, setInput] = useState({
 		email: '',
-		firstname: '',
-		lastname: '',
+		phone: '',
 		password: '',
+		passwordConfirmation: '',
 	});
 
-	const handleFNameChange = (e: ChangeEvent) => {
+	const handlePhoneChange = (e: ChangeEvent) => {
 		let target = e.target as HTMLInputElement;
 
 		setInput({
 			...input,
-			firstname: target.value,
+			phone: target.value,
 		});
 	};
 
@@ -57,39 +53,30 @@ const Signup: React.FC = () => {
 		});
 	};
 
-	const handleLNameChange = (e: ChangeEvent) => {
+	const handlePasswordConfirmationChange = (e: ChangeEvent) => {
 		let target = e.target as HTMLInputElement;
 
 		setInput({
 			...input,
-			lastname: target.value,
-		});
-	};
-
-	const handleEmailChange = (e: ChangeEvent) => {
-		let target = e.target as HTMLInputElement;
-
-		setInput({
-			...input,
-			email: target.value,
+			passwordConfirmation: target.value,
 		});
 	};
 
 	const handleSignup = async (e: any) => {
 		e.preventDefault();
 		if (
-			!!input.lastname.length &&
-			!!input.firstname.length &&
+			!!input.phone.length &&
 			!!input.email.length &&
-			!!input.password.length
+			!!input.password.length &&
+			application
 		) {
 			console.log(input);
 
 			try {
 				await makeRequest('/auth/signup', 'POST', {
-					firstname: input.firstname,
-					lastname: input.lastname,
-					email: input.email,
+					firstname: application.firstname,
+					lastname: application.lastname,
+					email: application.email,
 					password: input.password,
 				});
 			} catch (e) {
@@ -100,37 +87,59 @@ const Signup: React.FC = () => {
 
 	return (
 		<SignupDiv>
-			<SignupForm>
-				<form>
-					<input
-						autoComplete={'no'}
-						type={'text'}
-						placeholder={'firstname'}
-						value={input.firstname}
-						onChange={handleFNameChange}
-					/>
-					<input
-						type={'text'}
-						placeholder={'lastname'}
-						value={input.lastname}
-						onChange={handleLNameChange}
-					/>
-					<input
-						autoComplete={'false'}
-						type={'email'}
-						placeholder={'email'}
-						value={input.email}
-						onChange={handleEmailChange}
-					/>
-					<input
-						autoComplete={'new-password'}
-						type={'password'}
-						value={input.password}
-						onChange={handlePasswordChange}
-					/>
-					<button onClick={handleSignup}>Signup</button>
-				</form>
-			</SignupForm>
+			{application && (
+				<SignupDivContainer>
+					<LionheartsLogoDiv>
+						<LionheartsLogo src={LionHeartsLogo} />
+					</LionheartsLogoDiv>
+					<ApplicantInfoDiv>
+						<ApplicantLabel>Firstname:</ApplicantLabel>
+						<ApplicantInfo>{application?.firstname}</ApplicantInfo>
+					</ApplicantInfoDiv>
+					<ApplicantInfoDiv>
+						<ApplicantLabel>Lastname:</ApplicantLabel>
+						<ApplicantInfo>{application?.lastname}</ApplicantInfo>
+					</ApplicantInfoDiv>
+					<ApplicantInfoDiv>
+						<ApplicantLabel>Username:</ApplicantLabel>
+						<ApplicantInfo>
+							{application?.firstname +
+								application?.lastname.charAt(0)}
+						</ApplicantInfo>
+					</ApplicantInfoDiv>
+					<ApplicantInfoDiv>
+						<ApplicantLabel>Email:</ApplicantLabel>
+						<ApplicantInfo>{application?.email}</ApplicantInfo>
+					</ApplicantInfoDiv>
+
+					<SignupForm>
+						<form>
+							<input
+								autoComplete={'new-password'}
+								type={'phone'}
+								placeholder={'phone'}
+								value={input.phone}
+								onChange={handlePhoneChange}
+							/>
+							<input
+								autoComplete={'new-password'}
+								type={'password'}
+								placeholder={'password'}
+								value={input.password}
+								onChange={handlePasswordChange}
+							/>
+							<input
+								autoComplete={'new-password'}
+								type={'password'}
+								placeholder={'confirm password'}
+								value={input.passwordConfirmation}
+								onChange={handlePasswordConfirmationChange}
+							/>
+							<button onClick={handleSignup}>Signup</button>
+						</form>
+					</SignupForm>
+				</SignupDivContainer>
+			)}
 		</SignupDiv>
 	);
 };

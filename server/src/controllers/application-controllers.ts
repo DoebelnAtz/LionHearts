@@ -1,8 +1,9 @@
 import { catchErrors } from '../errors/catchErrors';
 import fs from 'fs';
 import path from 'path';
-import { query } from '../postgres';
+import { connect, query } from '../postgres';
 import CustomError from '../errors/customError';
+import { transaction } from '../errors/transaction';
 
 const mime = {
 	html: 'text/html',
@@ -14,6 +15,22 @@ const mime = {
 	pdf: 'application/pdf',
 	svg: 'image/svg+xml',
 	js: 'application/javascript',
+};
+
+const deleteFolderRecursive = function (filePath: string) {
+	if (fs.existsSync(filePath)) {
+		fs.readdirSync(filePath).forEach((file, index) => {
+			const curPath = path.join(filePath, file);
+			if (fs.lstatSync(curPath).isDirectory()) {
+				// recurse
+				deleteFolderRecursive(curPath);
+			} else {
+				// delete file
+				fs.unlinkSync(curPath);
+			}
+		});
+		fs.rmdirSync(filePath);
+	}
 };
 
 export const getApplicationIdFiles = catchErrors(async (req, res, next) => {
@@ -136,3 +153,25 @@ export const createApplication = catchErrors(async (req, res, next) => {
 		message: `Application successfully created`,
 	});
 }, 'Failed to create application');
+
+export const rejectApplicant = catchErrors(async (req, res) => {
+	const { applicationId } = req.body;
+
+	const client = await connect();
+	await transaction(
+		async () => {
+			await query(
+				`
+	        	DELETE FROM applications WHERE application_id = $1    
+	        `,
+				[applicationId],
+			);
+		},
+		client,
+		'',
+	);
+
+	deleteFolderRecursive(`./member-applications/${applicationId}`);
+
+	res.json({ success: true });
+}, 'Failed to reject applicant');

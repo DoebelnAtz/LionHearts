@@ -10,8 +10,26 @@ let config = require('../config');
 let jwt = require('jsonwebtoken');
 
 export const signup = catchErrors(async (req, res) => {
-	const { firstname, lastname, password, email } = req.body;
+	const { firstname, lastname, password, email, applicationId } = req.body;
 
+	let application = await query(
+		`
+			SELECT application_id, 
+			firstname, lastname, 
+			email FROM applications 
+			WHERE application_id = $1
+	`,
+		[applicationId],
+	);
+
+	if (!application.rows) {
+		throw new CustomError(
+			'Application does not exist',
+			401,
+			`Failed to sign up, invalid id: ${applicationId}`,
+			'Unauthorized sign up attempt',
+		);
+	}
 	let existingUser = await query(`SELECT email FROM users WHERE email = $1`, [
 		email,
 	]);
@@ -48,6 +66,30 @@ export const signup = catchErrors(async (req, res) => {
 	);
 	res.status(201).json({ success: true });
 });
+
+export const checkSignupAuth = catchErrors(async (req, res) => {
+	const applicationId = req.query.id;
+
+	let application = await query(
+		`
+			SELECT application_id, 
+			firstname, lastname, 
+			email FROM applications 
+			WHERE application_id = $1
+	`,
+		[applicationId],
+	);
+
+	if (!application.rows.length) {
+		throw new CustomError(
+			'Application does not exist',
+			401,
+			`Failed to sign up, invalid id: ${applicationId}`,
+			'Unauthorized sign up attempt',
+		);
+	}
+	res.json(application.rows[0]);
+}, 'Failed to signup, invalid attempt');
 
 export const login = catchErrors(async (req, res, next) => {
 	const { username, password } = req.body;

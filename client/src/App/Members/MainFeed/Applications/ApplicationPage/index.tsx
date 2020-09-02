@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import { useGet } from '../../../../../Hooks';
 import {
 	ApplicantDescription,
@@ -9,7 +9,6 @@ import {
 	ApplicantInfo,
 	ApplicantInfoDiv,
 	ApplicantInfoLabel,
-	ApplicantName,
 	ApplicationAcceptButton,
 	ApplicationDecisionButtonRow,
 	ApplicationPageDiv,
@@ -21,6 +20,7 @@ import { makeRequest } from '../../../../../Api';
 import { getLocal } from '../../../../../Utils';
 
 const ApplicationPage: React.FC = () => {
+	const history = useHistory();
 	const params = useParams<{ aid: string }>();
 	const [application, setApplication] = useGet<Application>(
 		`/applications/${params.aid}`,
@@ -56,6 +56,26 @@ const ApplicationPage: React.FC = () => {
 				document.body.appendChild(link);
 				link.click();
 			});
+		}
+	};
+
+	const handleApplicationRejection = async () => {
+		if (
+			application &&
+			window.confirm('Are you sure you want to reject this application?')
+		) {
+			try {
+				await makeRequest(
+					'/applications/delete_application',
+					'DELETE',
+					{
+						applicationId: application.application_id,
+					},
+				);
+				history.push('/members/applications');
+			} catch (e) {
+				console.log(e);
+			}
 		}
 	};
 
@@ -117,7 +137,9 @@ const ApplicationPage: React.FC = () => {
 			</ApplicantInfoDiv>
 			<ApplicationDecisionButtonRow>
 				<ApplicationAcceptButton>Accept</ApplicationAcceptButton>
-				<ApplicationRejectButton>Reject</ApplicationRejectButton>
+				<ApplicationRejectButton onClick={handleApplicationRejection}>
+					Reject
+				</ApplicationRejectButton>
 			</ApplicationDecisionButtonRow>
 		</ApplicationPageDiv>
 	);
