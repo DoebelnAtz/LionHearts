@@ -14,12 +14,18 @@ export const MainFeedHeader = styled.div`
 	display: flex;
 	height: ${mainFeedHeaderHeight};
 	border-bottom: 10px solid ${color.BG2};
+	@media (max-width: ${units.mobile}) {
+		border-bottom-width: 5px;
+	}
 `;
 
 export const MainFeedContent = styled.div`
 	width: 100%;
 	overflow: auto;
 	height: calc(100% - 10px - ${mainFeedHeaderHeight});
+	@media (max-width: ${units.mobile}) {
+		height: calc(100% - 5px - ${mainFeedHeaderHeight});
+	}
 `;
 
 export const MainFeedLocation = styled.span`
@@ -32,6 +38,14 @@ export const MainFeedLocation = styled.span`
 	top: 0px;
 	margin: auto 0 13px ${units.margin};
 	color: ${color.primary};
+`;
+
+export const MainFeedLogo = styled.div`
+	display: none;
+	@media (max-width: ${units.mobile}) {
+		display: block;
+		margin: auto 0 auto ${units.margin};
+	}
 `;
 
 export const UserOptionDropDown = styled.div`

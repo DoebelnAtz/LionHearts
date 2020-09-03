@@ -9,8 +9,9 @@ export const EventTitleDiv = styled.div`
 
 export const EventList = styled.div`
 	width: calc(100% - 0px);
+	display: flex;
+	flex-wrap: wrap;
 	margin-top: ${units.margin};
-	background-color: ${color.BG1};
 `;
 
 export const EventListOptionDiv = styled.div`
@@ -27,12 +28,12 @@ export const EventTitleSpan = styled.span`
 `;
 
 export const FilterOptionLabel = styled.span`
-	margin-right: auto;
+	margin-right: ${units.margin};
 	${font.RReg};
 `;
 
 export const EventFeedDiv = styled.div`
-	background-color: ${color.BG1};
+	background-color: ${color.BG0};
 	width: calc(100% - ${units.margin} * 2);
 	margin: ${units.margin} ${units.margin} ${units.margin} ${units.margin};
 	border-radius: ${units.radius};

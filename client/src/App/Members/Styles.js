@@ -43,6 +43,7 @@ export const MemberViewDiv = styled.div`
 	);
 	@media (max-width: ${units.tablet}) {
 		width: calc(100% - ${NavigationMobileWidth});
+		margin: 0 0 0 5px;
 	}
 	@media (max-width: ${units.mobile}) {
 		width: 100%;
@@ -54,14 +55,18 @@ export const MemberHomeMainDiv = styled.div`
 	height: calc(100%);
 	width: min(calc(100% - ${units.margin} * 2), 1400px);
 	margin: auto;
-	@media (max-width: ${units.mobile}) {
+	@media (max-width: ${units.tablet}) {
 		width: 100%;
 	}
 `;
 
 export const MemberMobileNavDiv = styled.div`
 	height: ${MobileNavHeight};
-	border-top: solid ${units.margin} ${color.BG2};
+	border-top: solid 5px ${color.BG2};
+	display: none;
+	@media (max-width: ${units.mobile}) {
+		display: block;
+	}
 `;
 
 export const MemberMainDiv = styled.div`
@@ -69,8 +74,9 @@ export const MemberMainDiv = styled.div`
 	height: 100%;
 	display: flex;
 	background-color: ${color.BG2};
+
 	@media (max-width: ${units.mobile}) {
 		background-color: ${color.BG0};
-		height: calc(100% - ${MobileNavHeight} - ${units.margin});
+		height: calc(100% - ${MobileNavHeight} - 5px);
 	}
 `;

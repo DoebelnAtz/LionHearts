@@ -255,7 +255,6 @@ const ProfilePage: React.FC = () => {
 								onClick={() => handleChangeSave()}
 								url={CheckMark}
 							/>
-
 							<EditProfileButton
 								onClick={() => setEditing(false)}
 								url={CloseIcon}

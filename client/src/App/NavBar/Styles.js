@@ -1,12 +1,16 @@
 import styled from 'styled-components';
 import { animated } from 'react-spring';
-import { font, color, cursor } from '../../Styles';
+import { font, color, cursor, units } from '../../Styles';
 
 export const NavBarDiv = styled.div`
 	width: 100%;
 	height: 60px;
 	position: relative;
+	z-index: 2;
 	display: flex;
+	@media (max-width: 900px) {
+		position: fixed;
+	}
 `;
 
 export const NavBarLogoDiv = styled.div`

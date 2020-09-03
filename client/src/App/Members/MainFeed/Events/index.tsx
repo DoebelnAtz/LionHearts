@@ -77,9 +77,6 @@ const Events: React.FC = () => {
 	};
 	return (
 		<EventFeedDiv>
-			<EventTitleDiv>
-				<EventTitleSpan>EVENTS</EventTitleSpan>
-			</EventTitleDiv>
 			<EventCalendar
 				onDayClick={handleDateClick}
 				selectedDay={selectedDay}

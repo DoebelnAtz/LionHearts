@@ -5,14 +5,13 @@ import { Link } from 'react-router-dom';
 export const NavItemDiv = styled.div`
 	width: fit-content;
 	background-color: ${color.BG0};
-	border-radius: 25px;
 	${cursor.clickable};
 	padding: 5px 5px;
 	display: flex;
 	margin: 5px auto;
 	&:hover {
 		transition: background-color 0.1s;
-		background-color: ${color.tertiary};
+		border-bottom: 5px solid ${color.tertiary};
 	}
 	height: 40px;
 `;

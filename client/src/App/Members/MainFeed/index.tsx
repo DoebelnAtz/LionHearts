@@ -4,6 +4,7 @@ import {
 	MainFeedDiv,
 	MainFeedHeader,
 	MainFeedLocation,
+	MainFeedLogo,
 	UserOption,
 	UserOptionDropDown,
 	UserOptionsMenu,
@@ -19,6 +20,7 @@ import ProfilePage from './ProfilePage';
 import ApplicationPage from './Applications/ApplicationPage';
 import AdminPanel from './AdminPanel';
 import Events from './Events';
+import Logo from '../../Logo';
 
 const MainFeed: React.FC = () => {
 	const { state } = useContext(CurrentNavContext);
@@ -36,6 +38,9 @@ const MainFeed: React.FC = () => {
 	return (
 		<MainFeedDiv>
 			<MainFeedHeader>
+				<MainFeedLogo>
+					<Logo compact inverse />
+				</MainFeedLogo>
 				<MainFeedLocation>{state}</MainFeedLocation>
 			</MainFeedHeader>
 			<MainFeedContent>
