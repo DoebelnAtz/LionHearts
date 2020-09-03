@@ -61,6 +61,7 @@ export const MemberHomeMainDiv = styled.div`
 
 export const MemberMobileNavDiv = styled.div`
 	height: ${MobileNavHeight};
+	border-top: solid ${units.margin} ${color.BG2};
 `;
 
 export const MemberMainDiv = styled.div`
@@ -70,6 +71,6 @@ export const MemberMainDiv = styled.div`
 	background-color: ${color.BG2};
 	@media (max-width: ${units.mobile}) {
 		background-color: ${color.BG0};
-		height: calc(100% - ${MobileNavHeight});
+		height: calc(100% - ${MobileNavHeight} - ${units.margin});
 	}
 `;

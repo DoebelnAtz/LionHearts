@@ -82,6 +82,11 @@ export const ProfilePageContactDiv = styled.div`
 	width: 18vw;
 	height: 100%;
 	background-color: white;
+	@media (max-width: ${units.tablet}) {
+		height: auto;
+		margin-bottom: ${units.margin};
+		width: 100%;
+	}
 `;
 
 export const ContactTitle = styled.span`
@@ -97,6 +102,9 @@ export const ContactInfoDiv = styled.div`
 	display: flex;
 	flex-direction: column;
 	padding: ${units.margin} 0;
+	@media (max-width: ${units.tablet}) {
+		width: 100%;
+	}
 `;
 
 export const ContactInfo = styled.input`
@@ -129,6 +137,10 @@ export const ProfilePageContent = styled.div`
 	padding: 5%;
 	height: 50%;
 	display: flex;
+	@media (max-width: ${units.tablet}) {
+		flex-direction: column-reverse;
+		height: auto;
+	}
 `;
 
 export const ProfilePageBioSkillsDiv = styled.div`
@@ -136,6 +148,10 @@ export const ProfilePageBioSkillsDiv = styled.div`
 	width: 100%;
 	display: flex;
 	flex-direction: column;
+	@media (max-width: ${units.tablet}) {
+		height: auto;
+		margin-left: 0;
+	}
 `;
 
 export const ProfilePageBioTitle = styled.span`

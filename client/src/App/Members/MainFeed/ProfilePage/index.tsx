@@ -240,29 +240,31 @@ const ProfilePage: React.FC = () => {
 						</Location>
 					</OccupationInfoDiv>
 				</ProfilePageNameDiv>
-				{profile && checkUser(profile?.u_id) && !editing ? (
-					<ProfilePageEditButtons>
-						<EditProfileButton
-							onClick={() => setEditing(!editing)}
-							url={CogWheel}
-						/>
-					</ProfilePageEditButtons>
-				) : (
-					<ProfilePageEditButtons>
-						<EditProfileButton
-							onClick={() => handleChangeSave()}
-							url={CheckMark}
-						/>
+				{profile &&
+					checkUser(profile.u_id) &&
+					(profile && !editing ? (
+						<ProfilePageEditButtons>
+							<EditProfileButton
+								onClick={() => setEditing(!editing)}
+								url={CogWheel}
+							/>
+						</ProfilePageEditButtons>
+					) : (
+						<ProfilePageEditButtons>
+							<EditProfileButton
+								onClick={() => handleChangeSave()}
+								url={CheckMark}
+							/>
 
-						<EditProfileButton
-							onClick={() => setEditing(false)}
-							url={CloseIcon}
-						/>
-					</ProfilePageEditButtons>
-				)}
+							<EditProfileButton
+								onClick={() => setEditing(false)}
+								url={CloseIcon}
+							/>
+						</ProfilePageEditButtons>
+					))}
 			</ProfilePageInfo>
-			<ProfilePageContent>
-				<ProfilePageContactDiv>
+			<ProfilePageContent id={'profile-content'}>
+				<ProfilePageContactDiv id={'contact'}>
 					<ContactTitle>CONTACT</ContactTitle>
 					<ContactInfoDiv>
 						{!editing ? (
@@ -289,7 +291,7 @@ const ProfilePage: React.FC = () => {
 						)}
 					</ContactInfoDiv>
 				</ProfilePageContactDiv>
-				<ProfilePageBioSkillsDiv>
+				<ProfilePageBioSkillsDiv id={'profile-bio'}>
 					<ProfilePageBioTitle>BIO</ProfilePageBioTitle>
 					<ProfilePageBio>
 						{profile && (
