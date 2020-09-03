@@ -10,6 +10,7 @@ import Apply from './Apply';
 import Footer from './Footer';
 import LoginPopup from './LoginPopup';
 import MembersHome from './Members';
+import { WidthContextProvider } from '../Context/WidthContext';
 
 function App() {
 	const [isMobile] = useWidth();
@@ -23,23 +24,25 @@ function App() {
 						</Route>
 					</Switch>
 				</Route>
-				<Route path={'/'}>
-					<Switch>
-						<Route exact path={'/'}>
-							<Home />
-						</Route>
-						<Route exact path={'/login'}>
-							<Home />
-							<LoginPopup />
-						</Route>
-						<Route exact path={'/signup'}>
-							<Signup />
-						</Route>
-						<Route exact path={'/apply'}>
-							<Apply />
-						</Route>
-					</Switch>
-				</Route>
+				<WidthContextProvider>
+					<Route path={'/'}>
+						<Switch>
+							<Route exact path={'/'}>
+								<Home />
+							</Route>
+							<Route exact path={'/login'}>
+								<Home />
+								<LoginPopup />
+							</Route>
+							<Route exact path={'/signup'}>
+								<Signup />
+							</Route>
+							<Route exact path={'/apply'}>
+								<Apply />
+							</Route>
+						</Switch>
+					</Route>
+				</WidthContextProvider>
 			</Switch>
 		</AppDiv>
 	);

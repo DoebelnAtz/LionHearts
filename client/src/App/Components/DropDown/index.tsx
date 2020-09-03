@@ -51,7 +51,6 @@ const DropDownComponent: React.FC<DropDownProps> = ({
 	const inside = useRef<HTMLDivElement>(null);
 	const filterInputRef = useRef<HTMLInputElement>(null);
 	const [selectedIndex, setSelectedIndex] = useState(0);
-	const [, isMobile] = useWidth();
 
 	const renderOptions = () => {
 		return options.map((option: string, index: number) => {
@@ -78,7 +77,7 @@ const DropDownComponent: React.FC<DropDownProps> = ({
 
 	// make sure input field is focused when user click on dropdown.
 	useEffect(() => {
-		if (filterInputRef && expanded && !isMobile) {
+		if (filterInputRef && expanded) {
 			filterInputRef.current?.focus();
 		}
 	}, [expanded]);

@@ -46,7 +46,7 @@ import { useSpring } from 'react-spring';
 const ProfilePage: React.FC = () => {
 	const params = useParams<{ uid: string }>();
 	useNav('profile');
-	const [editing, setEditing] = useState(true);
+	const [editing, setEditing] = useState(false);
 	const [skillSearch, setSkillSearch] = useState('');
 	const [profile, setProfile] = useGet<Profile>(`/profiles/${params.uid}`);
 	const [locations, setLocations] = useGet<{ name: string; l_id: number }[]>(
@@ -56,7 +56,7 @@ const ProfilePage: React.FC = () => {
 		`/skills/search?q=${skillSearch.toLowerCase()}&limit=20&filter=available`,
 		skillSearch !== '',
 	);
-	const [addingSkill, setAddingSkill] = useState(true);
+	const [addingSkill, setAddingSkill] = useState(false);
 	const expandAddSkill = useSpring({
 		width: addingSkill ? '100px' : '0',
 		padding: addingSkill ? '4px' : '0',

@@ -4,18 +4,9 @@ import Color from 'color';
 const baseColor = '#ffffff';
 
 export const colorAdjust = {
-	darken: (color, amount) =>
-		Color(color)
-			.darken(amount)
-			.hex(),
-	lighten: (color, amount) =>
-		Color(color)
-			.lighten(amount)
-			.string(),
-	rgba: (color, opacity) =>
-		Color(color)
-			.alpha(opacity)
-			.string(),
+	darken: (color, amount) => Color(color).darken(amount).hex(),
+	lighten: (color, amount) => Color(color).lighten(amount).string(),
+	rgba: (color, opacity) => Color(color).alpha(opacity).string(),
 };
 
 export const color = {
@@ -36,21 +27,23 @@ export const color = {
 
 export const units = {
 	margin: '10px',
-	radius: '4px'
+	radius: '4px',
+	tablet: '1000px',
+	mobile: '600px',
 };
 
 export const font = {
 	DCBold: css`
-		font-family: din-condensed-bold,sans-serif;
+		font-family: din-condensed-bold, sans-serif;
 	`,
 	VItalic: css`
 		font-family: volkhov-italic, serif;
 	`,
 	RReg: css`
-		font-family: roboto-regular,sans-serif;
+		font-family: roboto-regular, sans-serif;
 	`,
 	RBold: css`
-		font-family: roboto-bold,sans-serif;
+		font-family: roboto-bold, sans-serif;
 	`,
 	title: css`
 		font-size: 36px;
@@ -58,13 +51,13 @@ export const font = {
 	`,
 	text: css`
 		font-size: 20px;
-		font-family: din-condensed-bold,sans-serif;
+		font-family: din-condensed-bold, sans-serif;
 		letter-spacing: 0.5px;
 		color: ${color.primary};
 	`,
 	error: css`
-		font-size: 18px!important;
-		font-family: din-condensed-bold,sans-serif;
+		font-size: 18px !important;
+		font-family: din-condensed-bold, sans-serif;
 		color: red !important;
 	`,
 	link: css`
@@ -159,11 +152,11 @@ export const components = {
 		${font.DCBold};
 
 		background-color: ${color.tertiary};
-			border: none;
-			caret-color: ${color.primary};
-			caret-shape: block;
-			color: ${color.primary};
-			padding: 6px;	
+		border: none;
+		caret-color: ${color.primary};
+		caret-shape: block;
+		color: ${color.primary};
+		padding: 6px;
 		&:focus {
 			outline: none;
 		}
@@ -181,7 +174,7 @@ export const components = {
 			caret-color: ${color.primary};
 			caret-shape: block;
 			color: ${color.primary};
-			padding: 6px;	
+			padding: 6px;
 		}
 		& input:focus {
 			outline: none;
@@ -193,7 +186,7 @@ export const components = {
 			resize: vertical;
 		}
 		& textarea:focus {
-		 	outline: none;
+			outline: none;
 		}
 	`,
 	buttonWhite: css`
@@ -258,5 +251,5 @@ export const components = {
 
 export const RowDiv = styled.div`
 	${layout.row};
-	margin: ${props => props.margin ? props.margin : '0'};
+	margin: ${(props) => (props.margin ? props.margin : '0')};
 `;

@@ -5,6 +5,7 @@ import {
 	MemberHomeDiv,
 	MemberHomeMainDiv,
 	MemberMainDiv,
+	MemberMobileNavDiv,
 	MemberNavigationDiv,
 	MemberViewDiv,
 } from './Styles';
@@ -14,6 +15,7 @@ import EventFeed from './EventFeed';
 import { getLocal } from '../../Utils';
 import { CurrentNavContextProvider } from '../../Context/CurrentNavContext';
 import { useAuth } from '../../Hooks';
+import MobileNav from './Navigation/MobileNav';
 
 const MembersHome: React.FC = () => {
 	const history = useHistory();
@@ -33,13 +35,16 @@ const MembersHome: React.FC = () => {
 						<MemberNavigationDiv id={'navigation'}>
 							<Navigation />
 						</MemberNavigationDiv>
-						<MemberViewDiv id={'mainView'}>
+						<MemberViewDiv id={'main-view'}>
 							<MainFeed />
 						</MemberViewDiv>
 						<EventFeedDiv id={'events'}>
 							<EventFeed />
 						</EventFeedDiv>
 					</MemberMainDiv>
+					<MemberMobileNavDiv id={'mobile-nav'}>
+						<MobileNav />
+					</MemberMobileNavDiv>
 				</MemberHomeMainDiv>
 			</MemberHomeDiv>
 		</CurrentNavContextProvider>

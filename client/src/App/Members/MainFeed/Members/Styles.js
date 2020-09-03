@@ -52,11 +52,11 @@ export const MemberCardName = styled.div`
 `;
 
 export const MemberCardPic = styled.div`
-	height: 6vw;
+	height: min(100px, 6vw);
 	margin: 0 auto;
 	position: relative;
-	top: -2vw;
+	top: max(-40px, -2vw);
 	border: 2px solid ${color.BG0};
 	border-radius: 3vw;
-	width: 6vw;
+	width: min(100px, 6vw);
 `;

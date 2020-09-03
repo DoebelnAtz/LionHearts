@@ -25,8 +25,7 @@ export const NavBarLinksDiv = styled.div`
 `;
 
 export const NavBarMemberIcon = styled.div`
-	margin: ${(props) =>
-		props.isMobile ? 'auto min(10vw, 100px) auto 0' : 'auto 0'};
+	margin: ${(props) => (props.isMobile ? 'auto 0' : 'auto 0')};
 	position: relative;
 	${cursor.clickable};
 	right: min(10vw, 100px);

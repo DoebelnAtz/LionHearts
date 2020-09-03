@@ -18,6 +18,7 @@ import dropdownIcon from '../../../assets/images/dropdown.png';
 import ProfilePage from './ProfilePage';
 import ApplicationPage from './Applications/ApplicationPage';
 import AdminPanel from './AdminPanel';
+import Events from './Events';
 
 const MainFeed: React.FC = () => {
 	const { state } = useContext(CurrentNavContext);
@@ -53,6 +54,9 @@ const MainFeed: React.FC = () => {
 					</Route>
 					<Route exact path={'/members/admin'}>
 						<AdminPanel />
+					</Route>
+					<Route exact path={'/members/events'}>
+						<Events />
 					</Route>
 				</Switch>
 			</MainFeedContent>

@@ -1,13 +1,15 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { NavItemDiv, NavItemIcon, NavItemTitle } from './Styles';
+import { useWidth } from '../../../../Hooks';
 
 type NavItemProps = {
 	title: string;
 	path: string;
+	tablet?: boolean;
 };
 
-const NavItem: React.FC<NavItemProps> = ({ title, path, children }) => {
+const NavItem: React.FC<NavItemProps> = ({ title, path, children, tablet }) => {
 	const history = useHistory();
 
 	const handleNavItemClick = () => {
@@ -15,7 +17,7 @@ const NavItem: React.FC<NavItemProps> = ({ title, path, children }) => {
 	};
 
 	return (
-		<NavItemDiv onClick={handleNavItemClick}>
+		<NavItemDiv tablet={tablet} onClick={handleNavItemClick}>
 			<NavItemIcon>{children}</NavItemIcon>
 			<NavItemTitle to={path}>{title}</NavItemTitle>
 		</NavItemDiv>
