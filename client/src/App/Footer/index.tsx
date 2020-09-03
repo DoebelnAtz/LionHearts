@@ -4,6 +4,7 @@ import {
 	FooterDiv,
 	FooterNavDiv,
 	LinkDiv,
+	LogoDiv,
 	SoMeLinksDiv,
 } from './Styles';
 import Logo from '../Logo';
@@ -24,7 +25,9 @@ const Footer: React.FC = () => {
 		<FooterDiv>
 			<FooterContentDiv isMobile={isMobile}>
 				<LinkDiv isMobile={isMobile} id={'link'}>
-					<Logo inverse />
+					<LogoDiv>
+						<Logo inverse />
+					</LogoDiv>
 					<FooterNavDiv isMobile={isMobile} id={'footer-nav'}>
 						<FooterNavBarLinksDiv isMobile={isMobile}>
 							<FooterNavBarLink inverse isMobile={isMobile}>
@@ -49,7 +52,7 @@ const Footer: React.FC = () => {
 						<img src={twitterIcon} alt={'Lionhearts Twitter'} />
 						<img src={linkedinIcon} alt={'Lionhearts linkedIn'} />
 						<img src={igIcon} alt={'Lionhearts Instagram'} />
-						<img src={ytIcon} alt={'Lionhearts Youtube'} />
+						{/*<img src={ytIcon} alt={'Lionhearts Youtube'} />*/}
 					</SoMeLinksDiv>
 				</LinkDiv>
 			</FooterContentDiv>

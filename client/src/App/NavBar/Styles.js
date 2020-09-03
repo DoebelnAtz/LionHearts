@@ -34,6 +34,7 @@ export const NavBarMemberIcon = styled.div`
 	${cursor.clickable};
 	right: min(10vw, 100px);
 	z-index: 3;
+	height: 30px;
 	& img {
 		height: 30px;
 		width: 30px;

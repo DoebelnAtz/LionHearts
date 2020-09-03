@@ -3,6 +3,7 @@ import { color, font, cursor, units } from '../../Styles';
 
 export const FooterDiv = styled.div`
 	background-color: ${color.BG0};
+	border-top: 5px solid ${color.tertiary};
 	display: flex;
 `;
 
@@ -21,6 +22,14 @@ export const LinkDiv = styled.div`
 	flex-direction: ${(props) => (props.isMobile ? 'column' : 'row')};
 	width: 100%;
 	padding: ${units.margin};
+`;
+
+export const LogoDiv = styled.div`
+	width: fit-content;
+	margin: auto auto auto 0;
+	@media (max-width: 900px) {
+		margin: 0 auto 0 0;
+	}
 `;
 
 export const FooterNavDiv = styled.div`
@@ -60,5 +69,11 @@ export const SoMeLinksDiv = styled.div`
 	& img {
 		margin: auto 2vw 0 0;
 		height: 26px;
+		&:last-child {
+			margin: auto 0 0 0;
+		}
+	}
+	@media (max-width: 900px) {
+		margin-bottom: ${units.margin};
 	}
 `;
