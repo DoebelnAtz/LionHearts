@@ -6,7 +6,13 @@ import {
 	Option,
 	Profile,
 } from '../../../../../../Types';
-import { ArticleCardDiv } from './Styles';
+import {
+	ArticleCardContents,
+	ArticleCardDiv,
+	ArticleCardName,
+	ArticleCardTime,
+	ArticleCardTitle,
+} from './Styles';
 import {
 	AddArticleAuthor,
 	AddArticleContentDiv,
@@ -19,6 +25,9 @@ import { makeRequest } from '../../../../../../Api';
 import TextEditor from '../../../../../Components/TextEditor';
 import DropDownComponent from '../../../../../Components/DropDown';
 import LoadingButton from '../../../../../Components/LoadingButton';
+import { useSpring } from 'react-spring';
+import { ApplicantName } from '../../../Applications/Styles';
+import { getLocalTimeFormat } from '../../../../../../Utils';
 
 type ArticleCardProps = {
 	article: Article;
@@ -30,11 +39,16 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
 	author,
 	users,
 }) => {
-	const [editing, setEditing] = useState(true);
+	const [editing, setEditing] = useState(false);
 
 	const [editedArticle, setEditedArticle] = useState<AuthoredArticle>({
 		article,
 		author,
+	});
+
+	const expand = useSpring({
+		height: editing ? '560px' : '0px',
+		margin: editing ? '10px 10px' : '0 10px',
 	});
 
 	const handleNewArticleContentChange = (newContent: string) => {
@@ -45,6 +59,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
 	};
 
 	const handleArticleCreation = async () => {
+		console.log(editedArticle);
 		try {
 			if (!editedArticle.article.content) {
 				console.log('content error');
@@ -70,7 +85,6 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
 			console.log(e);
 			return false;
 		}
-		return false;
 	};
 
 	const handleNewArticleUserChange = (newUser: Option) => {
@@ -98,58 +112,60 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
 
 	return (
 		<ArticleCardDiv key={article.article_id}>
-			{article.title}
-			{article.published_date}
-			{author.firstname}
-			{editing && (
-				<AddArticleDiv>
-					<AddArticleTitleAuthor>
-						<AddArticleTitle>
-							Title
-							<input
-								value={editedArticle.article.title}
-								onChange={handleNewArticleTitleChange}
-								placeholder={'title'}
-							/>
-						</AddArticleTitle>
-						<AddArticleAuthor>
-							<AddArticleContentTitle>
-								Author
-							</AddArticleContentTitle>
-							{users && (
-								<DropDownComponent
-									state={
-										editedArticle.author.firstname ||
-										'author'
-									}
-									setSelect={handleNewArticleUserChange}
-									optionList={users?.map((user) => {
-										return {
-											option: user.firstname,
-											id: user.u_id,
-										};
-									})}
-									width={'100px'}
-									height={'24px'}
-								/>
-							)}
-						</AddArticleAuthor>
-					</AddArticleTitleAuthor>
-					<AddArticleContentDiv>
-						<AddArticleContentTitle>Content</AddArticleContentTitle>
-						<TextEditor
-							editable={editing}
-							state={editedArticle.article.content}
-							onChange={handleNewArticleContentChange}
+			<ArticleCardContents onClick={() => setEditing(!editing)}>
+				<ArticleCardTitle>
+					{editedArticle.article.title}
+				</ArticleCardTitle>
+				<ArticleCardTime>
+					{getLocalTimeFormat(editedArticle.article.published_date)}
+				</ArticleCardTime>
+				<ArticleCardName>
+					{editedArticle.author.firstname}
+				</ArticleCardName>
+			</ArticleCardContents>
+
+			<AddArticleDiv style={expand}>
+				<AddArticleTitleAuthor>
+					<AddArticleTitle>
+						Title
+						<input
+							value={editedArticle.article.title}
+							onChange={handleNewArticleTitleChange}
+							placeholder={'title'}
 						/>
-					</AddArticleContentDiv>
-					<LoadingButton
-						onClick={(e: any) => handleArticleCreation()}
-					>
-						UPDATE
-					</LoadingButton>
-				</AddArticleDiv>
-			)}
+					</AddArticleTitle>
+					<AddArticleAuthor>
+						<AddArticleContentTitle>Author</AddArticleContentTitle>
+						{users && (
+							<DropDownComponent
+								state={
+									editedArticle.author.firstname || 'author'
+								}
+								setSelect={handleNewArticleUserChange}
+								optionList={users?.map((user) => {
+									return {
+										option: user.firstname,
+										id: user.u_id,
+									};
+								})}
+								width={'100px'}
+								height={'24px'}
+							/>
+						)}
+					</AddArticleAuthor>
+				</AddArticleTitleAuthor>
+				<AddArticleContentTitle>Content</AddArticleContentTitle>
+				<AddArticleContentDiv>
+					<TextEditor
+						editable={editing}
+						state={editedArticle.article.content}
+						onChange={handleNewArticleContentChange}
+					/>
+				</AddArticleContentDiv>
+				<LoadingButton onClick={(e: any) => handleArticleCreation()}>
+					UPDATE
+				</LoadingButton>
+			</AddArticleDiv>
 		</ArticleCardDiv>
 	);
 };

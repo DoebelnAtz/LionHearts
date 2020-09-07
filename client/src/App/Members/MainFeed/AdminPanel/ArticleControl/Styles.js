@@ -1,18 +1,33 @@
 import styled from 'styled-components';
-import { color, components, font, units } from '../../../../../Styles';
+import { color, components, cursor, font, units } from '../../../../../Styles';
+import { animated } from 'react-spring';
 
 export const ArticleControlDiv = styled.div`
 	width: 100%;
 `;
 
 export const NewArticleButton = styled.div`
-	width: 100%;
-	background-color: gray;
+	width: calc(100% - ${units.margin} * 2);
+	background-color: ${color.BG1};
+	margin: ${units.margin} auto;
+	${font.DCBold};
+	color: ${color.primary};
+	height: 30px;
+	font-size: 20px;
+	line-height: 36px;
+	text-align: center;
+	${cursor.clickable};
+	&:hover {
+		background-color: ${color.BG2};
+		transition: background-color 0.1s;
+	}
 `;
 
-export const AddArticleDiv = styled.div`
+export const AddArticleDiv = styled(animated.div)`
 	width: calc(100% - ${units.margin} * 2);
 	margin: ${units.margin};
+	height: 0px;
+	overflow-y: hidden;
 `;
 
 export const ArticleListDiv = styled.div`
@@ -51,5 +66,7 @@ export const SubmitButton = styled.button`
 
 export const AddArticleContentDiv = styled.div`
 	width: 100%;
-	margin: ${units.margin} 0;
+	height: 400px;
+	overflow-y: auto;
+	margin: 0 0 ${units.margin} 0;
 `;

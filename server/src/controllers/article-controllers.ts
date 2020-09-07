@@ -4,7 +4,7 @@ import { transaction } from '../errors/transaction';
 
 export const GetArticles = catchErrors(async (req, res) => {
 	let articles = await query(`
-        SELECT a.article_id, a.title, a.content, a.published_date, u.firstname, u.lastname, u.profile_pic
+        SELECT a.article_id, a.title, a.content, a.published_date, u.u_id, u.firstname, u.lastname, u.profile_pic
         FROM articles a JOIN users u ON a.author = u.u_id
     `);
 

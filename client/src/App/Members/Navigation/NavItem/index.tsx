@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import { NavItemDiv, NavItemIcon, NavItemTitle } from './Styles';
 import { useWidth } from '../../../../Hooks';
+import { CurrentNavContext } from '../../../../Context/CurrentNavContext';
 
 type NavItemProps = {
 	title: string;
@@ -11,13 +12,18 @@ type NavItemProps = {
 
 const NavItem: React.FC<NavItemProps> = ({ title, path, children, tablet }) => {
 	const history = useHistory();
+	const { state } = useContext(CurrentNavContext);
 
 	const handleNavItemClick = () => {
 		history.push(path);
 	};
 
 	return (
-		<NavItemDiv tablet={tablet} onClick={handleNavItemClick}>
+		<NavItemDiv
+			highlighted={state.toLowerCase() === title.toLowerCase()}
+			tablet={tablet}
+			onClick={handleNavItemClick}
+		>
 			<NavItemIcon>{children}</NavItemIcon>
 			<NavItemTitle to={path}>{title}</NavItemTitle>
 		</NavItemDiv>

@@ -14,6 +14,11 @@ export const getLocal = (item: string) => {
 	}
 };
 
+export const getLocalTimeFormat = (date: string) => {
+	let res = new Date(date);
+	return res.toLocaleString();
+};
+
 export const checkUser = (uid: number) => {
 	try {
 		let userId = getLocal('user').user.u_id;

@@ -3,7 +3,7 @@ import { units } from '../../../Styles';
 
 export const TextEditorDiv = styled.div`
 	width: calc(100%);
-	height: fit-content;
+	height: 100%;
 	min-height: 30px;
 	${(props) => (props.error ? 'border: 2px solid red;' : '')};
 	border-radius: ${units.radius};

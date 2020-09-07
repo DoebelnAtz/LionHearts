@@ -9,11 +9,14 @@ export const NavItemDiv = styled.div`
 	padding: 5px 5px;
 	display: flex;
 	margin: 5px auto;
+	border-bottom: 5px solid
+		${(props) => (props.highlighted ? color.secondary : color.BG0)};
 	&:hover {
 		transition: background-color 0.1s;
-		border-bottom: 5px solid ${color.tertiary};
+		height: 35px;
+		border-bottom: 5px solid ${color.secondary};
 	}
-	height: 40px;
+	height: 35px;
 `;
 
 export const NavItemIcon = styled.div`

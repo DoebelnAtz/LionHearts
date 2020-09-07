@@ -3,7 +3,7 @@ import { color, units, font } from '../../../../Styles';
 
 export const TextEditOutput = styled.textarea`
 	width: calc(100%);
-	height: min(200px, 10vh);
+	height: max(100%, min(200px, 10vh));
 	border: none;
 	font-size: 12px;
 	letter-spacing: 0;
@@ -22,7 +22,7 @@ export const TextOutput = styled.div`
 	width: calc(100%);
 	height: fit-content;
 	min-height: 30px;
-	background-color: ${(props) => (props.editable ? color.BG1 : color.BG0)};
+	background-color: ${(props) => (props.editable ? color.BG0 : color.BG0)};
 	border-radius: ${units.radius};
 	& a {
 		text-decoration: none;

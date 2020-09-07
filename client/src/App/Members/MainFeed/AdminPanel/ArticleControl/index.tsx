@@ -18,12 +18,13 @@ import DropDownComponent from '../../../../Components/DropDown';
 import { makeRequest } from '../../../../../Api';
 import ArticleCard from './ArticleCard';
 import LoadingButton from '../../../../Components/LoadingButton';
+import { useSpring } from 'react-spring';
 
 const ArticleControl: React.FC = () => {
 	const [articles, setArticles] = useGet<AuthoredArticle[]>(
 		'/articles-no-token',
 	);
-	const [adding, setAdding] = useState(true);
+	const [adding, setAdding] = useState(false);
 	const [users, setUsers] = useGet<Profile[]>('/profiles');
 	const [newArticle, setNewArticle] = useState<AuthoredArticle>({
 		article: {
@@ -41,6 +42,11 @@ const ArticleControl: React.FC = () => {
 			article: { ...newArticle.article, content: newContent },
 		});
 	};
+
+	const expand = useSpring({
+		height: adding ? '560px' : '0px',
+		margin: adding ? '10px 10px' : '0px 10px',
+	});
 
 	const handleArticleCreation = async () => {
 		try {
@@ -112,10 +118,13 @@ const ArticleControl: React.FC = () => {
 			})
 		);
 	};
+
 	return (
 		<ArticleControlDiv>
-			<NewArticleButton>New Article</NewArticleButton>
-			<AddArticleDiv>
+			<NewArticleButton onClick={() => setAdding(!adding)}>
+				New Article
+			</NewArticleButton>
+			<AddArticleDiv style={expand}>
 				<AddArticleTitleAuthor>
 					<AddArticleTitle>
 						Title
@@ -143,8 +152,8 @@ const ArticleControl: React.FC = () => {
 						)}
 					</AddArticleAuthor>
 				</AddArticleTitleAuthor>
+				<AddArticleContentTitle>Content</AddArticleContentTitle>
 				<AddArticleContentDiv>
-					<AddArticleContentTitle>Content</AddArticleContentTitle>
 					<TextEditor
 						editable={adding}
 						state={newArticle.article.content}
