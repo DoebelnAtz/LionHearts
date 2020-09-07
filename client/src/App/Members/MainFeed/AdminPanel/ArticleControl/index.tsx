@@ -150,10 +150,10 @@ const ArticleControl: React.FC = () => {
 						state={newArticle.article.content}
 						onChange={handleNewArticleContentChange}
 					/>
-					<LoadingButton onClick={handleArticleCreation}>
-						SUBMIT
-					</LoadingButton>
 				</AddArticleContentDiv>
+				<LoadingButton onClick={handleArticleCreation}>
+					SUBMIT
+				</LoadingButton>
 			</AddArticleDiv>
 			<ArticleListDiv>{renderArticles()}</ArticleListDiv>
 		</ArticleControlDiv>

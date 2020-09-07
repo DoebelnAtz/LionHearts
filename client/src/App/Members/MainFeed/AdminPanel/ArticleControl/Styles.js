@@ -51,4 +51,5 @@ export const SubmitButton = styled.button`
 
 export const AddArticleContentDiv = styled.div`
 	width: 100%;
+	margin: ${units.margin} 0;
 `;

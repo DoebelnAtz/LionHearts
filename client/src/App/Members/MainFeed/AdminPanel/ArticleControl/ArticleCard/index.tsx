@@ -142,12 +142,12 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
 							state={editedArticle.article.content}
 							onChange={handleNewArticleContentChange}
 						/>
-						<LoadingButton
-							onClick={(e: any) => handleArticleCreation()}
-						>
-							UPDATE
-						</LoadingButton>
 					</AddArticleContentDiv>
+					<LoadingButton
+						onClick={(e: any) => handleArticleCreation()}
+					>
+						UPDATE
+					</LoadingButton>
 				</AddArticleDiv>
 			)}
 		</ArticleCardDiv>
