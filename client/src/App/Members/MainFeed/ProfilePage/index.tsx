@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useGet, useNav } from '../../../../Hooks';
-import { Profile, Skill } from '../../../../Types';
+import { Option, Profile, Skill } from '../../../../Types';
 import {
 	AddSkillButton,
 	AddSkillDiv,
@@ -167,11 +167,11 @@ const ProfilePage: React.FC = () => {
 		}
 	};
 
-	const handleLocationChange = (newLocation: string) => {
+	const handleLocationChange = (newLocation: Option) => {
 		if (profile) {
 			setProfile({
 				...profile,
-				location: newLocation,
+				location: newLocation.option,
 			});
 		}
 	};
@@ -228,7 +228,9 @@ const ProfilePage: React.FC = () => {
 									}
 									optionList={
 										locations
-											? locations.map((loc) => loc.name)
+											? locations.map((loc) => {
+													return { option: loc.name };
+											  })
 											: []
 									}
 									width={'100px'}

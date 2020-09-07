@@ -12,11 +12,11 @@ import React, { useEffect, useRef, useState } from 'react';
 import dropdownIcon from '../../../assets/images/dropdown.png';
 
 type DropDownProps = {
-	state: string;
+	state: string | { option: string; id?: number };
 	// function that takes a string input and is run on option change
-	setSelect: (e: string) => void;
+	setSelect: (newOption: { option: string; id?: number }) => void;
 	// provided list of options
-	optionList: string[];
+	optionList: { option: string; id?: number }[];
 	// Component height and width
 	width: string;
 	height: string;
@@ -53,7 +53,7 @@ const DropDownComponent: React.FC<DropDownProps> = ({
 	const [selectedIndex, setSelectedIndex] = useState(0);
 
 	const renderOptions = () => {
-		return options.map((option: string, index: number) => {
+		return options.map(({ option, id }, index: number) => {
 			return (
 				<Option
 					key={index}
@@ -63,7 +63,7 @@ const DropDownComponent: React.FC<DropDownProps> = ({
 						(withFilter && index === selectedIndex)
 					}
 					onClick={() => {
-						setSelect(option);
+						setSelect({ option, id });
 						setExpanded(false);
 					}}
 				>
@@ -95,7 +95,7 @@ const DropDownComponent: React.FC<DropDownProps> = ({
 		onFilterChange
 			? setOptions(onFilterChange(target.value))
 			: setOptions(
-					optionList.filter((option) => {
+					optionList.filter(({ option }) => {
 						return option
 							.toLowerCase()
 							.includes(target.value.toLowerCase());

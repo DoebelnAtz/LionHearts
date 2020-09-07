@@ -25,6 +25,11 @@ export interface Application {
 	application_status: string;
 }
 
+export interface Option {
+	option: string;
+	id?: number;
+}
+
 export interface Profile {
 	u_id: number;
 	location: string;
@@ -39,6 +44,25 @@ export interface Profile {
 export interface Skill {
 	s_id: number;
 	title: string;
+}
+
+export interface Article {
+	article_id: number;
+	title: string;
+	content: string;
+	published_date: string;
+}
+
+export interface Author {
+	u_id: number;
+	firstname: string;
+	lastname: string;
+	profile_pic: string;
+}
+
+export interface AuthoredArticle {
+	article: Article;
+	author: Author;
 }
 
 export interface MemberEvent {

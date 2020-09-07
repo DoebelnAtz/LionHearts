@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { color, units, font } from '../../../../Styles';
 
 export const TextEditOutput = styled.textarea`
-	width: calc(100% - ${units.margin} * 2);
+	width: calc(100%);
 	height: min(200px, 10vh);
 	border: none;
 	font-size: 12px;
@@ -19,8 +19,10 @@ export const TextEditOutput = styled.textarea`
 
 export const TextOutput = styled.div`
 	${font.RReg};
-	width: calc(100% - ${units.margin} * 2);
+	width: calc(100%);
 	height: fit-content;
+	min-height: 30px;
+	background-color: ${(props) => (props.editable ? color.BG1 : color.BG0)};
 	border-radius: ${units.radius};
 	& a {
 		text-decoration: none;

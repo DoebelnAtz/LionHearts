@@ -72,6 +72,7 @@ const TextEditWindowOutput: React.FC<TextEditWindowOutputProps> = ({
 	return (
 		<Fragment>
 			<TextOutput
+				editable={editable}
 				style={{ display: !editing || !editable ? 'block' : 'none' }}
 				ref={showOutput}
 				dangerouslySetInnerHTML={{ __html: state }}

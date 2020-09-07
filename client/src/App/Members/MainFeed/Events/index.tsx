@@ -9,7 +9,7 @@ import {
 	FilterOptionLabel,
 } from './Styles';
 import { useAuth, useGet, useNav } from '../../../../Hooks';
-import { MemberEvent } from '../../../../Types';
+import { MemberEvent, Option } from '../../../../Types';
 import DropDownComponent from '../../../Components/DropDown';
 import EventCard from './EventCard';
 import CreateEvent from './CreateEvent';
@@ -27,8 +27,8 @@ const Events: React.FC = () => {
 	const [selectedDay, setSelectedDay] = useState<Date | null>(null);
 	const { state: level, update } = useContext(AuthContext);
 
-	const handleFilterChange = (newFilter: string) => {
-		setEventFilter(newFilter);
+	const handleFilterChange = (newFilter: Option) => {
+		setEventFilter(newFilter.option);
 		// switch (eventFilter) {
 		// 	case 'upcoming':
 		// 		events &&
@@ -96,7 +96,11 @@ const Events: React.FC = () => {
 				<DropDownComponent
 					state={eventFilter}
 					setSelect={handleFilterChange}
-					optionList={['all', 'upcoming', 'past']}
+					optionList={[
+						{ option: 'all' },
+						{ option: 'upcoming' },
+						{ option: 'past' },
+					]}
 					width={'80px'}
 					height={'22px'}
 				/>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useGet, useNav } from '../../../../Hooks';
-import { Profile, Skill } from '../../../../Types';
+import { Option, Profile, Skill } from '../../../../Types';
 import { useHistory } from 'react-router-dom';
 import {
 	MemberCardContent,
@@ -39,13 +39,15 @@ const MemberList: React.FC = () => {
 		return 'none';
 	};
 
-	const handleFilterChange = (newFilter: string) => {
+	const handleFilterChange = (newFilter: Option) => {
 		if (skills) {
-			if (newFilter === findCorrespondingFilterTitle(skillFilter)) {
+			if (
+				newFilter.option === findCorrespondingFilterTitle(skillFilter)
+			) {
 				setSkillFilter(0);
 			} else {
 				let correspondingFilterId = skills.find(
-					(skill) => skill.title === newFilter,
+					(skill) => skill.title === newFilter.option,
 				);
 				setSkillFilter(correspondingFilterId?.s_id || 0);
 			}
@@ -81,8 +83,10 @@ const MemberList: React.FC = () => {
 					state={findCorrespondingFilterTitle(skillFilter)}
 					setSelect={handleFilterChange}
 					optionList={[
-						'none',
-						...(skills?.map((skill) => skill.title) || []),
+						{ option: 'none' },
+						...(skills?.map((skill) => {
+							return { option: skill.title };
+						}) || []),
 					]}
 					width={'140px'}
 					height={'22px'}

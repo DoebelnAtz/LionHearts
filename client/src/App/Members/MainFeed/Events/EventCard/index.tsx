@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { MemberEvent } from '../../../../../Types';
+import { MemberEvent, Option } from '../../../../../Types';
 import {
 	EventCardResponseRow,
 	EventCardTitle,
@@ -10,7 +10,6 @@ import {
 import DropDownComponent from '../../../../Components/DropDown';
 import { makeRequest } from '../../../../../Api';
 import { calculateTimeSince } from '../../../../../Utils';
-import { EventTitleSpan } from '../Styles';
 
 type EventCardProps = {
 	card: MemberEvent;
@@ -20,13 +19,13 @@ type EventCardProps = {
 const EventCard: React.FC<EventCardProps> = ({ card, highlighted = false }) => {
 	const [eventCard, setEventCard] = useState<MemberEvent>(card);
 
-	const handleEventStatusChange = async (newStatus: string) => {
+	const handleEventStatusChange = async (newStatus: Option) => {
 		let oldValue = eventCard.status;
 		try {
-			setEventCard({ ...eventCard, status: newStatus });
+			setEventCard({ ...eventCard, status: newStatus.option });
 			await makeRequest('/events/change_participation', 'POST', {
 				eventId: eventCard.e_id,
-				status: newStatus,
+				status: newStatus.option,
 			});
 		} catch (e) {
 			setEventCard({ ...eventCard, status: oldValue });
@@ -41,7 +40,11 @@ const EventCard: React.FC<EventCardProps> = ({ card, highlighted = false }) => {
 				<DropDownComponent
 					state={eventCard.status || 'respond'}
 					setSelect={handleEventStatusChange}
-					optionList={['going', 'maybe', 'not going']}
+					optionList={[
+						{ option: 'going' },
+						{ option: 'maybe' },
+						{ option: 'not going' },
+					]}
 					width={'78px'}
 					height={'20px'}
 				/>
