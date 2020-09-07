@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import {color} from "../../../Styles";
+import {color} from "../../../../Styles";
 
 export const SummarySectionDiv = styled.div`
       width: 100%;

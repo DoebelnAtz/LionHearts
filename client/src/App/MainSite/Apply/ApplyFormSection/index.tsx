@@ -1,17 +1,20 @@
 import React, { ChangeEvent, useState } from 'react';
 import {
+	ApplyContentDiv,
 	ApplyForm,
 	ApplyFormSectionDiv,
+	ApplyHeader,
+	ApplyTextDiv,
 	FormDiv,
 	FormError,
 	RemoveFileSpan,
 	UploadedFilesDiv,
 } from './Styles';
-import { makeRequest } from '../../../Api';
+import { makeRequest } from '../../../../Api';
 import queryString from 'query-string';
 import { useLocation, useHistory } from 'react-router-dom';
-import { useGet } from '../../../Hooks';
-import { getLocal, makeId, setLocal } from '../../../Utils';
+import { useGet } from '../../../../Hooks';
+import { getLocal, makeId, setLocal } from '../../../../Utils';
 
 const ApplyFormSection: React.FC = () => {
 	const location = useLocation();
@@ -203,69 +206,79 @@ const ApplyFormSection: React.FC = () => {
 	};
 
 	return (
-		<ApplyFormSectionDiv>
-			<FormDiv>
-				<ApplyForm>
-					<label>
-						Firstname
-						<input
-							type={'text'}
-							placeholder={'firstname'}
-							value={input.firstname}
-							onChange={handleFNameChange}
-						/>
-						<FormError>{errors.FNError}</FormError>
-					</label>
-					<label>
-						Lastname
-						<input
-							type={'text'}
-							placeholder={'lastname'}
-							value={input.lastname}
-							onChange={handleLNameChange}
-						/>
-						<FormError>{errors.LNError}</FormError>
-					</label>
-					<label>
-						Email address
-						<input
-							type={'email'}
-							placeholder={'email'}
-							value={input.email}
-							onChange={handleEmailChange}
-						/>
-						<FormError>{errors.emailError}</FormError>
-					</label>
-					<label>
-						Why do you want to join Lionhearts?
-						<textarea
-							value={input.description}
-							onChange={handleDescriptionChange}
-						/>
-						<FormError>{errors.descriptionError}</FormError>
-					</label>
+		<ApplyContentDiv>
+			<ApplyFormSectionDiv>
+				<ApplyTextDiv>
+					<ApplyHeader>
+						GREAT THAT YOU GOT THIS FAR, TELL US ABOUT YOURSELF!
+					</ApplyHeader>
+				</ApplyTextDiv>
+				<FormDiv>
+					<ApplyForm>
+						<label>
+							Firstname
+							<input
+								type={'text'}
+								placeholder={'firstname'}
+								value={input.firstname}
+								onChange={handleFNameChange}
+							/>
+							<FormError>{errors.FNError}</FormError>
+						</label>
+						<label>
+							Lastname
+							<input
+								type={'text'}
+								placeholder={'lastname'}
+								value={input.lastname}
+								onChange={handleLNameChange}
+							/>
+							<FormError>{errors.LNError}</FormError>
+						</label>
+						<label>
+							Email address
+							<input
+								type={'email'}
+								placeholder={'email'}
+								value={input.email}
+								onChange={handleEmailChange}
+							/>
+							<FormError>{errors.emailError}</FormError>
+						</label>
+						<label>
+							Why do you want to join Lionhearts?
+							<textarea
+								value={input.description}
+								onChange={handleDescriptionChange}
+							/>
+							<FormError>{errors.descriptionError}</FormError>
+						</label>
 
-					<label>
-						Attach files
-						<input
-							type={'file'}
-							onChange={(e: any) =>
-								handleFileChange(e.target.files)
-							}
-						/>
-						<FormError>{errors.fileError}</FormError>
-					</label>
-					<button disabled={!selectedFile} onClick={handleFileUpload}>
-						UPLOAD FILE
-					</button>
-					{!!uploadedFiles?.length && <p>Uploaded files:</p>}
-					{renderUploadedFiles()}
-					<button type={'submit'} onClick={handleSubmit}>
-						SUBMIT
-					</button>
-				</ApplyForm>
-			</FormDiv>
-		</ApplyFormSectionDiv>
+						<label>
+							Attach files
+							<input
+								type={'file'}
+								onChange={(e: any) =>
+									handleFileChange(e.target.files)
+								}
+							/>
+							<FormError>{errors.fileError}</FormError>
+						</label>
+						<button
+							disabled={!selectedFile}
+							onClick={handleFileUpload}
+						>
+							UPLOAD FILE
+						</button>
+						{!!uploadedFiles?.length && <p>Uploaded files:</p>}
+						{renderUploadedFiles()}
+						<button type={'submit'} onClick={handleSubmit}>
+							SUBMIT
+						</button>
+					</ApplyForm>
+				</FormDiv>
+			</ApplyFormSectionDiv>
+		</ApplyContentDiv>
 	);
 };
 

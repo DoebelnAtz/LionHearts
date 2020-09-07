@@ -1,7 +1,7 @@
 import React from 'react';
 import { SummaryColumns, SummarySectionDiv } from './Styles';
 import SummaryColumn from './SummaryColumn';
-import { useWidth } from '../../../Hooks';
+import { useWidth } from '../../../../Hooks';
 
 const SummarySection: React.FC = () => {
 	const [isMobile] = useWidth();

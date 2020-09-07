@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import {color, font} from "../../../Styles";
+import {color, font} from "../../../../Styles";
 
 export const EventSectionDiv = styled.div`
       max-height: 500px;

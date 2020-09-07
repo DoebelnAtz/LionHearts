@@ -56,21 +56,11 @@ const NavBar = () => {
 			</NavBarLogoDiv>
 			{!isMobile && (
 				<NavBarLinksDiv>
-					<NavBarLink>
-						<Link to={`/about-us`}>ABOUT US</Link>
-					</NavBarLink>
-					<NavBarLink>
-						<Link to={`/community`}>COMMUNITY</Link>
-					</NavBarLink>
-					<NavBarLink>
-						<Link to={`/events`}>EVENTS</Link>
-					</NavBarLink>
-					<NavBarLink>
-						<Link to={`/news`}>NEWS</Link>
-					</NavBarLink>
-					<NavBarLink>
-						<Link to={`/apply`}>APPLY</Link>
-					</NavBarLink>
+					<NavBarLink to={`/about-us`}>ABOUT US</NavBarLink>
+					<NavBarLink to={`/community`}>COMMUNITY</NavBarLink>
+					<NavBarLink to={`/events`}>EVENTS</NavBarLink>
+					<NavBarLink to={`/news`}>NEWS</NavBarLink>
+					<NavBarLink to={`/apply`}>APPLY</NavBarLink>
 				</NavBarLinksDiv>
 			)}
 			<NavBarMemberIcon

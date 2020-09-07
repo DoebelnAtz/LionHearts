@@ -1,20 +1,20 @@
 import React from 'react';
-import NavBar from '../NavBar';
+import NavBar from '../../NavBar';
 
 import { HomeDiv } from './Styles';
 import HomeImg from './HomeImg';
 import SummarySection from './SummarySection';
 import EventSection from './EventSection';
 import ApplyNow from './ApplyNowSection';
-import Footer from '../Footer';
+import Footer from '../../Footer';
 import NewsSection from './NewsSection';
 import { Route } from 'react-router-dom';
-import LoginPopup from '../LoginPopup';
+import LoginPopup from '../../LoginPopup';
 
 const Home: React.FC = () => {
 	return (
 		<HomeDiv id={'Home'}>
-			<HomeImg />
+			<HomeImg text={'TOMORROW, BUILT BY YOU.'} />
 			<SummarySection />
 			<EventSection />
 			<ApplyNow />

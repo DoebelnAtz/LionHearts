@@ -8,7 +8,6 @@ export const FooterDiv = styled.div`
 `;
 
 export const FooterContentDiv = styled.div`
-	max-width: 1600px;
 	margin: 20px min(10vw, 100px);
 	display: flex;
 	flex-direction: ${(props) => (props.isMobile ? 'column' : 'row')};
@@ -26,7 +25,7 @@ export const LinkDiv = styled.div`
 
 export const LogoDiv = styled.div`
 	width: fit-content;
-	margin: auto auto auto 0;
+	margin: auto 0;
 	@media (max-width: 900px) {
 		margin: 0 auto 0 0;
 	}

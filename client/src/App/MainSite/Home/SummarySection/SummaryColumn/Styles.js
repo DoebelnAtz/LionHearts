@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import {font, color} from "../../../../Styles";
+import {font, color} from "../../../../../Styles";
 
 export const SummaryColumnDiv = styled.div`
     padding: 2vw;

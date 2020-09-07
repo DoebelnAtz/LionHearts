@@ -1,11 +1,15 @@
 import React, { useRef } from 'react';
 
-import HomePNG from '../../../assets/images/home_img.png';
+import HomePNG from '../../../../assets/images/home_img.png';
 import { BGImg, ImgDiv, Vision } from './Styles';
-import { useScroll, useScrollPosition } from '../../../Hooks';
-import NavBar from '../../NavBar';
+import { useScroll, useScrollPosition } from '../../../../Hooks';
+import NavBar from '../../../NavBar';
 
-const HomeImg = () => {
+type HomeImgProps = {
+	text: string;
+};
+
+const HomeImg: React.FC<HomeImgProps> = ({ text }) => {
 	const fadeDiv = useRef<HTMLDivElement>(null);
 	//const [scrollY] = useScroll();
 	useScrollPosition(({ prevPos, currPos }: any) => {
@@ -16,9 +20,8 @@ const HomeImg = () => {
 	return (
 		<BGImg src={HomePNG}>
 			<NavBar />
-
 			<ImgDiv ref={fadeDiv}>
-				<Vision>Tomorrow, built by you. </Vision>
+				<Vision>{text}</Vision>
 			</ImgDiv>
 		</BGImg>
 	);

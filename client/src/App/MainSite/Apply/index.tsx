@@ -1,16 +1,16 @@
 import React from 'react';
-import NavBar from '../NavBar';
+import NavBar from '../../NavBar';
 import HomeImg from '../Home/HomeImg';
 import { ApplyDiv } from './Styles';
 import ApplyFormSection from './ApplyFormSection';
-import Footer from "../Footer";
+import Footer from '../../Footer';
 
 const Apply: React.FC = () => {
 	return (
 		<ApplyDiv>
-			<HomeImg />
+			<HomeImg text={'BECOME A LIONHEART'} />
 			<ApplyFormSection />
-			<Footer/>
+			<Footer />
 		</ApplyDiv>
 	);
 };

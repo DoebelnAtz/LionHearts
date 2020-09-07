@@ -4,7 +4,7 @@ import {
 	SummaryColumnText,
 	SummaryColumnTitle,
 } from './Styles';
-import { useWidth } from '../../../../Hooks';
+import { useWidth } from '../../../../../Hooks';
 
 const SummaryColumn: React.FC<{ title: string; text: string }> = ({
 	title,

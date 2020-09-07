@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { animated } from 'react-spring';
 import { font, color, cursor, units } from '../../Styles';
+import { Link } from 'react-router-dom';
 
 export const NavBarDiv = styled.div`
 	width: 100%;
@@ -41,7 +42,7 @@ export const NavBarMemberIcon = styled.div`
 	}
 `;
 
-export const NavBarLink = styled.div`
+export const NavBarLink = styled(Link)`
 	color: ${(props) => (props.inverse ? `${color.primary}` : `${color.BG0}`)};
 	${font.DCBold};
 	font-size: 20px;
@@ -51,17 +52,12 @@ export const NavBarLink = styled.div`
 	padding: 0 1vw;
 	margin: 0 1vw;
 	${cursor.clickable};
-	& a {
-		color: ${(props) =>
-			props.inverse ? `${color.primary}` : `${color.BG0}`};
-		text-decoration: none;
-	}
+	color: ${(props) => (props.inverse ? `${color.primary}` : `${color.BG0}`)};
+	text-decoration: none;
 	&:hover {
+		text-decoration: none;
 		background-color: ${color.BG0};
 		color: ${color.primary};
-		& a {
-			color: ${color.primary};
-		}
 	}
 `;
 

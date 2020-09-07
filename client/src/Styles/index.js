@@ -38,6 +38,7 @@ export const font = {
 	`,
 	VItalic: css`
 		font-family: volkhov-italic, serif;
+		font-style: italic;
 	`,
 	RReg: css`
 		font-family: roboto-regular, sans-serif;
