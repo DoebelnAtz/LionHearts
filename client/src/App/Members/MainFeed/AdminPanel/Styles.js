@@ -27,6 +27,8 @@ export const AdminPanelTab = styled.div`
 		${(props) => (props.highlighted ? color.secondary : color.BG0)};
 	&:hover {
 		background-color: ${color.BG1};
+		border-bottom-color: ${(props) =>
+			props.highlighted ? color.secondary : color.BG1};
 	}
 `;
 

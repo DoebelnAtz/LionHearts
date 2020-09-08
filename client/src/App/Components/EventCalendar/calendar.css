@@ -1,5 +1,5 @@
 .react-calendar {
-    border: 2px solid var(--colorprimary);
+    border: 2px solid var(--colorPrimary);
     margin: 10px;
     padding: 5px;
 }
@@ -7,11 +7,11 @@
 .react-calendar__navigation__label {
     font-family: din-condensed-bold;
     text-transform: uppercase;
-    color: var(--colorprimary);
+    color: var(--colorPrimary);
     margin: 0 auto;
     border: none;
     font-size: 20px;
-    background-color: #ffffff;
+    background-color: #ffffff00;
 }
 
 .react-calendar__navigation__label:focus {

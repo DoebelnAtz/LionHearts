@@ -1,4 +1,5 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
+import ReactQuill from 'react-quill';
 import {
 	AddArticleAuthor,
 	AddArticleContentDiv,
@@ -19,13 +20,73 @@ import { makeRequest } from '../../../../../Api';
 import ArticleCard from './ArticleCard';
 import LoadingButton from '../../../../Components/LoadingButton';
 import { useSpring } from 'react-spring';
+import { url } from '../../../../../config.json';
 
 const ArticleControl: React.FC = () => {
 	const [articles, setArticles] = useGet<AuthoredArticle[]>(
 		'/articles-no-token',
 	);
-	const [adding, setAdding] = useState(false);
+	const [adding, setAdding] = useState(true);
 	const [users, setUsers] = useGet<Profile[]>('/profiles');
+	const editor = useRef(null);
+
+	const imageHandler = (image: any, callback: any) => {
+		// @ts-ignore
+		var range = editor.current.getEditor().getSelection();
+		var value = prompt('What is the image URL');
+		if (value) {
+			// @ts-ignore
+			editor.current
+				.getEditor()
+				.insertEmbed(range.index, 'image', value, 'user');
+		}
+	};
+	let modules: any = {
+		toolbar: {
+			container: [
+				[{ header: '1' }, { header: '2' }, { font: [] }],
+				[{ size: [] }],
+				['bold', 'italic', 'underline', 'strike', 'blockquote'],
+				[
+					{ list: 'ordered' },
+					{ list: 'bullet' },
+					{ indent: '-1' },
+					{ indent: '+1' },
+				],
+				['link', 'image', 'video'],
+				['clean'],
+			],
+			handlers: {
+				image: imageHandler,
+			},
+		},
+	};
+	useEffect(() => {
+		modules = {
+			toolbar: {
+				container: [
+					[{ header: '1' }, { header: '2' }, { font: [] }],
+					[{ size: [] }],
+					['bold', 'italic', 'underline', 'strike', 'blockquote'],
+					[
+						{ list: 'ordered' },
+						{ list: 'bullet' },
+						{ indent: '-1' },
+						{ indent: '+1' },
+					],
+					['link', 'image', 'video'],
+					['clean'],
+				],
+				handlers: {
+					image: imageHandler,
+				},
+			},
+			clipboard: {
+				// toggle to add extra line breaks when pasting HTML:
+				matchVisual: false,
+			},
+		};
+	}, [editor.current]);
 	const [newArticle, setNewArticle] = useState<AuthoredArticle>({
 		article: {
 			article_id: 0,
@@ -37,6 +98,7 @@ const ArticleControl: React.FC = () => {
 	});
 
 	const handleNewArticleContentChange = (newContent: string) => {
+		console.log(newContent);
 		setNewArticle({
 			...newArticle,
 			article: { ...newArticle.article, content: newContent },
@@ -153,11 +215,14 @@ const ArticleControl: React.FC = () => {
 					</AddArticleAuthor>
 				</AddArticleTitleAuthor>
 				<AddArticleContentTitle>Content</AddArticleContentTitle>
-				<AddArticleContentDiv>
-					<TextEditor
-						editable={adding}
-						state={newArticle.article.content}
+				<AddArticleContentDiv className={'editor-container'}>
+					<ReactQuill
+						value={newArticle.article.content}
 						onChange={handleNewArticleContentChange}
+						theme={'snow'}
+						modules={modules}
+						ref={editor}
+						bounds={'.editor-container'}
 					/>
 				</AddArticleContentDiv>
 				<LoadingButton onClick={handleArticleCreation}>

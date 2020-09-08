@@ -27,6 +27,8 @@ export const AddArticleDiv = styled(animated.div)`
 	width: calc(100% - ${units.margin} * 2);
 	margin: ${units.margin};
 	height: 0px;
+	display: flex;
+	flex-direction: column;
 	overflow-y: hidden;
 `;
 
@@ -38,7 +40,7 @@ export const ArticleListDiv = styled.div`
 export const AddArticleTitleAuthor = styled.div`
 	display: flex;
 	width: 100%;
-	margin: auto;
+	margin: 0 auto;
 `;
 
 export const AddArticleAuthor = styled.div`
@@ -66,7 +68,7 @@ export const SubmitButton = styled.button`
 
 export const AddArticleContentDiv = styled.div`
 	width: 100%;
-	height: 600px;
+	height: calc(100% - 150px);
 	overflow-y: auto;
 	margin: 0 0 ${units.margin} 0;
 `;
