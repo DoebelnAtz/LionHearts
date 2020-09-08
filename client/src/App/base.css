@@ -67,6 +67,14 @@ body {
     color: var(--colorTertiary) !important;
 }
 
+.image {
+    margin: 14px;
+}
+
+img {
+    margin: 14px;
+}
+
 .column {
     display: flex;
     flex-direction: column;
@@ -77,6 +85,14 @@ body {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
+}
+
+p {
+    font-family: roboto-regular, sans-serif;
+    font-size: 14px;
+    line-height: 18px;
+    letter-spacing: 0.5px;
+    color: black;
 }
 
 .text {

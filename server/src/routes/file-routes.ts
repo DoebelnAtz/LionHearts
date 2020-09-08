@@ -10,6 +10,7 @@ import {
 	uploadFile,
 } from '../controllers/application-controllers';
 import { getProfilePicture } from '../controllers/profile-controllers';
+import { getArticleImages } from '../controllers/file-controllers';
 
 const fileRouter = express.Router();
 
@@ -37,6 +38,7 @@ fileRouter.delete(
 );
 
 fileRouter.get('/profile_picture', getProfilePicture);
+fileRouter.get('/photos', getArticleImages);
 
 fileRouter.get('/:applicationId', getApplicationIdFiles);
 

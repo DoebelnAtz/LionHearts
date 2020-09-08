@@ -20,9 +20,9 @@ export const TextEditOutput = styled.textarea`
 export const TextOutput = styled.div`
 	${font.RReg};
 	width: calc(100%);
-	height: fit-content;
+	height: ${(props) => (props.editable ? '100%' : 'fit-content')};
 	min-height: 30px;
-	background-color: ${(props) => (props.editable ? color.BG0 : color.BG0)};
+	background-color: ${(props) => (props.editable ? color.BG1 : color.BG0)};
 	border-radius: ${units.radius};
 	& a {
 		text-decoration: none;

@@ -3,6 +3,7 @@ import { color, font } from '../../../../Styles';
 
 export const ImgDiv = styled.div`
 	height: 100%;
+	display: flex;
 	width: 100%;
 `;
 
@@ -21,15 +22,12 @@ export const BGImg = styled.div`
 export const Vision = styled.h1`
 	${font.DCBold};
 	font-size: min(86px, max(12vw, 34px));
-	position: relative;
-	left: min(10vw, 100px);
-	bottom: -250px;
+	margin: auto 0 150px min(10vw, 100px);
 	z-index: 1;
-	margin: 0;
 	width: calc(100% - 100px);
 	max-width: min(400px, 60vw);
 	color: white;
 	@media (max-width: 900px) {
-		bottom: calc(-400px + 10vw);
+		margin: auto 0 90px min(10vw, 100px);
 	}
 `;

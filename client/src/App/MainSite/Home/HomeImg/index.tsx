@@ -2,8 +2,8 @@ import React, { useRef } from 'react';
 
 import HomePNG from '../../../../assets/images/home_img.png';
 import { BGImg, ImgDiv, Vision } from './Styles';
-import { useScroll, useScrollPosition } from '../../../../Hooks';
 import NavBar from '../../../NavBar';
+import { url } from '../../../../config.json';
 
 type HomeImgProps = {
 	text: string;
@@ -11,14 +11,9 @@ type HomeImgProps = {
 
 const HomeImg: React.FC<HomeImgProps> = ({ text }) => {
 	const fadeDiv = useRef<HTMLDivElement>(null);
-	//const [scrollY] = useScroll();
-	useScrollPosition(({ prevPos, currPos }: any) => {
-		console.log(currPos.x);
-		console.log(currPos.y);
-		console.log(prevPos);
-	});
+
 	return (
-		<BGImg src={HomePNG}>
+		<BGImg src={`${url}/api/photos/lh_meeting.jpg`}>
 			<NavBar />
 			<ImgDiv ref={fadeDiv}>
 				<Vision>{text}</Vision>

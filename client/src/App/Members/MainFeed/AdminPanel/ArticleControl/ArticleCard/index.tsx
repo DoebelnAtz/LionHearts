@@ -47,7 +47,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
 	});
 
 	const expand = useSpring({
-		height: editing ? '560px' : '0px',
+		height: editing ? '760px' : '0px',
 		margin: editing ? '10px 10px' : '0 10px',
 	});
 

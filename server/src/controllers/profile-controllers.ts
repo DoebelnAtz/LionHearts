@@ -1,10 +1,7 @@
 import { catchErrors } from '../errors/catchErrors';
 import fs from 'fs';
-import http from 'http';
-import url from 'url';
 import path from 'path';
 import { connect, query } from '../postgres';
-import CustomError from '../errors/customError';
 import { transaction } from '../errors/transaction';
 
 const mime = {
