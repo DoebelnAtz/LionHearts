@@ -11,7 +11,7 @@ import FileControl from './FileControl';
 
 const AdminPanel: React.FC = () => {
 	useNav('admin');
-	const [currentTab, setCurrentTab] = useState('articles');
+	const [currentTab, setCurrentTab] = useState('files');
 
 	const renderCurrentTab = () => {
 		switch (currentTab) {

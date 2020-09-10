@@ -18,11 +18,14 @@ const port = process.env.PORT || 5000;
 const app = express();
 
 app.listen(port);
-console.log(path.join(__dirname, '../images'));
+console.log(path.join(__dirname, '../images/articles'));
 console.log(`Server started, listening on port: ${port}`);
 app.use(cors());
 app.use(bodyParser.json());
-app.use('/api/photos', express.static(path.join(__dirname, '../images')));
+app.use(
+	'/api/photos',
+	express.static(path.join(__dirname, '../images/articles')),
+);
 app.use('/api/auth', authRouter);
 app.use('/api/files', fileRouter);
 app.use('/api/articles-no-token', articleRouter.articleNoTokenRouter);

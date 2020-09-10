@@ -21,6 +21,7 @@ import ArticleCard from './ArticleCard';
 import LoadingButton from '../../../../Components/LoadingButton';
 import { useSpring } from 'react-spring';
 import { url } from '../../../../../config.json';
+import QuillEditor from '../../../../Components/QuillEditor';
 
 const ArticleControl: React.FC = () => {
 	const [articles, setArticles] = useGet<AuthoredArticle[]>(
@@ -216,13 +217,9 @@ const ArticleControl: React.FC = () => {
 				</AddArticleTitleAuthor>
 				<AddArticleContentTitle>Content</AddArticleContentTitle>
 				<AddArticleContentDiv className={'editor-container'}>
-					<ReactQuill
-						value={newArticle.article.content}
+					<QuillEditor
 						onChange={handleNewArticleContentChange}
-						theme={'snow'}
-						modules={modules}
-						ref={editor}
-						bounds={'.editor-container'}
+						value={newArticle.article.content}
 					/>
 				</AddArticleContentDiv>
 				<LoadingButton onClick={handleArticleCreation}>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useGet } from '../../../../../Hooks';
 import { url } from '../../../../../config.json';
 import {
@@ -7,16 +7,72 @@ import {
 	ImagePreview,
 	ImagePreviewCard,
 	ImagePreviewCardName,
+	UploadFileInput,
+	UploadFileDiv,
+	ExistingFiles,
+	UploadFileButton,
+	ErrorSpan,
 } from './Styles';
+import { makeRequest } from '../../../../../Api';
+import LoadingButton from '../../../../Components/LoadingButton';
+
+const acceptedTypes = ['image/jpeg', 'image/png'];
+
 const FileControl: React.FC = () => {
 	const [fileNames, setFileNames] = useGet<string[]>('/files/photos');
+	const [selectedFile, setSelectedFile] = useState<File>();
+	const [errors, setErrors] = useState({
+		fileError: '',
+	});
+
+	const handleFileUpload = async (event: any) => {
+		const data = new FormData();
+		console.log(selectedFile);
+		if (!!selectedFile && selectedFile.size < 50000000) {
+			data.append('file', selectedFile);
+			try {
+				await makeRequest(
+					`/files/upload-file/images/articles`,
+					'POST',
+					data,
+				);
+				return true;
+			} catch (e) {
+				console.log(e);
+				return false;
+			}
+		} else {
+			return false;
+		}
+	};
+	const handleFileChange = (files: FileList) => {
+		let targetFile = files[0];
+		console.log(targetFile);
+		if (targetFile) {
+			if (targetFile.size > 50000000) {
+				setErrors({
+					...errors,
+					fileError: 'File size exceeds 50mb',
+				});
+			} else if (!acceptedTypes.includes(targetFile.type)) {
+				setErrors({
+					...errors,
+					fileError: 'Allowed formats: jpeg, png',
+				});
+			} else {
+				setErrors({
+					...errors,
+					fileError: '',
+				});
+				setSelectedFile(targetFile);
+			}
+		}
+	};
 
 	const renderFiles = () => {
 		const handleCopyCodeClick = async (img: string) => {
 			try {
-				await navigator.clipboard.writeText(
-					`<img src="${url}/api/photos/${img}"/>`,
-				);
+				await navigator.clipboard.writeText(`${url}/api/photos/${img}`);
 			} catch (e) {
 				console.log('failed to copy to clipboard');
 			}
@@ -43,7 +99,19 @@ const FileControl: React.FC = () => {
 		);
 	};
 
-	return <FileControlDiv>{renderFiles()}</FileControlDiv>;
+	return (
+		<FileControlDiv>
+			<UploadFileDiv>
+				<UploadFileInput
+					type={'file'}
+					onChange={(e: any) => handleFileChange(e.target.files)}
+				/>
+				<LoadingButton onClick={handleFileUpload}>Upload</LoadingButton>
+				<ErrorSpan>{errors.fileError}</ErrorSpan>
+			</UploadFileDiv>
+			<ExistingFiles>{renderFiles()}</ExistingFiles>
+		</FileControlDiv>
+	);
 };
 
 export default FileControl;

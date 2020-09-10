@@ -68,7 +68,7 @@ export const SubmitButton = styled.button`
 
 export const AddArticleContentDiv = styled.div`
 	width: 100%;
-	height: calc(100% - 150px);
+	height: calc(100%);
 	overflow-y: auto;
 	margin: 0 0 ${units.margin} 0;
 `;

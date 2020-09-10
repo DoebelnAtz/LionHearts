@@ -1,8 +1,90 @@
-import React, { Component } from 'react';
+import React, { Component, PropsWithChildren, SetStateAction } from 'react';
+import ReactQuill from 'react-quill';
+import { QuillEditorDiv } from './Styles';
 
-class QuillEditor extends Component {
+type QuillEditorProps = {
+	onChange: (newState: string) => void;
+	value: string;
+};
+
+class QuillEditor extends Component<QuillEditorProps> {
+	private quillRef: ReactQuill | null | undefined;
+	constructor(props: PropsWithChildren<Readonly<QuillEditorProps>>) {
+		super(props);
+		this.state = { editorHtml: '', theme: 'snow' };
+	}
+
+	handleChange = (e: string) => {
+		this.props.onChange(e);
+	};
+
+	imageHandler = (image: any, callback: any) => {
+		if (this.quillRef) {
+			let range = this.quillRef.getEditor().getSelection();
+			let value = prompt('What is the image URL');
+			if (range)
+				if (value) {
+					this.quillRef
+						.getEditor()
+						.insertEmbed(range.index, 'image', value, 'user');
+				}
+		}
+	};
+
 	render() {
-		return <div></div>;
+		return (
+			<QuillEditorDiv>
+				<ReactQuill
+					theme={'snow'}
+					ref={(el) => (this.quillRef = el)}
+					onChange={this.handleChange}
+					value={this.props.value}
+					formats={[
+						'header',
+						'font',
+						'size',
+						'bold',
+						'italic',
+						'underline',
+						'strike',
+						'blockquote',
+						'list',
+						'bullet',
+						'indent',
+						'link',
+						'image',
+						'video',
+					]}
+					modules={{
+						toolbar: {
+							container: [
+								[
+									{ header: '1' },
+									{ header: '2' },
+									{ header: [3, 4, 5, 6] },
+									{ font: [] },
+								],
+								[{ size: [] }],
+								[
+									'bold',
+									'italic',
+									'underline',
+									'strike',
+									'blockquote',
+								],
+								[{ list: 'ordered' }, { list: 'bullet' }],
+								['link', 'video'],
+								['link', 'image', 'video'],
+								['clean'],
+							],
+							handlers: {
+								image: this.imageHandler,
+							},
+						},
+					}}
+				/>
+			</QuillEditorDiv>
+		);
 	}
 }
 
