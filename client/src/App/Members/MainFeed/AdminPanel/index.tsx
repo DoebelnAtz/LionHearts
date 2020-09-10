@@ -8,10 +8,11 @@ import {
 	AdminPanelTab,
 } from './Styles';
 import FileControl from './FileControl';
+import DatabaseControl from './DatabaseControl';
 
 const AdminPanel: React.FC = () => {
 	useNav('admin');
-	const [currentTab, setCurrentTab] = useState('files');
+	const [currentTab, setCurrentTab] = useState('database');
 
 	const renderCurrentTab = () => {
 		switch (currentTab) {
@@ -19,6 +20,8 @@ const AdminPanel: React.FC = () => {
 				return <ArticleControl />;
 			case 'files':
 				return <FileControl />;
+			case 'database':
+				return <DatabaseControl />;
 			default:
 				break;
 		}
@@ -38,6 +41,12 @@ const AdminPanel: React.FC = () => {
 					onClick={() => setCurrentTab('files')}
 				>
 					files
+				</AdminPanelTab>
+				<AdminPanelTab
+					highlighted={currentTab === 'database'}
+					onClick={() => setCurrentTab('database')}
+				>
+					database
 				</AdminPanelTab>
 			</AdminPanelNavTabs>
 			<AdminPanelFeed>{renderCurrentTab()}</AdminPanelFeed>
