@@ -3,7 +3,7 @@ import { units, font, color, components } from '../../../../../Styles';
 
 export const FileControlDiv = styled.div`
 	width: calc(100% - ${units.margin} * 2);
-	margin: 0 auto;
+	margin: ${units.margin} auto;
 	display: flex;
 	flex-direction: column;
 `;
@@ -50,7 +50,7 @@ export const ExistingFiles = styled.div`
 export const CopyImageHtml = styled.button`
 	${components.buttonWhite};
 	margin: ${units.margin} auto 0 auto;
-	width: 100px;
+	width: 120px;
 `;
 
 export const ImagePreview = styled.img`

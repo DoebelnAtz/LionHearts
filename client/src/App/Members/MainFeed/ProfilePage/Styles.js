@@ -86,6 +86,7 @@ export const ProfilePageContactDiv = styled.div`
 		height: auto;
 		margin-bottom: ${units.margin};
 		width: 100%;
+		margin-top: ${units.margin};
 	}
 `;
 
@@ -235,7 +236,6 @@ export const AddSkillButton = styled(animated.div)`
 `;
 
 export const AddSkillInput = styled(animated.input)`
-	width: 0;
 	${components.input};
 	border-radius: 0 4px 4px 0;
 `;

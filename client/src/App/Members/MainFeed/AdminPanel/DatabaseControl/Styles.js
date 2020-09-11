@@ -8,10 +8,10 @@ export const DataBaseControlDiv = styled.div`
 
 export const DataBaseControlOption = styled.div`
 	width: 100%;
-	padding: ${units.margin} 0;
+	padding: max(4%, 20px) 0;
 	display: flex;
 	flex-direction: column;
-	border-bottom: 3px solid ${color.tertiaryShade};
+	border-bottom: 3px solid ${color.secondary};
 `;
 
 export const DataBaseControlControls = styled.div`
@@ -19,6 +19,13 @@ export const DataBaseControlControls = styled.div`
 	padding: ${units.margin} 0;
 	display: flex;
 	flex-direction: row;
+	justify-content: space-between;
+	& > div {
+		margin-right: 5px;
+	}
+	& > div:last-child {
+		margin-right: 0;
+	}
 `;
 
 export const LabeledControlInput = styled.label`

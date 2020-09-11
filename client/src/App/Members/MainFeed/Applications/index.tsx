@@ -11,8 +11,11 @@ import {
 	ApplicationInfoName,
 	ApplicationInfoStatus,
 	ApplicationInfoSubmitted,
+	ApplicationResults,
+	ApplicationTitleRow,
 } from './Styles';
 import { calculateTimeSince } from '../../../../Utils';
+import { ApplicantInfoLabel } from './ApplicationPage/Styles';
 
 const Applications: React.FC = () => {
 	useNav('Applications');
@@ -46,21 +49,16 @@ const Applications: React.FC = () => {
 						onClick={() => handleApplicationClick(application.a_id)}
 					>
 						<ApplicationInfoName>
-							<ApplicationInfoLabel>Name:</ApplicationInfoLabel>
 							<ApplicantName>
 								{`${application.firstname} ${application.lastname}`}
 							</ApplicantName>
 						</ApplicationInfoName>
 						<ApplicationInfoSubmitted>
-							<ApplicationInfoLabel>
-								Submitted:
-							</ApplicationInfoLabel>
 							<ApplicantName title={application.submitted}>
 								{`${calculateTimeSince(application.submitted)}`}
 							</ApplicantName>
 						</ApplicationInfoSubmitted>
 						<ApplicationInfoStatus>
-							<ApplicationInfoLabel>Status:</ApplicationInfoLabel>
 							<ApplicantStatus
 								color={getApplicationStatusColor(
 									application.application_status,
@@ -75,7 +73,22 @@ const Applications: React.FC = () => {
 		);
 	};
 
-	return <ApplicationDiv>{renderApplications()}</ApplicationDiv>;
+	return (
+		<ApplicationDiv>
+			<ApplicationTitleRow>
+				<ApplicationInfoName>
+					<ApplicationInfoLabel>Name</ApplicationInfoLabel>
+				</ApplicationInfoName>
+				<ApplicationInfoSubmitted>
+					<ApplicationInfoLabel>Submitted</ApplicationInfoLabel>
+				</ApplicationInfoSubmitted>
+				<ApplicationInfoStatus>
+					<ApplicationInfoLabel>Status</ApplicationInfoLabel>
+				</ApplicationInfoStatus>
+			</ApplicationTitleRow>
+			<ApplicationResults>{renderApplications()}</ApplicationResults>
+		</ApplicationDiv>
+	);
 };
 
 export default Applications;

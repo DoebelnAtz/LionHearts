@@ -8,6 +8,8 @@ import {
 	LabeledControlInput,
 } from './Styles';
 import LoadingButton from '../../../../Components/LoadingButton';
+import { AnimatedLabeledInputDiv } from '../../../../../Styles';
+import { makeRequest } from '../../../../../Api';
 
 const DatabaseControl: React.FC = () => {
 	const [location, setLocation] = useState({
@@ -73,7 +75,14 @@ const DatabaseControl: React.FC = () => {
 	};
 
 	const handleSkillSubmission = async () => {
-		return true;
+		try {
+			await makeRequest('/skills/create_skill', 'POST', {
+				title: skill.name,
+			});
+			return true;
+		} catch (e) {
+			return false;
+		}
 	};
 
 	return (
@@ -83,30 +92,45 @@ const DatabaseControl: React.FC = () => {
 					Add location
 				</DataBaseControlOptionTitle>
 				<DataBaseControlControls>
-					<LabeledControlInput>
-						Name:
+					<AnimatedLabeledInputDiv>
 						<input
+							name={'location-name'}
+							autoComplete={'off'}
 							value={location.name}
 							onChange={handleLocationNameChange}
-							placeholder={'name'}
+							type={'text'}
+							required
 						/>
-					</LabeledControlInput>
-					<LabeledControlInput>
-						latitude:
+						<label htmlFor={'location-name'}>
+							<span>Name</span>
+						</label>
+					</AnimatedLabeledInputDiv>
+					<AnimatedLabeledInputDiv>
 						<input
+							name={'location-lat'}
+							autoComplete={'off'}
 							value={location.latitude}
 							onChange={handleLocationLatChange}
-							placeholder={'latitude'}
+							type={'text'}
+							required
 						/>
-					</LabeledControlInput>
-					<LabeledControlInput>
-						longitude:
+						<label htmlFor={'location-lat'}>
+							<span>Latitude</span>
+						</label>
+					</AnimatedLabeledInputDiv>
+					<AnimatedLabeledInputDiv>
 						<input
+							name={'location-long'}
+							autoComplete={'off'}
 							value={location.longitude}
 							onChange={handleLocationLongChange}
-							placeholder={'longitude'}
+							type={'text'}
+							required
 						/>
-					</LabeledControlInput>
+						<label htmlFor={'location-long'}>
+							<span>Longitude</span>
+						</label>
+					</AnimatedLabeledInputDiv>
 				</DataBaseControlControls>
 				<ButtonRow>
 					<LoadingButton onClick={handleLocationSubmission}>
@@ -119,14 +143,19 @@ const DatabaseControl: React.FC = () => {
 					Add place of study
 				</DataBaseControlOptionTitle>
 				<DataBaseControlControls>
-					<LabeledControlInput>
-						Name:
+					<AnimatedLabeledInputDiv>
 						<input
+							name={'school-name'}
+							autoComplete={'off'}
 							value={school.name}
 							onChange={handleSchoolNameChange}
-							placeholder={'name'}
+							type={'text'}
+							required
 						/>
-					</LabeledControlInput>
+						<label htmlFor={'school-name'}>
+							<span>Name</span>
+						</label>
+					</AnimatedLabeledInputDiv>
 				</DataBaseControlControls>
 				<ButtonRow>
 					<LoadingButton onClick={handleSchoolSubmission}>
@@ -139,14 +168,19 @@ const DatabaseControl: React.FC = () => {
 					Add skill
 				</DataBaseControlOptionTitle>
 				<DataBaseControlControls>
-					<LabeledControlInput>
-						Name:
+					<AnimatedLabeledInputDiv>
 						<input
+							name={'skill-name'}
+							autoComplete={'off'}
 							value={skill.name}
 							onChange={handleSkillNameChange}
-							placeholder={'name'}
+							type={'text'}
+							required
 						/>
-					</LabeledControlInput>
+						<label htmlFor={'skill-name'}>
+							<span>Name</span>
+						</label>
+					</AnimatedLabeledInputDiv>
 				</DataBaseControlControls>
 				<ButtonRow>
 					<LoadingButton onClick={handleSkillSubmission}>

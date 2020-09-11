@@ -10,7 +10,8 @@ export const SignupDiv = styled.div`
 export const SignupDivContainer = styled.div`
 	width: min(50%, 400px);
 	background-color: ${color.BG0};
-	padding: ${units.margin};
+	padding: 5%;
+	border-radius: 10px;
 	margin: auto;
 	display: flex;
 	flex-direction: column;
@@ -20,12 +21,9 @@ export const SignupForm = styled.div`
 	& form {
 		display: flex;
 		flex-direction: column;
-		& input {
-			${components.input};
-			margin: 10px 0;
-			padding: 5px;
-		}
+
 		& button {
+			margin-top: ${units.margin};
 			${components.buttonWhite};
 		}
 	}
@@ -33,14 +31,21 @@ export const SignupForm = styled.div`
 
 export const LionheartsLogoDiv = styled.div`
 	width: 100%;
+	margin: 5% 0;
 `;
 
 export const LionheartsLogo = styled.img``;
 
 export const ProfilePicUploadDiv = styled.div`
 	width: 100%;
+	margin-top: 5%;
 	display: flex;
 	flex-direction: column;
+	& label {
+		${font.DCBold};
+		color: ${color.header};
+		font-size: 18px;
+	}
 `;
 
 export const ErrorSpan = styled.span`
@@ -75,11 +80,13 @@ export const ApplicantInfoDiv = styled.div`
 
 export const ApplicantLabel = styled.span`
 	${font.DCBold};
-	color: ${color.primary};
+	color: ${color.header};
+	font-size: 18px;
 `;
 
 export const ApplicantInfo = styled.span`
 	margin-left: auto;
 	${font.DCBold};
+	font-size: 18px;
 	color: ${color.primary};
 `;

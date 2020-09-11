@@ -17,6 +17,7 @@ export const color = {
 	tertiary: '#FFE8D8',
 	tertiaryShade: colorAdjust.darken('#FFE8D8', 0.1),
 	text: '#232323',
+	header: '#0E274D',
 	BG0: baseColor,
 	BG1: colorAdjust.darken(baseColor, 0.05),
 	BG2: colorAdjust.darken(baseColor, 0.1),
@@ -52,7 +53,7 @@ export const font = {
 	`,
 	text: css`
 		font-size: 20px;
-		font-family: din-condensed-bold, sans-serif;
+		font-family: roboto-regular, sans-serif;
 		letter-spacing: 0.5px;
 		color: ${color.primary};
 	`,
@@ -162,6 +163,61 @@ export const components = {
 			outline: none;
 		}
 	`,
+	animatedLabeledInput: css`
+		position: relative;
+		overflow: hidden;
+		height: 66px;
+		& input {
+			width: 100%;
+			height: 100%;
+			color: ${color.primary};
+			padding-top: 20px;
+			border: none;
+			outline: none;
+			&:focus + label::after {
+				transform: translateX(0%);
+			}
+			&:valid + label::after {
+				transform: translateX(0%);
+			}
+			&:focus + label span {
+				transform: translateY(-100%);
+			}
+			&:valid + label span {
+				transform: translateY(-100%);
+			}
+		}
+
+		& label {
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			pointer-events: none;
+			border-bottom: 2px solid ${color.tertiaryShade};
+		}
+
+		& label::after {
+			content: '';
+			position: absolute;
+			height: 100%;
+			width: 100%;
+			left: 0;
+			bottom: -2px;
+			transition: all 0.3s ease;
+			border-bottom: 2px solid ${color.secondary};
+			transform: translateX(-100%);
+		}
+		& label span {
+			position: absolute;
+			bottom: 5px;
+			${font.DCBold};
+			color: ${color.header};
+			font-size: 18px;
+			transition: all 0.3s ease;
+		}
+	`,
 	labeledInput: css`
 		${font.DCBold};
 		font-size: 20px;
@@ -191,10 +247,12 @@ export const components = {
 		}
 	`,
 	buttonWhite: css`
-		padding: 2px 7px;
+		padding: 2px 12px;
 		letter-spacing: 1px;
-		${font.text};
+		${font.DCBold};
 		height: 32px;
+		text-transform: uppercase;
+		font-size: 20px;
 		line-height: 30px;
 		background-color: ${color.BG0};
 		${cursor.clickable};
@@ -220,10 +278,12 @@ export const components = {
 		}
 	`,
 	buttonBlue: css`
-		padding: 2px 7px;
+		padding: 2px 12px;
 		letter-spacing: 1px;
-		${font.text};
+		${font.DCBold};
+		text-transform: uppercase;
 		height: 32px;
+		font-size: 20px;
 		line-height: 30px;
 		background-color: ${color.primary};
 		${cursor.clickable};
@@ -249,6 +309,10 @@ export const components = {
 		}
 	`,
 };
+
+export const AnimatedLabeledInputDiv = styled.div`
+	${components.animatedLabeledInput};
+`;
 
 export const RowDiv = styled.div`
 	${layout.row};

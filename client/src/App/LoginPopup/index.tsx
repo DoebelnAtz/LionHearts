@@ -11,6 +11,7 @@ import {
 } from './Styles';
 import { makeRequest } from '../../Api';
 import { setLocal } from '../../Utils';
+import { AnimatedLabeledInputDiv } from '../../Styles';
 const LoginPopup = () => {
 	const loginModal = useRef<HTMLDivElement>(null);
 	const history = useHistory();
@@ -69,27 +70,32 @@ const LoginPopup = () => {
 		>
 			<LoginDiv>
 				<form>
-					<UsernameDiv>
-						<label>
-							Username
-							<input
-								placeholder={'username'}
-								value={input.username}
-								onChange={handleUsernameChange}
-							/>
+					<AnimatedLabeledInputDiv>
+						<input
+							name={'username'}
+							autoComplete={'off'}
+							value={input.username}
+							onChange={handleUsernameChange}
+							type={'text'}
+							required
+						/>
+						<label htmlFor={'username'}>
+							<span>Username</span>
 						</label>
-					</UsernameDiv>
-					<PasswordDiv>
-						<label>
-							Password
-							<input
-								value={input.password}
-								onChange={handlePasswordChange}
-								placeholder={'password'}
-								type={'password'}
-							/>
+					</AnimatedLabeledInputDiv>
+					<AnimatedLabeledInputDiv>
+						<input
+							name={'password'}
+							autoComplete={'password'}
+							value={input.password}
+							onChange={handlePasswordChange}
+							type={'password'}
+							required
+						/>
+						<label htmlFor={'password'}>
+							<span>Password</span>
 						</label>
-					</PasswordDiv>
+					</AnimatedLabeledInputDiv>
 					<ButtonDiv>
 						<LoginButton onClick={handleLogin}>Login</LoginButton>
 					</ButtonDiv>

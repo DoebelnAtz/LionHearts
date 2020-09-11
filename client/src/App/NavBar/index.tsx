@@ -33,7 +33,7 @@ const NavBar = () => {
 
 	const handleMemberIconClick = () => {
 		if (getLocal('user')) {
-			history.push('/members');
+			history.push('/members/list');
 		} else {
 			history.push('/login');
 		}

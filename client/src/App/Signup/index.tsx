@@ -22,6 +22,7 @@ import { makeRequest } from '../../Api';
 import { Application } from '../../Types';
 import { useGet } from '../../Hooks';
 import LoadingButton from '../Components/LoadingButton';
+import { AnimatedLabeledInputDiv } from '../../Styles';
 
 const acceptedTypes = ['image/jpeg', 'image/png'];
 
@@ -184,37 +185,57 @@ const Signup: React.FC = () => {
 								URL.createObjectURL(selectedFile)
 							}
 						/>
-						<ProfilePicInput
-							type={'file'}
-							onChange={(e: any) =>
-								handleFileChange(e.target.files)
-							}
-						/>
+						<label>
+							Profile picture:
+							<ProfilePicInput
+								type={'file'}
+								onChange={(e: any) =>
+									handleFileChange(e.target.files)
+								}
+							/>
+						</label>
 						<ErrorSpan>{errors.fileError}</ErrorSpan>
 					</ProfilePicUploadDiv>
 					<SignupForm>
 						<form>
-							<input
-								autoComplete={'new-password'}
-								type={'phone'}
-								placeholder={'phone'}
-								value={input.phone}
-								onChange={handlePhoneChange}
-							/>
-							<input
-								autoComplete={'new-password'}
-								type={'password'}
-								placeholder={'password'}
-								value={input.password}
-								onChange={handlePasswordChange}
-							/>
-							<input
-								autoComplete={'new-password'}
-								type={'password'}
-								placeholder={'confirm password'}
-								value={input.passwordConfirmation}
-								onChange={handlePasswordConfirmationChange}
-							/>
+							<AnimatedLabeledInputDiv>
+								<input
+									name={'phone'}
+									autoComplete={'off'}
+									value={input.phone}
+									onChange={handlePhoneChange}
+									type={'text'}
+									required
+								/>
+								<label htmlFor={'phone'}>
+									<span>Phone</span>
+								</label>
+							</AnimatedLabeledInputDiv>
+							<AnimatedLabeledInputDiv>
+								<input
+									autoComplete={'new-password'}
+									type={'password'}
+									value={input.password}
+									onChange={handlePasswordChange}
+									required
+								/>
+								<label htmlFor={'password'}>
+									<span>Password</span>
+								</label>
+							</AnimatedLabeledInputDiv>
+							<AnimatedLabeledInputDiv>
+								<input
+									autoComplete={'new-password'}
+									type={'password-confirmation'}
+									name={'confirm-password'}
+									value={input.passwordConfirmation}
+									onChange={handlePasswordConfirmationChange}
+									required
+								/>
+								<label htmlFor={'confirm-password'}>
+									<span>Confirm Password</span>
+								</label>
+							</AnimatedLabeledInputDiv>
 							<LoadingButton onClick={handleSignup}>
 								Signup
 							</LoadingButton>

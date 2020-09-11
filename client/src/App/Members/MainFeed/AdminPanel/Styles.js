@@ -16,7 +16,7 @@ export const AdminPanelNavTabs = styled.div`
 
 export const AdminPanelTab = styled.div`
 	text-transform: uppercase;
-	color: ${color.primary};
+	color: ${color.header};
 	${font.DCBold};
 	font-size: 26px;
 	padding: ${units.margin} 0;
@@ -24,11 +24,11 @@ export const AdminPanelTab = styled.div`
 	text-align: center;
 	${cursor.clickable};
 	border-bottom: 2px solid
-		${(props) => (props.highlighted ? color.secondary : color.BG0)};
+		${(props) => (props.highlighted ? color.secondary : color.BG2)};
 	&:hover {
 		background-color: ${color.BG1};
 		border-bottom-color: ${(props) =>
-			props.highlighted ? color.secondary : color.BG1};
+			props.highlighted ? color.secondary : color.tertiary};
 	}
 `;
 
