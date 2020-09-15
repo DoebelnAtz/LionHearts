@@ -67,6 +67,9 @@ export interface AuthoredArticle {
 
 export interface MemberEvent {
 	e_id: number;
+	username: string;
+	firstname: string;
+	lastname: string;
 	title: string;
 	time: string;
 	status: string;

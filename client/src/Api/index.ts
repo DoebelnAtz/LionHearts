@@ -67,11 +67,13 @@ export const makeRequest = async (url: string, method: any, data: any = {}) => {
 					if (e.response.status === 401) {
 						window.location.replace('/');
 					}
+					localStorage.clear();
 				}
 			} catch (e) {
 				if (e.response.status === 401) {
 					window.location.replace('/');
 				}
+				localStorage.clear();
 			}
 		} else {
 			throw e;

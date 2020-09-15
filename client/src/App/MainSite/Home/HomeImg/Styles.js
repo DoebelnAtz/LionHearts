@@ -22,12 +22,13 @@ export const BGImg = styled.div`
 export const Vision = styled.h1`
 	${font.DCBold};
 	font-size: min(86px, max(12vw, 34px));
-	margin: auto 0 150px min(10vw, 100px);
+	margin: auto 0 120px min(10vw, 100px);
 	z-index: 1;
+	padding: 0;
 	width: calc(100% - 100px);
 	max-width: min(400px, 60vw);
 	color: white;
 	@media (max-width: 900px) {
-		margin: auto 0 90px min(10vw, 100px);
+		margin: auto 0 max(calc(12vw - 60px), 60px) min(10vw, 100px);
 	}
 `;

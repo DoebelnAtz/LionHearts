@@ -72,13 +72,25 @@
 }
 
 .react-calendar__tile {
-    font-family: roboto-regular;
+    font-family: roboto-regular, sans-serif;
     padding: 0;
     margin: 5px auto;
     width: 24px;
     height: 20px;
     background: none;
     border: none;
+
+}
+
+@media (max-width: 1000px) {
+    .react-calendar__tile {
+        padding: 0;
+        margin: 5px auto;
+        width: 24px;
+        height: 34px;
+        background: none;
+        border: none;
+    }
 }
 
 

@@ -2,6 +2,7 @@ import express from 'express';
 import { check } from 'express-validator';
 import {
 	createEvent,
+	getEventById,
 	getEvents,
 	joinEvent,
 } from '../controllers/event-controllers';
@@ -9,6 +10,8 @@ import {
 const eventRouter = express.Router();
 
 eventRouter.get('/', getEvents);
+
+eventRouter.get('/:eid', getEventById);
 
 eventRouter.post(
 	'/change_participation',

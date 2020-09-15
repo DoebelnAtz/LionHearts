@@ -1,15 +1,15 @@
 import React from 'react';
 import NavBar from '../../NavBar';
 import HomeImg from '../Home/HomeImg';
-import { ApplyDiv } from './Styles';
+import { NewsDiv } from './Styles';
 import Footer from '../../Footer';
 
 const News: React.FC = () => {
 	return (
-		<ApplyDiv>
+		<NewsDiv>
 			<HomeImg text={'NEWS'} />
 			<Footer />
-		</ApplyDiv>
+		</NewsDiv>
 	);
 };
 

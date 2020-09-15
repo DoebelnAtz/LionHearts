@@ -21,6 +21,7 @@ import ApplicationPage from './Applications/ApplicationPage';
 import AdminPanel from './AdminPanel';
 import Events from './Events';
 import Logo from '../../Logo';
+import EventPage from './Events/EventPage';
 
 const MainFeed: React.FC = () => {
 	const { state } = useContext(CurrentNavContext);
@@ -62,6 +63,9 @@ const MainFeed: React.FC = () => {
 					</Route>
 					<Route exact path={'/members/events'}>
 						<Events />
+					</Route>
+					<Route exact path={'/members/events/:eid'}>
+						<EventPage />
 					</Route>
 				</Switch>
 			</MainFeedContent>

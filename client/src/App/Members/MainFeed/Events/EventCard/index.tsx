@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { MemberEvent, Option } from '../../../../../Types';
 import {
 	EventCardResponseRow,
@@ -18,6 +19,7 @@ type EventCardProps = {
 
 const EventCard: React.FC<EventCardProps> = ({ card, highlighted = false }) => {
 	const [eventCard, setEventCard] = useState<MemberEvent>(card);
+	const history = useHistory();
 
 	const handleEventStatusChange = async (newStatus: Option) => {
 		let oldValue = eventCard.status;
@@ -32,8 +34,17 @@ const EventCard: React.FC<EventCardProps> = ({ card, highlighted = false }) => {
 		}
 	};
 
+	const handleEventCardClick = (eventId: number) => {
+		history.push(`/members/events/${eventId}`);
+	};
+
 	return (
-		<EventCardDiv highlighted={highlighted} key={eventCard.e_id}>
+		<EventCardDiv
+			id={'event-card'}
+			highlighted={highlighted}
+			onClick={() => handleEventCardClick(eventCard.e_id)}
+			key={eventCard.e_id}
+		>
 			<EventCardTitle>{eventCard.title}</EventCardTitle>
 			<EventCardResponseRow>
 				Respond:

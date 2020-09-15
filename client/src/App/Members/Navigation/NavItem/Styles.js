@@ -8,15 +8,17 @@ export const NavItemDiv = styled.div`
 		props.highlighted ? color.tertiary : color.BG0};
 	border-radius: 25px;
 	${cursor.clickable};
-	padding: 5px 5px;
+	padding: 5px 10px;
 	display: ${(props) => (props.tablet ? 'none' : 'flex')};
-	margin: 5px ${units.margin} 5px ${units.margin};
+	margin: 5px;
 	&:hover {
 		transition: background-color 0.1s;
 		background-color: ${color.tertiary};
 	}
 	@media (max-width: ${units.tablet}) {
 		display: flex;
+		padding: 5px;
+		margin: 5px ${units.margin} 5px ${units.margin};
 	}
 	height: 30px;
 `;

@@ -5,6 +5,7 @@ import { color, components, font, units } from '../../../../../Styles';
 export const CreateEventDiv = styled.div`
 	width: 100%;
 	display: flex;
+
 	flex-direction: column;
 	${font.DCBold};
 `;
@@ -12,6 +13,7 @@ export const CreateEventDiv = styled.div`
 export const EventCreationDiv = styled(animated.div)`
 	width: 100%;
 	display: flex;
+	background-color: inherit;
 	flex-direction: column;
 	overflow-y: hidden;
 `;
@@ -75,7 +77,7 @@ export const SelectedTitleInfo = styled.input`
 export const EventCreationForm = styled.div`
 	width: calc(100% - ${units.margin} * 2);
 	margin: 0 auto;
-	background-color: ${color.BG1};
+	background-color: #ffffff00;
 	display: flex;
 	flex-direction: column;
 	height: 100%;

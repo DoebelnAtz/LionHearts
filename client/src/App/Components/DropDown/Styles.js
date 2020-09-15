@@ -77,9 +77,8 @@ export const Option = styled.div`
 	white-space: nowrap;
 	height: calc(${(props) => props.height} - 1px);
 	width: calc(100% - 9px);
-	line-height: 25px;
+	line-height: 20px;
 	margin: 0 auto;
-	text-transform: uppercase;
 	padding: 0 4px;
 	text-align: left;
 	background-color: ${(props) =>

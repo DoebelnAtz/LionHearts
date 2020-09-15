@@ -12,6 +12,7 @@ import {
 	useTrail,
 	useTransition,
 } from 'react-spring';
+import { useHistory } from 'react-router-dom';
 import { NavBarLink } from '../Styles';
 import { makeId } from '../../../Utils';
 import { Link } from 'react-router-dom';
@@ -26,6 +27,7 @@ const MobileNav: React.FC<{
 	const spanRef = useRef<ReactSpringHook>(null);
 	const [isMobile] = useWidth();
 	const mobileMenuRef = useRef<HTMLDivElement>(null);
+	const history = useHistory();
 
 	const close = () => {
 		setExpanded(false);
@@ -46,10 +48,10 @@ const MobileNav: React.FC<{
 	});
 
 	const links = [
-		{ id: 0, text: 'ABOUT US', location: '/' },
-		{ id: 0, text: 'COMMUNITY', location: '/' },
-		{ id: 0, text: 'EVENTS', location: '/' },
-		{ id: 0, text: 'NEWS', location: '/' },
+		{ id: 0, text: 'ABOUT US', location: '/about-us' },
+		{ id: 0, text: 'COMMUNITY', location: '/community' },
+		{ id: 0, text: 'EVENTS', location: '/events' },
+		{ id: 0, text: 'NEWS', location: '/news' },
 		{ id: 0, text: 'APPLY', location: '/apply' },
 	];
 
@@ -60,6 +62,10 @@ const MobileNav: React.FC<{
 		opacity: expanded ? 1 : 0,
 		from: { opacity: 0 },
 	});
+
+	const handleLinkClick = (to: string) => {
+		history.push(to);
+	};
 
 	useChain(expanded ? [menuRef] : [menuRef], expanded ? [0] : [1]);
 
@@ -72,7 +78,13 @@ const MobileNav: React.FC<{
 			{expanded && (
 				<MobileLinkContainer ref={mobileMenuRef}>
 					{trail.map(({ opacity }, index) => (
-						<MobileNavLink style={{ opacity: opacity }} key={index}>
+						<MobileNavLink
+							onClick={() =>
+								handleLinkClick(links[index].location)
+							}
+							style={{ opacity: opacity }}
+							key={index}
+						>
 							<Link to={links[index].location}>
 								{links[index].text}
 							</Link>

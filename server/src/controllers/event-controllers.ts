@@ -54,7 +54,7 @@ export const getEventById = catchErrors(async (req, res) => {
 
 	let event = await query(
 		`
-		SELECT e_id, title, time, u.u_id, u.username, t_id FROM events JOIN users u ON creator === u.u_id WHERE e_id = $1
+		SELECT e.e_id, e.title, e.time, u.u_id, u.username, u.firstname, u.lastname, e.t_id FROM events e JOIN users u ON e.creator = u.u_id WHERE e.e_id = $1
 	`,
 		[eid],
 	);
@@ -70,7 +70,7 @@ export const getEventById = catchErrors(async (req, res) => {
 
 	let eventComments = await query(
 		`
-		SELECT c_id, time, content, creator, u.username FROM comments JOIN users u ON creator = u.u_id WHERE t_id = $1
+		SELECT c_id, created, content, creator, u.username FROM comments JOIN users u ON creator = u.u_id WHERE t_id = $1
 	`,
 		[event.rows[0].t_id],
 	);
@@ -169,7 +169,7 @@ export const createEvent = catchErrors(async (req, res) => {
 	            INSERT INTO events (title, creator, time, t_id) VALUES
 	            ($1, $2, $3, $4);
 	        `,
-				[title, userId, time, thread.rows[0]],
+				[title, userId, time, thread.rows[0].t_id],
 			);
 		},
 		client,
