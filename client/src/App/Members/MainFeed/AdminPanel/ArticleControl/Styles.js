@@ -37,26 +37,71 @@ export const ArticleListDiv = styled.div`
 	margin: 0 ${units.margin};
 `;
 
-export const AddArticleTitleAuthor = styled.div`
+export const AddArticleInfo = styled.div`
 	display: flex;
 	width: 100%;
-	margin: 0 auto;
+	margin: ${units.margin} auto;
+`;
+
+export const ArticleThumbnailBorder = styled.div`
+	width: 80px;
+	height: 80px;
+	position: relative;
+	z-index: 14;
+	background-color: #ffffff00;
+	border: 10px solid ${color.primary};
+`;
+
+export const ArticleThumbnailInput = styled.input`
+	${components.input};
+`;
+
+export const AddArticleThumbnail = styled.div`
+	width: 100px;
+	height: 100px;
+	position: relative;
+	z-index: 12;
+	background: url(${(props) => props.url});
+	background-size: cover;
+	box-shadow: inset 0 0 0 10px ${color.primary}98;
+	background-position: center;
+`;
+
+export const AddArticleTitleAuthor = styled.div`
+	display: flex;
+	width: calc(100% - 100px);
+	margin: 0 auto auto auto;
 `;
 
 export const AddArticleAuthor = styled.div`
 	display: flex;
-	margin: ${units.margin};
 	flex-direction: column;
+	margin: ${units.margin} ${units.margin} auto auto;
+`;
+
+export const AddArticleAuthorTitle = styled.span`
+	${font.DCBold};
+	color: ${color.primary};
+	font-size: 20px;
 `;
 
 export const AddArticleTitle = styled.label`
 	${components.labeledInput};
-	width: 50%;
+	margin-top: ${units.margin};
+	margin-left: ${units.margin};
+	margin-right: ${units.margin};
 	min-width: 140px;
+`;
+
+export const AddArticleAuthord = styled.div`
+	display: flex;
+	flex-direction: column;
+	margin: ${units.margin} ${units.margin} auto auto;
 `;
 
 export const AddArticleContentTitle = styled.span`
 	${font.DCBold};
+	margin-top: ${units.margin};
 	color: ${color.primary};
 	font-size: 20px;
 `;

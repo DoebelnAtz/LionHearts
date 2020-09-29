@@ -11,6 +11,11 @@ import {
 	ArticleListDiv,
 	NewArticleButton,
 	SubmitButton,
+	AddArticleInfo,
+	AddArticleThumbnail,
+	AddArticleAuthorTitle,
+	ArticleThumbnailBorder,
+	ArticleThumbnailInput,
 } from './Styles';
 import { useGet } from '../../../../../Hooks';
 import { AuthoredArticle, Option, Profile } from '../../../../../Types';
@@ -22,6 +27,7 @@ import LoadingButton from '../../../../Components/LoadingButton';
 import { useSpring } from 'react-spring';
 import { url } from '../../../../../config.json';
 import QuillEditor from '../../../../Components/QuillEditor';
+const acceptedTypes = ['image/jpeg', 'image/png'];
 
 const ArticleControl: React.FC = () => {
 	const [articles, setArticles] = useGet<AuthoredArticle[]>(
@@ -30,6 +36,10 @@ const ArticleControl: React.FC = () => {
 	const [adding, setAdding] = useState(true);
 	const [users, setUsers] = useGet<Profile[]>('/profiles');
 	const editor = useRef(null);
+
+	const [errors, setErrors] = useState({
+		fileError: '',
+	});
 
 	const imageHandler = (image: any, callback: any) => {
 		// @ts-ignore
@@ -92,6 +102,8 @@ const ArticleControl: React.FC = () => {
 		article: {
 			article_id: 0,
 			content: '',
+			isEvent: false,
+			thumbnail: '',
 			published_date: '',
 			title: '',
 		},
@@ -105,6 +117,7 @@ const ArticleControl: React.FC = () => {
 			article: { ...newArticle.article, content: newContent },
 		});
 	};
+	const [selectedFile, setSelectedFile] = useState<File>();
 
 	const expand = useSpring({
 		height: adding ? '560px' : '0px',
@@ -112,14 +125,22 @@ const ArticleControl: React.FC = () => {
 	});
 
 	const handleArticleCreation = async () => {
+		const data = new FormData();
+
 		try {
-			if (!newArticle.article.content) {
+			if (!selectedFile || !newArticle.article.content) {
 				console.log('content error');
 			} else if (!newArticle.article.title) {
 				console.log('title error');
 			} else if (!newArticle.author.u_id) {
 				console.log('author error');
 			} else {
+				data.append('file', selectedFile);
+				await makeRequest(
+					`/files/upload-file/images/articles`,
+					'POST',
+					data,
+				);
 				let createdArticle = await makeRequest(
 					'/articles/create_article',
 					'POST',
@@ -127,6 +148,7 @@ const ArticleControl: React.FC = () => {
 						content: newArticle.article.content,
 						author: newArticle.author.u_id,
 						title: newArticle.article.title,
+						thumbnail: selectedFile?.name,
 					},
 				);
 				return true;
@@ -182,39 +204,80 @@ const ArticleControl: React.FC = () => {
 		);
 	};
 
+	const handleFileChange = (files: FileList) => {
+		let targetFile = files[0];
+		console.log(targetFile);
+		if (targetFile) {
+			if (targetFile.size > 80000) {
+				setErrors({
+					...errors,
+					fileError: 'File size exceeds 80kb',
+				});
+			} else if (!acceptedTypes.includes(targetFile.type)) {
+				setErrors({
+					...errors,
+					fileError: 'Allowed formats: jpeg, png',
+				});
+			} else {
+				setErrors({
+					...errors,
+					fileError: '',
+				});
+				setSelectedFile(targetFile);
+			}
+		}
+	};
+
 	return (
 		<ArticleControlDiv>
 			<NewArticleButton onClick={() => setAdding(!adding)}>
 				New Article
 			</NewArticleButton>
 			<AddArticleDiv style={expand}>
-				<AddArticleTitleAuthor>
-					<AddArticleTitle>
-						Title
-						<input
-							value={newArticle.article.title}
-							onChange={handleNewArticleTitleChange}
-							placeholder={'title'}
-						/>
-					</AddArticleTitle>
-					<AddArticleAuthor>
-						<AddArticleContentTitle>Author</AddArticleContentTitle>
-						{users && (
-							<DropDownComponent
-								state={newArticle.author.firstname || 'author'}
-								setSelect={handleNewArticleUserChange}
-								optionList={users?.map((user) => {
-									return {
-										option: user.firstname,
-										id: user.u_id,
-									};
-								})}
-								width={'100px'}
-								height={'24px'}
+				<AddArticleInfo>
+					<AddArticleThumbnail
+						url={
+							selectedFile
+								? URL.createObjectURL(selectedFile)
+								: `${url}/api/photos/${newArticle.article.thumbnail}`
+						}
+					/>
+					<AddArticleTitleAuthor>
+						<AddArticleTitle>
+							Title
+							<input
+								value={newArticle.article.title}
+								onChange={handleNewArticleTitleChange}
+								placeholder={'title'}
 							/>
-						)}
-					</AddArticleAuthor>
-				</AddArticleTitleAuthor>
+						</AddArticleTitle>
+						<AddArticleAuthor>
+							<AddArticleAuthorTitle>
+								Author
+							</AddArticleAuthorTitle>
+							{users && (
+								<DropDownComponent
+									state={
+										newArticle.author.firstname || 'author'
+									}
+									setSelect={handleNewArticleUserChange}
+									optionList={users?.map((user) => {
+										return {
+											option: user.firstname,
+											id: user.u_id,
+										};
+									})}
+									width={'100px'}
+									height={'24px'}
+								/>
+							)}
+						</AddArticleAuthor>
+					</AddArticleTitleAuthor>
+				</AddArticleInfo>
+				<ArticleThumbnailInput
+					type={'file'}
+					onChange={(e: any) => handleFileChange(e.target.files)}
+				/>
 				<AddArticleContentTitle>Content</AddArticleContentTitle>
 				<AddArticleContentDiv className={'editor-container'}>
 					<QuillEditor

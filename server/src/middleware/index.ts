@@ -3,6 +3,7 @@ import { JsonWebTokenError } from 'jsonwebtoken';
 import { accessLogger, errorLogger } from '../logger';
 const jwt = require('jsonwebtoken');
 const config = require('../config');
+
 export const checkToken: RequestHandler = (req, res, next) => {
 	let token =
 		(req.headers['x-access-token'] as string) ||
@@ -60,11 +61,9 @@ export const logRequests: RequestHandler = (req, res, next) => {
 
 export const handleError: ErrorRequestHandler = (error, req, res, next) => {
 	errorLogger.error(`${error.status}: ${error.description}`);
-	return res
-		.status(error.status)
-		.json({
-			error: error.response,
-			message: error.message,
-			code: error.code || 0,
-		});
+	return res.status(error.status).json({
+		error: error.response,
+		message: error.message,
+		code: error.code || 0,
+	});
 };

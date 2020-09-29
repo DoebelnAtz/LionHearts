@@ -12,7 +12,7 @@ import DatabaseControl from './DatabaseControl';
 
 const AdminPanel: React.FC = () => {
 	useNav('admin');
-	const [currentTab, setCurrentTab] = useState('database');
+	const [currentTab, setCurrentTab] = useState('articles');
 
 	const renderCurrentTab = () => {
 		switch (currentTab) {

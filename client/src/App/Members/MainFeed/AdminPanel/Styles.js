@@ -3,8 +3,10 @@ import { font, color, units, cursor } from '../../../../Styles';
 
 export const AdminPanelDiv = styled.div`
 	width: 100%;
+	height: 100%;
 	display: flex;
 	flex-direction: column;
+	overflow-y: hidden;
 `;
 
 export const AdminPanelNavTabs = styled.div`
@@ -34,4 +36,5 @@ export const AdminPanelTab = styled.div`
 
 export const AdminPanelFeed = styled.div`
 	width: 100%;
+	overflow-y: auto;
 `;
