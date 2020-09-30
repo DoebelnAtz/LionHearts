@@ -1,7 +1,9 @@
 import express from 'express';
 import { check } from 'express-validator';
 import {
+	createComment,
 	createEvent,
+	getCommentsByThreadId,
 	getEventById,
 	getEvents,
 	joinEvent,
@@ -10,6 +12,8 @@ import {
 const eventRouter = express.Router();
 
 eventRouter.get('/', getEvents);
+
+eventRouter.get('/comments/:tid', getCommentsByThreadId);
 
 eventRouter.get('/:eid', getEventById);
 
@@ -20,6 +24,15 @@ eventRouter.post(
 		check('status').isString().not().isEmpty(),
 	],
 	joinEvent,
+);
+
+eventRouter.post(
+	'/create_comment',
+	[
+		check('content').not().isEmpty(),
+		check('threadId').not().isEmpty().isNumeric(),
+	],
+	createComment,
 );
 
 eventRouter.post(

@@ -61,10 +61,6 @@ export const AddArticleThumbnail = styled.div`
 	height: 100px;
 	position: relative;
 	z-index: 12;
-	background: url(${(props) => props.url});
-	background-size: cover;
-	box-shadow: inset 0 0 0 10px ${color.primary}98;
-	background-position: center;
 `;
 
 export const AddArticleTitleAuthor = styled.div`

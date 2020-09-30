@@ -34,6 +34,7 @@ import { useSpring } from 'react-spring';
 import { url } from '../../../../../../config.json';
 import { ApplicantName } from '../../../Applications/Styles';
 import { getLocalTimeFormat } from '../../../../../../Utils';
+import Thumbnail from '../../../../../Components/Thumbnail';
 
 type ArticleCardProps = {
 	article: Article;
@@ -173,13 +174,15 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
 
 			<AddArticleDiv style={expand}>
 				<AddArticleInfo>
-					<AddArticleThumbnail
-						url={
-							selectedFile
-								? URL.createObjectURL(selectedFile)
-								: `${url}/api/photos/${editedArticle.article.thumbnail}`
-						}
-					/>
+					<AddArticleThumbnail>
+						<Thumbnail
+							url={
+								selectedFile
+									? URL.createObjectURL(selectedFile)
+									: `${url}/api/photos/${editedArticle.article.thumbnail}`
+							}
+						/>
+					</AddArticleThumbnail>
 					<AddArticleTitleAuthor>
 						<AddArticleTitle>
 							Title

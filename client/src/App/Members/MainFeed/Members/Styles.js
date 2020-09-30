@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { color, units, font, cursor } from '../../../../Styles';
+import { color, units, font, cursor, components } from '../../../../Styles';
 
 export const MemberListDiv = styled.div`
 	width: 100%;
@@ -42,6 +42,14 @@ export const MemberListCard = styled.div`
 
 export const MemberCardContent = styled.div`
 	margin: 0 auto;
+`;
+
+export const SearchMembersInput = styled.label`
+	${components.labeledInput};
+	margin: 0 ${units.margin} 0 auto;
+	height: 24px;
+	display: flex;
+	flex-direction: row;
 `;
 
 export const MemberCardName = styled.div`

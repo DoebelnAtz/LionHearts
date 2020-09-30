@@ -1,0 +1,118 @@
+import styled from 'styled-components';
+import { units, font, color, cursor } from '../../../../../../Styles';
+import { animated } from 'react-spring';
+
+export const EventCommentDiv = styled.div`
+	width: calc(100%);
+	padding: ${units.margin};
+	display: flex;
+	flex-direction: column;
+	border-top: 2px solid ${color.secondary};
+`;
+
+export const EventCommentContainer = styled.div`
+	display: flex;
+	width: 100%;
+	height: auto;
+`;
+
+export const EventChildCommentContainer = styled.div`
+	display: flex;
+	width: calc(100%);
+	border-left: 4px solid ${color.tertiary};
+	padding: 5px 0 5px 16px;
+	height: auto;
+	background-color: ${color.BG1};
+`;
+
+export const EventCommentPicCol = styled.div`
+	width: 60px;
+	padding-right: ${units.margin};
+`;
+
+export const EventChildCommentPicCol = styled.div`
+	width: 50px;
+	padding-right: ${units.margin};
+`;
+
+export const EventChildCommentContentCol = styled.div`
+	width: calc(100% - 50px);
+	display: flex;
+	flex-direction: column;
+`;
+
+export const EventCommentContentCol = styled.div`
+	width: calc(100% - 60px);
+	display: flex;
+	flex-direction: column;
+`;
+
+export const EventCommentEditor = styled(animated.div)`
+	width: 100%;
+	height: 140px;
+	overflow-y: hidden;
+	margin-top: ${units.margin};
+`;
+
+export const EventCommentInfo = styled.div`
+	display: flex;
+	width: calc(100%);
+`;
+
+export const EventCommentActionRow = styled.div`
+	display: flex;
+	margin-top: ${units.margin};
+`;
+
+export const EventCommentReplyButton = styled.img`
+	height: 24px;
+	padding: 4px;
+	border-radius: 6px;
+	right: -4px;
+	margin-left: auto;
+	position: relative;
+	${cursor.clickable};
+	&:hover {
+		background-color: ${color.tertiary};
+	}
+`;
+
+export const EventCommentInfoUsername = styled.span`
+	${font.DCBold};
+	font-size: 20px;
+	color: ${color.primary};
+`;
+
+export const EventChildCommentProfilePic = styled.div`
+	height: 40px;
+	width: 40px;
+`;
+
+export const EventCommentProfilePic = styled.div`
+	height: 50px;
+	width: 50px;
+`;
+
+export const EventCommentSection = styled(animated.div)`
+	width: 100%;
+	height: 0px;
+	overflow-y: ${(props) => (props.show ? 'hidden' : 'hidden')};
+`;
+
+export const EventCommentFeed = styled.div`
+	width: 100%;
+	position: relative;
+	top: -20px;
+	height: ${(props) => props.height};
+	overflow-y: auto;
+`;
+
+export const EventCommentInfoDate = styled.span`
+	${font.DCBold};
+	margin-left: auto;
+	color: ${color.primary};
+`;
+
+export const EventCommentContent = styled.div`
+	width: calc(100%);
+`;

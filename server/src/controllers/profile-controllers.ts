@@ -89,6 +89,7 @@ export const updateProfile = catchErrors(async (req, res) => {
 
 export const getProfiles = catchErrors(async (req, res) => {
 	let skillFilter = req.query.skillFilter;
+	let search = req.query.search;
 
 	let profiles: any;
 
@@ -96,15 +97,19 @@ export const getProfiles = catchErrors(async (req, res) => {
 		profiles = await query(
 			`
 			SELECT u.u_id, u.username, u.firstname, u.lastname, u.email, u.profile_pic
-			FROM users u JOIN skill_connections sc ON u.u_id = sc.u_id WHERE sc.s_id=$1;
+			FROM users u JOIN skill_connections sc ON u.u_id = sc.u_id 
+			WHERE sc.s_id=$1 AND LOWER(firstname::text || lastname::text) LIKE $2 
 		`,
-			[skillFilter],
+			[skillFilter, `%${search}%`.toLowerCase()],
 		);
 	} else {
-		profiles = await query(`
+		profiles = await query(
+			`
 			SELECT u_id, username, firstname, lastname, email, profile_pic
-			FROM users;
-	`);
+			FROM users WHERE LOWER(firstname::text || lastname::text) LIKE $1
+	`,
+			[`%${search}%`.toLowerCase()],
+		);
 	}
 
 	res.json(profiles.rows);

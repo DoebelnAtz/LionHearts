@@ -62,6 +62,17 @@ export interface Author {
 	profile_pic: string;
 }
 
+export interface Comment {
+	c_id: number;
+	content: string;
+	created: string;
+	t_id: number;
+	parent_thread: number;
+	username: string;
+	creator: number;
+	profile_pic: string;
+}
+
 export interface AuthoredArticle {
 	article: Article;
 	author: Author;
@@ -73,6 +84,8 @@ export interface MemberEvent {
 	firstname: string;
 	lastname: string;
 	title: string;
+	t_id: number;
 	time: string;
 	status: string;
+	comments: Comment[];
 }

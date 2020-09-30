@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import { useGet, useNav } from '../../../../Hooks';
 import { Option, Profile, Skill } from '../../../../Types';
 import { useHistory } from 'react-router-dom';
@@ -11,6 +11,7 @@ import {
 	MemberListFilterTitle,
 	MemberListOptions,
 	MemberListResultDiv,
+	SearchMembersInput,
 } from './Styles';
 import ProfilePic from '../../../Components/ProfilePic';
 import DropDownComponent from '../../../Components/DropDown';
@@ -18,8 +19,9 @@ import DropDownComponent from '../../../Components/DropDown';
 const MemberList: React.FC = () => {
 	useNav('Members');
 	const [skillFilter, setSkillFilter] = useState(0);
+	const [search, setSearch] = useState('');
 	const [members, setMembers] = useGet<Profile[]>(
-		`/profiles?skillFilter=${skillFilter}`,
+		`/profiles?skillFilter=${skillFilter}&search=${search}`,
 	);
 	const [skills, setSkills] = useGet<Skill[]>(`/skills`);
 
@@ -27,6 +29,12 @@ const MemberList: React.FC = () => {
 
 	const handleMemberClick = (uid: number) => {
 		history.push(`/members/profile/${uid}`);
+	};
+
+	const handleSearchChange = (e: ChangeEvent) => {
+		let target = e.target as HTMLInputElement;
+
+		setSearch(target.value);
 	};
 
 	const findCorrespondingFilterTitle = (filterId: number) => {
@@ -92,6 +100,14 @@ const MemberList: React.FC = () => {
 					height={'22px'}
 					withFilter
 				/>
+				<SearchMembersInput>
+					<MemberListFilterTitle>Search:</MemberListFilterTitle>
+					<input
+						value={search}
+						onChange={handleSearchChange}
+						placeholder={'search'}
+					/>
+				</SearchMembersInput>
 			</MemberListOptions>
 			<MemberListResultDiv>{renderMembers()}</MemberListResultDiv>
 		</MemberListDiv>

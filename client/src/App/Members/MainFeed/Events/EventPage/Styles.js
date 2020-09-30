@@ -1,5 +1,6 @@
 import styled from 'styled-components';
-import { color, font, units } from '../../../../../Styles';
+import { color, components, font, units } from '../../../../../Styles';
+import { animated } from 'react-spring';
 
 export const EventPageDiv = styled.div`
 	height: 100%;
@@ -33,7 +34,41 @@ export const EventPageCreator = styled.span`
 	font-size: 18px;
 `;
 
+export const CreateCommentDiv = styled(animated.div)`
+	width: 100%;
+	margin-top: ${units.margin};
+	height: 40px;
+	overflow-y: hidden;
+`;
+
+export const CreateCommentEditor = styled(animated.div)`
+	width: 100%;
+	height: 200px;
+`;
+
+export const CreateCommentButton = styled.button`
+	width: 100%;
+
+	margin-bottom: ${units.margin};
+	${components.buttonWhite};
+`;
+
+export const SubmitCommentButton = styled.button`
+	width: calc(100%);
+	position: relative;
+	top: -28px;
+	${components.buttonWhite};
+`;
+
+export const EventPageCommentFeed = styled.div`
+	width: 100%;
+	display: flex;
+	margin-top: ${units.margin};
+	flex-direction: column;
+`;
+
 export const EventPageCommentSection = styled.div`
 	width: calc(100% - ${units.margin} * 2);
 	margin: 0 auto;
+	height: 100%;
 `;

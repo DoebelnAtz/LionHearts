@@ -27,6 +27,7 @@ import LoadingButton from '../../../../Components/LoadingButton';
 import { useSpring } from 'react-spring';
 import { url } from '../../../../../config.json';
 import QuillEditor from '../../../../Components/QuillEditor';
+import Thumbnail from '../../../../Components/Thumbnail';
 const acceptedTypes = ['image/jpeg', 'image/png'];
 
 const ArticleControl: React.FC = () => {
@@ -235,13 +236,15 @@ const ArticleControl: React.FC = () => {
 			</NewArticleButton>
 			<AddArticleDiv style={expand}>
 				<AddArticleInfo>
-					<AddArticleThumbnail
-						url={
-							selectedFile
-								? URL.createObjectURL(selectedFile)
-								: `${url}/api/photos/${newArticle.article.thumbnail}`
-						}
-					/>
+					<AddArticleThumbnail>
+						<Thumbnail
+							url={
+								selectedFile
+									? URL.createObjectURL(selectedFile)
+									: `${url}/api/photos/${newArticle.article.thumbnail}`
+							}
+						/>
+					</AddArticleThumbnail>
 					<AddArticleTitleAuthor>
 						<AddArticleTitle>
 							Title

@@ -5,6 +5,7 @@ import { QuillEditorDiv } from './Styles';
 type QuillEditorProps = {
 	onChange: (newState: string) => void;
 	value: string;
+	simple?: boolean;
 };
 
 class QuillEditor extends Component<QuillEditorProps> {
@@ -39,44 +40,77 @@ class QuillEditor extends Component<QuillEditorProps> {
 					ref={(el) => (this.quillRef = el)}
 					onChange={this.handleChange}
 					value={this.props.value}
-					formats={[
-						'header',
-						'font',
-						'size',
-						'bold',
-						'italic',
-						'underline',
-						'strike',
-						'blockquote',
-						'list',
-						'bullet',
-						'indent',
-						'link',
-						'image',
-						'video',
-					]}
-					modules={{
-						toolbar: {
-							container: [
-								[
-									{ header: '1' },
-									{ header: '2' },
-									{ header: [3, 4, 5, 6] },
-									{ font: [] },
-								],
-								[{ size: [] }],
-								[
+					formats={
+						this.props.simple
+							? [
+									'font',
+									'size',
 									'bold',
 									'italic',
 									'underline',
 									'strike',
 									'blockquote',
-								],
-								[{ list: 'ordered' }, { list: 'bullet' }],
-								['link', 'video'],
-								['link', 'image', 'video'],
-								['clean'],
-							],
+									'list',
+									'bullet',
+									'indent',
+									'link',
+							  ]
+							: [
+									'header',
+									'font',
+									'size',
+									'bold',
+									'italic',
+									'underline',
+									'strike',
+									'blockquote',
+									'list',
+									'bullet',
+									'indent',
+									'link',
+									'image',
+									'video',
+							  ]
+					}
+					modules={{
+						toolbar: {
+							container: this.props.simple
+								? [
+										[
+											'bold',
+											'italic',
+											'underline',
+											'strike',
+										],
+										[
+											{ list: 'ordered' },
+											{ list: 'bullet' },
+										],
+										['link'],
+								  ]
+								: [
+										[
+											{ header: '1' },
+											{ header: '2' },
+											{ header: [3, 4, 5, 6] },
+											{ font: [] },
+										],
+										[{ size: [] }],
+										[
+											'bold',
+											'italic',
+											'underline',
+											'strike',
+											'blockquote',
+										],
+										[
+											{ list: 'ordered' },
+											{ list: 'bullet' },
+										],
+										['link', 'video'],
+										['link', 'image', 'video'],
+										['clean'],
+								  ],
 							handlers: {
 								image: this.imageHandler,
 							},
