@@ -67,6 +67,16 @@ const DatabaseControl: React.FC = () => {
 	};
 
 	const handleLocationSubmission = async () => {
+		try {
+			await makeRequest('/profiles/create_location', 'POST', {
+				name: location.name,
+				lat: location.latitude,
+				long: location.longitude,
+			});
+		} catch (e) {
+			console.log(e);
+			return false;
+		}
 		return true;
 	};
 

@@ -74,7 +74,10 @@ const EventComment: React.FC<EventCommentProps> = ({ comment }) => {
 			childComments &&
 			childComments.map((comment) => {
 				return (
-					<EventChildCommentContainer className={'ql-editor'}>
+					<EventChildCommentContainer
+						key={comment.c_id}
+						className={'ql-editor'}
+					>
 						<EventChildCommentPicCol>
 							<EventChildCommentProfilePic>
 								<ProfilePic src={comment.profile_pic} />
@@ -131,10 +134,7 @@ const EventComment: React.FC<EventCommentProps> = ({ comment }) => {
 					</EventCommentActionRow>
 				</EventCommentContentCol>
 			</EventCommentContainer>
-			<EventCommentSection
-				show={childComments?.length || 0 > 1}
-				style={expandCommentSectionSpring}
-			>
+			<EventCommentSection style={expandCommentSectionSpring}>
 				<EventCommentEditor>
 					<QuillEditor
 						onChange={handleCreateCommentChange}

@@ -33,6 +33,7 @@ export interface Option {
 export interface Profile {
 	u_id: number;
 	location: string;
+	l_id: number;
 	phone: string;
 	firstname: string;
 	lastname: string;

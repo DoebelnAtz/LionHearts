@@ -1,5 +1,6 @@
 import express from 'express';
 import {
+	createLocation,
 	getLocations,
 	getProfileById,
 	getProfiles,
@@ -23,6 +24,16 @@ profileRouter.put(
 		check('phone').not().isEmpty(),
 	],
 	updateProfile,
+);
+
+profileRouter.post(
+	'/create_location',
+	[
+		check('name').not().isEmpty(),
+		check('lat').not().isEmpty(),
+		check('long').not().isEmpty(),
+	],
+	createLocation,
 );
 
 export default profileRouter;

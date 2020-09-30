@@ -95,7 +95,6 @@ class QuillEditor extends Component<QuillEditorProps> {
 											{ header: [3, 4, 5, 6] },
 											{ font: [] },
 										],
-										[{ size: [] }],
 										[
 											'bold',
 											'italic',
@@ -109,7 +108,6 @@ class QuillEditor extends Component<QuillEditorProps> {
 										],
 										['link', 'video'],
 										['link', 'image', 'video'],
-										['clean'],
 								  ],
 							handlers: {
 								image: this.imageHandler,

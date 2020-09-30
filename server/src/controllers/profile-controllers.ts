@@ -57,7 +57,7 @@ export const getProfileById = catchErrors(async (req, res) => {
 	let profile = await query(
 		`
         SELECT u.username, u.firstname, u.lastname, u.phone,
-        u.email, u.profile_pic, u.bio, u.u_id, l.name AS location FROM users u JOIN locations l
+        u.email, u.profile_pic, u.bio, u.u_id, l.name AS location, l.l_id FROM users u JOIN locations l
         ON u.location = l.l_id
         WHERE u_id = $1
     `,
@@ -69,16 +69,16 @@ export const getProfileById = catchErrors(async (req, res) => {
 
 export const updateProfile = catchErrors(async (req, res) => {
 	const userId = req.decoded.u_id;
-	const { phone, email, bio } = req.body;
+	const { phone, email, bio, location } = req.body;
 
 	const client = await connect();
 	await transaction(
 		async () => {
 			query(
 				`
-	            UPDATE users SET email=$1, phone=$2, bio=$3 WHERE u_id = $4
+	            UPDATE users SET email=$1, phone=$2, bio=$3, location=$4 WHERE u_id = $5
 	        `,
-				[email, phone, bio, userId],
+				[email, phone, bio, location, userId],
 			);
 		},
 		client,
@@ -122,3 +122,16 @@ export const getLocations = catchErrors(async (req, res) => {
 
 	res.json(locations.rows);
 }, 'Failed to get locations');
+
+export const createLocation = catchErrors(async (req, res) => {
+	const { name, lat, long } = req.body;
+	await query(
+		`
+		INSERT INTO locations (name, lat, long) VALUES
+		($1, $2, $3);
+	`,
+		[name, lat, long],
+	);
+
+	res.status(201).json({ success: true });
+}, 'Failed to create location');

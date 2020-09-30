@@ -108,7 +108,7 @@ export const createComment = catchErrors(async (req, res) => {
 			let newComment = await query(
 				`
 	            INSERT INTO comments (content, t_id, creator, parent_thread)
-	            VALUES ($1, $2, $3, $4) RETURNING c_id, content, creator
+	            VALUES ($1, $2, $3, $4) RETURNING c_id, content, creator, created
 	        `,
 				[content, newThread.rows[0].t_id, req.decoded.u_id, threadId],
 			);

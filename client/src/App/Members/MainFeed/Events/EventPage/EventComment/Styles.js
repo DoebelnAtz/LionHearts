@@ -31,13 +31,14 @@ export const EventCommentPicCol = styled.div`
 `;
 
 export const EventChildCommentPicCol = styled.div`
-	width: 50px;
+	width: 40px;
 	padding-right: ${units.margin};
 `;
 
 export const EventChildCommentContentCol = styled.div`
-	width: calc(100% - 50px);
+	width: calc(100% - 60px);
 	display: flex;
+	margin-right: auto;
 	flex-direction: column;
 `;
 
@@ -96,13 +97,14 @@ export const EventCommentProfilePic = styled.div`
 export const EventCommentSection = styled(animated.div)`
 	width: 100%;
 	height: 0px;
-	overflow-y: ${(props) => (props.show ? 'hidden' : 'hidden')};
+	overflow-y: hidden;
 `;
 
 export const EventCommentFeed = styled.div`
 	width: 100%;
 	position: relative;
 	top: -20px;
+
 	height: ${(props) => props.height};
 	overflow-y: auto;
 `;

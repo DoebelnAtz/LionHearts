@@ -161,6 +161,7 @@ const ProfilePage: React.FC = () => {
 					email: profile.email,
 					bio: profile.bio,
 					phone: profile.phone,
+					location: profile.l_id,
 				}));
 			setEditing(false);
 		} catch (e) {
@@ -173,6 +174,7 @@ const ProfilePage: React.FC = () => {
 			setProfile({
 				...profile,
 				location: newLocation.option,
+				l_id: newLocation.id || 1,
 			});
 		}
 	};
@@ -221,7 +223,7 @@ const ProfilePage: React.FC = () => {
 						<PlaceOfStudy>Student at Hive Helsinki</PlaceOfStudy>
 						<Location>
 							Living in{' '}
-							{profile && editing ? (
+							{profile && checkUser(profile.u_id) && editing ? (
 								<DropDownComponent
 									state={profile.location}
 									setSelect={(newLoc) =>
@@ -230,7 +232,10 @@ const ProfilePage: React.FC = () => {
 									optionList={
 										locations
 											? locations.map((loc) => {
-													return { option: loc.name };
+													return {
+														option: loc.name,
+														id: loc.l_id,
+													};
 											  })
 											: []
 									}

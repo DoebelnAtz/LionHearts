@@ -65,6 +65,9 @@ export const EventPageCommentFeed = styled.div`
 	display: flex;
 	margin-top: ${units.margin};
 	flex-direction: column;
+	& > div:last-child {
+		border-bottom: 2px solid ${color.secondary};
+	}
 `;
 
 export const EventPageCommentSection = styled.div`
