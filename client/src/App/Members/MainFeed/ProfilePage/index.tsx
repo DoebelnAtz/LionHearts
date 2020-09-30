@@ -220,7 +220,31 @@ const ProfilePage: React.FC = () => {
 						{profile && `${profile?.lastname}`}
 					</ProfilePageName>
 					<OccupationInfoDiv>
-						<PlaceOfStudy>Student at Hive Helsinki</PlaceOfStudy>
+						<PlaceOfStudy>
+							Student at
+							{profile && checkUser(profile.u_id) && editing ? (
+								<DropDownComponent
+									state={profile.location}
+									setSelect={(newLoc) =>
+										handleLocationChange(newLoc)
+									}
+									optionList={
+										locations
+											? locations.map((loc) => {
+													return {
+														option: loc.name,
+														id: loc.l_id,
+													};
+											  })
+											: []
+									}
+									width={'100px'}
+									height={'22px'}
+								/>
+							) : (
+								profile?.location
+							)}
+						</PlaceOfStudy>
 						<Location>
 							Living in{' '}
 							{profile && checkUser(profile.u_id) && editing ? (

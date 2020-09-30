@@ -57,8 +57,10 @@ export const getProfileById = catchErrors(async (req, res) => {
 	let profile = await query(
 		`
         SELECT u.username, u.firstname, u.lastname, u.phone,
-        u.email, u.profile_pic, u.bio, u.u_id, l.name AS location, l.l_id FROM users u JOIN locations l
+        u.email, u.profile_pic, u.bio, u.u_id, l.name AS location, l.l_id 
+        FROM users u JOIN locations l
         ON u.location = l.l_id
+ 	
         WHERE u_id = $1
     `,
 		[userId],
