@@ -1,8 +1,12 @@
 import React from 'react';
 import {
+	CopyRight,
+	FooterContainer,
 	FooterContentDiv,
 	FooterDiv,
 	FooterNavDiv,
+	LegalInfoDiv,
+	LegalLink,
 	LinkDiv,
 	LogoDiv,
 	SoMeLinksDiv,
@@ -18,44 +22,57 @@ import ytIcon from '../../assets/images/yt_icon.png';
 import twitterIcon from '../../assets/images/twitter_icon.png';
 import linkedinIcon from '../../assets/images/linkedin_icon.png';
 import { NavBarLink } from '../NavBar/Styles';
+// @ts-ignore
+import PrivacyStatement from '../../assets/files/privacy-statement.pdf';
 
 const Footer: React.FC = () => {
 	const [isMobile] = useWidth();
 	return (
 		<FooterDiv>
-			<FooterContentDiv isMobile={isMobile}>
-				<LinkDiv isMobile={isMobile} id={'link'}>
-					<LogoDiv>
-						<Logo inverse />
-					</LogoDiv>
-					<FooterNavDiv isMobile={isMobile} id={'footer-nav'}>
-						<FooterNavBarLinksDiv isMobile={isMobile}>
-							<FooterNavBarLink inverse isMobile={isMobile}>
-								<Link to={`/about-us`}>ABOUT US</Link>
-							</FooterNavBarLink>
-							<FooterNavBarLink inverse isMobile={isMobile}>
-								<Link to={`/community`}>COMMUNITY</Link>
-							</FooterNavBarLink>
-							<FooterNavBarLink inverse isMobile={isMobile}>
-								<Link to={`/events`}>EVENTS</Link>
-							</FooterNavBarLink>
-							<FooterNavBarLink inverse isMobile={isMobile}>
-								<Link to={`/news`}>NEWS</Link>
-							</FooterNavBarLink>
-							<FooterNavBarLink inverse isMobile={isMobile}>
-								<Link to={`/apply`}>APPLY</Link>
-							</FooterNavBarLink>
-						</FooterNavBarLinksDiv>
-					</FooterNavDiv>
-					<SoMeLinksDiv>
-						<img src={fbIcon} alt={'Lionhearts facebook'} />
-						<img src={twitterIcon} alt={'Lionhearts Twitter'} />
-						<img src={linkedinIcon} alt={'Lionhearts linkedIn'} />
-						<img src={igIcon} alt={'Lionhearts Instagram'} />
-						{/*<img src={ytIcon} alt={'Lionhearts Youtube'} />*/}
-					</SoMeLinksDiv>
-				</LinkDiv>
-			</FooterContentDiv>
+			<FooterContainer>
+				<FooterContentDiv isMobile={isMobile}>
+					<LinkDiv isMobile={isMobile} id={'link'}>
+						<LogoDiv>
+							<Logo inverse />
+						</LogoDiv>
+						<FooterNavDiv isMobile={isMobile} id={'footer-nav'}>
+							<FooterNavBarLinksDiv isMobile={isMobile}>
+								<FooterNavBarLink inverse isMobile={isMobile}>
+									<Link to={`/about-us`}>ABOUT US</Link>
+								</FooterNavBarLink>
+								<FooterNavBarLink inverse isMobile={isMobile}>
+									<Link to={`/community`}>COMMUNITY</Link>
+								</FooterNavBarLink>
+								<FooterNavBarLink inverse isMobile={isMobile}>
+									<Link to={`/events`}>EVENTS</Link>
+								</FooterNavBarLink>
+								<FooterNavBarLink inverse isMobile={isMobile}>
+									<Link to={`/news`}>NEWS</Link>
+								</FooterNavBarLink>
+								<FooterNavBarLink inverse isMobile={isMobile}>
+									<Link to={`/apply`}>APPLY</Link>
+								</FooterNavBarLink>
+							</FooterNavBarLinksDiv>
+						</FooterNavDiv>
+						<SoMeLinksDiv>
+							<img src={fbIcon} alt={'Lionhearts facebook'} />
+							<img src={twitterIcon} alt={'Lionhearts Twitter'} />
+							<img
+								src={linkedinIcon}
+								alt={'Lionhearts linkedIn'}
+							/>
+							<img src={igIcon} alt={'Lionhearts Instagram'} />
+							{/*<img src={ytIcon} alt={'Lionhearts Youtube'} />*/}
+						</SoMeLinksDiv>
+					</LinkDiv>
+				</FooterContentDiv>
+				<LegalInfoDiv>
+					<CopyRight>© Co-founders Oy 2022 </CopyRight>
+					<LegalLink href={PrivacyStatement}>
+						Privacy Policy
+					</LegalLink>
+				</LegalInfoDiv>
+			</FooterContainer>{' '}
 		</FooterDiv>
 	);
 };

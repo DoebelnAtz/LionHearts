@@ -5,7 +5,7 @@ import {
 	AuthoredArticle,
 	Option,
 	Profile,
-} from '../../../../../../Types';
+} from '../../../../../../@types';
 import {
 	ArticleCardContents,
 	ArticleCardDiv,
@@ -23,6 +23,8 @@ import {
 	AddArticleThumbnail,
 	AddArticleTitle,
 	AddArticleTitleAuthor,
+	ArticleEventTitle,
+	ArticleOptionRow,
 	ArticleThumbnailBorder,
 	ArticleThumbnailInput,
 } from '../Styles';
@@ -35,6 +37,8 @@ import { url } from '../../../../../../config.json';
 import { ApplicantName } from '../../../Applications/Styles';
 import { getLocalTimeFormat } from '../../../../../../Utils';
 import Thumbnail from '../../../../../Components/Thumbnail';
+import ToggleButton from '../../../../../Components/ToggleButton';
+import { ErrorSpan } from '../../FileControl/Styles';
 
 type ArticleCardProps = {
 	article: Article;
@@ -102,19 +106,24 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
 		const data = new FormData();
 
 		try {
-			if (!selectedFile || !editedArticle.article.content) {
+			if (
+				(!selectedFile && !editedArticle.article.thumbnail) ||
+				!editedArticle.article.content
+			) {
 				console.log('content error');
 			} else if (!editedArticle.article.title) {
 				console.log('title error');
 			} else if (!editedArticle.author.u_id) {
 				console.log('author error');
 			} else {
-				data.append('file', selectedFile);
-				await makeRequest(
-					`/files/upload-file/images/articles`,
-					'POST',
-					data,
-				);
+				if (selectedFile) {
+					data.append('file', selectedFile);
+					await makeRequest(
+						`/files/upload-file/images/articles`,
+						'POST',
+						data,
+					);
+				}
 				let createdArticle = await makeRequest(
 					'/articles/update_article',
 					'PUT',
@@ -122,7 +131,10 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
 						content: editedArticle.article.content,
 						author: editedArticle.author.u_id,
 						title: editedArticle.article.title,
-						thumbnail: selectedFile?.name,
+						thumbnail:
+							selectedFile?.name ||
+							editedArticle.article.thumbnail,
+						isEvent: editedArticle.article.isEvent,
 						articleId: editedArticle.article.article_id,
 					},
 				);
@@ -154,6 +166,16 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
 			article: {
 				...editedArticle.article,
 				title: target.value,
+			},
+		});
+	};
+
+	const handleEventToggle = () => {
+		setEditedArticle({
+			...editedArticle,
+			article: {
+				...editedArticle.article,
+				isEvent: !editedArticle.article.isEvent,
 			},
 		});
 	};
@@ -216,10 +238,18 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
 						</AddArticleAuthor>
 					</AddArticleTitleAuthor>
 				</AddArticleInfo>
-				<ArticleThumbnailInput
-					type={'file'}
-					onChange={(e: any) => handleFileChange(e.target.files)}
-				/>
+				<ArticleOptionRow>
+					<ArticleThumbnailInput
+						type={'file'}
+						onChange={(e: any) => handleFileChange(e.target.files)}
+					/>
+					<ArticleEventTitle>Event: </ArticleEventTitle>
+					<ToggleButton
+						state={editedArticle.article.isEvent}
+						onClick={handleEventToggle}
+					/>
+				</ArticleOptionRow>
+				<ErrorSpan>{errors.fileError}</ErrorSpan>
 
 				<AddArticleContentTitle>Content</AddArticleContentTitle>
 				<AddArticleContentDiv>

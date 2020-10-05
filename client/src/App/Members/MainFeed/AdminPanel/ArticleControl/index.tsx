@@ -16,9 +16,11 @@ import {
 	AddArticleAuthorTitle,
 	ArticleThumbnailBorder,
 	ArticleThumbnailInput,
+	ArticleOptionRow,
+	ArticleEventTitle,
 } from './Styles';
 import { useGet } from '../../../../../Hooks';
-import { AuthoredArticle, Option, Profile } from '../../../../../Types';
+import { AuthoredArticle, Option, Profile } from '../../../../../@types';
 import TextEditor from '../../../../Components/TextEditor';
 import DropDownComponent from '../../../../Components/DropDown';
 import { makeRequest } from '../../../../../Api';
@@ -28,6 +30,8 @@ import { useSpring } from 'react-spring';
 import { url } from '../../../../../config.json';
 import QuillEditor from '../../../../Components/QuillEditor';
 import Thumbnail from '../../../../Components/Thumbnail';
+import { ErrorSpan } from '../FileControl/Styles';
+import ToggleButton from '../../../../Components/ToggleButton';
 const acceptedTypes = ['image/jpeg', 'image/png'];
 
 const ArticleControl: React.FC = () => {
@@ -150,6 +154,7 @@ const ArticleControl: React.FC = () => {
 						author: newArticle.author.u_id,
 						title: newArticle.article.title,
 						thumbnail: selectedFile?.name,
+						isEvent: newArticle.article.isEvent,
 					},
 				);
 				return true;
@@ -229,6 +234,16 @@ const ArticleControl: React.FC = () => {
 		}
 	};
 
+	const handleEventToggle = () => {
+		setNewArticle({
+			...newArticle,
+			article: {
+				...newArticle.article,
+				isEvent: !newArticle.article.isEvent,
+			},
+		});
+	};
+
 	return (
 		<ArticleControlDiv>
 			<NewArticleButton onClick={() => setAdding(!adding)}>
@@ -277,10 +292,18 @@ const ArticleControl: React.FC = () => {
 						</AddArticleAuthor>
 					</AddArticleTitleAuthor>
 				</AddArticleInfo>
-				<ArticleThumbnailInput
-					type={'file'}
-					onChange={(e: any) => handleFileChange(e.target.files)}
-				/>
+				<ArticleOptionRow>
+					<ArticleThumbnailInput
+						type={'file'}
+						onChange={(e: any) => handleFileChange(e.target.files)}
+					/>
+					<ArticleEventTitle>Event: </ArticleEventTitle>
+					<ToggleButton
+						state={newArticle.article.isEvent}
+						onClick={handleEventToggle}
+					/>
+				</ArticleOptionRow>
+				<ErrorSpan>{errors.fileError}</ErrorSpan>
 				<AddArticleContentTitle>Content</AddArticleContentTitle>
 				<AddArticleContentDiv className={'editor-container'}>
 					<QuillEditor

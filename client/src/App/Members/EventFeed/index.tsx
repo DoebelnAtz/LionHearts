@@ -9,7 +9,7 @@ import {
 	FilterOptionLabel,
 } from './Styles';
 import { useAuth, useGet } from '../../../Hooks';
-import { MemberEvent, Option } from '../../../Types';
+import { MemberEvent, Option } from '../../../@types';
 import DropDownComponent from '../../Components/DropDown';
 import EventCard from './EventCard';
 import CreateEvent from './CreateEvent';

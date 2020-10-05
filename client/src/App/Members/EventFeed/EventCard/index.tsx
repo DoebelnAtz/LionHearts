@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
-import { MemberEvent, Option } from '../../../../Types';
+import { MemberEvent, Option } from '../../../../@types';
 import {
 	EventCardResponseRow,
 	EventCardTitle,

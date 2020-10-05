@@ -56,6 +56,18 @@ export const ArticleThumbnailInput = styled.input`
 	${components.input};
 `;
 
+export const ArticleOptionRow = styled.div`
+	display: flex;
+	width: 100%;
+`;
+
+export const ArticleEventTitle = styled.span`
+	${font.DCBold};
+	font-size: 20px;
+	margin: auto ${units.margin} auto auto;
+	color: ${color.primary};
+`;
+
 export const AddArticleThumbnail = styled.div`
 	width: 100px;
 	height: 100px;

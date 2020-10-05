@@ -1,4 +1,4 @@
-import { createCtx } from '../Types';
+import { createCtx } from '../@types';
 
 const [ctx, Provider] = createCtx<number>(0);
 

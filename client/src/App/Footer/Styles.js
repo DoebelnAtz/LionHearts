@@ -4,7 +4,13 @@ import { color, font, cursor, units } from '../../Styles';
 export const FooterDiv = styled.div`
 	background-color: ${color.BG0};
 	border-top: 5px solid ${color.tertiary};
+	width: 100%;
+	position: running(footer);
+`;
+
+export const FooterContainer = styled.div`
 	display: flex;
+	flex-direction: column;
 `;
 
 export const FooterContentDiv = styled.div`
@@ -12,12 +18,11 @@ export const FooterContentDiv = styled.div`
 	display: flex;
 	flex-direction: ${(props) => (props.isMobile ? 'column' : 'row')};
 	height: 100%;
-	width: 100%;
+	width: calc(100% - min(10vw, 100px) * 2);
 `;
 
 export const LinkDiv = styled.div`
 	display: flex;
-	height: 60px;
 	flex-direction: ${(props) => (props.isMobile ? 'column' : 'row')};
 	width: 100%;
 	padding: ${units.margin};
@@ -61,6 +66,26 @@ export const FooterNavBarLink = styled.span`
 	}
 `;
 
+export const LegalInfoDiv = styled.div`
+	margin: 20px min(10vw, 100px);
+
+	width: calc(100% - min(10vw, 100px) * 2);
+`;
+
+export const CopyRight = styled.span`
+	${font.RReg};
+	font-size: 16px;
+`;
+
+export const LegalLink = styled.a`
+	text-decoration: none;
+	${font.RBold};
+	color: ${color.primary};
+	&:visited {
+		color: ${color.primary};
+	}
+`;
+
 export const SoMeLinksDiv = styled.div`
 	flex-wrap: nowrap;
 	display: flex;
@@ -73,6 +98,7 @@ export const SoMeLinksDiv = styled.div`
 		}
 	}
 	@media (max-width: 900px) {
+		margin-top: ${units.margin};
 		margin-bottom: ${units.margin};
 	}
 `;

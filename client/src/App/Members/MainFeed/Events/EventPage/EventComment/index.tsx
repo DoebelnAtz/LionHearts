@@ -19,7 +19,7 @@ import {
 	EventChildCommentContentCol,
 	EventChildCommentPicCol,
 } from './Styles';
-import { Comment } from '../../../../../../Types';
+import { Comment } from '../../../../../../@types';
 import { capitalizeFirst, getLocalTimeFormat } from '../../../../../../Utils';
 import ProfilePic from '../../../../../Components/ProfilePic';
 

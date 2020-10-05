@@ -15,6 +15,8 @@ import AboutUs from './MainSite/AboutUs';
 import Events from './MainSite/Events';
 import News from './MainSite/News';
 import Community from './MainSite/Community';
+import ArticlePage from './MainSite/News/ArticlePage';
+import EventPage from './MainSite/Events/EventPage';
 
 function App() {
 	const [isMobile] = useWidth();
@@ -50,8 +52,14 @@ function App() {
 							<Route exact path={'/events'}>
 								<Events />
 							</Route>
+							<Route exact path={'/events/:aid'}>
+								<EventPage />
+							</Route>
 							<Route exact path={'/news'}>
 								<News />
+							</Route>
+							<Route exact path={'/news/:aid'}>
+								<ArticlePage />
 							</Route>
 							<Route exact path={'/community'}>
 								<Community />

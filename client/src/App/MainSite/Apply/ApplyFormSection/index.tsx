@@ -7,11 +7,18 @@ import {
 	ApplyTextDiv,
 	FormDiv,
 	FormError,
+	LegalCheckBox,
+	LegalCheckDiv,
+	LegalCheckTitle,
+	LegalLink,
+	LegalRow,
 	RemoveFileSpan,
 	UploadedFilesDiv,
 } from './Styles';
 import { makeRequest } from '../../../../Api';
 import queryString from 'query-string';
+import PrivacyPolicy from '../../../../assets/files/privacy-policy.pdf';
+import TOS from '../../../../assets/files/tos.pdf';
 import { useLocation, useHistory } from 'react-router-dom';
 import { useGet } from '../../../../Hooks';
 import { getLocal, makeId, setLocal } from '../../../../Utils';
@@ -35,6 +42,7 @@ const ApplyFormSection: React.FC = () => {
 		firstname: '',
 		lastname: '',
 		description: '',
+		legal: false,
 	});
 
 	const [errors, setErrors] = useState({
@@ -43,6 +51,7 @@ const ApplyFormSection: React.FC = () => {
 		LNError: '',
 		descriptionError: '',
 		fileError: '',
+		legalError: '',
 	});
 
 	const handleFNameChange = (e: ChangeEvent) => {
@@ -171,7 +180,8 @@ const ApplyFormSection: React.FC = () => {
 			input.email.length &&
 			input.firstname.length &&
 			input.lastname.length &&
-			input.description.length
+			input.description.length &&
+			input.legal
 		) {
 			try {
 				await makeRequest('/files/create_application', 'POST', {
@@ -201,6 +211,7 @@ const ApplyFormSection: React.FC = () => {
 				descriptionError: input.description.length
 					? ''
 					: 'Description required',
+				legalError: input.legal ? '' : 'required',
 			});
 		}
 	};
@@ -216,7 +227,7 @@ const ApplyFormSection: React.FC = () => {
 				<FormDiv>
 					<ApplyForm>
 						<label>
-							Firstname
+							First name
 							<input
 								type={'text'}
 								placeholder={'firstname'}
@@ -226,7 +237,7 @@ const ApplyFormSection: React.FC = () => {
 							<FormError>{errors.FNError}</FormError>
 						</label>
 						<label>
-							Lastname
+							Last name
 							<input
 								type={'text'}
 								placeholder={'lastname'}
@@ -265,13 +276,33 @@ const ApplyFormSection: React.FC = () => {
 							<FormError>{errors.fileError}</FormError>
 						</label>
 						<button
-							disabled={!selectedFile}
+							disabled={!selectedFile || !input.legal}
 							onClick={handleFileUpload}
 						>
 							UPLOAD FILE
 						</button>
 						{!!uploadedFiles?.length && <p>Uploaded files:</p>}
 						{renderUploadedFiles()}
+						<LegalRow>
+							<LegalCheckDiv>
+								<LegalCheckBox
+									value={input.legal}
+									onChange={() =>
+										setInput({
+											...input,
+											legal: !input.legal,
+										})
+									}
+									type={'checkbox'}
+								/>
+								<LegalCheckTitle>
+									I accept the{' '}
+									<LegalLink>Terms of service</LegalLink> and{' '}
+									<LegalLink>Privacy Policy</LegalLink>
+								</LegalCheckTitle>
+							</LegalCheckDiv>
+							<FormError>{errors.legalError}</FormError>
+						</LegalRow>
 						<button type={'submit'} onClick={handleSubmit}>
 							SUBMIT
 						</button>

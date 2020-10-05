@@ -15,7 +15,7 @@ import {
 	ApplicationRejectButton,
 } from './Styles';
 import { url } from '../../../../../config.json';
-import { Application } from '../../../../../Types';
+import { Application } from '../../../../../@types';
 import { makeRequest } from '../../../../../Api';
 import { getLocal } from '../../../../../Utils';
 

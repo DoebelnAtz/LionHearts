@@ -16,7 +16,23 @@ export const getLocal = (item: string) => {
 
 export const getLocalTimeFormat = (date: string) => {
 	let res = new Date(date);
-	return res.toLocaleString();
+	return res.toLocaleString('en-FI', {
+		hour12: false,
+		month: 'long',
+		day: '2-digit',
+		year: 'numeric',
+		hour: '2-digit',
+		minute: '2-digit',
+	});
+};
+
+export const getLocalDateFormat = (date: string) => {
+	let res = new Date(date);
+	return res.toLocaleString('en-FI', {
+		month: 'long',
+		day: '2-digit',
+		year: 'numeric',
+	});
 };
 
 export const checkUser = (uid: number) => {

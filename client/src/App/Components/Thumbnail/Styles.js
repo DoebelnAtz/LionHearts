@@ -5,9 +5,17 @@ export const ThumbnailDiv = styled.div`
 	width: 100%;
 	height: 100%;
 	position: relative;
-	z-index: 12;
+	display: flex;
 	background: url(${(props) => props.url});
 	background-size: cover;
-	box-shadow: inset 0 0 0 10px ${color.primary}98;
+	//filter: grayscale(100%);
 	background-position: center;
+	${cursor.clickable};
+	background-blend-mode: multiply;
+	background-color: ${color.primary}90;
+	&:hover {
+		background-color: ${color.primary};
+
+		transition: background-color 0.2s;
+	}
 `;

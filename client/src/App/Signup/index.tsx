@@ -19,7 +19,7 @@ import {
 } from './Styles';
 import LionHeartsLogo from '../../assets/images/logo_complete_blue.svg';
 import { makeRequest } from '../../Api';
-import { Application } from '../../Types';
+import { Application } from '../../@types';
 import { useGet } from '../../Hooks';
 import LoadingButton from '../Components/LoadingButton';
 import { AnimatedLabeledInputDiv } from '../../Styles';

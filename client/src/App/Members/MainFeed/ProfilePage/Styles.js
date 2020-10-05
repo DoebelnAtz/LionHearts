@@ -45,6 +45,7 @@ export const ProfilePageNameDiv = styled.div`
 	display: flex;
 	flex-direction: column;
 	margin: auto 0 auto 3vw;
+	width: calc(90% - min(16vw, 200px));
 `;
 
 export const ProfilePageName = styled.span`
@@ -65,6 +66,9 @@ export const PlaceOfStudy = styled.span`
 	${font.DCBold};
 	font-size: 18px;
 	color: ${color.primary};
+	display: flex;
+	line-height: 28px;
+
 	text-transform: uppercase;
 `;
 
@@ -74,7 +78,6 @@ export const Location = styled.div`
 	line-height: 28px;
 	color: ${color.primary};
 	display: flex;
-
 	text-transform: uppercase;
 `;
 
@@ -143,6 +146,24 @@ export const ProfilePageContent = styled.div`
 		height: auto;
 	}
 `;
+
+export const ProfilePageLanguageDiv = styled.div`
+	width: 100%;
+`;
+
+export const ProfilePageLanguageTitle = styled.span`
+	${font.DCBold};
+	font-size: 20px;
+	color: ${color.primary};
+`;
+
+export const LanguageList = styled.div`
+	display: flex;
+	flex-wrap: wrap;
+	margin: ${units.margin} 0;
+`;
+
+export const LanguageCard = styled.div``;
 
 export const ProfilePageBioSkillsDiv = styled.div`
 	margin-left: 3vw;

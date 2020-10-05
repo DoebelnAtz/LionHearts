@@ -37,6 +37,7 @@ export const FormDiv = styled.div`
 
 export const FormError = styled.p`
 	${font.error};
+	font-size: 14px !important;
 `;
 
 export const RemoveFileSpan = styled.span`
@@ -52,6 +53,34 @@ export const UploadedFilesDiv = styled.div`
 	display: flex;
 	${font.text};
 	margin-bottom: 5px;
+`;
+
+export const LegalCheckBox = styled.input`
+	margin: auto 5px auto 0;
+`;
+
+export const LegalRow = styled.div`
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	margin: ${units.margin} 0;
+`;
+
+export const LegalCheckDiv = styled.div``;
+
+export const LegalCheckTitle = styled.span`
+	${font.RReg};
+	font-size: 12px;
+`;
+
+export const LegalLink = styled.a`
+	text-decoration: none;
+	${font.RBold};
+	color: ${color.primary};
+	font-size: 12px;
+	&:visited {
+		color: ${color.primary};
+	}
 `;
 
 export const ApplyForm = styled.form`

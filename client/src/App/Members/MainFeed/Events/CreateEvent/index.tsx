@@ -20,7 +20,7 @@ import {
 } from './Styles';
 import { useSpring } from 'react-spring';
 import { makeRequest } from '../../../../../Api';
-import { MemberEvent } from '../../../../../Types';
+import { MemberEvent } from '../../../../../@types';
 
 type CreateEventProps = {
 	selectedDay: Date | null;

@@ -1,7 +1,8 @@
 import express from 'express';
 import {
 	CreateArticle,
-	GetArticles,
+	getArticleById,
+	getArticles,
 	UpdateArticle,
 } from '../controllers/article-controllers';
 import { check } from 'express-validator';
@@ -9,7 +10,9 @@ import { check } from 'express-validator';
 const articleRouter = express.Router();
 const articleNoTokenRouter = express.Router();
 
-articleNoTokenRouter.get('/', GetArticles);
+articleNoTokenRouter.get('/', getArticles);
+
+articleNoTokenRouter.get('/:aid', getArticleById);
 
 articleRouter.post(
 	'/create_article',
@@ -28,6 +31,8 @@ articleRouter.put(
 		check('author').not().isEmpty().isNumeric(),
 		check('title').not().isEmpty(),
 		check('articleId').isNumeric().not().isEmpty(),
+		check('isEvent').isBoolean().not().isEmpty(),
+		check('thumbnail').not().isEmpty(),
 	],
 	UpdateArticle,
 );

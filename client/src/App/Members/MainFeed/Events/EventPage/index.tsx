@@ -14,7 +14,7 @@ import {
 	SubmitCommentButton,
 } from './Styles';
 import { useGet } from '../../../../../Hooks';
-import { MemberEvent } from '../../../../../Types';
+import { MemberEvent } from '../../../../../@types';
 import { capitalizeFirst, getLocalTimeFormat } from '../../../../../Utils';
 import QuillEditor from '../../../../Components/QuillEditor';
 import {

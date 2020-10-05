@@ -47,6 +47,9 @@ export const font = {
 	RBold: css`
 		font-family: roboto-bold, sans-serif;
 	`,
+	BBold: css`
+		font-family: 'Libre Baskerville', serif;
+	`,
 	title: css`
 		font-size: 36px;
 		letter-spacing: 2px;
@@ -58,7 +61,7 @@ export const font = {
 		color: ${color.primary};
 	`,
 	error: css`
-		font-size: 18px !important;
+		font-size: 18px;
 		font-family: din-condensed-bold, sans-serif;
 		color: red !important;
 	`,

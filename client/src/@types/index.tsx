@@ -30,11 +30,31 @@ export interface Option {
 	id?: number;
 }
 
+export interface Degree {
+	d_id: number;
+	name: string;
+}
+
+export interface School {
+	s_id: number;
+	name: string;
+}
+
+export interface Language {
+	language_id: number;
+	name: string;
+}
+
 export interface Profile {
 	u_id: number;
 	location: string;
 	l_id: number;
+	degree: string;
+	d_id: number;
+	school: string;
+	s_id: number;
 	phone: string;
+	languages: Language[];
 	firstname: string;
 	lastname: string;
 	email: string;

@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useState } from 'react';
 import { useGet, useNav } from '../../../../Hooks';
-import { Option, Profile, Skill } from '../../../../Types';
+import { Option, Profile, Skill } from '../../../../@types';
 import { useHistory } from 'react-router-dom';
 import {
 	MemberCardContent,

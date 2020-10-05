@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useGet, useNav } from '../../../../Hooks';
-import { Option, Profile, Skill } from '../../../../Types';
+import { Degree, Option, Profile, School, Skill } from '../../../../@types';
 import {
 	AddSkillButton,
 	AddSkillDiv,
@@ -13,6 +13,8 @@ import {
 	ContactTitle,
 	CreateSkillDiv,
 	EditProfileButton,
+	LanguageCard,
+	LanguageList,
 	Location,
 	OccupationInfoDiv,
 	PlaceOfStudy,
@@ -24,6 +26,8 @@ import {
 	ProfilePageDiv,
 	ProfilePageEditButtons,
 	ProfilePageInfo,
+	ProfilePageLanguageDiv,
+	ProfilePageLanguageTitle,
 	ProfilePageName,
 	ProfilePageNameDiv,
 	ProfilePageSkillsDiv,
@@ -47,6 +51,8 @@ const ProfilePage: React.FC = () => {
 	const params = useParams<{ uid: string }>();
 	useNav('profile');
 	const [editing, setEditing] = useState(true);
+	const [degrees, setDegrees] = useGet<Degree[]>('/profiles/degrees');
+	const [schools, setSchools] = useGet<School[]>('/profiles/schools');
 	const [skillSearch, setSkillSearch] = useState('');
 	const [profile, setProfile] = useGet<Profile>(`/profiles/${params.uid}`);
 	const [locations, setLocations] = useGet<{ name: string; l_id: number }[]>(
@@ -162,6 +168,8 @@ const ProfilePage: React.FC = () => {
 					bio: profile.bio,
 					phone: profile.phone,
 					location: profile.l_id,
+					degree: profile.d_id,
+					school: profile.s_id,
 				}));
 			setEditing(false);
 		} catch (e) {
@@ -179,6 +187,26 @@ const ProfilePage: React.FC = () => {
 		}
 	};
 
+	const handleDegreeChange = (newDegree: Option) => {
+		if (profile) {
+			setProfile({
+				...profile,
+				degree: newDegree.option,
+				d_id: newDegree.id || 1,
+			});
+		}
+	};
+
+	const handleSchoolChange = (newSchool: Option) => {
+		if (profile) {
+			setProfile({
+				...profile,
+				school: newSchool.option,
+				s_id: newSchool.id || 1,
+			});
+		}
+	};
+
 	const renderSkills = (sList: Skill[]) => {
 		if (sList) {
 			return sList.map((skill) => {
@@ -189,6 +217,19 @@ const ProfilePage: React.FC = () => {
 				);
 			});
 		}
+	};
+
+	const renderLanguages = () => {
+		return (
+			profile &&
+			profile.languages.map((language) => {
+				return (
+					<LanguageCard key={language.language_id}>
+						{language.name}
+					</LanguageCard>
+				);
+			})
+		);
 	};
 
 	const renderSkillSearchResults = () => {
@@ -221,19 +262,19 @@ const ProfilePage: React.FC = () => {
 					</ProfilePageName>
 					<OccupationInfoDiv>
 						<PlaceOfStudy>
-							Student at
+							Studying{' '}
 							{profile && checkUser(profile.u_id) && editing ? (
 								<DropDownComponent
-									state={profile.location}
-									setSelect={(newLoc) =>
-										handleLocationChange(newLoc)
+									state={profile?.degree}
+									setSelect={(newDeg) =>
+										handleDegreeChange(newDeg)
 									}
 									optionList={
-										locations
-											? locations.map((loc) => {
+										degrees
+											? degrees.map((degree) => {
 													return {
-														option: loc.name,
-														id: loc.l_id,
+														option: degree.name,
+														id: degree.d_id,
 													};
 											  })
 											: []
@@ -242,7 +283,30 @@ const ProfilePage: React.FC = () => {
 									height={'22px'}
 								/>
 							) : (
-								profile?.location
+								profile?.degree
+							)}
+							{' at '}
+							{profile && checkUser(profile.u_id) && editing ? (
+								<DropDownComponent
+									state={profile?.school}
+									setSelect={(newSchool) =>
+										handleSchoolChange(newSchool)
+									}
+									optionList={
+										schools
+											? schools.map((school) => {
+													return {
+														option: school.name,
+														id: school.s_id,
+													};
+											  })
+											: []
+									}
+									width={'100px'}
+									height={'22px'}
+								/>
+							) : (
+								profile?.school
 							)}
 						</PlaceOfStudy>
 						<Location>
@@ -333,6 +397,13 @@ const ProfilePage: React.FC = () => {
 							/>
 						)}
 					</ProfilePageBio>
+					<ProfilePageLanguageDiv>
+						<ProfilePageLanguageTitle>
+							Languages
+						</ProfilePageLanguageTitle>
+						<LanguageList>{renderLanguages()}</LanguageList>
+					</ProfilePageLanguageDiv>
+
 					<ProfilePageSkillsTitle>Skills</ProfilePageSkillsTitle>
 					<ProfilePageSkillsDiv>
 						{skills && renderSkills(skills)}

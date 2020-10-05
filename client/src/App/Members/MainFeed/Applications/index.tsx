@@ -1,7 +1,7 @@
 import React from 'react';
 import { useGet, useNav } from '../../../../Hooks';
 import { useHistory } from 'react-router-dom';
-import { Application } from '../../../../Types';
+import { Application } from '../../../../@types';
 import {
 	ApplicantName,
 	ApplicantStatus,

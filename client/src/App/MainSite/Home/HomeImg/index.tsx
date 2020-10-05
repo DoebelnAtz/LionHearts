@@ -7,13 +7,14 @@ import { url } from '../../../../config.json';
 
 type HomeImgProps = {
 	text: string;
+	BGsrc?: string;
 };
 
-const HomeImg: React.FC<HomeImgProps> = ({ text }) => {
+const HomeImg: React.FC<HomeImgProps> = ({ text, BGsrc }) => {
 	const fadeDiv = useRef<HTMLDivElement>(null);
 
 	return (
-		<BGImg src={`${url}/api/photos/lh_meeting.jpg`}>
+		<BGImg src={`${url}/api/photos/${BGsrc ? BGsrc : 'lh_meeting.jpg'}`}>
 			<NavBar />
 			<ImgDiv ref={fadeDiv}>
 				<Vision>{text}</Vision>
