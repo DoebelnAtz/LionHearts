@@ -3,6 +3,8 @@ import { JsonWebTokenError } from 'jsonwebtoken';
 import { accessLogger, errorLogger } from '../logger';
 const jwt = require('jsonwebtoken');
 const config = require('../config');
+const { ErrorReporting } = require('@google-cloud/error-reporting');
+const errors = new ErrorReporting({ reportMode: 'always' });
 
 export const checkToken: RequestHandler = (req, res, next) => {
 	let token =
@@ -61,6 +63,8 @@ export const logRequests: RequestHandler = (req, res, next) => {
 
 export const handleError: ErrorRequestHandler = (error, req, res, next) => {
 	errorLogger.error(`${error.status}: ${error.description}`);
+	errors.report(`${error.status}: ${error.description}`);
+
 	return res.status(error.status).json({
 		error: error.response,
 		message: error.message,

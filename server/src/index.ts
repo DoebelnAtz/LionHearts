@@ -1,8 +1,13 @@
-import { checkToken, handleError, logRequests } from './middleware';
 import express from 'express';
 import * as bodyParser from 'body-parser';
 import cors from 'cors';
 import { config } from 'dotenv';
+config();
+require('@google-cloud/debug-agent').start({
+	serviceContext: { enableCanary: false },
+});
+
+import { checkToken, handleError, logRequests } from './middleware';
 import authRouter from './routes/auth-routes';
 import applicationRouter from './routes/application-routes';
 import eventRouter from './routes/event-routes';
@@ -13,8 +18,6 @@ import skillRouter from './routes/skill-routes';
 import articleRouter from './routes/article-routes';
 import path from 'path';
 import { getProfileSummary } from './controllers/profile-controllers';
-
-config();
 const port = process.env.PORT || 5000;
 const app = express();
 

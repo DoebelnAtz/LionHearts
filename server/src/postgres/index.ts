@@ -1,10 +1,11 @@
 import pg from 'pg';
 
+console.log(process.env);
 const dbConfig = {
-	user: 'admin',
-	host: '161.35.219.99',
-	database: 'lionheart',
-	password: process.env.db || 'password',
+	user: process.env.DB_USER,
+	host: process.env.DB_ADDR,
+	database: process.env.DB_NAME,
+	password: process.env.DB_PASS,
 };
 
 const pool = new pg.Pool(dbConfig);
