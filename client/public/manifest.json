@@ -1,6 +1,7 @@
 {
   "short_name": "Lionhearts",
   "name": "Lionhearts",
+  "description": "A platform for Lionhearts members",
   "icons": [
     {
       "src": "logo_head_blue_sm.png",

@@ -67,7 +67,7 @@ const NavBar = () => {
 				onClick={handleMemberIconClick}
 				isMobile={isMobile}
 			>
-				<img src={MemberIcon} />
+				<img alt={'member-side'} src={MemberIcon} />
 			</NavBarMemberIcon>
 		</NavBarDiv>
 	);

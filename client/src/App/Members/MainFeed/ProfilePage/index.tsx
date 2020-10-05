@@ -1,11 +1,18 @@
 import React, { ChangeEvent, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useGet, useNav } from '../../../../Hooks';
-import { Degree, Option, Profile, School, Skill } from '../../../../@types';
+import { url } from '../../../../config.json';
+import {
+	Degree,
+	Language,
+	Option,
+	Profile,
+	School,
+	Skill,
+} from '../../../../@types';
 import {
 	AddSkillButton,
 	AddSkillDiv,
-	AddSkillHeader,
 	AddSkillInput,
 	ContactInfo,
 	ContactInfoDiv,
@@ -14,7 +21,9 @@ import {
 	CreateSkillDiv,
 	EditProfileButton,
 	LanguageCard,
+	LanguageIcon,
 	LanguageList,
+	LanguageTitle,
 	Location,
 	OccupationInfoDiv,
 	PlaceOfStudy,
@@ -33,6 +42,7 @@ import {
 	ProfilePageSkillsDiv,
 	ProfilePageSkillsTitle,
 	ProfilePictureDiv,
+	RemoveLangSpan,
 	SkillDiv,
 	SkillResults,
 	SkillTitle,
@@ -53,6 +63,13 @@ const ProfilePage: React.FC = () => {
 	const [editing, setEditing] = useState(true);
 	const [degrees, setDegrees] = useGet<Degree[]>('/profiles/degrees');
 	const [schools, setSchools] = useGet<School[]>('/profiles/schools');
+	const [languageSearch, setLanguageSearch] = useState('');
+	const [languageResults, setLanguageResults] = useGet<Language[]>(
+		`/profiles/languages?limit=20&filter=available&q=${languageSearch}`,
+		languageSearch !== '',
+	);
+	const [addingLanguage, setAddingLanguage] = useState(false);
+
 	const [skillSearch, setSkillSearch] = useState('');
 	const [profile, setProfile] = useGet<Profile>(`/profiles/${params.uid}`);
 	const [locations, setLocations] = useGet<{ name: string; l_id: number }[]>(
@@ -73,6 +90,17 @@ const ProfilePage: React.FC = () => {
 	const expandAddSkillButton = useSpring({
 		borderRadius: addingSkill ? '4px 0px 0px 4px' : '4px 4px 4px 4px',
 		delay: addingSkill ? 0 : 400,
+	});
+
+	const expandAddSchool = useSpring({
+		width: addingLanguage ? '100px' : '0px',
+		padding: addingLanguage ? '4px' : '0px',
+		delay: addingLanguage ? 100 : 0,
+	});
+
+	const expandAddSchoolButton = useSpring({
+		borderRadius: addingLanguage ? '4px 0px 0px 4px' : '4px 4px 4px 4px',
+		delay: addingLanguage ? 0 : 400,
 	});
 
 	const [skills, setSkills] = useGet<Skill[]>(`/skills/${params.uid}`);
@@ -125,6 +153,63 @@ const ProfilePage: React.FC = () => {
 					skillResults.filter((rSkill) => rSkill.s_id !== skill.s_id),
 				);
 				setSkills([...skills, skill]);
+			}
+		} catch (e) {
+			console.log(e);
+		}
+	};
+
+	const handleLanguageCreation = async () => {
+		if (
+			!(languageResults || []).find(
+				(language) =>
+					language.name.toLowerCase() === skillSearch.toLowerCase(),
+			)
+		) {
+			try {
+				let createdLanguage = await makeRequest(
+					'/profiles/create_language',
+					'POST',
+					{
+						name: languageSearch,
+					},
+				);
+				if (createdLanguage && skills) {
+					await makeRequest('/profiles/add_language', 'POST', {
+						userId: getLocal('user').user.u_id,
+						languageId: createdLanguage.data?.language_id,
+					});
+					profile &&
+						setProfile({
+							...profile,
+							languages: [
+								...profile?.languages,
+								createdLanguage.data,
+							],
+						});
+				}
+			} catch (e) {
+				console.log(e);
+			}
+		}
+	};
+
+	const handleLanguageAddition = async (language: Language) => {
+		try {
+			if (profile?.languages && languageResults) {
+				await makeRequest('/profiles/add_language', 'POST', {
+					userId: getLocal('user').user.u_id,
+					languageId: language.language_id,
+				});
+				setLanguageResults(
+					languageResults.filter(
+						(lang) => lang.language_id !== language.language_id,
+					),
+				);
+				setProfile({
+					...profile,
+					languages: [...profile.languages, language],
+				});
 			}
 		} catch (e) {
 			console.log(e);
@@ -207,11 +292,55 @@ const ProfilePage: React.FC = () => {
 		}
 	};
 
+	const handleLanguageSearchChange = (e: ChangeEvent) => {
+		let target = e.target as HTMLInputElement;
+		if (target.value === '') {
+			setLanguageResults([]);
+		}
+		setLanguageSearch(target.value);
+	};
+
+	const handleSkillRemoval = async (skillId: number) => {
+		if (profile && editing && checkUser(profile?.u_id)) {
+			try {
+				await makeRequest('/skills/remove_skill', 'DELETE', {
+					skillId: skillId,
+				});
+				setSkills(skills?.filter((skill) => skill.s_id !== skillId));
+			} catch (e) {
+				console.log(e);
+			}
+		}
+	};
+
+	const handleLanguageRemoval = async (languageId: number) => {
+		try {
+			await makeRequest('/profiles/remove_language', 'DELETE', {
+				languageId: languageId,
+			});
+			profile &&
+				setProfile({
+					...profile,
+					languages: profile?.languages.filter(
+						(language) => language.language_id !== languageId,
+					),
+				});
+		} catch (e) {
+			console.log(e);
+		}
+	};
+
 	const renderSkills = (sList: Skill[]) => {
 		if (sList) {
 			return sList.map((skill) => {
 				return (
-					<SkillDiv key={skill.s_id}>
+					<SkillDiv
+						removable={
+							profile && editing && checkUser(profile?.u_id)
+						}
+						onClick={() => handleSkillRemoval(skill.s_id)}
+						key={skill.s_id}
+					>
 						<SkillTitle>{skill.title}</SkillTitle>
 					</SkillDiv>
 				);
@@ -225,11 +354,38 @@ const ProfilePage: React.FC = () => {
 			profile.languages.map((language) => {
 				return (
 					<LanguageCard key={language.language_id}>
-						{language.name}
+						<LanguageIcon
+							url={`${url}/api/languages/${language.name}.png`}
+						/>
+						<LanguageTitle>{language.name}</LanguageTitle>
+						{editing && checkUser(profile?.u_id) && (
+							<RemoveLangSpan
+								onClick={() =>
+									handleLanguageRemoval(language.language_id)
+								}
+							>
+								remove
+							</RemoveLangSpan>
+						)}
 					</LanguageCard>
 				);
 			})
 		);
+	};
+
+	const renderLanguageSearchResults = () => {
+		if (languageResults) {
+			return languageResults.map((language) => {
+				return (
+					<CreateSkillDiv
+						onClick={() => handleLanguageAddition(language)}
+						key={language.language_id}
+					>
+						<SkillTitle>{language.name}</SkillTitle>
+					</CreateSkillDiv>
+				);
+			});
+		}
 	};
 
 	const renderSkillSearchResults = () => {
@@ -279,7 +435,7 @@ const ProfilePage: React.FC = () => {
 											  })
 											: []
 									}
-									width={'100px'}
+									width={'140px'}
 									height={'22px'}
 								/>
 							) : (
@@ -302,7 +458,7 @@ const ProfilePage: React.FC = () => {
 											  })
 											: []
 									}
-									width={'100px'}
+									width={'140px'}
 									height={'22px'}
 								/>
 							) : (
@@ -402,6 +558,41 @@ const ProfilePage: React.FC = () => {
 							Languages
 						</ProfilePageLanguageTitle>
 						<LanguageList>{renderLanguages()}</LanguageList>
+						{editing && (
+							<AddSkillDiv>
+								<AddSkillButton
+									style={expandAddSchoolButton}
+									onClick={() =>
+										setAddingLanguage(!addingLanguage)
+									}
+								>
+									{addingLanguage ? '-' : '+'}
+								</AddSkillButton>
+								<AddSkillInput
+									value={languageSearch}
+									onChange={handleLanguageSearchChange}
+									style={expandAddSchool}
+									placeholder={addingLanguage ? 'search' : ''}
+								/>
+							</AddSkillDiv>
+						)}
+						<SkillResults>
+							{!!languageSearch.length && (
+								<CreateSkillDiv
+									disabled={(languageResults || []).find(
+										(language) =>
+											language.name.toLowerCase() ===
+											languageSearch.toLowerCase(),
+									)}
+									onClick={handleLanguageCreation}
+								>
+									<SkillTitle>
+										Add language: '{languageSearch}'
+									</SkillTitle>
+								</CreateSkillDiv>
+							)}
+							{renderLanguageSearchResults()}
+						</SkillResults>
 					</ProfilePageLanguageDiv>
 
 					<ProfilePageSkillsTitle>Skills</ProfilePageSkillsTitle>

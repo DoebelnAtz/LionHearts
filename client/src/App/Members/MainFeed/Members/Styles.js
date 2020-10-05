@@ -29,7 +29,7 @@ export const MemberListResultDiv = styled.div`
 
 export const MemberListCard = styled.div`
 	width: calc(50% - ${units.margin} * 2);
-	margin: ${units.margin} auto 20px auto;
+	margin: 20px auto 20px auto;
 	display: flex;
 	flex-direction: column;
 	border: 2px solid ${color.tertiary};
@@ -42,6 +42,7 @@ export const MemberListCard = styled.div`
 
 export const MemberCardContent = styled.div`
 	margin: 0 auto;
+	width: 100%;
 `;
 
 export const SearchMembersInput = styled.label`
@@ -54,9 +55,41 @@ export const SearchMembersInput = styled.label`
 
 export const MemberCardName = styled.div`
 	${font.DCBold};
+	text-align: center;
 	color: ${color.primary};
 	text-transform: uppercase;
-	font-size: 20px;
+	font-size: 24px;
+	margin-bottom: ${units.margin};
+`;
+
+export const MemberCardInfo = styled.div`
+	display: flex;
+	width: 90%;
+	text-align: center;
+	margin: 0 auto ${units.margin} auto;
+	flex-direction: column;
+	@media (max-width: ${units.mobile}) {
+		font-size: 3vw !important;
+	}
+`;
+
+export const MemberCardStudy = styled.span`
+	color: ${color.text};
+	font-size: 16px;
+	${font.RReg};
+	@media (max-width: ${units.mobile}) {
+		font-size: 3vw !important;
+	}
+`;
+
+export const MemberCardLocation = styled.span`
+	color: ${color.text};
+	font-size: 16px;
+	margin-top: ${units.margin};
+	${font.RReg};
+	@media (max-width: ${units.mobile}) {
+		font-size: 3vw !important;
+	}
 `;
 
 export const MemberCardPic = styled.div`
@@ -65,8 +98,8 @@ export const MemberCardPic = styled.div`
 	margin: 0 auto;
 	position: relative;
 	top: max(-40px, -6vw);
-	border: 2px solid ${color.BG0};
-	border-radius: 3vw;
+	border: 6px solid ${color.BG0};
+	border-radius: 50%;
 	width: min(100px, 12vw);
 	min-width: 50px;
 `;

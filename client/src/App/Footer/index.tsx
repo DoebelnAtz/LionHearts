@@ -67,7 +67,7 @@ const Footer: React.FC = () => {
 					</LinkDiv>
 				</FooterContentDiv>
 				<LegalInfoDiv>
-					<CopyRight>© Co-founders Oy 2022 </CopyRight>
+					<CopyRight>© Co-founders Oy </CopyRight>
 					<LegalLink href={PrivacyStatement}>
 						Privacy Policy
 					</LegalLink>

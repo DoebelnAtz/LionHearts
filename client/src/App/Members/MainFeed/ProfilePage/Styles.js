@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import {
 	color,
 	colorAdjust,
@@ -54,6 +54,10 @@ export const ProfilePageName = styled.span`
 	line-height: 34px;
 	color: ${color.primary};
 	text-transform: uppercase;
+	@media (max-width: ${units.mobile}) {
+		font-size: 6vw;
+		line-height: 20px;
+	}
 `;
 
 export const OccupationInfoDiv = styled.div`
@@ -64,21 +68,29 @@ export const OccupationInfoDiv = styled.div`
 
 export const PlaceOfStudy = styled.span`
 	${font.DCBold};
-	font-size: 18px;
+	font-size: 16px;
 	color: ${color.primary};
 	display: flex;
 	line-height: 28px;
 
 	text-transform: uppercase;
+	@media (max-width: ${units.mobile}) {
+		font-size: 3vw;
+		line-height: 20px;
+	}
 `;
 
 export const Location = styled.div`
 	${font.DCBold};
-	font-size: 18px;
+	font-size: 16px;
 	line-height: 28px;
 	color: ${color.primary};
 	display: flex;
 	text-transform: uppercase;
+	@media (max-width: ${units.mobile}) {
+		font-size: 3vw;
+		line-height: 20px;
+	}
 `;
 
 export const ProfilePageContactDiv = styled.div`
@@ -163,7 +175,42 @@ export const LanguageList = styled.div`
 	margin: ${units.margin} 0;
 `;
 
-export const LanguageCard = styled.div``;
+export const LanguageCard = styled.div`
+	margin-bottom: 5px;
+	margin-right: ${units.margin};
+	display: flex;
+	flex-direction: column;
+`;
+
+export const LanguageIcon = styled.div`
+	height: 50px;
+	width: 50px;
+	background: url(${(props) => props.url});
+	background-position: center;
+	background-size: cover;
+	background-color: ${color.BG3};
+	border-radius: 50%;
+	background-repeat: no-repeat;
+	@media (max-width: ${units.mobile}) {
+		height: 40px;
+		width: 40px;
+	}
+`;
+
+export const LanguageTitle = styled.span`
+	${font.DCBold};
+	font-size: 14px;
+	margin: 5px auto;
+	color: ${color.primary};
+`;
+
+export const RemoveLangSpan = styled.span`
+	${font.DCBold};
+	font-size: 12px;
+	margin: 5px auto;
+	${cursor.clickable};
+	color: ${color.primary};
+`;
 
 export const ProfilePageBioSkillsDiv = styled.div`
 	margin-left: 3vw;
@@ -198,11 +245,24 @@ export const ProfilePageSkillsDiv = styled.div`
 	flex-wrap: wrap;
 `;
 
+export const SkillTitle = styled.span`
+	color: ${color.primary};
+	${font.DCBold};
+`;
+
 export const SkillDiv = styled.div`
 	background-color: ${color.tertiary};
 	border-radius: 4px;
 	margin: 0 ${units.margin} ${units.margin} 0;
 	padding: 2px 5px;
+	&:hover {
+	 & ${SkillTitle} {
+		${(props) =>
+			props.removable
+				? `text-decoration: line-through; ${cursor.clickable}`
+				: ''}
+	
+	};
 `;
 
 export const CreateSkillDiv = styled.div`
@@ -259,11 +319,6 @@ export const AddSkillButton = styled(animated.div)`
 export const AddSkillInput = styled(animated.input)`
 	${components.input};
 	border-radius: 0 4px 4px 0;
-`;
-
-export const SkillTitle = styled.span`
-	color: ${color.primary};
-	${font.DCBold};
 `;
 
 export const ProfilePictureDiv = styled.div`

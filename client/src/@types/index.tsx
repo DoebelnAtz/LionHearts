@@ -71,7 +71,7 @@ export interface Article {
 	article_id: number;
 	title: string;
 	thumbnail: string;
-	isEvent: boolean;
+	isevent: boolean;
 	content: string;
 	published_date: string;
 }

@@ -36,7 +36,7 @@ const acceptedTypes = ['image/jpeg', 'image/png'];
 
 const ArticleControl: React.FC = () => {
 	const [articles, setArticles] = useGet<AuthoredArticle[]>(
-		'/articles-no-token',
+		'/articles-no-token?events=all',
 	);
 	const [adding, setAdding] = useState(true);
 	const [users, setUsers] = useGet<Profile[]>('/profiles');
@@ -107,7 +107,7 @@ const ArticleControl: React.FC = () => {
 		article: {
 			article_id: 0,
 			content: '',
-			isEvent: false,
+			isevent: false,
 			thumbnail: '',
 			published_date: '',
 			title: '',
@@ -154,7 +154,7 @@ const ArticleControl: React.FC = () => {
 						author: newArticle.author.u_id,
 						title: newArticle.article.title,
 						thumbnail: selectedFile?.name,
-						isEvent: newArticle.article.isEvent,
+						isevent: newArticle.article.isevent,
 					},
 				);
 				return true;
@@ -239,7 +239,7 @@ const ArticleControl: React.FC = () => {
 			...newArticle,
 			article: {
 				...newArticle.article,
-				isEvent: !newArticle.article.isEvent,
+				isevent: !newArticle.article.isevent,
 			},
 		});
 	};
@@ -299,7 +299,7 @@ const ArticleControl: React.FC = () => {
 					/>
 					<ArticleEventTitle>Event: </ArticleEventTitle>
 					<ToggleButton
-						state={newArticle.article.isEvent}
+						state={newArticle.article.isevent}
 						onClick={handleEventToggle}
 					/>
 				</ArticleOptionRow>

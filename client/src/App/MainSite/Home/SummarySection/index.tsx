@@ -9,21 +9,21 @@ const SummarySection: React.FC = () => {
 		<SummarySectionDiv id={'section-summary'}>
 			<SummaryColumns isMobile={isMobile}>
 				<SummaryColumn
-					title={'COMMUNITY'}
+					title={'A community'}
 					text={
-						'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eaque, ratione.'
+						'Our members create a community where they can complete each other’s backgrounds and areas of expertise, producing sharp and wholesome insights that enable us to approach complex issues with a variety of perspectives.'
 					}
 				/>
 				<SummaryColumn
-					title={'NETWORKING'}
+					title={'A Network  '}
 					text={
-						'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eaque, ratione. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eaque, ratione.'
+						'At Lionhearts, we aim at working hand in hand with the previous generations, where our fresh ideas and determination can ally with years of experience in a specific field to build a better tomorrow, together.'
 					}
 				/>
 				<SummaryColumn
-					title={'LIONTALKS'}
+					title={'A vision'}
 					text={
-						'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eaque, ratione. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eaque, ratione.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eaque, ratione.'
+						'As young people, we have the determination and audacity to improve our society. More than just an organization, Lionhearts allows us to apply our innovation and talent to fascinating projects and bring the changes we believe are needed!'
 					}
 				/>
 			</SummaryColumns>

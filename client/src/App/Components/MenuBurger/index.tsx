@@ -5,7 +5,11 @@ const MenuBurger: React.FC<{
 	setOpen: Dispatch<SetStateAction<boolean>>;
 }> = ({ open, setOpen }) => {
 	return (
-		<StyledBurger open={open} onClick={() => setOpen(!open)}>
+		<StyledBurger
+			ariaLabel={'open menu button'}
+			open={open}
+			onClick={() => setOpen(!open)}
+		>
 			<div />
 			<div />
 			<div />

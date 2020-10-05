@@ -134,7 +134,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
 						thumbnail:
 							selectedFile?.name ||
 							editedArticle.article.thumbnail,
-						isEvent: editedArticle.article.isEvent,
+						isevent: editedArticle.article.isevent,
 						articleId: editedArticle.article.article_id,
 					},
 				);
@@ -175,7 +175,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
 			...editedArticle,
 			article: {
 				...editedArticle.article,
-				isEvent: !editedArticle.article.isEvent,
+				isevent: !editedArticle.article.isevent,
 			},
 		});
 	};
@@ -245,7 +245,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
 					/>
 					<ArticleEventTitle>Event: </ArticleEventTitle>
 					<ToggleButton
-						state={editedArticle.article.isEvent}
+						state={editedArticle.article.isevent}
 						onClick={handleEventToggle}
 					/>
 				</ArticleOptionRow>

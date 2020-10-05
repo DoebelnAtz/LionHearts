@@ -4,8 +4,11 @@ import { Option, Profile, Skill } from '../../../../@types';
 import { useHistory } from 'react-router-dom';
 import {
 	MemberCardContent,
+	MemberCardInfo,
+	MemberCardLocation,
 	MemberCardName,
 	MemberCardPic,
+	MemberCardStudy,
 	MemberListCard,
 	MemberListDiv,
 	MemberListFilterTitle,
@@ -15,6 +18,7 @@ import {
 } from './Styles';
 import ProfilePic from '../../../Components/ProfilePic';
 import DropDownComponent from '../../../Components/DropDown';
+import { capitalizeFirst } from '../../../../Utils';
 
 const MemberList: React.FC = () => {
 	useNav('Members');
@@ -76,6 +80,18 @@ const MemberList: React.FC = () => {
 						</MemberCardPic>
 						<MemberCardContent>
 							<MemberCardName>{`${member.firstname} ${member.lastname}`}</MemberCardName>
+							<MemberCardInfo>
+								<MemberCardStudy>
+									{member.degree &&
+										member.school &&
+										`Studying ${
+											member.degree
+										} at ${capitalizeFirst(member.school)}`}
+								</MemberCardStudy>
+								<MemberCardLocation>{`Currently in ${capitalizeFirst(
+									member.location,
+								)}`}</MemberCardLocation>
+							</MemberCardInfo>
 						</MemberCardContent>
 					</MemberListCard>
 				);
