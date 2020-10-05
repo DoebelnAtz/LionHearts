@@ -12,6 +12,7 @@ import profileRouter from './routes/profile-routes';
 import skillRouter from './routes/skill-routes';
 import articleRouter from './routes/article-routes';
 import path from 'path';
+import { getProfileSummary } from './controllers/profile-controllers';
 
 config();
 const port = process.env.PORT || 5000;
@@ -26,8 +27,10 @@ app.use(
 	'/api/photos',
 	express.static(path.join(__dirname, '../images/articles')),
 );
+app.use('/api/languages', express.static(path.join(__dirname, '../languages')));
 app.use('/api/auth', authRouter);
 app.use('/api/files', fileRouter);
+app.get('/api/summary', getProfileSummary);
 app.use('/api/articles-no-token', articleRouter.articleNoTokenRouter);
 app.use('/', logRequests);
 app.use('/api', checkToken);

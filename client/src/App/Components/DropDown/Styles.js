@@ -70,7 +70,7 @@ export const SearchInput = styled.input`
 
 export const Option = styled.div`
 	${font.text};
-	font-size: 15px;
+	font-size: 12px;
 	letter-spacing: 0;
 	text-overflow: ellipsis;
 	overflow: hidden;

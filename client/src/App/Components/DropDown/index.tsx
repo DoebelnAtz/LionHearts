@@ -56,6 +56,7 @@ const DropDownComponent: React.FC<DropDownProps> = ({
 		return options.map(({ option, id }, index: number) => {
 			return (
 				<Option
+					title={option}
 					key={index}
 					height={height}
 					highlighted={

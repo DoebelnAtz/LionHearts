@@ -61,7 +61,7 @@ export const EventCardThumbnail = styled.div`
 	width: 90%;
 	margin: ${units.margin} auto;
 	max-width: 22vw;
-	min-width: 140px;
+	min-width: 160px;
 	min-height: 90px;
 	height: 12vw;
 `;
@@ -72,7 +72,8 @@ export const EventCardTitle = styled.span`
 	font-size: 26px;
 	color: ${color.primary};
 	@media (max-width: 900px) {
-		font-size: 6vw;
+		font-size: calc(10px + 4vw);
+		font-min-size: 20px;
 	}
 `;
 
@@ -81,4 +82,7 @@ export const EventCardDate = styled.span`
 	margin: ${units.margin} auto ${units.margin} 0;
 	color: ${color.secondary};
 	font-size: 16px;
+	@media (max-width: 900px) {
+		font-size: calc(10px + 2vw);
+	}
 `;

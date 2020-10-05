@@ -65,6 +65,19 @@ export const searchSkills = catchErrors(async (req, res) => {
 	res.json(skills.rows || []);
 }, 'Failed to search for skills');
 
+export const removeSkill = catchErrors(async (req, res) => {
+	const userId = req.decoded.u_id;
+	const { skillId } = req.body;
+	await query(
+		`
+		DELETE from skill_connections WHERE u_id = $1 AND s_id = $2
+	`,
+		[userId, skillId],
+	);
+
+	res.json({ success: true });
+}, 'Failed to remove skill');
+
 export const createSkill = catchErrors(async (req, res) => {
 	const { title } = req.body;
 

@@ -6,11 +6,15 @@ import { useMounted } from '../../../Hooks';
 
 type SaveButtonComponentProps = {
 	onClick: (event: any) => Promise<boolean>;
+	height?: string;
+	width?: string;
 };
 
 const LoadingButton: React.FC<SaveButtonComponentProps> = ({
 	children,
 	onClick,
+	height,
+	width,
 }) => {
 	const [saved, setSaved] = useState(false);
 	const [error, setError] = useState(false);
@@ -51,6 +55,8 @@ const LoadingButton: React.FC<SaveButtonComponentProps> = ({
 	return (
 		<SaveBtn
 			saved={saved}
+			height={height}
+			width={width}
 			error={error}
 			onClick={(e: any) => handleClick(e)}
 		>

@@ -111,17 +111,29 @@ export const getProfiles = catchErrors(async (req, res) => {
 	if (Number(skillFilter)) {
 		profiles = await query(
 			`
-			SELECT u.u_id, u.username, u.firstname, u.lastname, u.email, u.profile_pic
+			SELECT u.u_id, u.username, u.firstname, u.lastname, u.email, u.profile_pic,
+			l.name AS location, s.name AS school, d.name AS degree
 			FROM users u JOIN skill_connections sc ON u.u_id = sc.u_id 
-			WHERE sc.s_id=$1 AND LOWER(firstname::text || lastname::text) LIKE $2 
+			LEFT JOIN locations l ON u.location = l.l_id
+			LEFT JOIN degrees d ON u.degree = d.d_id
+			LEFT JOIN schools s ON u.school = s.s_id
+			WHERE sc.s_id=$1 
+			AND LOWER(firstname::text || lastname::text) LIKE $2 
+			ORDER BY LOWER(firstname::text || lastname::text) ASC
 		`,
 			[skillFilter, `%${search}%`.toLowerCase()],
 		);
 	} else {
 		profiles = await query(
 			`
-			SELECT u_id, username, firstname, lastname, email, profile_pic
-			FROM users WHERE LOWER(firstname::text || lastname::text) LIKE $1
+			SELECT u_id, username, firstname, lastname, email, profile_pic,
+			l.name AS location, s.name AS school, d.name AS degree
+			FROM users u
+			LEFT JOIN locations l ON u.location = l.l_id
+			LEFT JOIN degrees d ON u.degree = d.d_id
+			LEFT JOIN schools s ON u.school = s.s_id
+			WHERE LOWER(firstname::text || lastname::text) LIKE $1 
+			ORDER BY LOWER(firstname::text || lastname::text) ASC
 	`,
 			[`%${search}%`.toLowerCase()],
 		);
@@ -146,7 +158,7 @@ export const createDegree = catchErrors(async (req, res) => {
 
 export const getDegrees = catchErrors(async (req, res) => {
 	let degrees = await query(`
-		SELECT name, d_id FROM degrees
+		SELECT name, d_id FROM degrees ORDER BY name ASC
 	`);
 
 	res.json(degrees.rows);
@@ -168,7 +180,7 @@ export const createSchool = catchErrors(async (req, res) => {
 
 export const getSchools = catchErrors(async (req, res) => {
 	let degrees = await query(`
-		SELECT name, s_id FROM schools
+		SELECT name, s_id FROM schools ORDER BY name ASC
 	`);
 
 	res.json(degrees.rows);
@@ -184,14 +196,21 @@ export const addLanguageToUser = catchErrors(async (req, res) => {
 	`,
 		[languageId, userId],
 	);
+	res.json({ success: true });
 }, 'Failed to add language to user');
 
 export const createLanguage = catchErrors(async (req, res) => {
 	const { name } = req.body;
 
-	await query('INSERT INTO languages (name) VALUES', [name]);
+	let createdLanguage = await query(
+		'INSERT INTO languages (name) VALUES ($1) RETURNING language_id',
+		[name],
+	);
 
-	res.status(201).json({ success: true });
+	res.status(201).json({
+		name: name,
+		language_id: createdLanguage.rows[0].language_id,
+	});
 }, 'Failed to create language');
 
 export const getLanguages = catchErrors(async (req, res) => {
@@ -199,7 +218,6 @@ export const getLanguages = catchErrors(async (req, res) => {
 	const filter = req.query.filter || 'none';
 	const limit = req.query.limit || 20;
 	const userId = req.decoded.u_id;
-
 	let langauges: any;
 	if (filter === 'none') {
 		langauges = await query(
@@ -228,11 +246,24 @@ export const getLanguages = catchErrors(async (req, res) => {
 
 export const getLocations = catchErrors(async (req, res) => {
 	let locations = await query(`
-		SELECT name, l_id FROM locations
+		SELECT name, l_id FROM locations ORDER BY name ASC
 	`);
 
 	res.json(locations.rows);
 }, 'Failed to get locations');
+
+export const removeLanguage = catchErrors(async (req, res) => {
+	const userId = req.decoded.u_id;
+	const { languageId } = req.body;
+	await query(
+		`
+		DELETE from language_connections WHERE u_id = $1 AND language_id = $2
+	`,
+		[userId, languageId],
+	);
+
+	res.json({ success: true });
+}, 'Failed to remove language');
 
 export const createLocation = catchErrors(async (req, res) => {
 	const { name, lat, long } = req.body;
@@ -246,3 +277,18 @@ export const createLocation = catchErrors(async (req, res) => {
 
 	res.status(201).json({ success: true });
 }, 'Failed to create location');
+
+export const getProfileSummary = catchErrors(async (req, res) => {
+	let languages = await query(`
+		SELECT l.name as languages FROM languages l JOIN language_connections lc ON lc.language_id = l.language_id GROUP BY l.name 
+	`);
+	let education = await query(`
+		SELECT d.name as degrees, s.name as schools FROM users u JOIN schools s ON u.school = s.s_id JOIN degrees d ON d.d_id = u.degree;
+	`);
+
+	res.json({
+		languages: languages.rows.map((e) => e.languages),
+		schools: education.rows.map((e) => e.schools),
+		degrees: education.rows.map((e) => e.degrees),
+	});
+}, 'Failed to get summary');

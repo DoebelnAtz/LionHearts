@@ -11,13 +11,19 @@ export const getArticles = catchErrors(async (req, res) => {
 		articles = await query(`
         SELECT a.article_id, a.title, a.isevent, a.thumbnail, a.content, 
         a.published_date, u.u_id, u.firstname, u.lastname, u.profile_pic
-        FROM articles a JOIN users u ON a.author = u.u_id WHERE a.isevent = true
+        FROM articles a JOIN users u ON a.author = u.u_id WHERE a.isevent = true ORDER BY a.published_date DESC
+    `);
+	} else if (events === 'all') {
+		articles = await query(`
+        SELECT a.article_id, a.title, a.isevent, a.thumbnail, a.content, 
+        a.published_date, u.u_id, u.firstname, u.lastname, u.profile_pic
+        FROM articles a JOIN users u ON a.author = u.u_id ORDER BY a.published_date DESC
     `);
 	} else {
 		articles = await query(`
         SELECT a.article_id, a.title, a.isevent, a.thumbnail, a.content, 
         a.published_date, u.u_id, u.firstname, u.lastname, u.profile_pic
-        FROM articles a JOIN users u ON a.author = u.u_id WHERE a.isevent = false
+        FROM articles a JOIN users u ON a.author = u.u_id WHERE a.isevent = false ORDER BY a.published_date DESC
     `);
 	}
 
@@ -28,7 +34,7 @@ export const getArticles = catchErrors(async (req, res) => {
 					article_id: article.article_id,
 					thumbnail: article.thumbnail,
 					title: article.title,
-					isEvent: article.event,
+					isevent: article.isevent,
 					published_date: article.published_date,
 					content: article.content,
 				},
@@ -110,7 +116,7 @@ export const CreateArticle = catchErrors(async (req, res) => {
 }, 'Failed to create article');
 
 export const UpdateArticle = catchErrors(async (req, res) => {
-	const { content, author, title, articleId, thumbnail, isEvent } = req.body;
+	const { content, author, title, articleId, thumbnail, isevent } = req.body;
 	let updatedArticle: any = {};
 	const client = await connect();
 	await transaction(
@@ -120,7 +126,7 @@ export const UpdateArticle = catchErrors(async (req, res) => {
                 UPDATE articles SET content = $1, author = $2, title = $3, thumbnail = $4, isevent = $5 WHERE article_id = $6
                 RETURNING content, author, article_id, published_date
             `,
-				[content, author, title, thumbnail, isEvent, articleId],
+				[content, author, title, thumbnail, isevent, articleId],
 			);
 			let newAuthor = await query(
 				`

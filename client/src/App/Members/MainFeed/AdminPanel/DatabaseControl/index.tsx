@@ -26,6 +26,8 @@ const DatabaseControl: React.FC = () => {
 		name: '',
 	});
 
+	const [degree, setDegree] = useState({ name: '' });
+
 	const handleLocationNameChange = (e: ChangeEvent) => {
 		let target = e.target as HTMLInputElement;
 		setLocation({
@@ -58,6 +60,14 @@ const DatabaseControl: React.FC = () => {
 		});
 	};
 
+	const handleDegreeNameChange = (e: ChangeEvent) => {
+		let target = e.target as HTMLInputElement;
+		setDegree({
+			...degree,
+			name: target.value,
+		});
+	};
+
 	const handleSkillNameChange = (e: ChangeEvent) => {
 		let target = e.target as HTMLInputElement;
 		setSkill({
@@ -73,14 +83,22 @@ const DatabaseControl: React.FC = () => {
 				lat: location.latitude,
 				long: location.longitude,
 			});
+			setLocation({ ...location, name: '', latitude: '', longitude: '' });
 		} catch (e) {
-			console.log(e);
 			return false;
 		}
 		return true;
 	};
 
 	const handleSchoolSubmission = async () => {
+		try {
+			await makeRequest('/profiles/create_school', 'POST', {
+				name: school.name,
+			});
+			setSchool({ ...school, name: '' });
+		} catch (e) {
+			return false;
+		}
 		return true;
 	};
 
@@ -89,6 +107,19 @@ const DatabaseControl: React.FC = () => {
 			await makeRequest('/skills/create_skill', 'POST', {
 				title: skill.name,
 			});
+			setSkill({ ...skill, name: '' });
+			return true;
+		} catch (e) {
+			return false;
+		}
+	};
+
+	const handleDegreeSubmission = async () => {
+		try {
+			await makeRequest('/profiles/create_degree', 'POST', {
+				name: degree.name,
+			});
+			setDegree({ ...degree, name: '' });
 			return true;
 		} catch (e) {
 			return false;
@@ -194,6 +225,31 @@ const DatabaseControl: React.FC = () => {
 				</DataBaseControlControls>
 				<ButtonRow>
 					<LoadingButton onClick={handleSkillSubmission}>
+						Submit
+					</LoadingButton>
+				</ButtonRow>
+			</DataBaseControlOption>
+			<DataBaseControlOption>
+				<DataBaseControlOptionTitle>
+					Add degree
+				</DataBaseControlOptionTitle>
+				<DataBaseControlControls>
+					<AnimatedLabeledInputDiv>
+						<input
+							name={'degree'}
+							autoComplete={'off'}
+							value={degree.name}
+							onChange={handleDegreeNameChange}
+							type={'text'}
+							required
+						/>
+						<label htmlFor={'degree'}>
+							<span>Name</span>
+						</label>
+					</AnimatedLabeledInputDiv>
+				</DataBaseControlControls>
+				<ButtonRow>
+					<LoadingButton onClick={handleDegreeSubmission}>
 						Submit
 					</LoadingButton>
 				</ButtonRow>

@@ -31,7 +31,7 @@ articleRouter.put(
 		check('author').not().isEmpty().isNumeric(),
 		check('title').not().isEmpty(),
 		check('articleId').isNumeric().not().isEmpty(),
-		check('isEvent').isBoolean().not().isEmpty(),
+		check('isevent').isBoolean().not().isEmpty(),
 		check('thumbnail').not().isEmpty(),
 	],
 	UpdateArticle,

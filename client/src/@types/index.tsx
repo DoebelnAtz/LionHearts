@@ -94,6 +94,12 @@ export interface Comment {
 	profile_pic: string;
 }
 
+export interface Summary {
+	languages: string[];
+	degrees: string[];
+	schools: string[];
+}
+
 export interface AuthoredArticle {
 	article: Article;
 	author: Author;

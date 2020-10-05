@@ -14,7 +14,7 @@ export const FooterContainer = styled.div`
 `;
 
 export const FooterContentDiv = styled.div`
-	margin: 20px min(10vw, 100px);
+	margin: 10px min(10vw, 100px);
 	display: flex;
 	flex-direction: ${(props) => (props.isMobile ? 'column' : 'row')};
 	height: 100%;
@@ -25,7 +25,7 @@ export const LinkDiv = styled.div`
 	display: flex;
 	flex-direction: ${(props) => (props.isMobile ? 'column' : 'row')};
 	width: 100%;
-	padding: ${units.margin};
+	padding: ${units.margin} 0;
 `;
 
 export const LogoDiv = styled.div`
@@ -67,7 +67,7 @@ export const FooterNavBarLink = styled.span`
 `;
 
 export const LegalInfoDiv = styled.div`
-	margin: 20px min(10vw, 100px);
+	margin: 10px min(10vw, 100px);
 
 	width: calc(100% - min(10vw, 100px) * 2);
 `;

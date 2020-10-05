@@ -11,6 +11,7 @@ import {
 	getProfileById,
 	getProfiles,
 	getSchools,
+	removeLanguage,
 	updateProfile,
 } from '../controllers/profile-controllers';
 import { check } from 'express-validator';
@@ -77,6 +78,12 @@ profileRouter.post(
 	'/create_school',
 	[check('name').not().isEmpty()],
 	createSchool,
+);
+
+profileRouter.delete(
+	'/remove_language',
+	[check('languageId').not().isEmpty().isNumeric()],
+	removeLanguage,
 );
 
 export default profileRouter;

@@ -5,6 +5,7 @@ import {
 	createSkill,
 	getSkills,
 	getSkillsByUserId,
+	removeSkill,
 	searchSkills,
 } from '../controllers/skill-controllers';
 
@@ -29,6 +30,12 @@ skillRouter.post(
 		check('skillId').not().isEmpty().isNumeric(),
 	],
 	addSkillToUser,
+);
+
+skillRouter.delete(
+	'/remove_skill',
+	[check('skillId').not().isEmpty().isNumeric()],
+	removeSkill,
 );
 
 export default skillRouter;

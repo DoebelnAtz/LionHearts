@@ -48,19 +48,18 @@ import {
 	SkillTitle,
 } from './Styles';
 import CogWheel from '../../../../assets/images/cogwheel_blue.png';
-import CheckMark from '../../../../assets/images/check.png';
-import CloseIcon from '../../../../assets/images/close.png';
 import { checkUser, getLocal } from '../../../../Utils';
 import { makeRequest } from '../../../../Api';
 import TextEditor from '../../../Components/TextEditor';
 import ProfilePic from '../../../Components/ProfilePic';
 import DropDownComponent from '../../../Components/DropDown';
 import { useSpring } from 'react-spring';
+import LoadingButton from '../../../Components/LoadingButton';
 
 const ProfilePage: React.FC = () => {
 	const params = useParams<{ uid: string }>();
 	useNav('profile');
-	const [editing, setEditing] = useState(true);
+	const [editing, setEditing] = useState(false);
 	const [degrees, setDegrees] = useGet<Degree[]>('/profiles/degrees');
 	const [schools, setSchools] = useGet<School[]>('/profiles/schools');
 	const [languageSearch, setLanguageSearch] = useState('');
@@ -257,8 +256,10 @@ const ProfilePage: React.FC = () => {
 					school: profile.s_id,
 				}));
 			setEditing(false);
+			return true;
 		} catch (e) {
 			console.log(e);
+			return false;
 		}
 	};
 
@@ -503,14 +504,19 @@ const ProfilePage: React.FC = () => {
 						</ProfilePageEditButtons>
 					) : (
 						<ProfilePageEditButtons>
-							<EditProfileButton
-								onClick={() => handleChangeSave()}
-								url={CheckMark}
-							/>
-							<EditProfileButton
-								onClick={() => setEditing(false)}
-								url={CloseIcon}
-							/>
+							<LoadingButton
+								width={'66px'}
+								height={'30px'}
+								onClick={handleChangeSave}
+							>
+								<span
+									style={{
+										fontSize: '14px',
+									}}
+								>
+									Save
+								</span>
+							</LoadingButton>
 						</ProfilePageEditButtons>
 					))}
 			</ProfilePageInfo>
