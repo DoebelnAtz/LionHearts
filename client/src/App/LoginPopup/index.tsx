@@ -25,7 +25,6 @@ const LoginPopup = () => {
 	});
 
 	const handleLogin = async (e: SyntheticEvent) => {
-		console.log('logging in');
 		e.preventDefault();
 		try {
 			let resp = await makeRequest('/auth/login', 'post', {

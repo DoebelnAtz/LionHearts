@@ -72,7 +72,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
 
 	const handleFileChange = (files: FileList) => {
 		let targetFile = files[0];
-		console.log(targetFile);
+
 		if (targetFile) {
 			if (targetFile.size > 80000) {
 				setErrors({
@@ -102,7 +102,6 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
 	};
 
 	const handleArticleUpdate = async () => {
-		console.log(editedArticle);
 		const data = new FormData();
 
 		try {
@@ -110,11 +109,8 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
 				(!selectedFile && !editedArticle.article.thumbnail) ||
 				!editedArticle.article.content
 			) {
-				console.log('content error');
 			} else if (!editedArticle.article.title) {
-				console.log('title error');
 			} else if (!editedArticle.author.u_id) {
-				console.log('author error');
 			} else {
 				if (selectedFile) {
 					data.append('file', selectedFile);

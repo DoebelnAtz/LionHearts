@@ -9,7 +9,7 @@ export const LogoDiv = styled.div`
 
 export const LogoImg = styled.img`
 	position: relative;
-	height: 40px;
+	height: ${(props) => props.height};
 	margin: auto;
 	display: block;
 	@media (max-width: ${units.tablet}) {
@@ -19,10 +19,10 @@ export const LogoImg = styled.img`
 
 export const LogoHead = styled.img`
 	position: relative;
-	height: 40px;
+	height: ${(props) => props.height};
 	margin: auto;
 	display: none;
-	width: 40px;
+	width: ${(props) => props.height};
 	@media (max-width: ${units.tablet}) {
 		display: ${(props) => (props.compact ? 'block' : 'none')};
 	}

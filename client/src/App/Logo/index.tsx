@@ -7,9 +7,16 @@ import LogoWhite from '../../assets/images/logo_complete_white.svg';
 import LogoHeadBlue from '../../assets/images/logo_head_blue.svg';
 import LogoHeadWhite from '../../assets/images/logo_head_white.svg';
 
-const Logo: React.FC<{ inverse?: boolean; compact?: boolean }> = ({
+type LogoProps = {
+	inverse?: boolean;
+	compact?: boolean;
+	height?: string;
+};
+
+const Logo: React.FC<LogoProps> = ({
 	inverse = false,
 	compact = false,
+	height = '40px',
 }) => {
 	const history = useHistory();
 
@@ -20,12 +27,14 @@ const Logo: React.FC<{ inverse?: boolean; compact?: boolean }> = ({
 	return (
 		<LogoDiv onClick={handleLogoClick}>
 			<LogoHead
+				height={height}
 				src={inverse ? LogoHeadBlue : LogoHeadWhite}
 				alt={'lionhearts'}
 				compact={compact}
 			/>
 
 			<LogoImg
+				height={height}
 				src={inverse ? LogoBlue : LogoWhite}
 				alt="lionhearts"
 				compact={compact}

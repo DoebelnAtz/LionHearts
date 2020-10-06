@@ -4,8 +4,9 @@ import { WidthContext } from '../Context/WidthContext';
 import { useHistory } from 'react-router';
 import { useLayoutEffect } from 'react';
 import { CurrentNavContext } from '../Context/CurrentNavContext';
-import { getLocal } from '../Utils';
+import { getLocal, setLocal } from '../Utils';
 import { AuthContext } from '../Context/AuthContext';
+import { QueryOptions } from '../@types';
 
 export const useNav = (current: string) => {
 	const { update } = useContext(CurrentNavContext);
@@ -129,13 +130,13 @@ export const useMounted = () => {
 // A hook that keeps track of width used for mobile specific styles
 export const useWidth = () => {
 	const { state: width, update: setWidth } = useContext(WidthContext);
-	//const [width, setWidth] = useState(window.innerWidth);
 	const handleResize = (e: UIEvent) => {
 		let target = e.target as Window;
 		setWidth(target.innerWidth);
 	};
-
+	console.log(width);
 	useEffect(() => {
+		setWidth(window.innerWidth);
 		window.addEventListener('resize', handleResize);
 		return () => {
 			window.removeEventListener('resize', handleResize);
@@ -150,7 +151,6 @@ export const useScroll = () => {
 
 	useEffect(() => {
 		const handleScroll = (e: WheelEvent) => {
-			console.log(window.pageYOffset);
 			if (scroll + e.deltaY >= 0) {
 				setScroll(scroll + e.deltaY);
 			} else {
@@ -159,15 +159,21 @@ export const useScroll = () => {
 		};
 		window.addEventListener('wheel', handleScroll);
 		return () => {
-			console.log('stopped listening');
 			window.removeEventListener('wheel', handleScroll);
 		};
 	}, [scroll]);
 	return [scroll];
 };
 
-export function useGet<F>(url: string, conditional = true) {
+const cache: any = {};
+
+export function useGet<F>(
+	url: string,
+	conditional = true,
+	options: QueryOptions = {},
+) {
 	const [data, setData] = useState<F>();
+	const { cachePolicy = 'cache-first' } = options;
 	const [isLoading, setIsLoading] = useState<boolean>(true);
 	const resp = useRef<any>(null);
 	const history = useHistory();
@@ -175,16 +181,23 @@ export function useGet<F>(url: string, conditional = true) {
 	useEffect(() => {
 		async function request() {
 			try {
+				if (cachePolicy === 'cache-first' && cache[url]) {
+					console.log(cache);
+					setData(cache[url]);
+				}
 				setIsLoading(true);
 				resp.current = await makeRequest(url, 'GET');
 				if (mounted.current) {
+					if (cachePolicy === 'cache-first') {
+						cache[url] = resp.current.data;
+					}
 					setData(resp.current.data);
 				}
 			} catch (e) {
 				if (!e.response) {
 				} else if (e.response.status === 401) {
 					localStorage.clear();
-					console.log('unauth');
+
 					history.push(`/login?next=${history.location.pathname}`);
 				}
 			} finally {

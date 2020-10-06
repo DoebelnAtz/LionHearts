@@ -79,7 +79,7 @@ const Signup: React.FC = () => {
 
 	const handleFileUpload = async (event: any) => {
 		const data = new FormData();
-		console.log(selectedFile);
+
 		if (!!selectedFile && selectedFile.size < 80000 && application) {
 			data.append('file', selectedFile);
 			try {
@@ -106,7 +106,7 @@ const Signup: React.FC = () => {
 			application &&
 			selectedFile
 		) {
-			console.log(input);
+
 
 			try {
 				await handleFileUpload(event);
@@ -128,7 +128,7 @@ const Signup: React.FC = () => {
 	};
 	const handleFileChange = (files: FileList) => {
 		let targetFile = files[0];
-		console.log(targetFile);
+
 		if (targetFile) {
 			if (targetFile.size > 80000) {
 				setErrors({

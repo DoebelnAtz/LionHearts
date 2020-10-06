@@ -1,7 +1,5 @@
 import pg from 'pg';
 
-console.log(process.env);
-
 const connectionName = process.env.DB_INST;
 
 const dbConfig = {

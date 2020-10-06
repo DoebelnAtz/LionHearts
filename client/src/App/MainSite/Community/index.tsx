@@ -15,7 +15,6 @@ import { Summary } from '../../../@types';
 
 const Community: React.FC = () => {
 	const [summary] = useGet<Summary>('/summary');
-	console.log(summary);
 
 	const renderLanguages = () => {
 		if (summary) {

@@ -25,6 +25,10 @@ export interface Application {
 	application_status: string;
 }
 
+export interface QueryOptions {
+	cachePolicy?: string;
+}
+
 export interface Option {
 	option: string;
 	id?: number;

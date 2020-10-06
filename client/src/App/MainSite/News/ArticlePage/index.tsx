@@ -25,7 +25,7 @@ const ArticlePage: React.FC = () => {
 	const [article, setArticle] = useGet<AuthoredArticle>(
 		`/articles-no-token/${params.aid}`,
 	);
-	console.log(article);
+
 	return (
 		<EventsDiv>
 			<HomeImg text={'NEWS'} />

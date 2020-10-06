@@ -40,6 +40,9 @@ export const NavBarMemberIcon = styled.div`
 		height: 30px;
 		width: 30px;
 	}
+	@media (min-width: 900px) {
+		padding-top: 10px;
+	}
 `;
 
 export const NavBarLink = styled(Link)`
@@ -49,8 +52,8 @@ export const NavBarLink = styled(Link)`
 	z-index: 3;
 	height: 22px;
 	line-height: 30px;
-	padding: 0 1vw;
-	margin: 0 1vw;
+	padding: 0 1vw 0 1vw;
+	margin: 10px 1vw 0 1vw;
 	${cursor.clickable};
 	color: ${(props) => (props.inverse ? `${color.primary}` : `${color.BG0}`)};
 	text-decoration: none;
@@ -67,36 +70,3 @@ export const MenuBtnDiv = styled.div`
 	${cursor.clickable};
 	left: min(10vw, 100px);
 `;
-
-export const BurgerTopDiv = styled(animated.div)`
-	width: 30px;
-	height: 3px;
-	border-radius: 0px;
-	position: relative;
-	//transform: translateY(-4px);
-	background-color: white;
-`;
-
-export const BurgerMidDiv = styled.div`
-	width: 30px;
-	height: 3px;
-	display: block;
-	position: relative;
-	border-radius: 0px;
-	background-color: white;
-`;
-
-export const BurgerBotDiv = styled(animated.div)`
-	width: 30px;
-	height: 3px;
-	position: relative;
-	border-radius: 0px;
-	//transform: translateY(4px);
-	background-color: white;
-`;
-
-export const TopHelperDiv = styled(animated.div)``;
-
-export const MidHelperDiv = styled(animated.div)``;
-
-export const BotHelperDiv = styled(animated.div)``;

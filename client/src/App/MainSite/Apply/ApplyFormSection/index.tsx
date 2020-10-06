@@ -17,7 +17,7 @@ import {
 } from './Styles';
 import { makeRequest } from '../../../../Api';
 import queryString from 'query-string';
-import PrivacyPolicy from '../../../../assets/files/privacy-policy.pdf';
+import PrivacyPolicy from '../../../../assets/files/privacy-statement.pdf';
 import TOS from '../../../../assets/files/tos.pdf';
 import { useLocation, useHistory } from 'react-router-dom';
 import { useGet } from '../../../../Hooks';
@@ -27,7 +27,7 @@ const ApplyFormSection: React.FC = () => {
 	const location = useLocation();
 	const history = useHistory();
 	const applicationId: any =
-		getLocal('application').applicationId ||
+		getLocal('application')?.applicationId ||
 		setLocal('application', { applicationId: makeId(15) });
 
 	const [selectedFile, setSelectedFile] = useState<File>();
@@ -111,8 +111,10 @@ const ApplyFormSection: React.FC = () => {
 	const handleFileUpload = async (e: any) => {
 		e.preventDefault();
 		const data = new FormData();
-		console.log(selectedFile);
-		if (!!selectedFile && selectedFile.size < 50000) {
+
+		if (!input.legal) {
+			setErrors({ ...errors, legalError: 'required' });
+		} else if (!!selectedFile && selectedFile.size < 50000) {
 			data.append('file', selectedFile);
 			try {
 				await makeRequest(
@@ -192,7 +194,6 @@ const ApplyFormSection: React.FC = () => {
 					description: input.description,
 				});
 			} catch (e) {
-				console.log(e.response);
 				if (e.response.data.code === 2 || e.response.data.code === 3) {
 					history.push(`/apply?application=${makeId(15)}`);
 				} else if (e.response.data.code === 1) {
@@ -276,7 +277,7 @@ const ApplyFormSection: React.FC = () => {
 							<FormError>{errors.fileError}</FormError>
 						</label>
 						<button
-							disabled={!selectedFile || !input.legal}
+							disabled={!selectedFile}
 							onClick={handleFileUpload}
 						>
 							UPLOAD FILE
@@ -297,8 +298,13 @@ const ApplyFormSection: React.FC = () => {
 								/>
 								<LegalCheckTitle>
 									I accept the{' '}
-									<LegalLink>Terms of service</LegalLink> and{' '}
-									<LegalLink>Privacy Policy</LegalLink>
+									<LegalLink href={TOS}>
+										Terms of service
+									</LegalLink>{' '}
+									and{' '}
+									<LegalLink href={PrivacyPolicy}>
+										Privacy Policy
+									</LegalLink>
 								</LegalCheckTitle>
 							</LegalCheckDiv>
 							<FormError>{errors.legalError}</FormError>

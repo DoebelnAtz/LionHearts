@@ -70,7 +70,7 @@ export const CaruselPagination = styled.div`
 	width: min(10vw, 100px);
 	min-width:  min(10vw, 100px);
 	min-height: 30px;
-	cursor: ${(props) => (props.show ? 'pointer' : 'default')};
+	${(props) => (props.show ? cursor.clickable : 'cursor: default')};
 	margin: auto auto;
 	background-image: url("${(props) => props.url}");
 	background-position: center;

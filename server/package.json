@@ -5,10 +5,10 @@
   "main": "src/index.ts",
   "scripts": {
     "start": "node build/index.js",
-    "dev": "node-ts-dev src/index.ts",
+    "dev": "ts-node-dev src/index.ts",
     "build": "tsc",
     "gcp-build": "tsc",
-    "deploy": "gcloud deploy api.yaml"
+    "deploy": "gcloud app deploy api.yaml"
   },
   "author": "aadlercr",
   "license": "MIT",

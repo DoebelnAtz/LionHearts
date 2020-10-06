@@ -14,7 +14,7 @@ export const getEvents = catchErrors(async (req, res) => {
 			(
 			SELECT e_id, u_id, status 
 			FROM event_participants WHERE u_id = $1
-			) p ON p.e_id = e.e_id WHERE e.time > NOW()
+			) p ON p.e_id = e.e_id WHERE e.time > NOW() ORDER BY e.time DESC
 			`,
 				[req.decoded.u_id],
 			);
@@ -26,7 +26,7 @@ export const getEvents = catchErrors(async (req, res) => {
 			(
 			SELECT e_id, u_id, status 
 			FROM event_participants WHERE u_id = $1
-			) p ON p.e_id = e.e_id WHERE e.time < NOW()
+			) p ON p.e_id = e.e_id WHERE e.time < NOW() ORDER BY e.time DESC
 			`,
 				[req.decoded.u_id],
 			);
@@ -38,7 +38,7 @@ export const getEvents = catchErrors(async (req, res) => {
 			(
 			SELECT e_id, u_id, status 
 			FROM event_participants WHERE u_id = $1
-			) p ON p.e_id = e.e_id
+			) p ON p.e_id = e.e_id ORDER BY e.time DESC
 			`,
 				[req.decoded.u_id],
 			);
@@ -112,8 +112,7 @@ export const createComment = catchErrors(async (req, res) => {
 	        `,
 				[content, newThread.rows[0].t_id, req.decoded.u_id, threadId],
 			);
-			console.log(newComment.rows);
-			console.log(newThread.rows);
+
 			let creator: any;
 			if (newComment) {
 				creator = await query(

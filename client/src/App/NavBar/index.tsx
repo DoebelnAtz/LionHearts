@@ -2,24 +2,15 @@ import React, { useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import {
 	MenuBtnDiv,
-	MidHelperDiv,
 	NavBarDiv,
 	NavBarLink,
 	NavBarLinksDiv,
 	NavBarLogoDiv,
 	NavBarMemberIcon,
-	TopHelperDiv,
 } from './Styles';
 import Logo from '../Logo';
-import {
-	useSpring,
-	useChain,
-	ReactSpringHook,
-	useTransition,
-} from 'react-spring';
 
 import MemberIcon from '../../assets/images/white_member.svg';
-import { Link } from 'react-router-dom';
 import { getLocal, makeId } from '../../Utils';
 import { useWidth } from '../../Hooks';
 import MenuBurger from '../Components/MenuBurger';
@@ -52,7 +43,7 @@ const NavBar = () => {
 				</MenuBtnDiv>
 			)}
 			<NavBarLogoDiv id={'Navbar Logo'} isMobile={isMobile}>
-				<Logo />
+				<Logo height={isMobile ? '40ps' : '50px'} />
 			</NavBarLogoDiv>
 			{!isMobile && (
 				<NavBarLinksDiv>

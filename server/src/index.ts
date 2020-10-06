@@ -22,7 +22,7 @@ const port = process.env.PORT || 5000;
 const app = express();
 
 app.listen(port);
-console.log(path.join(__dirname, '../images/articles'));
+
 console.log(`Server started, listening on port: ${port}`);
 app.use(cors());
 app.use(bodyParser.json());

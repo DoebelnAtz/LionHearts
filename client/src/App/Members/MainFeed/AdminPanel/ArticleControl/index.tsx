@@ -116,7 +116,6 @@ const ArticleControl: React.FC = () => {
 	});
 
 	const handleNewArticleContentChange = (newContent: string) => {
-		console.log(newContent);
 		setNewArticle({
 			...newArticle,
 			article: { ...newArticle.article, content: newContent },
@@ -134,11 +133,8 @@ const ArticleControl: React.FC = () => {
 
 		try {
 			if (!selectedFile || !newArticle.article.content) {
-				console.log('content error');
 			} else if (!newArticle.article.title) {
-				console.log('title error');
 			} else if (!newArticle.author.u_id) {
-				console.log('author error');
 			} else {
 				data.append('file', selectedFile);
 				await makeRequest(
@@ -212,7 +208,7 @@ const ArticleControl: React.FC = () => {
 
 	const handleFileChange = (files: FileList) => {
 		let targetFile = files[0];
-		console.log(targetFile);
+
 		if (targetFile) {
 			if (targetFile.size > 80000) {
 				setErrors({

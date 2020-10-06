@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { color } from '../../../../Styles';
+import { color, units } from '../../../../Styles';
 
 export const SummarySectionDiv = styled.div`
 	width: 100%;
@@ -17,6 +17,6 @@ export const SummaryColumns = styled.div`
 	flex-direction: ${(props) => (props.isMobile ? 'column' : 'row')};
 	padding: 20px;
 	& div {
-		margin: 0 auto;
+		margin: ${units.margin} auto;
 	}
 `;

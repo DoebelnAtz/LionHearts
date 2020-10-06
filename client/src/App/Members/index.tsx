@@ -21,7 +21,7 @@ const MembersHome: React.FC = () => {
 	const history = useHistory();
 
 	useEffect(() => {
-		console.log(window.location);
+
 		if (!getLocal('user')) {
 			history.push('/');
 		}

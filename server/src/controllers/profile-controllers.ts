@@ -32,7 +32,6 @@ export const getProfilePicture = catchErrors(async (req, res) => {
 		res.set('Content-Type', 'text/plain');
 		res.status(404).end('Not found');
 	});
-	console.log(filePath);
 }, 'Failed to get file');
 
 export const uploadProfilePicture = catchErrors(async (req, res) => {

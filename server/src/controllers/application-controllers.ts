@@ -35,15 +35,15 @@ const deleteFolderRecursive = function (filePath: string) {
 
 export const getApplicationIdFiles = catchErrors(async (req, res, next) => {
 	const path = `./member-applications/${req.params.applicationId}/`;
-	console.log(path);
+
 	let files: any = [];
 	if (!!fs.existsSync(path)) {
 		fs.readdirSync(path).forEach((file) => {
-			console.log(file);
+
 			files.push({ name: file });
 		});
 	} else {
-		console.log('no files found');
+
 	}
 	res.json(files);
 }, 'Failed to get application files');
@@ -83,7 +83,7 @@ export const getApplicationFile = catchErrors(async (req, res) => {
 		res.set('Content-Type', 'text/plain');
 		res.status(404).end('Not found');
 	});
-	console.log(filePath);
+
 }, 'Failed to get file');
 
 export const deleteApplicationFile = catchErrors(async (req, res, next) => {
@@ -108,7 +108,7 @@ export const getApplications = catchErrors(async (req, res) => {
 
 export const createApplication = catchErrors(async (req, res, next) => {
 	const { applicationId, firstname, lastname, email, description } = req.body;
-	console.log('application received');
+
 	let existingApplication = await query(
 		`
 		SELECT * FROM applications WHERE email = $1 OR application_id = $2

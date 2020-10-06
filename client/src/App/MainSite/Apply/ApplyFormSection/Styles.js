@@ -13,10 +13,16 @@ export const ApplyFormSectionDiv = styled.div`
 	margin: 30px min(10vw, 100px);
 	background-color: ${color.BG0};
 	display: flex;
+	@media (max-width: 900px) {
+		flex-direction: column;
+	}
 `;
 
 export const ApplyTextDiv = styled.div`
 	width: 40%;
+	@media (max-width: 900px) {
+		width: 100%;
+	}
 `;
 
 export const ApplyHeader = styled.h2`
@@ -26,6 +32,9 @@ export const ApplyHeader = styled.h2`
 	text-decoration-color: ${color.tertiary};
 	color: ${color.primary};
 	font-size: 36px;
+	@media (max-width: 900px) {
+		font-size: calc(16px + 2vw);
+	}
 `;
 
 export const FormDiv = styled.div`
@@ -33,6 +42,9 @@ export const FormDiv = styled.div`
 	margin: auto 0 auto auto;
 	display: flex;
 	flex-direction: column;
+	@media (max-width: 900px) {
+		width: 100%;
+	}
 `;
 
 export const FormError = styled.p`

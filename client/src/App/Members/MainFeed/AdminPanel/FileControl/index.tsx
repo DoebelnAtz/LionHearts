@@ -27,7 +27,7 @@ const FileControl: React.FC = () => {
 
 	const handleFileUpload = async (event: any) => {
 		const data = new FormData();
-		console.log(selectedFile);
+
 		if (!!selectedFile && selectedFile.size < 50000000) {
 			data.append('file', selectedFile);
 			try {
@@ -47,7 +47,7 @@ const FileControl: React.FC = () => {
 	};
 	const handleFileChange = (files: FileList) => {
 		let targetFile = files[0];
-		console.log(targetFile);
+
 		if (targetFile) {
 			if (targetFile.size > 50000000) {
 				setErrors({
@@ -74,7 +74,7 @@ const FileControl: React.FC = () => {
 			try {
 				await navigator.clipboard.writeText(`${url}/api/photos/${img}`);
 			} catch (e) {
-				console.log('failed to copy to clipboard');
+
 			}
 		};
 

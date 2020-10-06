@@ -202,7 +202,7 @@ export const checkUserAuth = catchErrors(async (req, res) => {
 
 export const refreshToken = catchErrors(async (req, res) => {
 	let refreshToken = req.headers['x-refresh-token'] as string;
-	console.log(refreshToken);
+
 	if (!refreshToken) {
 		throw new CustomError(
 			'Failed to refresh token',
