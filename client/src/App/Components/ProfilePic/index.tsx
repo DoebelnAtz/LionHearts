@@ -1,6 +1,6 @@
 import React from 'react';
 import { ProfilePicture } from './Styles';
-import { url } from '../../../config.json';
+import { url } from '../../../config';
 import ProfilePlaceHolder from '../../../assets/images/profile_placeholder.png';
 const ProfilePic: React.FC<{ src: string | undefined }> = ({ src }) => {
 	return (

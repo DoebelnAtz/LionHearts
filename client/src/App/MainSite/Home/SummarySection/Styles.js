@@ -3,7 +3,7 @@ import { color } from '../../../../Styles';
 
 export const SummarySectionDiv = styled.div`
 	width: 100%;
-	height: 500px;
+	min-height: 500px;
 	background-color: white;
 	display: flex;
 	border-top: 10px solid ${color.secondary};

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useGet } from '../../../../../Hooks';
-import { url } from '../../../../../config.json';
+import { url } from '../../../../../config';
 import {
 	CopyImageHtml,
 	FileControlDiv,

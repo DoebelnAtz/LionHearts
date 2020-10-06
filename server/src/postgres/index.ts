@@ -1,12 +1,19 @@
 import pg from 'pg';
 
 console.log(process.env);
+
+const connectionName = process.env.DB_INST;
+
 const dbConfig = {
 	user: process.env.DB_USER,
 	host: process.env.DB_ADDR,
 	database: process.env.DB_NAME,
 	password: process.env.DB_PASS,
 };
+
+if (process.env.NODE_ENV === 'production') {
+	dbConfig.host = `/cloudsql/${connectionName}`;
+}
 
 const pool = new pg.Pool(dbConfig);
 

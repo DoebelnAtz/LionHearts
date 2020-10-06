@@ -89,5 +89,5 @@ export const NewsHeader = styled.h1`
 
 	margin-bottom: ${units.margin};
 	color: ${color.primary};
-	font-size: min(96px, 16vw);
+	font-size: min(86px, 14vw);
 `;

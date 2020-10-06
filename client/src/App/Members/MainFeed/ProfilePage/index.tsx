@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useGet, useNav } from '../../../../Hooks';
-import { url } from '../../../../config.json';
+import { url } from '../../../../config';
 import {
 	Degree,
 	Language,

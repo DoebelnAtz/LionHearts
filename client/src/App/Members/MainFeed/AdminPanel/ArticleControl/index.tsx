@@ -27,7 +27,7 @@ import { makeRequest } from '../../../../../Api';
 import ArticleCard from './ArticleCard';
 import LoadingButton from '../../../../Components/LoadingButton';
 import { useSpring } from 'react-spring';
-import { url } from '../../../../../config.json';
+import { url } from '../../../../../config';
 import QuillEditor from '../../../../Components/QuillEditor';
 import Thumbnail from '../../../../Components/Thumbnail';
 import { ErrorSpan } from '../FileControl/Styles';

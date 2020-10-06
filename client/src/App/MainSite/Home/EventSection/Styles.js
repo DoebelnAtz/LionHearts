@@ -87,5 +87,5 @@ export const NewsHeader = styled.h1`
 	line-height: min(80px, 14vw);
 	margin-bottom: ${units.margin};
 	color: ${color.primary};
-	font-size: min(96px, 16vw);
+	font-size: min(86px, 14vw);
 `;

@@ -3,7 +3,7 @@ import React, { useRef } from 'react';
 import HomePNG from '../../../../assets/images/home_img.png';
 import { BGImg, ImgDiv, Vision } from './Styles';
 import NavBar from '../../../NavBar';
-import { url } from '../../../../config.json';
+import { url } from '../../../../config';
 
 type HomeImgProps = {
 	text: string;

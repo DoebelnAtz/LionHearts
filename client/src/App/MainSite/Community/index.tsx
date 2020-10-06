@@ -1,5 +1,5 @@
 import React from 'react';
-import { url } from '../../../config.json';
+import { url } from '../../../config';
 import HomeImg from '../Home/HomeImg';
 import {
 	CommunityContainer,

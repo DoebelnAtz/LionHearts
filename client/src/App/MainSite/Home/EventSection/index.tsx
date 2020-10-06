@@ -14,7 +14,7 @@ import {
 import { useGet, useWidth } from '../../../../Hooks';
 import { Article, AuthoredArticle } from '../../../../@types';
 import Thumbnail from '../../../Components/Thumbnail';
-import { url } from '../../../../config.json';
+import { url } from '../../../../config';
 import arrowLeft from '../../../../assets/images/arrow_left.png';
 
 import arrowRight from '../../../../assets/images/arrow_right.png';

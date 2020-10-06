@@ -1,13 +1,13 @@
 import axios from 'axios';
 import { getLocal, setLocal } from '../Utils';
-import config from '../config.json';
+import { url as baseURL } from '../config';
 
 export const makeRequest = async (url: string, method: any, data: any = {}) => {
 	let resp;
 
 	try {
 		resp = await axios({
-			url: `${config.url}/api${url}`,
+			url: `${baseURL}/api${url}`,
 			method: method,
 			data: data,
 			headers: {
@@ -29,7 +29,7 @@ export const makeRequest = async (url: string, method: any, data: any = {}) => {
 		} else if (e.response.status === 401) {
 			try {
 				let refreshAttempt = await axios({
-					url: `${config.url}/api/auth/refresh_token`,
+					url: `${baseURL}/api/auth/refresh_token`,
 					method: method,
 					headers: {
 						'Content-Type': 'application/json',
@@ -48,7 +48,7 @@ export const makeRequest = async (url: string, method: any, data: any = {}) => {
 				}
 				try {
 					resp = await axios({
-						url: `${config.url}/api${url}`,
+						url: `${baseURL}/api${url}`,
 						method: method,
 						data: data,
 						headers: {

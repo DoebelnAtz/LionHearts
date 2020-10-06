@@ -15,7 +15,7 @@ import Footer from '../../Footer';
 import { useGet } from '../../../Hooks';
 import { AuthoredArticle } from '../../../@types';
 import Thumbnail from '../../Components/Thumbnail';
-import { url } from '../../../config.json';
+import { url } from '../../../config';
 import { getLocalDateFormat } from '../../../Utils';
 
 const Events: React.FC = () => {

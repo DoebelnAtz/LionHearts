@@ -33,7 +33,7 @@ import TextEditor from '../../../../../Components/TextEditor';
 import DropDownComponent from '../../../../../Components/DropDown';
 import LoadingButton from '../../../../../Components/LoadingButton';
 import { useSpring } from 'react-spring';
-import { url } from '../../../../../../config.json';
+import { url } from '../../../../../../config';
 import { ApplicantName } from '../../../Applications/Styles';
 import { getLocalTimeFormat } from '../../../../../../Utils';
 import Thumbnail from '../../../../../Components/Thumbnail';
