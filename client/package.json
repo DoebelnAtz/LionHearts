@@ -89,7 +89,7 @@
     "build-sw": "node ./src/sw-build.js",
     "clean-cra-sw": "rm -f build/precache-manifest.*.js && rm -f build/service-worker.js",
     "build": "node scripts/build && npm run build-sw && npm run clean-cra-sw",
-    "deploy": "npm run build && gcloud app deploy client.yaml",
+    "deploy": "npm run build && gcloud config set project lionhearts-291621 && gcloud app deploy client.yaml",
     "test": "node scripts/test.js"
   },
   "prettier": {

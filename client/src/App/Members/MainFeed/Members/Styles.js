@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { color, units, font, cursor, components } from '../../../../Styles';
+import { animated } from 'react-spring';
 
 export const MemberListDiv = styled.div`
 	width: 100%;
@@ -24,7 +25,24 @@ export const MemberListFilterTitle = styled.span`
 export const MemberListResultDiv = styled.div`
 	display: flex;
 	flex-wrap: wrap;
+	height: 100%;
+	overflow-y: auto;
 	width: 100%;
+`;
+
+export const ExpandFilterOptionsButton = styled.button`
+	width: 100px;
+	${components.buttonWhite};
+`;
+
+export const FilterOptionsDiv = styled.div`
+	width: 100%;
+`;
+
+export const FilterOptionsExpandable = styled(animated.div)`
+	overflow-y: hidden;
+	display: flex;
+	padding: ${units.margin} 0;
 `;
 
 export const MemberListCard = styled.div`

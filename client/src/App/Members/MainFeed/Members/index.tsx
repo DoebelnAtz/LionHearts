@@ -1,8 +1,11 @@
 import React, { ChangeEvent, useState } from 'react';
 import { useGet, useNav } from '../../../../Hooks';
-import { Option, Profile, Skill } from '../../../../@types';
+import { Language, Option, Profile, Skill } from '../../../../@types';
 import { useHistory } from 'react-router-dom';
 import {
+	ExpandFilterOptionsButton,
+	FilterOptionsDiv,
+	FilterOptionsExpandable,
 	MemberCardContent,
 	MemberCardInfo,
 	MemberCardLocation,
@@ -19,15 +22,30 @@ import {
 import ProfilePic from '../../../Components/ProfilePic';
 import DropDownComponent from '../../../Components/DropDown';
 import { capitalizeFirst } from '../../../../Utils';
+import { useSpring } from 'react-spring';
 
 const MemberList: React.FC = () => {
 	useNav('Members');
-	const [skillFilter, setSkillFilter] = useState(0);
+	const [skillFilter, setSkillFilter] = useState({ title: 'none', id: 0 });
+	const [languageFilter, setLanguageFilter] = useState({
+		title: 'none',
+		id: 0,
+	});
+	const [expandFilter, setExpandFilter] = useState(true);
 	const [search, setSearch] = useState('');
 	const [members, setMembers] = useGet<Profile[]>(
-		`/profiles?skillFilter=${skillFilter}&search=${search}`,
+		`/profiles?skill=${skillFilter.id}&language=${languageFilter.id}&search=${search}`,
 	);
+
+	const expandSpring = useSpring({
+		maxHeight: expandFilter ? '200px' : '0px',
+	});
+
 	const [skills, setSkills] = useGet<Skill[]>(`/skills`);
+
+	const [languages, setLanguages] = useGet<Language[]>(
+		'/profiles/languages?limit=100',
+	);
 
 	const history = useHistory();
 
@@ -41,27 +59,29 @@ const MemberList: React.FC = () => {
 		setSearch(target.value);
 	};
 
-	const findCorrespondingFilterTitle = (filterId: number) => {
+	const handleSkillFilterChange = (newFilter: Option) => {
+		console.log(newFilter);
 		if (skills) {
-			let correspondingFilterId = skills.find(
-				(skill) => skill.s_id === filterId,
-			);
-			return correspondingFilterId?.title || 'none';
+			if (newFilter.option === skillFilter.title) {
+				setSkillFilter({ title: 'none', id: 0 });
+			} else {
+				setSkillFilter({
+					title: newFilter.option,
+					id: newFilter.id || 0,
+				});
+			}
 		}
-		return 'none';
 	};
 
-	const handleFilterChange = (newFilter: Option) => {
+	const handleLanguageFilterChange = (newFilter: Option) => {
 		if (skills) {
-			if (
-				newFilter.option === findCorrespondingFilterTitle(skillFilter)
-			) {
-				setSkillFilter(0);
+			if (newFilter.option === languageFilter.title) {
+				setLanguageFilter({ title: 'none', id: 0 });
 			} else {
-				let correspondingFilterId = skills.find(
-					(skill) => skill.title === newFilter.option,
-				);
-				setSkillFilter(correspondingFilterId?.s_id || 0);
+				setLanguageFilter({
+					title: newFilter.option,
+					id: newFilter.id || 0,
+				});
 			}
 		}
 	};
@@ -102,20 +122,55 @@ const MemberList: React.FC = () => {
 	return (
 		<MemberListDiv>
 			<MemberListOptions>
-				<MemberListFilterTitle>Filter skills: </MemberListFilterTitle>
-				<DropDownComponent
-					state={findCorrespondingFilterTitle(skillFilter)}
-					setSelect={handleFilterChange}
-					optionList={[
-						{ option: 'none' },
-						...(skills?.map((skill) => {
-							return { option: skill.title };
-						}) || []),
-					]}
-					width={'140px'}
-					height={'22px'}
-					withFilter
-				/>
+				<FilterOptionsDiv>
+					<ExpandFilterOptionsButton
+						onClick={() => setExpandFilter(!expandFilter)}
+					>
+						Filters
+					</ExpandFilterOptionsButton>
+					<FilterOptionsExpandable style={expandSpring}>
+						<MemberListFilterTitle>Skills: </MemberListFilterTitle>
+						<DropDownComponent
+							state={skillFilter.title}
+							setSelect={handleSkillFilterChange}
+							optionList={[
+								{ option: 'none', id: 0 },
+								...(skills?.map((skill) => {
+									return {
+										option: skill.title,
+										id: skill.s_id,
+									};
+								}) || []),
+							]}
+							width={'140px'}
+							modalOverflow
+							height={'22px'}
+							withFilter
+						/>
+
+						<MemberListFilterTitle>
+							Languages:{' '}
+						</MemberListFilterTitle>
+						<DropDownComponent
+							state={languageFilter.title}
+							setSelect={handleLanguageFilterChange}
+							optionList={[
+								{ option: 'none', id: 0 },
+								...(languages?.map((language) => {
+									return {
+										option: language.name,
+										id: language.language_id,
+									};
+								}) || []),
+							]}
+							width={'140px'}
+							modalOverflow
+							height={'22px'}
+							withFilter
+						/>
+					</FilterOptionsExpandable>
+				</FilterOptionsDiv>
+
 				<SearchMembersInput>
 					<MemberListFilterTitle>Search:</MemberListFilterTitle>
 					<input
