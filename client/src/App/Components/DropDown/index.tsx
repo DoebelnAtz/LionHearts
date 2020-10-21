@@ -63,7 +63,8 @@ const DropDownComponent: React.FC<DropDownProps> = ({
 						state === option ||
 						(withFilter && index === selectedIndex)
 					}
-					onClick={() => {
+					onClick={(e: MouseEvent) => {
+						e.stopPropagation();
 						setSelect({ option, id });
 						setExpanded(false);
 					}}
@@ -120,7 +121,8 @@ const DropDownComponent: React.FC<DropDownProps> = ({
 		}
 	};
 
-	const handleClick = () => {
+	const handleClick = (e: MouseEvent) => {
+		e.stopPropagation();
 		setExpanded(!expanded);
 	};
 
@@ -133,7 +135,7 @@ const DropDownComponent: React.FC<DropDownProps> = ({
 		>
 			<CurrentOption
 				expanded={expanded}
-				onClick={() => handleClick()}
+				onClick={(e: MouseEvent) => handleClick(e)}
 				height={height}
 			>
 				{children}

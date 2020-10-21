@@ -96,7 +96,6 @@ export const EventCommentProfilePic = styled.div`
 
 export const EventCommentSection = styled(animated.div)`
 	width: 100%;
-	height: 0px;
 	overflow-y: hidden;
 `;
 
@@ -104,8 +103,6 @@ export const EventCommentFeed = styled.div`
 	width: 100%;
 	position: relative;
 	top: -20px;
-
-	height: ${(props) => props.height};
 	overflow-y: auto;
 `;
 

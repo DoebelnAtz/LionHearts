@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
 	EventCommentActionRow,
 	EventCommentContainer,
@@ -39,12 +39,15 @@ const EventComment: React.FC<EventCommentProps> = ({ comment }) => {
 	const [childComments, setChildComments] = useGet<Comment[]>(
 		`/events/comments/${comment.t_id}`,
 	);
+	const expandTarget = useRef<HTMLDivElement>(null);
 	const [expandLength, setExpandLength] = useState('160px');
 	const [expandCommentSection, setExpandCommentSection] = useState(false);
 	const expandCommentSectionSpring = useSpring({
-		height: expandCommentSection ? expandLength : '0px',
+		maxHeight: expandCommentSection
+			? 160 + (expandTarget.current?.offsetHeight || 1) + 'px'
+			: '0px',
 	});
-
+	console.log(expandTarget);
 	useEffect(() => {
 		if (childComments && childComments.length > 0) {
 			setExpandLength(`${160 + childComments.length * 60}px`);
@@ -145,9 +148,7 @@ const EventComment: React.FC<EventCommentProps> = ({ comment }) => {
 				<SubmitCommentButton onClick={handleCommentCreation}>
 					Submit
 				</SubmitCommentButton>
-				<EventCommentFeed
-					height={`${(childComments?.length || 0) * 60}px`}
-				>
+				<EventCommentFeed ref={expandTarget}>
 					{renderComments()}
 				</EventCommentFeed>
 			</EventCommentSection>

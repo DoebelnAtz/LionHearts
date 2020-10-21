@@ -42,25 +42,31 @@ export const FilterOptionsDiv = styled.div`
 export const FilterOptionsExpandable = styled(animated.div)`
 	overflow-y: hidden;
 	display: flex;
-	padding: ${units.margin} 0;
+	margin: ${units.margin} 0;
 `;
 
 export const MemberListCard = styled.div`
 	width: calc(50% - ${units.margin} * 2);
-	margin: 20px auto 20px auto;
+	margin: 30px auto 20px auto;
 	display: flex;
+	border-width: 0 0 2px 0;
+	border-color: ${color.secondary};
+	border-style: solid;
 	flex-direction: column;
-	border: 2px solid ${color.tertiary};
 	${cursor.clickable};
+`;
+
+export const MemberCardContent = styled.div`
+	border-width: 2px 2px 0 2px;
+	border-color: ${color.secondary};
+	border-style: solid;
+	margin: 0 auto;
+	padding: max(40px, 6vw) ${units.margin} ${units.margin} ${units.margin};
+	width: calc(100% - ${units.margin} * 2);
 	&:hover {
 		background-color: ${color.BG1};
 		transition: background-color 0.1s;
 	}
-`;
-
-export const MemberCardContent = styled.div`
-	margin: 0 auto;
-	width: 100%;
 `;
 
 export const SearchMembersInput = styled.label`
@@ -78,6 +84,9 @@ export const MemberCardName = styled.div`
 	text-transform: uppercase;
 	font-size: 24px;
 	margin-bottom: ${units.margin};
+	@media (max-width: ${units.mobile}) {
+		font-size: calc(10px + 2vw);
+	}
 `;
 
 export const MemberCardInfo = styled.div`
@@ -87,7 +96,7 @@ export const MemberCardInfo = styled.div`
 	margin: 0 auto ${units.margin} auto;
 	flex-direction: column;
 	@media (max-width: ${units.mobile}) {
-		font-size: 3vw !important;
+		font-size: calc(10px + 1vw);
 	}
 `;
 
@@ -96,7 +105,7 @@ export const MemberCardStudy = styled.span`
 	font-size: 16px;
 	${font.RReg};
 	@media (max-width: ${units.mobile}) {
-		font-size: 3vw !important;
+		font-size: calc(10px + 1vw);
 	}
 `;
 
@@ -106,7 +115,7 @@ export const MemberCardLocation = styled.span`
 	margin-top: ${units.margin};
 	${font.RReg};
 	@media (max-width: ${units.mobile}) {
-		font-size: 3vw !important;
+		font-size: calc(10px + 1vw);
 	}
 `;
 
@@ -114,8 +123,9 @@ export const MemberCardPic = styled.div`
 	height: min(100px, 12vw);
 	min-height: 50px;
 	margin: 0 auto;
+	background-color: ${color.BG0};
 	position: relative;
-	top: max(-40px, -6vw);
+	top: max(30px, 4vw);
 	border: 6px solid ${color.BG0};
 	border-radius: 50%;
 	width: min(100px, 12vw);

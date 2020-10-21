@@ -1,9 +1,10 @@
 import styled from 'styled-components';
-import { color, units, font } from '../../../../Styles';
+import { color, units, font, cursor } from '../../../../Styles';
 
 export const EventCardDiv = styled.div`
 	width: calc(100% - ${units.margin} * 2);
 	padding: ${units.margin};
+	${cursor.clickable};
 	background-color: ${(props) =>
 		props.highlighted ? `${color.primary}20` : color.BG1};
 	border-bottom: 2px solid ${color.BG2};
