@@ -10,7 +10,7 @@ import {
 	MemberCardInfo,
 	MemberCardLocation,
 	MemberCardName,
-	MemberCardPic,
+	MemberCardPic, MemberCardPicContainer, MemberCardPicDiv,
 	MemberCardStudy,
 	MemberListCard,
 	MemberListDiv,
@@ -95,9 +95,15 @@ const MemberList: React.FC = () => {
 						onClick={() => handleMemberClick(member.u_id)}
 						key={member.u_id}
 					>
+						<MemberCardPicDiv>
+
+						<MemberCardPicContainer>
+
 						<MemberCardPic>
 							<ProfilePic src={member.profile_pic} />
 						</MemberCardPic>
+						</MemberCardPicContainer>
+						</MemberCardPicDiv>
 						<MemberCardContent>
 							<MemberCardName>{`${member.firstname} ${member.lastname}`}</MemberCardName>
 							<MemberCardInfo>
@@ -122,6 +128,14 @@ const MemberList: React.FC = () => {
 	return (
 		<MemberListDiv>
 			<MemberListOptions>
+				<SearchMembersInput>
+					<MemberListFilterTitle>Search:</MemberListFilterTitle>
+					<input
+						value={search}
+						onChange={handleSearchChange}
+						placeholder={'search'}
+					/>
+				</SearchMembersInput>
 				<FilterOptionsDiv>
 					<ExpandFilterOptionsButton
 						onClick={() => setExpandFilter(!expandFilter)}
@@ -171,14 +185,7 @@ const MemberList: React.FC = () => {
 					</FilterOptionsExpandable>
 				</FilterOptionsDiv>
 
-				<SearchMembersInput>
-					<MemberListFilterTitle>Search:</MemberListFilterTitle>
-					<input
-						value={search}
-						onChange={handleSearchChange}
-						placeholder={'search'}
-					/>
-				</SearchMembersInput>
+
 			</MemberListOptions>
 			<MemberListResultDiv>{renderMembers()}</MemberListResultDiv>
 		</MemberListDiv>

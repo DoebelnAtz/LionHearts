@@ -36,7 +36,7 @@ export const EventPageCreator = styled.span`
 
 export const CreateCommentDiv = styled(animated.div)`
 	width: 100%;
-	margin-top: ${units.margin};
+	margin-top: 20px;
 	height: 40px;
 	overflow-y: hidden;
 `;
@@ -58,6 +58,7 @@ export const SubmitCommentButton = styled.button`
 	position: relative;
 	top: -28px;
 	${components.buttonWhite};
+	
 `;
 
 export const EventPageCommentFeed = styled.div`

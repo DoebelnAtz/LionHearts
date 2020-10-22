@@ -12,6 +12,7 @@ export const MemberListOptions = styled.div`
 	width: calc(100% - ${units.margin} * 2);
 	padding: ${units.margin};
 	display: flex;
+	flex-direction: column;
 	margin-bottom: 2vw;
 `;
 
@@ -37,6 +38,7 @@ export const ExpandFilterOptionsButton = styled.button`
 
 export const FilterOptionsDiv = styled.div`
 	width: 100%;
+	
 `;
 
 export const FilterOptionsExpandable = styled(animated.div)`
@@ -47,9 +49,9 @@ export const FilterOptionsExpandable = styled(animated.div)`
 
 export const MemberListCard = styled.div`
 	width: calc(50% - ${units.margin} * 2);
-	margin: 30px auto 20px auto;
+	margin: min(50px, max(6vw, 30px)) auto 20px auto;
 	display: flex;
-	border-width: 0 0 2px 0;
+	border-width: 2px;
 	border-color: ${color.secondary};
 	border-style: solid;
 	flex-direction: column;
@@ -57,11 +59,9 @@ export const MemberListCard = styled.div`
 `;
 
 export const MemberCardContent = styled.div`
-	border-width: 2px 2px 0 2px;
-	border-color: ${color.secondary};
-	border-style: solid;
+	
 	margin: 0 auto;
-	padding: max(40px, 6vw) ${units.margin} ${units.margin} ${units.margin};
+	padding: ${units.margin};
 	width: calc(100% - ${units.margin} * 2);
 	&:hover {
 		background-color: ${color.BG1};
@@ -71,7 +71,7 @@ export const MemberCardContent = styled.div`
 
 export const SearchMembersInput = styled.label`
 	${components.labeledInput};
-	margin: 0 ${units.margin} 0 auto;
+	margin: 0 auto ${units.margin} 0;
 	height: 24px;
 	display: flex;
 	flex-direction: row;
@@ -119,15 +119,26 @@ export const MemberCardLocation = styled.span`
 	}
 `;
 
-export const MemberCardPic = styled.div`
-	height: min(100px, 12vw);
-	min-height: 50px;
+export const MemberCardPicDiv = styled.div`
+	width: 100%;
+	height: min(40px, 6vw);
+	min-height: 25px;
+	display: flex;
+`
+
+export const MemberCardPicContainer = styled.div`
 	margin: 0 auto;
+`
+
+export const MemberCardPic = styled.div`
+	height: min(80px, 12vw);
+	min-height: 50px;	
+	margin: 0 auto;
+	bottom: 120%;
 	background-color: ${color.BG0};
 	position: relative;
-	top: max(30px, 4vw);
 	border: 6px solid ${color.BG0};
 	border-radius: 50%;
-	width: min(100px, 12vw);
+	width: min(80px, 12vw);
 	min-width: 50px;
 `;

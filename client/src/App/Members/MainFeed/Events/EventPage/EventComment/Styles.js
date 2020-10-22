@@ -22,7 +22,6 @@ export const EventChildCommentContainer = styled.div`
 	border-left: 4px solid ${color.tertiary};
 	padding: 5px 0 5px 16px;
 	height: auto;
-	background-color: ${color.BG1};
 `;
 
 export const EventCommentPicCol = styled.div`
@@ -36,23 +35,23 @@ export const EventChildCommentPicCol = styled.div`
 `;
 
 export const EventChildCommentContentCol = styled.div`
-	width: calc(100% - 60px);
+	width: calc(100% - 50px);
 	display: flex;
 	margin-right: auto;
 	flex-direction: column;
 `;
 
 export const EventCommentContentCol = styled.div`
-	width: calc(100% - 60px);
+	width: calc(100% - 50px);
 	display: flex;
 	flex-direction: column;
 `;
 
 export const EventCommentEditor = styled(animated.div)`
-	width: 100%;
+	width: calc(100%);
 	height: 140px;
+	margin: ${units.margin} auto 0 auto;
 	overflow-y: hidden;
-	margin-top: ${units.margin};
 `;
 
 export const EventCommentInfo = styled.div`
@@ -72,7 +71,9 @@ export const EventCommentReplyButton = styled.img`
 	right: -4px;
 	margin-left: auto;
 	position: relative;
+	background-color: ${color.BG0};
 	${cursor.clickable};
+	transition: background-color 0.2s ease-in-out;
 	&:hover {
 		background-color: ${color.tertiary};
 	}
@@ -101,8 +102,9 @@ export const EventCommentSection = styled(animated.div)`
 
 export const EventCommentFeed = styled.div`
 	width: 100%;
+	margin-top: ${units.margin};
+
 	position: relative;
-	top: -20px;
 	overflow-y: auto;
 `;
 

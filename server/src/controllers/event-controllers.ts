@@ -73,6 +73,10 @@ export const getEventById = catchErrors(async (req, res) => {
 		[eid],
 	);
 
+	let participants = await query(`
+		SELECT u.username, u.profile_pic, u.u_id FROM users u JOIN event_participants ep ON ep.u_id = u.u_id WHERE ep.e_id = $1 
+	`, [eid]);
+
 	if (!event.rows) {
 		throw new CustomError(
 			'Failed to find event by id',
@@ -92,7 +96,7 @@ export const getEventById = catchErrors(async (req, res) => {
 		[event.rows[0].t_id],
 	);
 
-	res.json({ ...event.rows[0], comments: eventComments.rows });
+	res.json({ ...event.rows[0], comments: eventComments.rows, participants: participants.rows });
 }, 'Failed to get event by id');
 
 export const createComment = catchErrors(async (req, res) => {

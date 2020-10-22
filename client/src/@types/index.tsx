@@ -118,5 +118,6 @@ export interface MemberEvent {
 	t_id: number;
 	time: string;
 	status: string;
+	participants: Profile[];
 	comments: Comment[];
 }

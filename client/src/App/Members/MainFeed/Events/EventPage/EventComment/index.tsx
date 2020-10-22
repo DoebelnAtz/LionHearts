@@ -40,19 +40,14 @@ const EventComment: React.FC<EventCommentProps> = ({ comment }) => {
 		`/events/comments/${comment.t_id}`,
 	);
 	const expandTarget = useRef<HTMLDivElement>(null);
-	const [expandLength, setExpandLength] = useState('160px');
 	const [expandCommentSection, setExpandCommentSection] = useState(false);
 	const expandCommentSectionSpring = useSpring({
 		maxHeight: expandCommentSection
-			? 160 + (expandTarget.current?.offsetHeight || 1) + 'px'
+			? 166 + (expandTarget.current?.offsetHeight || 1) + 'px'
 			: '0px',
 	});
 	console.log(expandTarget);
-	useEffect(() => {
-		if (childComments && childComments.length > 0) {
-			setExpandLength(`${160 + childComments.length * 60}px`);
-		}
-	}, [childComments]);
+
 
 	const handleCreateCommentChange = (val: string) => {
 		setCreateComment(val);
@@ -66,6 +61,7 @@ const EventComment: React.FC<EventCommentProps> = ({ comment }) => {
 					threadId: comment.t_id,
 				});
 				resp && setChildComments([...childComments, resp.data]);
+				setCreateComment('');
 			}
 		} catch (e) {
 			console.log(e);
@@ -138,6 +134,9 @@ const EventComment: React.FC<EventCommentProps> = ({ comment }) => {
 				</EventCommentContentCol>
 			</EventCommentContainer>
 			<EventCommentSection style={expandCommentSectionSpring}>
+				<EventCommentFeed ref={expandTarget}>
+					{renderComments()}
+				</EventCommentFeed>
 				<EventCommentEditor>
 					<QuillEditor
 						onChange={handleCreateCommentChange}
@@ -148,9 +147,7 @@ const EventComment: React.FC<EventCommentProps> = ({ comment }) => {
 				<SubmitCommentButton onClick={handleCommentCreation}>
 					Submit
 				</SubmitCommentButton>
-				<EventCommentFeed ref={expandTarget}>
-					{renderComments()}
-				</EventCommentFeed>
+
 			</EventCommentSection>
 		</EventCommentDiv>
 	);

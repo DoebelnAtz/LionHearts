@@ -6,11 +6,11 @@ export const EventCardDiv = styled.div`
 	padding: ${units.margin};
 	${cursor.clickable};
 	background-color: ${(props) =>
-		props.highlighted ? `${color.primary}20` : color.BG1};
-	border-bottom: 2px solid ${color.BG2};
-	&:hover {
+		props.highlighted ? `${color.primary}20` : color.BG0};
+	border-top: 2px solid ${color.BG1};
 		transition: background-color 0.1s;
-		background-color: ${color.BG3};
+	&:hover {
+		background-color: ${color.BG2};
 	}
 	&:last-child {
 		border-bottom: none;

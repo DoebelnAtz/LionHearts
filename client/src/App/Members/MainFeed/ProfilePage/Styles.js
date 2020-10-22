@@ -55,7 +55,7 @@ export const ProfilePageName = styled.span`
 	color: ${color.primary};
 	text-transform: uppercase;
 	@media (max-width: ${units.mobile}) {
-		font-size: 6vw;
+		font-size: calc(14px + 2vw);
 		line-height: 20px;
 	}
 `;
@@ -247,6 +247,9 @@ export const ProfilePageSkillsDiv = styled.div`
 
 export const SkillTitle = styled.span`
 	color: ${color.primary};
+	padding-top: 4px;
+	font-size: 16px;
+	line-height: 16px;
 	${font.DCBold};
 `;
 
@@ -254,7 +257,7 @@ export const SkillDiv = styled.div`
 	background-color: ${color.tertiary};
 	border-radius: 4px;
 	margin: 0 ${units.margin} ${units.margin} 0;
-	padding: 2px 5px;
+	padding: 2px 7px;
 	&:hover {
 	 & ${SkillTitle} {
 		${(props) =>
