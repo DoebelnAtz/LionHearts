@@ -31,6 +31,7 @@ client.connect(function (err: any) {
 });
 
 export const query = (text: string, params?: any[]) => {
+	//console.log(params?.reduce((q, v, i) => q.replace(`$${i + 1}`, v), text));
 	return pool.query(text, params);
 };
 

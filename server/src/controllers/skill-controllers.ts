@@ -48,18 +48,29 @@ export const searchSkills = catchErrors(async (req, res) => {
 	if (filter === 'none') {
 		skills = await query(
 			`
-       		SELECT s.title, s.s_id FROM skills s LEFT JOIN skill_connections sc
-       		ON sc.s_id = s.s_id WHERE LOWER(s.title) LIKE $1 OR sc.u_id IS NULL LIMIT $2 
+       		SELECT s.title, s.s_id FROM skills s 
+       		WHERE LOWER(s.title) LIKE $1s LIMIT $2 
     	`,
 			[`%${search}%`, limit],
 		);
-	} else {
+	} else if (filter === 'available') {
+		let forbidden = await query(
+			`
+			SELECT a.forb FROM 
+			(SELECT sc.u_id, array_agg(sc.s_id) as 
+			forb FROM skill_connections sc
+			WHERE sc.u_id = $1 GROUP BY sc.u_id) a`,
+			[userId],
+		);
+		forbidden = forbidden.rows[0].forb || [];
+		console.log(forbidden);
 		skills = await query(
 			`
-		SELECT s.title, s.s_id FROM skills s LEFT JOIN skill_connections sc
-		ON sc.s_id = s.s_id WHERE LOWER(s.title) LIKE $1 AND (sc.u_id != $2 OR sc.u_id IS NULL) LIMIT $3
+		SELECT s.title, s.s_id FROM skills s
+		WHERE LOWER(s.title) LIKE $1 
+		AND  NOT (s.s_id = ANY (array[${forbidden}])) LIMIT $2
 	`,
-			[`%${search}%`, userId, limit],
+			[`%${search}%`, limit],
 		);
 	}
 	res.json(skills.rows || []);

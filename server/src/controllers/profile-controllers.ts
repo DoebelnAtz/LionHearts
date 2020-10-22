@@ -102,26 +102,69 @@ export const updateProfile = catchErrors(async (req, res) => {
 }, 'Failed to update profile');
 
 export const getProfiles = catchErrors(async (req, res) => {
-	let skillFilter = req.query.skillFilter || '';
+	let skill = req.query.skill || '';
+	let language = req.query.language || '';
 	let search = req.query.search || '';
-
 	let profiles: any;
 
-	if (Number(skillFilter)) {
-		profiles = await query(
+	let filterArrays: number[][] = [[], []];
+	let finalFilterArray: number[] = [];
+
+	// this feels like a ridiculous way of going about this, but it works...
+	if (Number(skill)) {
+		let skillArr = await query(
 			`
+			SELECT a.users FROM (
+			SELECT sc.s_id, array_agg(sc.u_id) as users
+			FROM skill_connections sc WHERE sc.s_id = $1 GROUP BY sc.s_id)a
+		`,
+			[skill],
+		);
+		filterArrays[0] = skillArr.rows[0]?.users || [];
+	}
+	if (Number(language)) {
+		let languageArr = await query(
+			`
+			SELECT a.languages FROM (
+			SELECT lc.language_id, array_agg(lc.u_id) as languages
+			FROM language_connections lc WHERE lc.language_id = $1 GROUP BY lc.language_id)a
+		`,
+			[language],
+		);
+		filterArrays[1] = languageArr.rows[0]?.languages || [];
+		if (Number(skill)) {
+			filterArrays[0].forEach((id, index) => {
+				if (filterArrays[1].includes(id)) {
+					finalFilterArray.push(id);
+				}
+			});
+		} else {
+			finalFilterArray = filterArrays[1];
+		}
+	} else if (Number(skill)) {
+		finalFilterArray = filterArrays[0];
+	}
+
+	if (Number(language) || Number(skill)) {
+		if (!finalFilterArray.length) {
+			profiles = [];
+		} else {
+			profiles = await query(
+				`
 			SELECT u.u_id, u.username, u.firstname, u.lastname, u.email, u.profile_pic,
 			l.name AS location, s.name AS school, d.name AS degree
-			FROM users u JOIN skill_connections sc ON u.u_id = sc.u_id 
+			FROM users u 
 			LEFT JOIN locations l ON u.location = l.l_id
 			LEFT JOIN degrees d ON u.degree = d.d_id
 			LEFT JOIN schools s ON u.school = s.s_id
-			WHERE sc.s_id=$1 
-			AND LOWER(firstname::text || lastname::text) LIKE $2 
+			WHERE LOWER(firstname::text || lastname::text) LIKE $1
+			AND u.u_id = ANY (array[${finalFilterArray}])
 			ORDER BY LOWER(firstname::text || lastname::text) ASC
 		`,
-			[skillFilter, `%${search}%`.toLowerCase()],
-		);
+				[`%${search}%`.toLowerCase()],
+			);
+		}
+		profiles = profiles.rows;
 	} else {
 		profiles = await query(
 			`
@@ -136,9 +179,10 @@ export const getProfiles = catchErrors(async (req, res) => {
 	`,
 			[`%${search}%`.toLowerCase()],
 		);
+		profiles = profiles.rows;
 	}
 
-	res.json(profiles.rows);
+	res.json(profiles);
 }, 'Failed to get profiles');
 
 export const createDegree = catchErrors(async (req, res) => {
@@ -214,6 +258,7 @@ export const createLanguage = catchErrors(async (req, res) => {
 
 export const getLanguages = catchErrors(async (req, res) => {
 	const search = req.query.q || '';
+	console.log(req.query);
 	const filter = req.query.filter || 'none';
 	const limit = req.query.limit || 20;
 	const userId = req.decoded.u_id;
@@ -222,22 +267,31 @@ export const getLanguages = catchErrors(async (req, res) => {
 		langauges = await query(
 			`
        		SELECT l.name, l.language_id FROM languages l 
-       		LEFT JOIN language_connections lc
-       		ON lc.language_id = l.language_id WHERE LOWER(l.name) 
-       		LIKE $1 OR lc.u_id IS NULL LIMIT $2 
+       		WHERE LOWER(l.name) 
+       		LIKE $1 LIMIT $2 
     	`,
 			[`%${search}%`, limit],
 		);
-	} else {
+	} else if (filter === 'available') {
+		console.log('ha');
+		let forbidden = await query(
+			`
+			SELECT a.forb FROM 
+			(SELECT lc.u_id, array_agg(lc.language_id) as 
+			forb FROM language_connections lc
+			WHERE lc.u_id = $1 GROUP BY lc.u_id) a`,
+			[userId],
+		);
+		forbidden = forbidden.rows[0].forb || [];
+		console.log(forbidden);
+		//issues with pg inserting array/
 		langauges = await query(
 			`
 			SELECT l.name, l.language_id FROM languages l 
-       		LEFT JOIN language_connections lc
-       		ON lc.language_id = l.language_id 
        		WHERE LOWER(l.name) LIKE $1
-       		AND (lc.u_id != $2 OR lc.u_id IS NULL) LIMIT $3
+       		AND NOT (l.language_id = ANY (array[${forbidden}])) LIMIT $2
 	`,
-			[`%${search}%`, userId, limit],
+			[`%${search}%`, limit],
 		);
 	}
 	res.json(langauges.rows || []);

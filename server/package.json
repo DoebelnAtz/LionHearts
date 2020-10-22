@@ -8,7 +8,7 @@
     "dev": "ts-node-dev src/index.ts",
     "build": "tsc",
     "gcp-build": "tsc",
-    "deploy": "gcloud app deploy api.yaml"
+    "deploy": "gcloud config set project lionhearts-291621 && gcloud app deploy api.yaml"
   },
   "author": "aadlercr",
   "license": "MIT",
