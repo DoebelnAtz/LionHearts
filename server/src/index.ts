@@ -2,10 +2,13 @@ import express from 'express';
 import * as bodyParser from 'body-parser';
 import cors from 'cors';
 import { config } from 'dotenv';
+import debugAgent from '@google-cloud/debug-agent';
 config();
-require('@google-cloud/debug-agent').start({
-	serviceContext: { enableCanary: false },
-});
+if (process.env.NODE_ENV === 'production') {
+	debugAgent.start({
+		serviceContext: {enableCanary: false},
+	});
+}
 
 import { checkToken, handleError, logRequests } from './middleware';
 import authRouter from './routes/auth-routes';

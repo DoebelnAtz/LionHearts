@@ -10,6 +10,7 @@ const ProfilePic: React.FC<{ src: string | undefined }> = ({ src }) => {
 					? `${url}/api/files/profile_picture?fileName=${src}`
 					: ProfilePlaceHolder
 			}
+			fallback={ProfilePlaceHolder}
 		/>
 	);
 };
