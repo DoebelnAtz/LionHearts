@@ -10,6 +10,27 @@
 // To learn more about the benefits of this model and instructions on how to
 // opt-in, read https://bit.ly/CRA-PWA
 
+import { makeRequest } from './Api';
+import { getLocal } from './Utils';
+
+const applicationPubKey =
+	'BP9L1EOGX9_W9nVzw6ylm0fcz3N9gXsB_zdmH2Wyd1Zbu--sNlRoZ5FwIRC2jatEgtuB3PKndgvFpCE6X0aT7yQ';
+
+function urlBase64ToUint8Array(base64String: string) {
+	const padding = '='.repeat((4 - (base64String.length % 4)) % 4);
+	const base64 = (base64String + padding)
+		.replace(/\-/g, '+')
+		.replace(/_/g, '/');
+
+	const rawData = window.atob(base64);
+	const outputArray = new Uint8Array(rawData.length);
+
+	for (let i = 0; i < rawData.length; ++i) {
+		outputArray[i] = rawData.charCodeAt(i);
+	}
+	return outputArray;
+}
+
 const isLocalhost = Boolean(
 	window.location.hostname === 'localhost' ||
 		// [::1] is the IPv6 localhost address.
@@ -25,7 +46,29 @@ type Config = {
 	onUpdate?: (registration: ServiceWorkerRegistration) => void;
 };
 
+const askPushPermission = async (reg: ServiceWorkerRegistration) => {
+	const sub = await reg.pushManager.getSubscription();
+	const user = getLocal('user')?.user?.u_id;
+	console.log(user);
+	if (sub === undefined && user) {
+		const permission = await window.Notification.requestPermission();
+
+		if (permission !== 'granted') {
+			throw new Error('Permission not granted for Notification');
+		}
+	} else {
+		if (sub && user) {
+			makeRequest('/auth/save_subscription', 'POST', {
+				subscription: JSON.stringify(sub),
+				userId: user,
+			});
+		}
+		console.log(sub);
+	}
+};
+
 export function register(config?: Config) {
+	console.log(process.env);
 	if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
 		// The URL constructor is available in all browsers that support SW.
 		const publicUrl = new URL(process.env.PUBLIC_URL, window.location.href);
@@ -45,15 +88,19 @@ export function register(config?: Config) {
 
 				// Add some additional logging to localhost, pointing developers to the
 				// service worker/PWA documentation.
-				navigator.serviceWorker.ready.then(() => {
-					console.log(
-						'This web app is being served cache-first by a service ' +
-							'worker. To learn more, visit https://bit.ly/CRA-PWA',
-					);
+				navigator.serviceWorker.ready.then((reg) => {
+					askPushPermission(reg);
 				});
 			} else {
 				// Is not localhost. Just register service worker
 				registerValidSW(swUrl, config);
+				navigator.serviceWorker.ready.then((reg) => {
+					askPushPermission(reg);
+					console.log(
+						'This web app is being served cache-first by a service ' +
+							'worker',
+					);
+				});
 			}
 		});
 	}
@@ -63,6 +110,24 @@ function registerValidSW(swUrl: string, config?: Config) {
 	navigator.serviceWorker
 		.register(swUrl)
 		.then((registration) => {
+			registration.pushManager
+				.subscribe({
+					applicationServerKey: urlBase64ToUint8Array(
+						applicationPubKey,
+					),
+					userVisibleOnly: true,
+				})
+				.then((sub) => {
+					console.log(sub);
+					const user = getLocal('user')?.user?.u_id;
+					console.log(user);
+					if (sub && user) {
+						makeRequest('/auth/save_subscription', 'POST', {
+							subscription: JSON.stringify(sub),
+							userId: user,
+						});
+					}
+				});
 			registration.onupdatefound = () => {
 				const installingWorker = registration.installing;
 				if (installingWorker == null) {

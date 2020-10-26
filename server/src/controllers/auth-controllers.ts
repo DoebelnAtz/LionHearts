@@ -266,3 +266,29 @@ export const refreshToken = catchErrors(async (req, res) => {
 		throw new CustomError('Failed to refresh token', 401);
 	}
 }, 'Failed to refresh access token');
+
+export const saveSubscription = catchErrors(async (req, res) => {
+	const { subscription, userId } = req.body;
+	let existing = await query(
+		`
+		SELECT FROM subscriptions WHERE u_id = $1
+	`,
+		[userId],
+	);
+	if (!existing.rows.length) {
+		await query(
+			`
+		INSERT INTO subscriptions (subscription, u_id) VALUES ($1, $2)
+	`,
+			[subscription, userId],
+		);
+	} else {
+		await query(
+			`
+		UPDATE SUBSCRIPTIONS SET subscription = $1 WHERE subscription = $2
+		`,
+			[subscription, existing.rows[0].subscription],
+		);
+	}
+	res.json({ success: true });
+}, 'Failed to add subscription');

@@ -76,6 +76,7 @@
     "typescript": "^3.7.5",
     "url-loader": "2.3.0",
     "use-scroll-position": "0.0.4",
+    "web-push": "^3.4.4",
     "webpack": "4.42.0",
     "webpack-dev-server": "^3.11.0",
     "webpack-manifest-plugin": "2.2.0",
@@ -89,6 +90,7 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build-sw": "node ./src/sw-build.js",
+    "build:dev": "npm run build && serve -s build -p 5001",
     "clean-cra-sw": "rm -f build/precache-manifest.*.js && rm -f build/service-worker.js",
     "build": "node scripts/build && npm run build-sw && npm run clean-cra-sw",
     "deploy": "npm run build && gcloud config set project lionhearts-291621 && gcloud app deploy client.yaml",

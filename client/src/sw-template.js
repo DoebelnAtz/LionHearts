@@ -5,7 +5,24 @@ if ('function' === typeof importScripts) {
 	/* global workbox */
 	if (workbox) {
 		console.log('Workbox is loaded');
+		self.addEventListener('push', function (event) {
+			console.log('[Service Worker] Push Received.');
+			console.log(
+				`[Service Worker] Push had this data: "${event.data.text()}"`,
+			);
 
+			const title = 'Push test';
+			const options = {
+				body: 'Yay it works.',
+				icon: 'images/icon.png',
+				badge: 'images/badge.png',
+			};
+
+			event.waitUntil(
+				// @ts-ignore
+				self.registration.showNotification(title, options),
+			);
+		});
 		/* injection point for manifest files.  */
 		workbox.routing.registerRoute(
 			new RegExp(`^http://localhost:5000/api/.*`),

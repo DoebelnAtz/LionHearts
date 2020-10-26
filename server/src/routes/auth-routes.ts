@@ -5,6 +5,7 @@ import {
 	checkSignupAuth,
 	login,
 	refreshToken,
+	saveSubscription,
 	signup,
 } from '../controllers/auth-controllers';
 
@@ -26,6 +27,12 @@ authRouter.post(
 	'/login',
 	[check('username').not().isEmpty(), check('password').not().isEmpty()],
 	login,
+);
+
+authRouter.post(
+	'/save_subscription',
+	[check('subscription').not().isEmpty()],
+	saveSubscription,
 );
 
 authRouter.use('/refresh_token', refreshToken);
