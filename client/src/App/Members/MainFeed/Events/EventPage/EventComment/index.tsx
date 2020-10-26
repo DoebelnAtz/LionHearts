@@ -48,7 +48,6 @@ const EventComment: React.FC<EventCommentProps> = ({ comment }) => {
 	});
 	console.log(expandTarget);
 
-
 	const handleCreateCommentChange = (val: string) => {
 		setCreateComment(val);
 	};
@@ -147,7 +146,6 @@ const EventComment: React.FC<EventCommentProps> = ({ comment }) => {
 				<SubmitCommentButton onClick={handleCommentCreation}>
 					Submit
 				</SubmitCommentButton>
-
 			</EventCommentSection>
 		</EventCommentDiv>
 	);

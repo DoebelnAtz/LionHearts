@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { color, font } from '../../../../Styles';
+import { animated } from 'react-spring';
 
 export const ImgDiv = styled.div`
 	height: 100%;
@@ -7,7 +8,36 @@ export const ImgDiv = styled.div`
 	width: 100%;
 `;
 
-export const BGImg = styled.div`
+export const BHContainer = styled(animated.div)`
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	background-color: ${color.primary};
+`;
+
+export const HomeBlurHash = styled.div`
+	max-height: 570px;
+	height: 100%;
+	position: relative;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	z-index: 2;
+	background-color: ${color.primary};
+	transition: opacity 1s linear;
+	background-image: url(${(props) => props.src});
+	background-color: ${color.primary};
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center;
+`;
+
+export const BHNavBarContainer = styled.div`
+	position: absolute;
+	width: 100%;
+`;
+
+export const BGImg = styled(animated.div)`
 	max-height: 570px;
 	height: 100%;
 	width: 100%;

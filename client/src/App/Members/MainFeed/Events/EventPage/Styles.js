@@ -58,7 +58,6 @@ export const SubmitCommentButton = styled.button`
 	position: relative;
 	top: -28px;
 	${components.buttonWhite};
-	
 `;
 
 export const EventPageCommentFeed = styled.div`

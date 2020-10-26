@@ -60,7 +60,13 @@ const Events: React.FC = () => {
 
 	return (
 		<EventsPage>
-			<HomeImg text={'EVENTS'} BGsrc={'cinnamon_buns.jpg'} />
+			<HomeImg
+				text={'EVENTS'}
+				hash={
+					'iIIg[oyZS$nhI]xuRjaekW5TIA8_MxkCozV@M|n$Osb_s9V[s,V@oJaej[Vus8tQtR%LtRt8t6R*n3V?RjoMs,S4kCofV['
+				}
+				BGsrc={'cinnamon_buns.jpg'}
+			/>
 			<EventsDiv>
 				<EventList>{renderEvents()}</EventList>
 			</EventsDiv>

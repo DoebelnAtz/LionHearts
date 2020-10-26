@@ -8,7 +8,7 @@ export const EventCardDiv = styled.div`
 	background-color: ${(props) =>
 		props.highlighted ? `${color.primary}20` : color.BG0};
 	border-top: 2px solid ${color.BG1};
-		transition: background-color 0.1s;
+	transition: background-color 0.1s;
 	&:hover {
 		background-color: ${color.BG2};
 	}

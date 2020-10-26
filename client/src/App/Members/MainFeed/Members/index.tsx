@@ -10,7 +10,9 @@ import {
 	MemberCardInfo,
 	MemberCardLocation,
 	MemberCardName,
-	MemberCardPic, MemberCardPicContainer, MemberCardPicDiv,
+	MemberCardPic,
+	MemberCardPicContainer,
+	MemberCardPicDiv,
 	MemberCardStudy,
 	MemberListCard,
 	MemberListDiv,
@@ -96,13 +98,11 @@ const MemberList: React.FC = () => {
 						key={member.u_id}
 					>
 						<MemberCardPicDiv>
-
-						<MemberCardPicContainer>
-
-						<MemberCardPic>
-							<ProfilePic src={member.profile_pic} />
-						</MemberCardPic>
-						</MemberCardPicContainer>
+							<MemberCardPicContainer>
+								<MemberCardPic>
+									<ProfilePic src={member.profile_pic} />
+								</MemberCardPic>
+							</MemberCardPicContainer>
 						</MemberCardPicDiv>
 						<MemberCardContent>
 							<MemberCardName>{`${member.firstname} ${member.lastname}`}</MemberCardName>
@@ -184,8 +184,6 @@ const MemberList: React.FC = () => {
 						/>
 					</FilterOptionsExpandable>
 				</FilterOptionsDiv>
-
-
 			</MemberListOptions>
 			<MemberListResultDiv>{renderMembers()}</MemberListResultDiv>
 		</MemberListDiv>

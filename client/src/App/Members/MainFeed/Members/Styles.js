@@ -38,7 +38,6 @@ export const ExpandFilterOptionsButton = styled.button`
 
 export const FilterOptionsDiv = styled.div`
 	width: 100%;
-	
 `;
 
 export const FilterOptionsExpandable = styled(animated.div)`
@@ -59,7 +58,6 @@ export const MemberListCard = styled.div`
 `;
 
 export const MemberCardContent = styled.div`
-	
 	margin: 0 auto;
 	padding: ${units.margin};
 	width: calc(100% - ${units.margin} * 2);
@@ -124,15 +122,15 @@ export const MemberCardPicDiv = styled.div`
 	height: min(40px, 6vw);
 	min-height: 25px;
 	display: flex;
-`
+`;
 
 export const MemberCardPicContainer = styled.div`
 	margin: 0 auto;
-`
+`;
 
 export const MemberCardPic = styled.div`
 	height: min(80px, 12vw);
-	min-height: 50px;	
+	min-height: 50px;
 	margin: 0 auto;
 	bottom: 120%;
 	background-color: ${color.BG0};

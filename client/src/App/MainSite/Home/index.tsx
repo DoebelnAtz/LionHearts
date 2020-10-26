@@ -14,7 +14,12 @@ import LoginPopup from '../../LoginPopup';
 const Home: React.FC = () => {
 	return (
 		<HomeDiv id={'Home'}>
-			<HomeImg text={'TOMORROW, BUILT BY YOU.'} />
+			<HomeImg
+				hash={
+					'iGF5,BxvITs:RiM{t7xaxt_N-;RjadIVNGs.WBa#%fn%ofNGs.xaM{RkRjj]WBM{Rkxat7RjjFoet7bHj[oLkDbbWAWVf+'
+				}
+				text={'TOMORROW, BUILT BY YOU.'}
+			/>
 			<SummarySection />
 			<EventSection />
 			<ApplyNow />

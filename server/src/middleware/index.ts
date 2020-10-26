@@ -1,12 +1,12 @@
 import { ErrorRequestHandler, RequestHandler } from 'express';
 import { JsonWebTokenError } from 'jsonwebtoken';
 import { accessLogger, errorLogger } from '../logger';
-import { ErrorReporting} from "@google-cloud/error-reporting";
+import { ErrorReporting } from '@google-cloud/error-reporting';
 const jwt = require('jsonwebtoken');
 const config = require('../config');
 let errors: any;
 if (process.env.NODE_ENV === 'produciton') {
-	errors = new ErrorReporting({reportMode: 'always'});
+	errors = new ErrorReporting({ reportMode: 'always' });
 }
 export const checkToken: RequestHandler = (req, res, next) => {
 	let token =
