@@ -2,11 +2,11 @@ import express from 'express';
 import * as bodyParser from 'body-parser';
 import cors from 'cors';
 import { config } from 'dotenv';
-import debugAgent from '@google-cloud/debug-agent';
+const debugAgent = require('@google-cloud/debug-agent');
 config();
 if (process.env.NODE_ENV === 'production') {
 	debugAgent.start({
-		serviceContext: {enableCanary: false},
+		serviceContext: { enableCanary: false },
 	});
 }
 

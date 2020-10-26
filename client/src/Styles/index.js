@@ -265,7 +265,8 @@ export const components = {
 		&:focus {
 			outline: none;
 		}
-		&:hover {
+		&:hover,
+		:active {
 			background-color: ${colorAdjust.darken(color.BG0, 0.1)};
 		}
 		&:disabled {
