@@ -3,7 +3,9 @@ import { useGet, useNav } from '../../../../Hooks';
 import { Language, Option, Profile, Skill } from '../../../../@types';
 import { useHistory } from 'react-router-dom';
 import {
+	ExpandFilterButtonLabel,
 	ExpandFilterOptionsButton,
+	ExpandFilterOptionsButtonArrowIcon,
 	FilterOptionsDiv,
 	FilterOptionsExpandable,
 	MemberCardContent,
@@ -14,17 +16,22 @@ import {
 	MemberCardPicContainer,
 	MemberCardPicDiv,
 	MemberCardStudy,
+	MemberFilterLanguageDiv,
+	MemberFilterSearchDiv,
+	MemberFilterSkillsDiv,
 	MemberListCard,
 	MemberListDiv,
 	MemberListFilterTitle,
 	MemberListOptions,
 	MemberListResultDiv,
+	MemberSearchInput,
 	SearchMembersInput,
 } from './Styles';
 import ProfilePic from '../../../Components/ProfilePic';
 import DropDownComponent from '../../../Components/DropDown';
 import { capitalizeFirst } from '../../../../Utils';
 import { useSpring } from 'react-spring';
+import ArrowRightBlue from '../../../../assets/images/arrow_right.png';
 
 const MemberList: React.FC = () => {
 	useNav('Members');
@@ -39,8 +46,13 @@ const MemberList: React.FC = () => {
 		`/profiles?skill=${skillFilter.id}&language=${languageFilter.id}&search=${search}`,
 	);
 
+	const rotateArrowIcon = useSpring({
+		config: { mass: 1, velocity: 10 },
+		transform: expandFilter ? 'rotate(90deg)' : 'rotate(0deg)',
+	});
+
 	const expandSpring = useSpring({
-		maxHeight: expandFilter ? '200px' : '0px',
+		maxHeight: expandFilter ? '110px' : '0px',
 	});
 
 	const [skills, setSkills] = useGet<Skill[]>(`/skills`);
@@ -128,60 +140,76 @@ const MemberList: React.FC = () => {
 	return (
 		<MemberListDiv>
 			<MemberListOptions>
-				<SearchMembersInput>
-					<MemberListFilterTitle>Search:</MemberListFilterTitle>
-					<input
-						value={search}
-						onChange={handleSearchChange}
-						placeholder={'search'}
-					/>
-				</SearchMembersInput>
 				<FilterOptionsDiv>
 					<ExpandFilterOptionsButton
 						onClick={() => setExpandFilter(!expandFilter)}
 					>
-						Filters
+						<ExpandFilterButtonLabel>
+							Filters
+						</ExpandFilterButtonLabel>
+						<ExpandFilterOptionsButtonArrowIcon
+							src={ArrowRightBlue}
+							style={rotateArrowIcon}
+							alt={'expandfilter'}
+						/>
 					</ExpandFilterOptionsButton>
 					<FilterOptionsExpandable style={expandSpring}>
-						<MemberListFilterTitle>Skills: </MemberListFilterTitle>
-						<DropDownComponent
-							state={skillFilter.title}
-							setSelect={handleSkillFilterChange}
-							optionList={[
-								{ option: 'none', id: 0 },
-								...(skills?.map((skill) => {
-									return {
-										option: skill.title,
-										id: skill.s_id,
-									};
-								}) || []),
-							]}
-							width={'140px'}
-							modalOverflow
-							height={'22px'}
-							withFilter
-						/>
-
-						<MemberListFilterTitle>
-							Languages:{' '}
-						</MemberListFilterTitle>
-						<DropDownComponent
-							state={languageFilter.title}
-							setSelect={handleLanguageFilterChange}
-							optionList={[
-								{ option: 'none', id: 0 },
-								...(languages?.map((language) => {
-									return {
-										option: language.name,
-										id: language.language_id,
-									};
-								}) || []),
-							]}
-							width={'140px'}
-							modalOverflow
-							height={'22px'}
-							withFilter
-						/>
+						<MemberFilterSearchDiv>
+							<SearchMembersInput>
+								<MemberListFilterTitle>
+									Search:
+								</MemberListFilterTitle>
+								<MemberSearchInput
+									value={search}
+									onChange={handleSearchChange}
+									placeholder={'search'}
+								/>
+							</SearchMembersInput>
+						</MemberFilterSearchDiv>
+						<MemberFilterSkillsDiv>
+							<MemberListFilterTitle>
+								Skills:{' '}
+							</MemberListFilterTitle>
+							<DropDownComponent
+								state={skillFilter.title}
+								setSelect={handleSkillFilterChange}
+								optionList={[
+									{ option: 'none', id: 0 },
+									...(skills?.map((skill) => {
+										return {
+											option: skill.title,
+											id: skill.s_id,
+										};
+									}) || []),
+								]}
+								width={'130px'}
+								modalOverflow
+								height={'22px'}
+								withFilter
+							/>
+						</MemberFilterSkillsDiv>
+						<MemberFilterLanguageDiv>
+							<MemberListFilterTitle>
+								Languages:{' '}
+							</MemberListFilterTitle>
+							<DropDownComponent
+								state={languageFilter.title}
+								setSelect={handleLanguageFilterChange}
+								optionList={[
+									{ option: 'none', id: 0 },
+									...(languages?.map((language) => {
+										return {
+											option: language.name,
+											id: language.language_id,
+										};
+									}) || []),
+								]}
+								width={'97px'}
+								modalOverflow
+								height={'22px'}
+								withFilter
+							/>
+						</MemberFilterLanguageDiv>
 					</FilterOptionsExpandable>
 				</FilterOptionsDiv>
 			</MemberListOptions>

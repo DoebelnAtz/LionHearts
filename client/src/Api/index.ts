@@ -26,6 +26,8 @@ export const makeRequest = async (url: string, method: any, data: any = {}) => {
 		console.log(e);
 		if (!e.response) {
 			//window.location.replace('/505');
+		} else if (e.response.status === 404) {
+			window.location.replace('/404');
 		} else if (e.response.status === 401) {
 			try {
 				let refreshAttempt = await axios({

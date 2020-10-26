@@ -9,8 +9,9 @@ export const SaveBtn = styled.button`
 	line-height: calc(
 		${(props) => (props.height ? props.height : '38px')} - 8px
 	);
+	padding-top: 6px;
 	transition: border-color 0.4s;
-	border: 3px solid ${color.primary};
+	border: 2px solid ${color.primary};
 	border-color: ${(props) =>
 		props.saved ? color.tertiary : props.error ? 'red' : color.primary};
 `;

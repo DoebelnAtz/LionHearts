@@ -73,9 +73,7 @@ const FileControl: React.FC = () => {
 		const handleCopyCodeClick = async (img: string) => {
 			try {
 				await navigator.clipboard.writeText(`${url}/api/photos/${img}`);
-			} catch (e) {
-
-			}
+			} catch (e) {}
 		};
 
 		return (
@@ -91,7 +89,7 @@ const FileControl: React.FC = () => {
 						<CopyImageHtml
 							onClick={() => handleCopyCodeClick(file)}
 						>
-							COPY HTML
+							COPY SRC
 						</CopyImageHtml>
 					</ImagePreviewCard>
 				);

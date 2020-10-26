@@ -19,7 +19,7 @@ import {
 	EventChildCommentContentCol,
 	EventChildCommentPicCol,
 } from './Styles';
-import { Comment } from '../../../../../../@types';
+import { ChildComment, Comment } from '../../../../../../@types';
 import { capitalizeFirst, getLocalTimeFormat } from '../../../../../../Utils';
 import ProfilePic from '../../../../../Components/ProfilePic';
 
@@ -36,8 +36,8 @@ type EventCommentProps = {
 
 const EventComment: React.FC<EventCommentProps> = ({ comment }) => {
 	const [createComment, setCreateComment] = useState('');
-	const [childComments, setChildComments] = useGet<Comment[]>(
-		`/events/comments/${comment.t_id}`,
+	const [childComments, setChildComments] = useGet<ChildComment[]>(
+		`/events/child_comments/${comment.c_id}`,
 	);
 	const expandTarget = useRef<HTMLDivElement>(null);
 	const [expandCommentSection, setExpandCommentSection] = useState(false);
@@ -55,10 +55,14 @@ const EventComment: React.FC<EventCommentProps> = ({ comment }) => {
 	const handleCommentCreation = async () => {
 		try {
 			if (childComments) {
-				let resp = await makeRequest('/events/create_comment', 'POST', {
-					content: createComment,
-					threadId: comment.t_id,
-				});
+				let resp = await makeRequest(
+					'/events/create_child_comment',
+					'POST',
+					{
+						content: createComment,
+						parentId: comment.c_id,
+					},
+				);
 				resp && setChildComments([...childComments, resp.data]);
 				setCreateComment('');
 			}
@@ -73,7 +77,7 @@ const EventComment: React.FC<EventCommentProps> = ({ comment }) => {
 			childComments.map((comment) => {
 				return (
 					<EventChildCommentContainer
-						key={comment.c_id}
+						key={comment.cc_id}
 						className={'ql-editor'}
 					>
 						<EventChildCommentPicCol>

@@ -48,20 +48,35 @@ export const getEvents = catchErrors(async (req, res) => {
 	res.json(events.rows);
 }, 'Failed to get events');
 
-export const getCommentsByThreadId = catchErrors(async (req, res) => {
-	let threadId = req.params.tid;
+export const getCommentsByEventId = catchErrors(async (req, res) => {
+	let eventId = req.params.eid;
 
 	let comments = await query(
 		`
 		SELECT c_id, created, content, creator, u.username, u.profile_pic 
 		FROM comments JOIN users u
 		ON creator = u.u_id 
-		WHERE parent_thread = $1
+		WHERE e_id = $1
 	`,
-		[threadId],
+		[eventId],
 	);
 	res.json(comments.rows);
 }, 'Failed to get comments');
+
+export const getChildCommentsByCommentId = catchErrors(async (req, res) => {
+	let commentId = req.params.cid;
+
+	let comments = await query(
+		`
+		SELECT cc_id, created, content, creator, u.username, u.profile_pic 
+		FROM child_comments JOIN users u
+		ON creator = u.u_id 
+		WHERE parent = $1
+	`,
+		[commentId],
+	);
+	res.json(comments.rows);
+}, 'Failed to get child comments');
 
 export const getEventById = catchErrors(async (req, res) => {
 	const eid = req.params.eid;
@@ -80,7 +95,7 @@ export const getEventById = catchErrors(async (req, res) => {
 		[eid],
 	);
 
-	if (!event.rows) {
+	if (!event.rows.length) {
 		throw new CustomError(
 			'Failed to find event by id',
 			404,
@@ -91,12 +106,12 @@ export const getEventById = catchErrors(async (req, res) => {
 
 	let eventComments = await query(
 		`
-		SELECT c_id, t_id, created, content, creator, u.username, u.profile_pic 
+		SELECT c_id, created, content, creator, u.username, u.profile_pic 
 		FROM comments JOIN users u
 		ON creator = u.u_id 
-		WHERE parent_thread = $1
+		WHERE e_id = $1
 	`,
-		[event.rows[0].t_id],
+		[eid],
 	);
 
 	res.json({
@@ -106,22 +121,51 @@ export const getEventById = catchErrors(async (req, res) => {
 	});
 }, 'Failed to get event by id');
 
-export const createComment = catchErrors(async (req, res) => {
-	const { content, threadId } = req.body;
+export const createEventComment = catchErrors(async (req, res) => {
+	const { content, eventId } = req.body;
 
 	let createdComment: any;
 	const client = await connect();
 	await transaction(
 		async () => {
-			let newThread = await query(`
-				INSERT INTO threads DEFAULT VALUES returning t_id
-			`);
 			let newComment = await query(
 				`
-	            INSERT INTO comments (content, t_id, creator, parent_thread)
-	            VALUES ($1, $2, $3, $4) RETURNING c_id, content, creator, created
+	            INSERT INTO comments (content, creator, e_id)
+	            VALUES ($1, $2, $3) RETURNING c_id, content, creator, created
 	        `,
-				[content, newThread.rows[0].t_id, req.decoded.u_id, threadId],
+				[content, req.decoded.u_id, eventId],
+			);
+
+			let creator: any;
+			if (newComment) {
+				creator = await query(
+					`
+				SELECT username, profile_pic FROM users WHERE u_id = $1
+			`,
+					[newComment.rows[0].creator],
+				);
+			}
+			createdComment = { ...newComment.rows[0], ...creator.rows[0] };
+		},
+		client,
+		'Failed to create comment',
+	);
+	res.status(201).json(createdComment);
+}, 'Failed to create comment');
+
+export const createEventChildComment = catchErrors(async (req, res) => {
+	const { content, parentId } = req.body;
+
+	let createdComment: any;
+	const client = await connect();
+	await transaction(
+		async () => {
+			let newComment = await query(
+				`
+	            INSERT INTO child_comments (content, creator, parent)
+	            VALUES ($1, $2, $3) RETURNING cc_id, content, creator, created
+	        `,
+				[content, req.decoded.u_id, parentId],
 			);
 
 			let creator: any;
@@ -214,3 +258,44 @@ export const createEvent = catchErrors(async (req, res) => {
 		creator: req.decoded.username,
 	});
 }, 'Failed to create event');
+
+export const updateEvent = catchErrors(async (req, res) => {
+	const { title, eventId } = req.body;
+	await query(
+		`
+		UPDATE events SET title = $1 WHERE e_id = $2
+	`,
+		[title, eventId],
+	);
+
+	res.json({ success: true });
+}, 'Failed to update event');
+
+export const deleteEvent = catchErrors(async (req, res) => {
+	const { eventId } = req.body;
+	const client = await connect();
+	await transaction(
+		async () => {
+			try {
+				await query(
+					`
+				DELETE FROM events WHERE e_id = $1
+				`,
+					[eventId],
+				);
+			} catch (e) {
+				console.log(e);
+				throw new CustomError(
+					`Failed to delete event`,
+					500,
+					e,
+					'Something went wrong',
+				);
+			}
+		},
+		client,
+		'Failed to delete event',
+	);
+
+	res.json({ success: true });
+}, 'Failed to delete event');

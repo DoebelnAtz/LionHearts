@@ -17,14 +17,60 @@ export const EventPageInfoDiv = styled.div`
 	width: calc(90%);
 `;
 
-export const EventPageInfoTitle = styled.h2`
+export const EventPageInfoTitle = styled.input`
 	color: ${color.primary};
+	background-color: #00000000;
+	border: 1px solid ${color.primary};
+	font-size: 28px;
+	height: 30px;
+	margin-bottom: 1em;
+	margin-top: 0;
+	margin-right: auto;
 	${font.DCBold};
+	&:disabled {
+		border: none;
+	}
+	&:focus {
+		outline: none;
+	}
+`;
+
+export const DeleteEventButton = styled.button`
+	${components.buttonWhite};
+	margin-right: ${units.margin};
 `;
 
 export const EventPageInfoDate = styled.span`
 	color: ${color.primary};
 	${font.DCBold};
+	font-size: 18px;
+`;
+
+export const EditButtonRow = styled.div`
+	display: flex;
+	width: 100%;
+`;
+
+export const EditButton = styled.button`
+	${components.buttonWhite};
+	margin-left: auto;
+	height: 30px;
+`;
+
+export const EventPageInfoParticipantsIcon = styled.img`
+	height: 20px;
+	width: 20px;
+`;
+
+export const EventPageParticipantsDiv = styled.div`
+	display: flex;
+`;
+
+export const EventPageInfoParticipants = styled.span`
+	color: ${color.primary};
+	${font.DCBold};
+	padding-top: 2px;
+	margin-left: 5px;
 	font-size: 18px;
 `;
 

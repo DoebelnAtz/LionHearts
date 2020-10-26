@@ -1,41 +1,56 @@
-import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { ChangeEvent, useState } from 'react';
+import { useParams, useHistory } from 'react-router-dom';
 import {
 	CreateCommentButton,
 	CreateCommentDiv,
 	CreateCommentEditor,
+	DeleteEventButton,
+	EditButton,
+	EditButtonRow,
 	EventPageCommentFeed,
 	EventPageCommentSection,
 	EventPageCreator,
 	EventPageDiv,
 	EventPageInfoDate,
 	EventPageInfoDiv,
+	EventPageInfoParticipants,
+	EventPageInfoParticipantsIcon,
 	EventPageInfoTitle,
+	EventPageParticipantsDiv,
 	SubmitCommentButton,
 } from './Styles';
 import { useGet } from '../../../../../Hooks';
 import { MemberEvent } from '../../../../../@types';
-import { capitalizeFirst, getLocalTimeFormat } from '../../../../../Utils';
-import QuillEditor from '../../../../Components/QuillEditor';
 import {
-	EventCommentContent,
-	EventCommentDiv,
-	EventCommentInfo,
-} from './EventComment/Styles';
+	capitalizeFirst,
+	checkUser,
+	getLocalTimeFormat,
+} from '../../../../../Utils';
+import QuillEditor from '../../../../Components/QuillEditor';
+import MemberIcon from '../../../../../assets/images/memberlist.svg';
 import { makeRequest } from '../../../../../Api';
 import EventComment from './EventComment';
 import { useSpring } from 'react-spring';
+import { SaveBtn } from '../../../../Components/LoadingButton/Styles';
+import LoadingButton from '../../../../Components/LoadingButton';
 
 const EventPage: React.FC = () => {
 	const params = useParams<{ eid: string }>();
+	const history = useHistory();
 	const [createComment, setCreateComment] = useState('');
 	const [expandCommentCreator, setExpandCommentCreator] = useState(false);
 	const [event, setEvent] = useGet<MemberEvent>(`/events/${params.eid}`);
 	const expandCreateCommentSection = useSpring({
 		height: expandCommentCreator ? '250px' : '40px',
 	});
+	const [editing, setEditing] = useState(false);
 	const handleCreateCommentChange = (val: string) => {
 		setCreateComment(val);
+	};
+
+	const handleEventTitleChange = (e: ChangeEvent) => {
+		let target = e.target as HTMLInputElement;
+		event && setEvent({ ...event, title: target.value });
 	};
 
 	const handleCommentCreation = async () => {
@@ -43,16 +58,52 @@ const EventPage: React.FC = () => {
 			if (event) {
 				let resp = await makeRequest('/events/create_comment', 'POST', {
 					content: createComment,
-					threadId: event.t_id,
+					eventId: event.e_id,
 				});
 				resp &&
 					setEvent({
 						...event,
 						comments: [resp.data, ...event.comments],
 					});
+				setCreateComment('');
 			}
 		} catch (e) {
 			console.log(e);
+		}
+	};
+
+	const handleEventUpdate = async () => {
+		try {
+			if (event) {
+				let resp = await makeRequest('/events/update_event', 'PUT', {
+					title: event.title,
+					eventId: event.e_id,
+				});
+			}
+			setEditing(false);
+			return true;
+		} catch (e) {
+			console.log(e);
+			setEditing(false);
+			return false;
+		}
+	};
+
+	const handleEventDeletion = async () => {
+		if (
+			event &&
+			window.confirm('Are you sure you want to delete this event?')
+		) {
+			try {
+				let resp = await makeRequest('/events/delete_event', 'DELETE', {
+					eventId: event.e_id,
+				});
+				history.push('/members/list');
+				return true;
+			} catch (e) {
+				console.log(e);
+				return false;
+			}
 		}
 	};
 
@@ -68,17 +119,55 @@ const EventPage: React.FC = () => {
 	return (
 		<EventPageDiv>
 			{event && (
-				<EventPageInfoDiv>
-					<EventPageInfoTitle>{event.title}</EventPageInfoTitle>
+				<>
+					<EventPageInfoDiv>
+						<EditButtonRow>
+							<EventPageInfoTitle
+								disabled={!editing}
+								value={event.title}
+								onChange={handleEventTitleChange}
+							/>
+							{editing && checkUser(event.u_id) && (
+								<DeleteEventButton
+									onClick={handleEventDeletion}
+								>
+									delete
+								</DeleteEventButton>
+							)}
+							{checkUser(event.u_id) && editing ? (
+								<LoadingButton
+									onClick={handleEventUpdate}
+									height={'30px'}
+								>
+									save
+								</LoadingButton>
+							) : (
+								<EditButton
+									onClick={() => setEditing(!editing)}
+								>
+									edit
+								</EditButton>
+							)}
+						</EditButtonRow>
 
-					<EventPageInfoDate>
-						{getLocalTimeFormat(event.time)}
-					</EventPageInfoDate>
-					<EventPageCreator>
-						Created by: {capitalizeFirst(event?.firstname)}{' '}
-						{capitalizeFirst(event?.lastname)}
-					</EventPageCreator>
-				</EventPageInfoDiv>
+						<EventPageInfoDate>
+							{getLocalTimeFormat(event.time)}
+						</EventPageInfoDate>
+						<EventPageCreator>
+							Created by: {capitalizeFirst(event?.firstname)}{' '}
+							{capitalizeFirst(event?.lastname)}
+						</EventPageCreator>
+						<EventPageParticipantsDiv>
+							<EventPageInfoParticipantsIcon
+								src={MemberIcon}
+								alt={'participants'}
+							/>
+							<EventPageInfoParticipants>
+								{event?.participants.length}
+							</EventPageInfoParticipants>
+						</EventPageParticipantsDiv>
+					</EventPageInfoDiv>
+				</>
 			)}
 			<EventPageCommentSection>
 				<CreateCommentDiv style={expandCreateCommentSection}>

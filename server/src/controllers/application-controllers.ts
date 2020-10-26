@@ -39,11 +39,9 @@ export const getApplicationIdFiles = catchErrors(async (req, res, next) => {
 	let files: any = [];
 	if (!!fs.existsSync(path)) {
 		fs.readdirSync(path).forEach((file) => {
-
 			files.push({ name: file });
 		});
 	} else {
-
 	}
 	res.json(files);
 }, 'Failed to get application files');
@@ -83,7 +81,6 @@ export const getApplicationFile = catchErrors(async (req, res) => {
 		res.set('Content-Type', 'text/plain');
 		res.status(404).end('Not found');
 	});
-
 }, 'Failed to get file');
 
 export const deleteApplicationFile = catchErrors(async (req, res, next) => {
@@ -153,6 +150,18 @@ export const createApplication = catchErrors(async (req, res, next) => {
 		message: `Application successfully created`,
 	});
 }, 'Failed to create application');
+
+export const acceptApplicant = catchErrors(async (req, res) => {
+	const applicationId = req.params.aid;
+	await query(
+		`
+		UPDATE applications SET application_status = 'accepted' WHERE a_id = $1
+	`,
+		[applicationId],
+	);
+
+	res.json({ success: true });
+}, 'Failed to accept applicant');
 
 export const rejectApplicant = catchErrors(async (req, res) => {
 	const { applicationId } = req.body;

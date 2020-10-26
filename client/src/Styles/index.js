@@ -253,7 +253,7 @@ export const components = {
 		padding: 2px 12px;
 		letter-spacing: 1px;
 		${font.DCBold};
-		height: 32px;
+		height: 30px;
 		text-transform: uppercase;
 		font-size: 20px;
 		line-height: 30px;

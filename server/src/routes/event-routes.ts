@@ -1,19 +1,25 @@
 import express from 'express';
 import { check } from 'express-validator';
 import {
-	createComment,
+	createEventComment,
 	createEvent,
-	getCommentsByThreadId,
+	deleteEvent,
+	getCommentsByEventId,
 	getEventById,
 	getEvents,
 	joinEvent,
+	updateEvent,
+	createEventChildComment,
+	getChildCommentsByCommentId,
 } from '../controllers/event-controllers';
 
 const eventRouter = express.Router();
 
 eventRouter.get('/', getEvents);
 
-eventRouter.get('/comments/:tid', getCommentsByThreadId);
+eventRouter.get('/comments/:eid', getCommentsByEventId);
+
+eventRouter.get('/child_comments/:cid', getChildCommentsByCommentId);
 
 eventRouter.get('/:eid', getEventById);
 
@@ -30,9 +36,18 @@ eventRouter.post(
 	'/create_comment',
 	[
 		check('content').not().isEmpty(),
-		check('threadId').not().isEmpty().isNumeric(),
+		check('eventId').not().isEmpty().isNumeric(),
 	],
-	createComment,
+	createEventComment,
+);
+
+eventRouter.post(
+	'/create_child_comment',
+	[
+		check('content').not().isEmpty(),
+		check('parentId').not().isEmpty().isNumeric(),
+	],
+	createEventChildComment,
 );
 
 eventRouter.post(
@@ -40,5 +55,9 @@ eventRouter.post(
 	[check('time').isISO8601(), check('title').isString().not().isEmpty()],
 	createEvent,
 );
+
+eventRouter.put('/update_event', [check('title').not().isEmpty()], updateEvent);
+
+eventRouter.delete('/delete_event', [check('eventId')], deleteEvent);
 
 export default eventRouter;

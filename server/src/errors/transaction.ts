@@ -1,8 +1,9 @@
 import CustomError from './customError';
+import { PoolClient } from 'pg';
 
 export const transaction = async (
 	transaction: () => Promise<any>,
-	client: any,
+	client: PoolClient,
 	errorMessage: string,
 ) => {
 	try {

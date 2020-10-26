@@ -30,9 +30,9 @@ client.connect(function (err: any) {
 	});
 });
 
-export const query = (text: string, params?: any[]) => {
-	//console.log(params?.reduce((q, v, i) => q.replace(`$${i + 1}`, v), text));
+export const query = async (text: string, params?: any[]) => {
 	return pool.query(text, params);
+	//console.log(params?.reduce((q, v, i) => q.replace(`$${i + 1}`, v), text));
 };
 
-export const connect = () => pool.connect();
+export const connect = async () => pool.connect();

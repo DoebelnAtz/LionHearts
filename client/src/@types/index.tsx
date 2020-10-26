@@ -89,10 +89,19 @@ export interface Author {
 
 export interface Comment {
 	c_id: number;
+	e_id: number;
 	content: string;
 	created: string;
-	t_id: number;
-	parent_thread: number;
+	username: string;
+	creator: number;
+	profile_pic: string;
+}
+
+export interface ChildComment {
+	cc_id: number;
+	parent: number;
+	content: string;
+	created: string;
 	username: string;
 	creator: number;
 	profile_pic: string;
@@ -111,6 +120,7 @@ export interface AuthoredArticle {
 
 export interface MemberEvent {
 	e_id: number;
+	u_id: number;
 	username: string;
 	firstname: string;
 	lastname: string;

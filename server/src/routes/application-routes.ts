@@ -1,6 +1,7 @@
 import express from 'express';
 
 import {
+	acceptApplicant,
 	getApplicationById,
 	getApplicationFile,
 	getApplications,
@@ -15,6 +16,8 @@ applicationRouter.get('/', getApplications);
 applicationRouter.get('/files', getApplicationFile);
 
 applicationRouter.get('/:aid', getApplicationById);
+
+applicationRouter.put('/:aid', acceptApplicant);
 
 applicationRouter.delete(
 	'/delete_application',

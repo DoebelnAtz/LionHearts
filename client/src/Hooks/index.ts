@@ -181,7 +181,6 @@ export function useGet<F>(
 		async function request() {
 			try {
 				if (cachePolicy === 'cache-first' && cache[url]) {
-					console.log(cache);
 					setData(cache[url]);
 				}
 				setIsLoading(true);

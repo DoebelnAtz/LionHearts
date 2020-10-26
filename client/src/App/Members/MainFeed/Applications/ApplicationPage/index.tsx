@@ -59,6 +59,19 @@ const ApplicationPage: React.FC = () => {
 		}
 	};
 
+	const handleApplicationApproval = async () => {
+		if (
+			application &&
+			window.confirm('Are you sure you want to ACCEPT this applicant?')
+		) {
+			try {
+				await makeRequest(`/applications/${application.a_id}`, 'PUT');
+			} catch (e) {
+				console.log(e);
+			}
+		}
+	};
+
 	const handleApplicationRejection = async () => {
 		if (
 			application &&
@@ -139,7 +152,9 @@ const ApplicationPage: React.FC = () => {
 				{renderUploadedFiles()}
 			</ApplicantInfoDiv>
 			<ApplicationDecisionButtonRow>
-				<ApplicationAcceptButton>Accept</ApplicationAcceptButton>
+				<ApplicationAcceptButton onClick={handleApplicationApproval}>
+					Accept
+				</ApplicationAcceptButton>
 				<ApplicationRejectButton onClick={handleApplicationRejection}>
 					Reject
 				</ApplicationRejectButton>

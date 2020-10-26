@@ -13,12 +13,14 @@ export const MemberListOptions = styled.div`
 	padding: ${units.margin};
 	display: flex;
 	flex-direction: column;
-	margin-bottom: 2vw;
+	margin-bottom: 1vw;
 `;
 
 export const MemberListFilterTitle = styled.span`
 	color: ${color.primary};
-	font-size: 22px;
+	font-size: 20px;
+	line-height: 20px;
+	padding-top: 4px;
 	margin-right: ${units.margin};
 	${font.DCBold};
 `;
@@ -32,8 +34,24 @@ export const MemberListResultDiv = styled.div`
 `;
 
 export const ExpandFilterOptionsButton = styled.button`
-	width: 100px;
+	width: 140px;
 	${components.buttonWhite};
+	padding: 2px;
+	display: flex;
+	height: 32px;
+`;
+
+export const ExpandFilterButtonLabel = styled.span`
+	line-height: 32px;
+	margin: auto;
+	padding-bottom: 2px;
+`;
+
+export const ExpandFilterOptionsButtonArrowIcon = styled(animated.img)`
+	height: 18px;
+	margin: auto 0 auto 0;
+	padding: 0 8px;
+	position: relative;
 `;
 
 export const FilterOptionsDiv = styled.div`
@@ -43,7 +61,31 @@ export const FilterOptionsDiv = styled.div`
 export const FilterOptionsExpandable = styled(animated.div)`
 	overflow-y: hidden;
 	display: flex;
-	margin: ${units.margin} 0;
+	margin: 0;
+	justify-content: space-between;
+	flex-direction: column;
+	@media (max-width: ${units.tablet}) {
+	}
+`;
+
+export const MemberFilterSkillsDiv = styled.div`
+	display: flex;
+	margin-top: ${units.margin};
+`;
+
+export const MemberFilterSearchDiv = styled.div`
+	display: flex;
+	margin-top: ${units.margin};
+`;
+
+export const MemberSearchInput = styled.input`
+	width: 107px;
+	border: 1px solid ${color.primary}!important;
+`;
+
+export const MemberFilterLanguageDiv = styled.div`
+	display: flex;
+	margin-top: ${units.margin};
 `;
 
 export const MemberListCard = styled.div`
@@ -55,21 +97,21 @@ export const MemberListCard = styled.div`
 	border-style: solid;
 	flex-direction: column;
 	${cursor.clickable};
-`;
-
-export const MemberCardContent = styled.div`
-	margin: 0 auto;
-	padding: ${units.margin};
-	width: calc(100% - ${units.margin} * 2);
 	&:hover {
 		background-color: ${color.BG1};
 		transition: background-color 0.1s;
 	}
 `;
 
+export const MemberCardContent = styled.div`
+	margin: 0 auto;
+	padding: ${units.margin};
+	width: calc(100% - ${units.margin} * 2);
+`;
+
 export const SearchMembersInput = styled.label`
 	${components.labeledInput};
-	margin: 0 auto ${units.margin} 0;
+	margin: 0 auto 0 0;
 	height: 24px;
 	display: flex;
 	flex-direction: row;
