@@ -4,12 +4,14 @@ if ('function' === typeof importScripts) {
 	);
 	/* global workbox */
 	if (workbox) {
+		let unreadCount = 0;
 		console.log('Workbox is loaded');
 		self.addEventListener('push', function (event) {
 			console.log('[Service Worker] Push Received.');
 			console.log(
 				`[Service Worker] Push had this data: "${event.data.text()}"`,
 			);
+			unreadCount = unreadCount + 1;
 			console.log(event);
 			const data = event.data.json();
 			console.log(data);
@@ -18,10 +20,11 @@ if ('function' === typeof importScripts) {
 			const options = {
 				body: data.body,
 				vibrate: [200, 100, 200, 100, 200, 100, 200],
-				icon: 'lionhearts_192.png',
-				badge: 'lionhearts_192.png',
+				icon: 'notif_icon.png',
+				badge: 'notif_badge.png',
 				data: data.data,
 			};
+			self.navigator.setAppBadge(unreadCount);
 			console.log(options);
 			event.waitUntil(
 				// @ts-ignore
@@ -34,6 +37,8 @@ if ('function' === typeof importScripts) {
 			console.log(event);
 			// This looks to see if the current is already open and
 			// focuses if it is
+			unreadCount = unreadCount - 1;
+			self.navigator.setAppBadge(unreadCount);
 			event.waitUntil(
 				clients
 					.matchAll({

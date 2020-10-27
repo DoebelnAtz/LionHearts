@@ -46,7 +46,6 @@ const EventComment: React.FC<EventCommentProps> = ({ comment }) => {
 			? 166 + (expandTarget.current?.offsetHeight || 1) + 'px'
 			: '0px',
 	});
-	console.log(expandTarget);
 
 	const handleCreateCommentChange = (val: string) => {
 		setCreateComment(val);

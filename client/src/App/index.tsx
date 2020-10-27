@@ -17,6 +17,7 @@ import News from './MainSite/News';
 import Community from './MainSite/Community';
 import ArticlePage from './MainSite/News/ArticlePage';
 import EventPage from './MainSite/Events/EventPage';
+import NotFound from './MainSite/NotFoundPage';
 
 function App() {
 	const [isMobile] = useWidth();
@@ -57,6 +58,9 @@ function App() {
 							</Route>
 							<Route exact path={'/news'}>
 								<News />
+							</Route>
+							<Route exact path={'/404'}>
+								<NotFound />
 							</Route>
 							<Route exact path={'/news/:aid'}>
 								<ArticlePage />

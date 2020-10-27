@@ -165,7 +165,7 @@ export const createEventComment = catchErrors(async (req, res) => {
 	);
 	let participants = await query(
 		`
-		SELECT ep.u_id FROM event_participants ep WHERE ep.e_id = $1 
+		SELECT ep.u_id FROM event_participants ep WHERE ep.e_id = $1 AND ep.status = 'going' 
 	`,
 		[eventId],
 	);
@@ -180,6 +180,7 @@ export const createEventComment = catchErrors(async (req, res) => {
 					},
 				},
 				participant.u_id,
+				req.decoded.u_id,
 			);
 		});
 	} catch (e) {
@@ -241,6 +242,7 @@ export const createEventChildComment = catchErrors(async (req, res) => {
 			},
 		},
 		parentComment.rows[0].creator,
+		req.decoded.u_id,
 	);
 	res.status(201).json(createdComment);
 }, 'Failed to create comment');
@@ -302,13 +304,16 @@ export const createEvent = catchErrors(async (req, res) => {
 		client,
 		'Failed to create event',
 	);
-	await sendToAllSubscriptions({
-		title: 'New event',
-		body: `A new event ${title} has been added`,
-		data: {
-			link: `/members/events/${createdEvent.e_id}`,
+	await sendToAllSubscriptions(
+		{
+			title: 'New event',
+			body: `A new event ${title} has been added`,
+			data: {
+				link: `/members/events/${createdEvent.e_id}`,
+			},
 		},
-	});
+		req.decoded.u_id,
+	);
 	res.status(201).json({
 		...createdEvent,
 		creator: req.decoded.username,

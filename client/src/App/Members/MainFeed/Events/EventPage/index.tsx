@@ -134,20 +134,21 @@ const EventPage: React.FC = () => {
 									delete
 								</DeleteEventButton>
 							)}
-							{checkUser(event.u_id) && editing ? (
-								<LoadingButton
-									onClick={handleEventUpdate}
-									height={'30px'}
-								>
-									save
-								</LoadingButton>
-							) : (
-								<EditButton
-									onClick={() => setEditing(!editing)}
-								>
-									edit
-								</EditButton>
-							)}
+							{checkUser(event.u_id) &&
+								(editing ? (
+									<LoadingButton
+										onClick={handleEventUpdate}
+										height={'30px'}
+									>
+										save
+									</LoadingButton>
+								) : (
+									<EditButton
+										onClick={() => setEditing(!editing)}
+									>
+										edit
+									</EditButton>
+								))}
 						</EditButtonRow>
 
 						<EventPageInfoDate>
