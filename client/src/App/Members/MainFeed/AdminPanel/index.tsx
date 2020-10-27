@@ -9,6 +9,7 @@ import {
 } from './Styles';
 import FileControl from './FileControl';
 import DatabaseControl from './DatabaseControl';
+import { checkAuth } from '../../../../Utils';
 
 const AdminPanel: React.FC = () => {
 	useNav('admin');
@@ -42,12 +43,14 @@ const AdminPanel: React.FC = () => {
 				>
 					files
 				</AdminPanelTab>
-				<AdminPanelTab
-					highlighted={currentTab === 'database'}
-					onClick={() => setCurrentTab('database')}
-				>
-					database
-				</AdminPanelTab>
+				{checkAuth() > 2 && (
+					<AdminPanelTab
+						highlighted={currentTab === 'database'}
+						onClick={() => setCurrentTab('database')}
+					>
+						database
+					</AdminPanelTab>
+				)}
 			</AdminPanelNavTabs>
 			<AdminPanelFeed>{renderCurrentTab()}</AdminPanelFeed>
 		</AdminPanelDiv>

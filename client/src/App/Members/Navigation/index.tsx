@@ -31,7 +31,7 @@ const Navigation: React.FC = () => {
 					<img src={ApplicationsIcon} />
 				</NavItem>
 			)}
-			{checkAuth() > 3 && (
+			{checkAuth() > 1 && (
 				<NavItem title={'Admin'} path={'/members/admin'}>
 					<img src={ConfigIcon} />
 				</NavItem>

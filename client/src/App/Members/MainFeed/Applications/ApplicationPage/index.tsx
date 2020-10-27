@@ -141,6 +141,13 @@ const ApplicationPage: React.FC = () => {
 					{application && application.application_status}
 				</ApplicantInfo>
 			</ApplicantInfoDiv>
+
+			<ApplicantInfoDiv inline>
+				<ApplicantInfoLabel>Applications ID:</ApplicantInfoLabel>
+				<ApplicantInfo>
+					{application && application.application_id}
+				</ApplicantInfo>
+			</ApplicantInfoDiv>
 			<ApplicantInfoDiv>
 				<ApplicantInfoLabel>Description:</ApplicantInfoLabel>
 				<ApplicantDescription>
@@ -151,14 +158,20 @@ const ApplicationPage: React.FC = () => {
 				<ApplicantInfoLabel>Files:</ApplicantInfoLabel>
 				{renderUploadedFiles()}
 			</ApplicantInfoDiv>
-			<ApplicationDecisionButtonRow>
-				<ApplicationAcceptButton onClick={handleApplicationApproval}>
-					Accept
-				</ApplicationAcceptButton>
-				<ApplicationRejectButton onClick={handleApplicationRejection}>
-					Reject
-				</ApplicationRejectButton>
-			</ApplicationDecisionButtonRow>
+			{application?.application_status === 'pending' && (
+				<ApplicationDecisionButtonRow>
+					<ApplicationAcceptButton
+						onClick={handleApplicationApproval}
+					>
+						Accept
+					</ApplicationAcceptButton>
+					<ApplicationRejectButton
+						onClick={handleApplicationRejection}
+					>
+						Reject
+					</ApplicationRejectButton>
+				</ApplicationDecisionButtonRow>
+			)}
 		</ApplicationPageDiv>
 	);
 };

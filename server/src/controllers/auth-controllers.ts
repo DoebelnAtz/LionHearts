@@ -85,7 +85,7 @@ export const checkSignupAuth = catchErrors(async (req, res) => {
 			SELECT application_id, 
 			firstname, lastname, 
 			email FROM applications 
-			WHERE application_id = $1 AND status = 'accepted'
+			WHERE application_id = $1 AND application_status = 'accepted'
 	`,
 		[applicationId],
 	);

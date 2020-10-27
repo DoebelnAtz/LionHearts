@@ -4,15 +4,21 @@ import { color, units, font, cursor } from '../../../../../Styles';
 export const EventCardDiv = styled.div`
 	width: calc(100% - ${units.margin} * 2);
 	padding: ${units.margin};
-	margin: 5px;
 	${cursor.clickable};
 	background-color: ${(props) =>
-		props.highlighted ? `${color.primary}20` : color.BG2};
+		props.highlighted ? `${color.primary}20` : color.BG0};
+	border: 2px solid
+		${(props) => (props.highlighted ? color.secondary : color.primary)};
+	transition: background-color 0.1s;
+	margin-bottom: ${units.margin};
+	&:nth-child(2n) {
+		margin-right: 0;
+	}
 	&:hover {
-		transition: background-color 0.1s;
-		background-color: ${color.BG3};
+		background-color: ${color.BG2};
 	}
 	@media (min-width: ${units.mobile}) {
+		margin-right: 10px;
 		width: calc(50% - ${units.margin} * 3);
 	}
 `;

@@ -106,12 +106,12 @@ export const TitleResult = styled.div`
 
 export const SubmitButton = styled.button`
 	${components.buttonWhite};
-	width: calc(100% - ${units.margin} * 2);
+	width: calc(100%);
 	margin: 5px auto;
 `;
 
 export const CreateEventButton = styled.button`
 	${components.buttonWhite};
-	width: calc(100% - ${units.margin} * 2);
+	width: calc(100%);
 	margin: auto;
 `;

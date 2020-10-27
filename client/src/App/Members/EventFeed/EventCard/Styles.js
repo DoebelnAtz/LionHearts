@@ -12,9 +12,6 @@ export const EventCardDiv = styled.div`
 	&:hover {
 		background-color: ${color.BG2};
 	}
-	&:last-child {
-		border-bottom: none;
-	}
 `;
 
 export const EventCardTitle = styled.span`

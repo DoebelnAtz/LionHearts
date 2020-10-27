@@ -80,7 +80,6 @@ export const MemberFilterSkillsDiv = styled.div`
 export const MemberFilterSearchDiv = styled.div`
 	display: flex;
 	width: 300px;
-
 	margin-top: ${units.margin};
 	@media (max-width: ${units.mobile}) {
 		width: 100%;
