@@ -2,6 +2,7 @@ import { catchErrors } from '../errors/catchErrors';
 import { query, connect } from '../postgres';
 import { transaction } from '../errors/transaction';
 import CustomError from '../errors/customError';
+import { sendToAllSubscriptions, sendToUser } from '../utils';
 
 export const getEvents = catchErrors(async (req, res) => {
 	let filter = req.query.filter;
@@ -83,7 +84,7 @@ export const getEventById = catchErrors(async (req, res) => {
 
 	let event = await query(
 		`
-		SELECT e.e_id, e.title, e.time, u.u_id, u.username, u.firstname, u.lastname, e.t_id FROM events e JOIN users u ON e.creator = u.u_id WHERE e.e_id = $1
+		SELECT e.e_id, e.title, e.time, u.u_id, u.username, u.firstname, u.lastname FROM events e JOIN users u ON e.creator = u.u_id WHERE e.e_id = $1
 	`,
 		[eid],
 	);
@@ -123,7 +124,19 @@ export const getEventById = catchErrors(async (req, res) => {
 
 export const createEventComment = catchErrors(async (req, res) => {
 	const { content, eventId } = req.body;
-
+	let event = await query(
+		`
+		SELECT e_id, title FROM events WHERE e_id = $1
+	`,
+		[eventId],
+	);
+	if (!event.rows.length) {
+		throw new CustomError(
+			'No event matching given id',
+			304,
+			'No event matching given id',
+		);
+	}
 	let createdComment: any;
 	const client = await connect();
 	await transaction(
@@ -150,12 +163,49 @@ export const createEventComment = catchErrors(async (req, res) => {
 		client,
 		'Failed to create comment',
 	);
+	let participants = await query(
+		`
+		SELECT ep.u_id FROM event_participants ep WHERE ep.e_id = $1 
+	`,
+		[eventId],
+	);
+	try {
+		participants.rows.forEach((participant) => {
+			sendToUser(
+				{
+					title: 'New comment',
+					body: `${req.decoded.username} commented on ${event.rows[0].title}`,
+					data: {
+						link: `/members/events/${eventId}`,
+					},
+				},
+				participant.u_id,
+			);
+		});
+	} catch (e) {
+		throw new CustomError('Failed to create comment', 500);
+	}
+
 	res.status(201).json(createdComment);
 }, 'Failed to create comment');
 
 export const createEventChildComment = catchErrors(async (req, res) => {
 	const { content, parentId } = req.body;
-
+	let parentComment = await query(
+		`
+		SELECT c.c_id, c.creator, c.e_id, u.username 
+		FROM comments c JOIN users u ON u.u_id = c.creator
+		WHERE c.c_id = $1
+	`,
+		[parentId],
+	);
+	if (!parentComment.rows.length) {
+		throw new CustomError(
+			'No event matching given id',
+			304,
+			'No event matching given id',
+		);
+	}
 	let createdComment: any;
 	const client = await connect();
 	await transaction(
@@ -182,6 +232,16 @@ export const createEventChildComment = catchErrors(async (req, res) => {
 		client,
 		'Failed to create comment',
 	);
+	await sendToUser(
+		{
+			title: 'New comment',
+			body: `${req.decoded.username} replied to your comment`,
+			data: {
+				link: `/members/events/${parentComment.rows[0].e_id}`,
+			},
+		},
+		parentComment.rows[0].creator,
+	);
 	res.status(201).json(createdComment);
 }, 'Failed to create comment');
 
@@ -200,7 +260,7 @@ export const joinEvent = catchErrors(async (req, res) => {
 	await transaction(
 		async () => {
 			if (!previousParticipation.rows.length) {
-				query(
+				await query(
 					`
 	            INSERT INTO event_participants (e_id, u_id, status)
 	            VALUES($1, $2, $3)
@@ -208,7 +268,7 @@ export const joinEvent = catchErrors(async (req, res) => {
 					[eventId, userId, status],
 				);
 			} else {
-				query(
+				await query(
 					`
 		            UPDATE event_participants SET status=$1 WHERE e_id = $2 AND u_id = $3
 		        `,
@@ -230,29 +290,25 @@ export const createEvent = catchErrors(async (req, res) => {
 	const client = await connect();
 	await transaction(
 		async () => {
-			let thread = await query(`
-				INSERT INTO threads DEFAULT VALUES returning t_id
-			`);
-			if (!thread.rows) {
-				throw new CustomError(
-					'Failed to create event',
-					500,
-					'failed to create thread for event',
-					'Failed to create event',
-				);
-			}
 			let newEvent = await query(
 				`
-	            INSERT INTO events (title, creator, time, t_id) VALUES
-	            ($1, $2, $3, $4) RETURNING e_id;
+	            INSERT INTO events (title, creator, time) VALUES
+	            ($1, $2, $3) RETURNING e_id;
 	        `,
-				[title, userId, time, thread.rows[0].t_id],
+				[title, userId, time],
 			);
 			createdEvent = { title, time, e_id: newEvent.rows[0].e_id };
 		},
 		client,
 		'Failed to create event',
 	);
+	await sendToAllSubscriptions({
+		title: 'New event',
+		body: `A new event ${title} has been added`,
+		data: {
+			link: `/members/events/${createdEvent.e_id}`,
+		},
+	});
 	res.status(201).json({
 		...createdEvent,
 		creator: req.decoded.username,

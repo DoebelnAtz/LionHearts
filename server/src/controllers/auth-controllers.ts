@@ -271,9 +271,9 @@ export const saveSubscription = catchErrors(async (req, res) => {
 	const { subscription, userId } = req.body;
 	let existing = await query(
 		`
-		SELECT FROM subscriptions WHERE u_id = $1
+		SELECT FROM subscriptions WHERE subscription = $1
 	`,
-		[userId],
+		[subscription],
 	);
 	if (!existing.rows.length) {
 		await query(
