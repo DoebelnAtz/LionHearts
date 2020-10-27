@@ -21,7 +21,7 @@ export const MemberListFilterTitle = styled.span`
 	font-size: 20px;
 	line-height: 20px;
 	padding-top: 4px;
-	margin-right: ${units.margin};
+	margin-right: auto;
 	${font.DCBold};
 `;
 
@@ -70,22 +70,35 @@ export const FilterOptionsExpandable = styled(animated.div)`
 
 export const MemberFilterSkillsDiv = styled.div`
 	display: flex;
+	width: 300px;
 	margin-top: ${units.margin};
+	@media (max-width: ${units.mobile}) {
+		width: 100%;
+	}
 `;
 
 export const MemberFilterSearchDiv = styled.div`
 	display: flex;
+	width: 300px;
+
 	margin-top: ${units.margin};
+	@media (max-width: ${units.mobile}) {
+		width: 100%;
+	}
 `;
 
 export const MemberSearchInput = styled.input`
-	width: 107px;
+	width: 120px;
 	border: 1px solid ${color.primary}!important;
 `;
 
 export const MemberFilterLanguageDiv = styled.div`
 	display: flex;
+	width: 300px;
 	margin-top: ${units.margin};
+	@media (max-width: ${units.mobile}) {
+		width: 100%;
+	}
 `;
 
 export const MemberListCard = styled.div`
@@ -112,6 +125,7 @@ export const MemberCardContent = styled.div`
 export const SearchMembersInput = styled.label`
 	${components.labeledInput};
 	margin: 0 auto 0 0;
+	width: 100%;
 	height: 24px;
 	display: flex;
 	flex-direction: row;

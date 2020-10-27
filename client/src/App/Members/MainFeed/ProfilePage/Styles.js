@@ -137,6 +137,41 @@ export const ContactInfo = styled.input`
 		props.disabled ? 'none' : `${color.tertiary}`};
 `;
 
+export const SocialMediaDiv = styled.div`
+	width: 100%;
+	margin: ${units.margin} 0;
+	display: flex;
+`;
+
+export const SocialMediaIcon = styled.div`
+	height: 20px;
+	width: 30px;
+	padding-right: 5px;
+	${cursor.clickable};
+	background: url(${(props) => props.src});
+	background-position: center;
+	background-size: contain;
+	background-repeat: no-repeat;
+`;
+
+export const SocialMediaLink = styled.a`
+	color: ${color.primary};
+	${font.DCBold};
+	font-size: 16px;
+	padding-top: 2px;
+	text-decoration: none;
+	&:visited {
+		color: ${color.primary};
+	}
+`;
+
+export const EditSocialMediaInput = styled.input`
+	${components.input};
+	height: 20px;
+	padding: 1px 2px;
+	border: 1px solid ${color.primary};
+`;
+
 export const ContactLink = styled.a`
 	color: ${color.primary};
 	${font.DCBold};

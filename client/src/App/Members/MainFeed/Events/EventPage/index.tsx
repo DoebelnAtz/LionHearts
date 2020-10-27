@@ -19,7 +19,7 @@ import {
 	EventPageParticipantsDiv,
 	SubmitCommentButton,
 } from './Styles';
-import { useGet } from '../../../../../Hooks';
+import { useGet, useNav } from '../../../../../Hooks';
 import { MemberEvent } from '../../../../../@types';
 import {
 	capitalizeFirst,
@@ -37,6 +37,7 @@ import LoadingButton from '../../../../Components/LoadingButton';
 const EventPage: React.FC = () => {
 	const params = useParams<{ eid: string }>();
 	const history = useHistory();
+	useNav('event');
 	const [createComment, setCreateComment] = useState('');
 	const [expandCommentCreator, setExpandCommentCreator] = useState(false);
 	const [event, setEvent] = useGet<MemberEvent>(`/events/${params.eid}`);

@@ -56,6 +56,7 @@ export const getProfileById = catchErrors(async (req, res) => {
 	let profile = await query(
 		`
         SELECT u.username, u.firstname, u.lastname, u.phone,
+        u.linkedin, u.instagram, u.twitter,
         u.email, u.profile_pic, u.bio, u.u_id, 
         d.name AS degree, d.d_id,
         s.name AS school, s.s_id,
@@ -83,16 +84,41 @@ export const getProfileById = catchErrors(async (req, res) => {
 
 export const updateProfile = catchErrors(async (req, res) => {
 	const userId = req.decoded.u_id;
-	const { phone, email, bio, location, school, degree } = req.body;
+	const {
+		phone,
+		email,
+		bio,
+		location,
+		school,
+		degree,
+		instagram,
+		twitter,
+		linkedin,
+	} = req.body;
 
 	const client = await connect();
 	await transaction(
 		async () => {
 			query(
 				`
-	            UPDATE users SET email=$1, phone=$2, bio=$3, location=$4, school=$6, degree=$7 WHERE u_id = $5
+	            UPDATE users 
+	            SET email=$1, phone=$2, bio=$3, 
+	            location=$4, school=$6, degree=$7,
+	            twitter=$8, linkedin=$9, instagram=$10
+	             WHERE u_id = $5
 	        `,
-				[email, phone, bio, location, userId, school, degree],
+				[
+					email,
+					phone,
+					bio,
+					location,
+					userId,
+					school,
+					degree,
+					twitter,
+					linkedin,
+					instagram,
+				],
 			);
 		},
 		client,

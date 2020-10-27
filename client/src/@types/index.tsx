@@ -57,6 +57,9 @@ export interface Profile {
 	d_id: number;
 	school: string;
 	s_id: number;
+	instagram: string;
+	linkedin: string;
+	twitter: string;
 	phone: string;
 	languages: Language[];
 	firstname: string;

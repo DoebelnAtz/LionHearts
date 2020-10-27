@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useGet, useNav } from '../../../../Hooks';
 import { url } from '../../../../config';
 import {
@@ -20,6 +20,7 @@ import {
 	ContactTitle,
 	CreateSkillDiv,
 	EditProfileButton,
+	EditSocialMediaInput,
 	LanguageCard,
 	LanguageIcon,
 	LanguageList,
@@ -46,6 +47,9 @@ import {
 	SkillDiv,
 	SkillResults,
 	SkillTitle,
+	SocialMediaDiv,
+	SocialMediaIcon,
+	SocialMediaLink,
 } from './Styles';
 import CogWheel from '../../../../assets/images/cogwheel_blue.png';
 import { checkUser, getLocal } from '../../../../Utils';
@@ -55,6 +59,9 @@ import ProfilePic from '../../../Components/ProfilePic';
 import DropDownComponent from '../../../Components/DropDown';
 import { useSpring } from 'react-spring';
 import LoadingButton from '../../../Components/LoadingButton';
+import TwitterIcon from '../../../../assets/images/twitter_icon.png';
+import InstagramIcon from '../../../../assets/images/ig_icon.png';
+import LinkedinIcon from '../../../../assets/images/linkedin_icon.png';
 
 const ProfilePage: React.FC = () => {
 	const params = useParams<{ uid: string }>();
@@ -244,6 +251,36 @@ const ProfilePage: React.FC = () => {
 		}
 	};
 
+	const handleTwitterChange = (e: ChangeEvent) => {
+		let target = e.target as HTMLInputElement;
+		if (profile) {
+			setProfile({
+				...profile,
+				twitter: target.value,
+			});
+		}
+	};
+
+	const handleInstagramChange = (e: ChangeEvent) => {
+		let target = e.target as HTMLInputElement;
+		if (profile) {
+			setProfile({
+				...profile,
+				instagram: target.value,
+			});
+		}
+	};
+
+	const handleLinkedinChange = (e: ChangeEvent) => {
+		let target = e.target as HTMLInputElement;
+		if (profile) {
+			setProfile({
+				...profile,
+				linkedin: target.value,
+			});
+		}
+	};
+
 	const handleChangeSave = async () => {
 		try {
 			profile &&
@@ -254,6 +291,9 @@ const ProfilePage: React.FC = () => {
 					location: profile.l_id,
 					degree: profile.d_id,
 					school: profile.s_id,
+					twitter: profile.twitter,
+					linkedin: profile.linkedin,
+					instagram: profile.instagram,
 				}));
 			setEditing(false);
 			return true;
@@ -509,13 +549,7 @@ const ProfilePage: React.FC = () => {
 								height={'30px'}
 								onClick={handleChangeSave}
 							>
-								<span
-									style={{
-										fontSize: '14px',
-									}}
-								>
-									Save
-								</span>
+								<span>Save</span>
 							</LoadingButton>
 						</ProfilePageEditButtons>
 					))}
@@ -545,6 +579,87 @@ const ProfilePage: React.FC = () => {
 								onChange={handlePhoneChange}
 								value={profile?.phone || ''}
 							/>
+						)}
+						{(profile?.instagram || editing) && (
+							<SocialMediaDiv>
+								<SocialMediaIcon
+									onClick={() =>
+										window.open(
+											`https://instagram.com/${profile?.instagram}`,
+											'_blank',
+										)
+									}
+									src={InstagramIcon}
+									alt={'instagram'}
+								/>
+								{editing ? (
+									<EditSocialMediaInput
+										value={profile?.instagram}
+										onChange={handleInstagramChange}
+									/>
+								) : (
+									<SocialMediaLink
+										target={'_blank'}
+										href={`https://instagram.com/${profile?.instagram}`}
+									>
+										{profile?.instagram}
+									</SocialMediaLink>
+								)}
+							</SocialMediaDiv>
+						)}
+						{(profile?.twitter || editing) && (
+							<SocialMediaDiv>
+								<SocialMediaIcon
+									onClick={() =>
+										window.open(
+											`https://twitter.com/${profile?.twitter}`,
+											'_blank',
+										)
+									}
+									src={TwitterIcon}
+									alt={'twitter'}
+								/>
+								{editing ? (
+									<EditSocialMediaInput
+										value={profile?.twitter}
+										onChange={handleTwitterChange}
+									/>
+								) : (
+									<SocialMediaLink
+										target={'_blank'}
+										href={`https://twitter.com/${profile?.twitter}`}
+									>
+										{profile?.twitter}
+									</SocialMediaLink>
+								)}
+							</SocialMediaDiv>
+						)}
+						{(profile?.linkedin || editing) && (
+							<SocialMediaDiv>
+								<SocialMediaIcon
+									src={LinkedinIcon}
+									alt={'linkedin'}
+									onClick={() =>
+										window.open(
+											`https://www.linkedin.com/in/${profile?.linkedin}`,
+											'_blank',
+										)
+									}
+								/>
+								{editing ? (
+									<EditSocialMediaInput
+										value={profile?.linkedin}
+										onChange={handleLinkedinChange}
+									/>
+								) : (
+									<SocialMediaLink
+										target={'_blank'}
+										href={`https://www.linkedin.com/in/${profile?.linkedin}`}
+									>
+										{profile?.linkedin}
+									</SocialMediaLink>
+								)}
+							</SocialMediaDiv>
 						)}
 					</ContactInfoDiv>
 				</ProfilePageContactDiv>

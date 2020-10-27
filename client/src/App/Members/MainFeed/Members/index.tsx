@@ -182,7 +182,7 @@ const MemberList: React.FC = () => {
 										};
 									}) || []),
 								]}
-								width={'130px'}
+								width={'134px'}
 								modalOverflow
 								height={'22px'}
 								withFilter
@@ -204,7 +204,7 @@ const MemberList: React.FC = () => {
 										};
 									}) || []),
 								]}
-								width={'97px'}
+								width={'134px'}
 								modalOverflow
 								height={'22px'}
 								withFilter

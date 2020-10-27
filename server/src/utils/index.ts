@@ -1,5 +1,4 @@
 import { query } from '../postgres';
-import CustomError from '../errors/customError';
 
 const webPush = require('web-push');
 
