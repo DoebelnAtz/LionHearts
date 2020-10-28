@@ -1,16 +1,24 @@
 import styled from 'styled-components';
-import { color, units, font, cursor, components } from '../../../../Styles';
+import {
+	color,
+	units,
+	font,
+	cursor,
+	components,
+} from '../../../../Styles';
 import { animated } from 'react-spring';
 
 export const MemberListDiv = styled.div`
 	width: 100%;
 	display: flex;
+	margin: ${units.margin} 0;
 	flex-direction: column;
+	overflow-y: hidden;
 `;
 
 export const MemberListOptions = styled.div`
 	width: calc(100% - ${units.margin} * 2);
-	padding: ${units.margin};
+	margin: 0 ${units.margin};
 	display: flex;
 	flex-direction: column;
 	margin-bottom: 1vw;
@@ -25,12 +33,61 @@ export const MemberListFilterTitle = styled.span`
 	${font.DCBold};
 `;
 
-export const MemberListResultDiv = styled.div`
+export const MemberListResultDiv = styled(animated.div)`
 	display: flex;
 	flex-wrap: wrap;
 	height: 100%;
 	overflow-y: auto;
 	width: 100%;
+`;
+
+export const FilterListContainer = styled.div`
+	height: 0px;
+	position: relative;
+	box-shadow: 0px 2px 6px #aaaaaa;
+	z-index: 6;
+	border-top: 2px solid ${color.secondary};
+`;
+
+export const FilterListDiv = styled(animated.div)`
+	height: 250px;
+	touch-action: none;
+	user-select: none;
+	display: flex;
+	position: relative;
+	padding: ${units.margin};
+	z-index: 4;
+	background-color: ${color.BG0};
+	flex-direction: column;
+	width: calc(100% - ${units.margin} * 2 - 4px);
+	border: 2px solid ${color.secondary};
+`;
+
+export const FilterOptionsContainer = styled.div`
+	width: 100%;
+	margin: auto 0 ${units.margin} 0;
+`;
+
+export const FilterListDragHandle = styled.div`
+	height: 30px;
+	width: 100px;
+	display: flex;
+	${cursor.draggable};
+	margin: 0 auto 0 auto;
+	transform: translateY(26px);
+	border-radius: 4px;
+	background-color: ${color.primary};
+	&:active {
+		${cursor.dragging}
+	}
+	& span {
+		${font.DCBold};
+		font-size: 20px;
+		margin: auto;
+		text-transform: uppercase;
+		padding-top: 4px;
+		color: ${color.BG0};
+	}
 `;
 
 export const ExpandFilterOptionsButton = styled.button`
@@ -47,7 +104,9 @@ export const ExpandFilterButtonLabel = styled.span`
 	padding-bottom: 2px;
 `;
 
-export const ExpandFilterOptionsButtonArrowIcon = styled(animated.img)`
+export const ExpandFilterOptionsButtonArrowIcon = styled(
+	animated.img,
+)`
 	height: 18px;
 	margin: auto 0 auto 0;
 	padding: 0 8px;
@@ -101,7 +160,7 @@ export const MemberFilterLanguageDiv = styled.div`
 `;
 
 export const MemberListCard = styled.div`
-	width: calc(50% - ${units.margin} * 2);
+	width: calc(50% - ${units.margin} * 2 - 4px);
 	margin: min(50px, max(6vw, 30px)) auto 20px auto;
 	display: flex;
 	border-width: 2px;

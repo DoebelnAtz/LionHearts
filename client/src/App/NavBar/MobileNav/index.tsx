@@ -5,13 +5,7 @@ import {
 	MobileNavLinks,
 	MobileLinkContainer,
 } from './Styles';
-import {
-	ReactSpringHook,
-	useChain,
-	useSpring,
-	useTrail,
-	useTransition,
-} from 'react-spring';
+import { useChain, useSpring, useTrail, useTransition } from 'react-spring';
 import { useHistory } from 'react-router-dom';
 import { NavBarLink } from '../Styles';
 import { makeId } from '../../../Utils';
@@ -23,8 +17,8 @@ const MobileNav: React.FC<{
 	setExpanded: Dispatch<SetStateAction<boolean>>;
 	expandRef: RefObject<HTMLDivElement>;
 }> = ({ expanded, setExpanded, expandRef }) => {
-	const menuRef = useRef<ReactSpringHook>(null);
-	const spanRef = useRef<ReactSpringHook>(null);
+	const menuRef = useRef<any>(null);
+	const spanRef = useRef<any>(null);
 	const [isMobile] = useWidth();
 	const mobileMenuRef = useRef<HTMLDivElement>(null);
 	const history = useHistory();

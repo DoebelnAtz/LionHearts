@@ -26,7 +26,7 @@ export const CallToAction = styled.h2`
 	text-decoration-color: ${color.secondary};
 	font-size: min(51px, 10vw);
 	line-height: 52px;
-	margin: auto 5px 60px 5px;
+	margin: auto 25px 60px 25px;
 `;
 
 export const ApplyButton = styled.button`

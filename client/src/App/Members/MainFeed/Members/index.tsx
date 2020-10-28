@@ -1,11 +1,20 @@
 import React, { ChangeEvent, useState } from 'react';
 import { useGet, useNav } from '../../../../Hooks';
-import { Language, Option, Profile, Skill } from '../../../../@types';
+import {
+	Language,
+	Option,
+	Profile,
+	Skill,
+} from '../../../../@types';
 import { useHistory } from 'react-router-dom';
 import {
 	ExpandFilterButtonLabel,
 	ExpandFilterOptionsButton,
 	ExpandFilterOptionsButtonArrowIcon,
+	FilterListContainer,
+	FilterListDiv,
+	FilterListDragHandle,
+	FilterOptionsContainer,
 	FilterOptionsDiv,
 	FilterOptionsExpandable,
 	MemberCardContent,
@@ -30,12 +39,16 @@ import {
 import ProfilePic from '../../../Components/ProfilePic';
 import DropDownComponent from '../../../Components/DropDown';
 import { capitalizeFirst } from '../../../../Utils';
-import { useSpring } from 'react-spring';
+import { useSpring, animated, config } from 'react-spring';
 import ArrowRightBlue from '../../../../assets/images/arrow_right.png';
+import { useDrag } from 'react-use-gesture';
 
 const MemberList: React.FC = () => {
 	useNav('Members');
-	const [skillFilter, setSkillFilter] = useState({ title: 'none', id: 0 });
+	const [skillFilter, setSkillFilter] = useState({
+		title: 'none',
+		id: 0,
+	});
 	const [languageFilter, setLanguageFilter] = useState({
 		title: 'none',
 		id: 0,
@@ -48,7 +61,9 @@ const MemberList: React.FC = () => {
 
 	const rotateArrowIcon = useSpring({
 		config: { mass: 1, velocity: 10 },
-		transform: expandFilter ? 'rotate(90deg)' : 'rotate(0deg)',
+		transform: expandFilter
+			? 'rotate(90deg)'
+			: 'rotate(0deg)',
 	});
 
 	const expandSpring = useSpring({
@@ -87,7 +102,9 @@ const MemberList: React.FC = () => {
 		}
 	};
 
-	const handleLanguageFilterChange = (newFilter: Option) => {
+	const handleLanguageFilterChange = (
+		newFilter: Option,
+	) => {
 		if (skills) {
 			if (newFilter.option === languageFilter.title) {
 				setLanguageFilter({ title: 'none', id: 0 });
@@ -106,13 +123,19 @@ const MemberList: React.FC = () => {
 			members.map((member) => {
 				return (
 					<MemberListCard
-						onClick={() => handleMemberClick(member.u_id)}
+						onClick={() =>
+							handleMemberClick(member.u_id)
+						}
 						key={member.u_id}
 					>
 						<MemberCardPicDiv>
 							<MemberCardPicContainer>
 								<MemberCardPic>
-									<ProfilePic src={member.profile_pic} />
+									<ProfilePic
+										src={
+											member.profile_pic
+										}
+									/>
 								</MemberCardPic>
 							</MemberCardPicContainer>
 						</MemberCardPicDiv>
@@ -124,7 +147,9 @@ const MemberList: React.FC = () => {
 										member.school &&
 										`Studying ${
 											member.degree
-										} at ${capitalizeFirst(member.school)}`}
+										} at ${capitalizeFirst(
+											member.school,
+										)}`}
 								</MemberCardStudy>
 								<MemberCardLocation>{`Currently in ${capitalizeFirst(
 									member.location,
@@ -137,23 +162,77 @@ const MemberList: React.FC = () => {
 		);
 	};
 
+	const closedHeight = -240;
+	const openHeight = -90;
+	const [{ y }, set] = useSpring(() => ({
+		y: closedHeight,
+	}));
+
+	const open = ({ canceled }: any) => {
+		// when cancel is true, it means that the user passed the upwards threshold
+		// so we change the spring config to create a nice wobbly effect
+		set({
+			y: openHeight,
+			immediate: false,
+			config: canceled
+				? { friction: 19, tension: 200 }
+				: config.stiff,
+		});
+	};
+	const close = (velocity = 0) => {
+		set({
+			y: closedHeight,
+			immediate: false,
+			config: { ...config.stiff, velocity },
+		});
+	};
+
+	const bind = useDrag(
+		({
+			last,
+			vxvy: [, vy],
+			movement: [, my],
+			cancel,
+			canceled,
+		}) => {
+			//console.log(last, my, vy);
+			// if the user drags up passed a threshold, then we cancel
+			// the drag so that the sheet resets to its open position
+			if (my > openHeight + 50 && cancel) cancel();
+
+			// when the user releases the sheet, we check whether it passed
+			// the threshold for it to close, or if we reset it to its open positino
+			if (last) {
+				if (my < -170 || vy < -0.5) {
+					console.log('closed');
+					close(vy);
+				} else {
+					console.log('opened');
+					open({ canceled });
+				}
+			}
+			// when the user keeps dragging, we just move the sheet according to
+			// the cursor position
+			else set({ y: my, immediate: true });
+		},
+		{
+			initial: () => [0, y.get()],
+			filterTaps: true,
+			bounds: { top: -240 },
+			rubberband: true,
+		},
+	);
+
 	return (
 		<MemberListDiv>
 			<MemberListOptions>
-				<FilterOptionsDiv>
-					<ExpandFilterOptionsButton
-						onClick={() => setExpandFilter(!expandFilter)}
-					>
-						<ExpandFilterButtonLabel>
-							Filters
-						</ExpandFilterButtonLabel>
-						<ExpandFilterOptionsButtonArrowIcon
-							src={ArrowRightBlue}
-							style={rotateArrowIcon}
-							alt={'expandfilter'}
-						/>
-					</ExpandFilterOptionsButton>
-					<FilterOptionsExpandable style={expandSpring}>
+				<FilterListContainer />
+				<FilterListDiv
+					style={{
+						y,
+					}}
+				>
+					<FilterOptionsContainer>
 						<MemberFilterSearchDiv>
 							<SearchMembersInput>
 								<MemberListFilterTitle>
@@ -161,7 +240,9 @@ const MemberList: React.FC = () => {
 								</MemberListFilterTitle>
 								<MemberSearchInput
 									value={search}
-									onChange={handleSearchChange}
+									onChange={
+										handleSearchChange
+									}
 									placeholder={'search'}
 								/>
 							</SearchMembersInput>
@@ -172,15 +253,24 @@ const MemberList: React.FC = () => {
 							</MemberListFilterTitle>
 							<DropDownComponent
 								state={skillFilter.title}
-								setSelect={handleSkillFilterChange}
+								setSelect={
+									handleSkillFilterChange
+								}
 								optionList={[
-									{ option: 'none', id: 0 },
-									...(skills?.map((skill) => {
-										return {
-											option: skill.title,
-											id: skill.s_id,
-										};
-									}) || []),
+									{
+										option: 'none',
+										id: 0,
+									},
+									...(skills?.map(
+										(skill) => {
+											return {
+												option:
+													skill.title,
+												id:
+													skill.s_id,
+											};
+										},
+									) || []),
 								]}
 								width={'134px'}
 								modalOverflow
@@ -194,15 +284,24 @@ const MemberList: React.FC = () => {
 							</MemberListFilterTitle>
 							<DropDownComponent
 								state={languageFilter.title}
-								setSelect={handleLanguageFilterChange}
+								setSelect={
+									handleLanguageFilterChange
+								}
 								optionList={[
-									{ option: 'none', id: 0 },
-									...(languages?.map((language) => {
-										return {
-											option: language.name,
-											id: language.language_id,
-										};
-									}) || []),
+									{
+										option: 'none',
+										id: 0,
+									},
+									...(languages?.map(
+										(language) => {
+											return {
+												option:
+													language.name,
+												id:
+													language.language_id,
+											};
+										},
+									) || []),
 								]}
 								width={'134px'}
 								modalOverflow
@@ -210,10 +309,35 @@ const MemberList: React.FC = () => {
 								withFilter
 							/>
 						</MemberFilterLanguageDiv>
-					</FilterOptionsExpandable>
+					</FilterOptionsContainer>
+					<FilterListDragHandle {...bind()}>
+						<span>filters</span>
+					</FilterListDragHandle>
+				</FilterListDiv>
+
+				<FilterOptionsDiv>
+					{/*<ExpandFilterOptionsButton*/}
+					{/*	onClick={() =>*/}
+					{/*		setExpandFilter(!expandFilter)*/}
+					{/*	}*/}
+					{/*>*/}
+					{/*	<ExpandFilterButtonLabel>*/}
+					{/*		Filters*/}
+					{/*	</ExpandFilterButtonLabel>*/}
+					{/*	<ExpandFilterOptionsButtonArrowIcon*/}
+					{/*		src={ArrowRightBlue}*/}
+					{/*		style={rotateArrowIcon}*/}
+					{/*		alt={'expandfilter'}*/}
+					{/*	/>*/}
+					{/*</ExpandFilterOptionsButton>*/}
+					{/*<FilterOptionsExpandable*/}
+					{/*	style={expandSpring}*/}
+					{/*/>*/}
 				</FilterOptionsDiv>
 			</MemberListOptions>
-			<MemberListResultDiv>{renderMembers()}</MemberListResultDiv>
+			<MemberListResultDiv style={{ y }}>
+				{renderMembers()}
+			</MemberListResultDiv>
 		</MemberListDiv>
 	);
 };

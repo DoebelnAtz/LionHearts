@@ -20,31 +20,27 @@ export const NewsCarusel = styled.div`
 `;
 
 export const NewsThumbnailList = styled.div`
-	width: 100%;
-	margin: auto 0;
+	width: calc(100% - min(10vw, 100px) * 2);
+	margin: auto;
+	overflow-x: scroll;
 	display: flex;
-	flex-wrap: nowrap;
-	overflow-x: auto;
-	& > div {
-		margin-right: 3vw;
-	}
-	& > div:last-child {
-		margin-right: 0;
-	}
-	flex-direction: row;
+	scroll-snap-type: x mandatory;
+	padding-bottom: 20px;
 `;
 
 export const ArticleThumbnail = styled.div`
-	width: 25vw;
-	min-width: 80px;
-	max-width: 300px;
-	max-height: 300px;
-	min-height: 80px;
-	height: 25vw;
-	display: flex;
+	width: 200px;
+	min-width: 200px;
+	height: 200px;
+	scroll-snap-align: start;
+	margin-right: 6vw;
+	&:last-child {
+		margin-right: 0;
+	}
 	@media (max-width: 900px) {
-		width: 24vw;
-		height: 24vw;
+		width: 140px;
+		min-width: 140px;
+		height: 140px;
 	}
 `;
 
