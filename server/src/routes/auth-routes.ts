@@ -2,7 +2,7 @@ const express = require('express');
 const { check } = require('express-validator');
 const authRouter = express.Router();
 import {
-	checkSignupAuth,
+	checkSignupAuth, checkToken,
 	login,
 	refreshToken,
 	saveSubscription,
@@ -10,6 +10,8 @@ import {
 } from '../controllers/auth-controllers';
 
 authRouter.get('/signup/check_auth', checkSignupAuth);
+
+authRouter.get('/check_token', checkToken)
 
 authRouter.post(
 	'/signup',

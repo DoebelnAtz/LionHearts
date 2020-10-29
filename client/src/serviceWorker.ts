@@ -13,9 +13,7 @@
 import { makeRequest } from './Api';
 import { getLocal } from './Utils';
 
-const applicationPubKey =
-	'BP9L1EOGX9_W9nVzw6ylm0fcz3N9gXsB_zdmH2Wyd1Zbu--sNlRoZ5FwIRC2jatEgtuB3PKndgvFpCE6X0aT7yQ';
-
+const applicationPubKey = 'BN0ua6GmeFtvDHt1JNz6X1K3GsIJtiPDoAr2YYK4OFmxyJkMv6UVQdQjCxUEeVpkXSNQmATQN7qe-HRN-rrKq4A'
 function urlBase64ToUint8Array(base64String: string) {
 	const padding = '='.repeat((4 - (base64String.length % 4)) % 4);
 	const base64 = (base64String + padding)
@@ -50,7 +48,9 @@ const askPushPermission = async (reg: ServiceWorkerRegistration) => {
 	const sub = await reg.pushManager.getSubscription();
 	const user = getLocal('user')?.user?.u_id;
 	console.log(user);
-	if (sub === undefined && user) {
+	console.log(sub);
+
+	if (sub === undefined && user !== undefined) {
 		const permission = await window.Notification.requestPermission();
 
 		if (permission !== 'granted') {
@@ -63,7 +63,6 @@ const askPushPermission = async (reg: ServiceWorkerRegistration) => {
 				userId: user,
 			});
 		}
-		console.log(sub);
 	}
 };
 
@@ -110,24 +109,27 @@ function registerValidSW(swUrl: string, config?: Config) {
 	navigator.serviceWorker
 		.register(swUrl)
 		.then((registration) => {
-			registration.pushManager
-				.subscribe({
-					applicationServerKey: urlBase64ToUint8Array(
-						applicationPubKey,
-					),
-					userVisibleOnly: true,
-				})
-				.then((sub) => {
-					console.log(sub);
-					const user = getLocal('user')?.user?.u_id;
-					console.log(user);
-					if (sub && user) {
-						makeRequest('/auth/save_subscription', 'POST', {
-							subscription: JSON.stringify(sub),
-							userId: user,
-						});
-					}
-				});
+			const user = getLocal('user')?.user?.u_id;
+			console.log(user);
+			if (user !== undefined) {
+				registration.pushManager
+					.subscribe({
+						applicationServerKey: urlBase64ToUint8Array(
+							applicationPubKey,
+						),
+						userVisibleOnly: true,
+					})
+					.then((sub) => {
+						console.log(sub);
+
+						if (sub && user) {
+							makeRequest('/auth/save_subscription', 'POST', {
+								subscription: JSON.stringify(sub),
+								userId: user,
+							});
+						}
+					});
+			}
 			registration.onupdatefound = () => {
 				const installingWorker = registration.installing;
 				if (installingWorker == null) {

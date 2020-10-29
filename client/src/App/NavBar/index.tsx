@@ -15,6 +15,9 @@ import { getLocal, makeId } from '../../Utils';
 import { useWidth } from '../../Hooks';
 import MenuBurger from '../Components/MenuBurger';
 import MobileNav from './MobileNav';
+import {makeRequest} from "../../Api";
+import axios from "axios";
+import {url as baseURL} from "../../config";
 
 const NavBar = () => {
 	const [isMobile] = useWidth();
@@ -22,9 +25,29 @@ const NavBar = () => {
 	const history = useHistory();
 	const burgerRef = useRef<HTMLDivElement>(null);
 
-	const handleMemberIconClick = () => {
+	const handleMemberIconClick = async () => {
 		if (getLocal('user')) {
-			history.push('/members/list');
+			try {
+				let resp = await axios({
+					url: `${baseURL}/api/auth/check_token`,
+					method: 'GET',
+					headers: {
+						'Content-Type': 'application/json',
+						Authorization:
+							'Bearer ' +
+							(localStorage.getItem('user')
+								? getLocal('user').token
+								: ''),
+						'x-refresh-token': localStorage.getItem('user')
+							? getLocal('user').refreshToken
+							: '',
+					},
+				});
+				history.push('/members/list');
+			} catch (e) {
+				history.push('/login');
+			}
+
 		} else {
 			history.push('/login');
 		}

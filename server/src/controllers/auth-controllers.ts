@@ -178,6 +178,44 @@ export const login = catchErrors(async (req, res, next) => {
 	});
 }, 'Failed to log in');
 
+export const checkToken = catchErrors(async (req, res) => {
+	let token =
+		(req.headers['x-access-token'] as string) ||
+		(req.headers['authorization'] as string);
+	if (!token) {
+		return res.status(401).json({
+			success: false,
+			message: 'Invalid token',
+		});
+	}
+	if (token.startsWith('Bearer ')) {
+		token = token.slice(7, token.length);
+	}
+
+	if (token) {
+		jwt.verify(
+			token,
+			config.secret,
+			(err: JsonWebTokenError, decoded: Decoded) => {
+				if (err) {
+					return res.status(401).json({
+						success: false,
+						message: 'Invalid token',
+					});
+				} else {
+					return res.json({success: true})
+				}
+			},
+		);
+	} else {
+		return res.status(401).json({
+			success: false,
+			message: 'Invalid token',
+		});
+	}
+}, 'Failed to check token');
+
+
 export const checkUserAuth = catchErrors(async (req, res) => {
 	let { role } = req.decoded;
 	let accessLevel = 0;

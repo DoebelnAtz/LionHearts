@@ -10,7 +10,7 @@ import {
 } from './Styles';
 import DropDownComponent from '../../../../Components/DropDown';
 import { makeRequest } from '../../../../../Api';
-import { calculateTimeSince } from '../../../../../Utils';
+import {calculateTimeSince, getLocalTimeFormat} from '../../../../../Utils';
 
 type EventCardProps = {
 	card: MemberEvent;
@@ -62,7 +62,7 @@ const EventCard: React.FC<EventCardProps> = ({ card, highlighted = false }) => {
 			</EventCardResponseRow>
 			<EventCardTimeUntilDiv>
 				<EventCardTimeUntilSpan>
-					{calculateTimeSince(eventCard.time)}
+					{getLocalTimeFormat(eventCard.time)}
 				</EventCardTimeUntilSpan>
 			</EventCardTimeUntilDiv>
 		</EventCardDiv>

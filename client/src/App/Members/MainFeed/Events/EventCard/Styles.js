@@ -9,13 +9,14 @@ export const EventCardDiv = styled.div`
 		props.highlighted ? `${color.primary}20` : color.BG0};
 	border: 2px solid
 		${(props) => (props.highlighted ? color.secondary : color.primary)};
-	transition: background-color 0.1s;
+	transition: all 0.1s;
+	transform: ${(props) => (props.highlighted ? `scale(1.02)` : 'scale(1)')};
 	margin-bottom: ${units.margin};
 	&:nth-child(2n) {
 		margin-right: 0;
 	}
 	&:hover {
-		background-color: ${color.BG2};
+		background-color: ${color.primary}30;
 	}
 	@media (min-width: ${units.mobile}) {
 		margin-right: 10px;

@@ -8,6 +8,8 @@ import {
 } from '../../../../@types';
 import { useHistory } from 'react-router-dom';
 import {
+	DragIcon,
+	DragIconLine,
 	ExpandFilterButtonLabel,
 	ExpandFilterOptionsButton,
 	ExpandFilterOptionsButtonArrowIcon,
@@ -88,6 +90,7 @@ const MemberList: React.FC = () => {
 		setSearch(target.value);
 	};
 
+
 	const handleSkillFilterChange = (newFilter: Option) => {
 		console.log(newFilter);
 		if (skills) {
@@ -163,7 +166,7 @@ const MemberList: React.FC = () => {
 	};
 
 	const closedHeight = -240;
-	const openHeight = -90;
+	const openHeight = -110;
 	const [{ y }, set] = useSpring(() => ({
 		y: closedHeight,
 	}));
@@ -190,30 +193,45 @@ const MemberList: React.FC = () => {
 	const bind = useDrag(
 		({
 			last,
+			first,
+			dragging,
 			vxvy: [, vy],
 			movement: [, my],
 			cancel,
 			canceled,
 		}) => {
-			//console.log(last, my, vy);
+			console.log(last, my, vy, dragging, `closing: ${!dragging && my === openHeight}`);
 			// if the user drags up passed a threshold, then we cancel
 			// the drag so that the sheet resets to its open position
-			if (my > openHeight + 50 && cancel) cancel();
+			if (my > openHeight + 50 && cancel) {
+				console.log('canceled')
+				cancel();
+			}
 
 			// when the user releases the sheet, we check whether it passed
 			// the threshold for it to close, or if we reset it to its open positino
 			if (last) {
-				if (my < -170 || vy < -0.5) {
+				if ((my < -170 || vy < -0.5) && !(vy > 0.5) ) {
 					console.log('closed');
 					close(vy);
+				} else if (vy > 0.5) {
+					open({ canceled })
 				} else {
 					console.log('opened');
 					open({ canceled });
 				}
 			}
+			else if (!dragging && my === openHeight) {
+				close();
+			}
+			else if (!dragging && my === closedHeight) {
+				open(true);
+			}
 			// when the user keeps dragging, we just move the sheet according to
 			// the cursor position
-			else set({ y: my, immediate: true });
+			else {
+ 				set({ y: my, immediate: true });
+			}
 		},
 		{
 			initial: () => [0, y.get()],
@@ -222,7 +240,6 @@ const MemberList: React.FC = () => {
 			rubberband: true,
 		},
 	);
-
 	return (
 		<MemberListDiv>
 			<MemberListOptions>
@@ -312,6 +329,12 @@ const MemberList: React.FC = () => {
 					</FilterOptionsContainer>
 					<FilterListDragHandle {...bind()}>
 						<span>filters</span>
+						<DragIcon>
+							<DragIconLine/>
+							<DragIconLine/>
+							<DragIconLine/>
+
+						</DragIcon>
 					</FilterListDragHandle>
 				</FilterListDiv>
 
@@ -335,7 +358,7 @@ const MemberList: React.FC = () => {
 					{/*/>*/}
 				</FilterOptionsDiv>
 			</MemberListOptions>
-			<MemberListResultDiv style={{ y }}>
+			<MemberListResultDiv>
 				{renderMembers()}
 			</MemberListResultDiv>
 		</MemberListDiv>

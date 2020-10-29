@@ -10,8 +10,9 @@ import { animated } from 'react-spring';
 
 export const MemberListDiv = styled.div`
 	width: 100%;
+	height: calc(100% - ${units.margin});
 	display: flex;
-	margin: ${units.margin} 0;
+	margin: ${units.margin} 0 0 0;
 	flex-direction: column;
 	overflow-y: hidden;
 `;
@@ -20,6 +21,7 @@ export const MemberListOptions = styled.div`
 	width: calc(100% - ${units.margin} * 2);
 	margin: 0 ${units.margin};
 	display: flex;
+	position: relative;
 	flex-direction: column;
 	margin-bottom: 1vw;
 `;
@@ -36,7 +38,8 @@ export const MemberListFilterTitle = styled.span`
 export const MemberListResultDiv = styled(animated.div)`
 	display: flex;
 	flex-wrap: wrap;
-	height: 100%;
+	padding: 5px 0;
+	margin-top: 30px;
 	overflow-y: auto;
 	width: 100%;
 `;
@@ -46,7 +49,7 @@ export const FilterListContainer = styled.div`
 	position: relative;
 	box-shadow: 0px 2px 6px #aaaaaa;
 	z-index: 6;
-	border-top: 2px solid ${color.secondary};
+	border-top: 2px solid ${color.primary};
 `;
 
 export const FilterListDiv = styled(animated.div)`
@@ -54,13 +57,13 @@ export const FilterListDiv = styled(animated.div)`
 	touch-action: none;
 	user-select: none;
 	display: flex;
-	position: relative;
+	position: absolute;
 	padding: ${units.margin};
 	z-index: 4;
 	background-color: ${color.BG0};
 	flex-direction: column;
 	width: calc(100% - ${units.margin} * 2 - 4px);
-	border: 2px solid ${color.secondary};
+	border: 2px solid ${color.primary};
 `;
 
 export const FilterOptionsContainer = styled.div`
@@ -68,9 +71,25 @@ export const FilterOptionsContainer = styled.div`
 	margin: auto 0 ${units.margin} 0;
 `;
 
+export const DragIcon = styled.div`
+	margin: auto;
+	width: 24px;
+    display: flex;
+    flex-direction: column;
+`;
+
+export const DragIconLine = styled.div`
+	height: 2px;
+	margin-bottom: 3px;
+    background-color: ${color.BG1};
+    &:last-child {
+    	margin-bottom: 0;
+    }
+`;
+
 export const FilterListDragHandle = styled.div`
 	height: 30px;
-	width: 100px;
+	width: 120px;
 	display: flex;
 	${cursor.draggable};
 	margin: 0 auto 0 auto;
@@ -85,7 +104,7 @@ export const FilterListDragHandle = styled.div`
 		font-size: 20px;
 		margin: auto;
 		text-transform: uppercase;
-		padding-top: 4px;
+		padding-top: 6px;
 		color: ${color.BG0};
 	}
 `;
@@ -159,21 +178,6 @@ export const MemberFilterLanguageDiv = styled.div`
 	}
 `;
 
-export const MemberListCard = styled.div`
-	width: calc(50% - ${units.margin} * 2 - 4px);
-	margin: min(50px, max(6vw, 30px)) auto 20px auto;
-	display: flex;
-	border-width: 2px;
-	border-color: ${color.secondary};
-	border-style: solid;
-	flex-direction: column;
-	${cursor.clickable};
-	&:hover {
-		background-color: ${color.BG1};
-		transition: background-color 0.1s;
-	}
-`;
-
 export const MemberCardContent = styled.div`
 	margin: 0 auto;
 	padding: ${units.margin};
@@ -187,6 +191,23 @@ export const SearchMembersInput = styled.label`
 	height: 24px;
 	display: flex;
 	flex-direction: row;
+`;
+
+export const MemberListCard = styled.div`
+	width: calc(50% - ${units.margin} * 2 - 4px);
+	margin: min(50px, max(6vw, 30px)) auto 20px auto;
+	display: flex;
+	border-width: 2px;
+	border-color: ${color.tertiary};
+	border-style: solid;
+		transition: all 0.2s;
+	flex-direction: column;
+	${cursor.clickable};
+	&:hover {
+	box-shadow: 0px 0px 6px 2px ${color.BG2};
+	transform: scale(1.02);
+	background-color: ${color.tertiary};
+	}
 `;
 
 export const MemberCardName = styled.div`
