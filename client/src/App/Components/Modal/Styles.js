@@ -1,6 +1,11 @@
 import styled from 'styled-components';
 
-import {color, layout, cursor, colorAdjust} from "../../../Styles";
+import {
+	color,
+	layout,
+	cursor,
+	colorAdjust,
+} from '../../../Styles';
 
 export const OutsideDiv = styled.div`
 	position: fixed;
@@ -18,27 +23,27 @@ export const OutsideDiv = styled.div`
 export const InsideDiv = styled.div`
 	margin: auto;
 	max-height: 80vh;
-	border: 5px solid ${color.BG2};
-	background: ${color.BG2};
+	border: 5px solid ${color.BG0};
+	background: ${color.primary};
 	overflow: auto;
 	z-index: 10;
 	display: flex;
 	flex-direction: column;
 	border-radius: 8px;
 	overflow: unset;
-	border-color: ${color.BG3};
+	border-color: ${color.primary};
 `;
 
 export const ModalButtonsRow = styled.div`
 	${layout.row};
 	height: 40px;
-	background-color: ${color.BG3};
+	background-color: ${color.primary};
 `;
 
 export const CloseButton = styled.span`
 	${cursor.clickable};
 	font-size: 28px;
-	color: ${color.primary};
+	color: ${color.tertiary};
 	line-height: 40px;
 	font-weight: 600;
 	margin-left: auto;
@@ -47,12 +52,10 @@ export const CloseButton = styled.span`
 		transition: color 0.1s;
 		color: ${colorAdjust.darken(color.primary, 0.2)};
 	}
-
 `;
 
 export const ModalContent = styled.div`
 	overflow-x: hidden;
-	border-top: 4px solid ${color.BG2};
+	border-top: 4px solid ${color.BG0};
 	max-height: 70vh;
-	
 `;

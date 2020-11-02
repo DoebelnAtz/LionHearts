@@ -30,6 +30,7 @@ import LoadingButton from '../Components/LoadingButton';
 import { AnimatedLabeledInputDiv } from '../../Styles';
 
 const acceptedTypes = ['image/jpeg', 'image/png'];
+const imageSizeLimit = 200000;
 
 const Signup: React.FC = () => {
 	const history = useHistory();
@@ -92,7 +93,7 @@ const Signup: React.FC = () => {
 
 		if (
 			!!selectedFile &&
-			selectedFile.size < 80000 &&
+			selectedFile.size < imageSizeLimit &&
 			application
 		) {
 			data.append('file', selectedFile);
@@ -141,7 +142,7 @@ const Signup: React.FC = () => {
 								application.application_id,
 						},
 					);
-					history.push('/login');
+					history.push('/members/login');
 				} catch (e) {
 					return false;
 				}
@@ -169,10 +170,12 @@ const Signup: React.FC = () => {
 		let targetFile = files[0];
 
 		if (targetFile) {
-			if (targetFile.size > 80000) {
+			if (targetFile.size > imageSizeLimit) {
 				setErrors({
 					...errors,
-					fileError: 'File size exceeds 80kb',
+					fileError: `File size exceeds ${
+						imageSizeLimit / 1000
+					}kb`,
 				});
 			} else if (
 				!acceptedTypes.includes(targetFile.type)
@@ -222,7 +225,7 @@ const Signup: React.FC = () => {
 						</ApplicantLabel>
 						<ApplicantInfo>
 							{(
-								application?.firstname +
+								application?.firstname.trim() +
 								application?.lastname.charAt(
 									0,
 								)

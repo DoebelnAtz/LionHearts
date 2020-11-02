@@ -1,17 +1,27 @@
-import React, { ChangeEvent, SyntheticEvent, useRef, useState } from 'react';
+import React, {
+	ChangeEvent,
+	SyntheticEvent,
+	useRef,
+	useState,
+} from 'react';
+import axios from 'axios';
 import Modal from '../Components/Modal';
 import { useDismiss } from '../../Hooks';
 import { useHistory } from 'react-router-dom';
 import {
 	ButtonDiv,
-	LoginButton,
 	LoginDiv,
-	PasswordDiv,
-	UsernameDiv,
+	LoginForm,
+	LoginInfo,
+	LoginInfoDiv,
+	LoginLogo,
 } from './Styles';
-import { makeRequest } from '../../Api';
 import { setLocal } from '../../Utils';
 import { AnimatedLabeledInputDiv } from '../../Styles';
+import Logo from '../Logo';
+import { url } from '../../config';
+import LoadingButton from '../Components/LoadingButton';
+
 const LoginPopup = () => {
 	const loginModal = useRef<HTMLDivElement>(null);
 	const history = useHistory();
@@ -27,9 +37,13 @@ const LoginPopup = () => {
 	const handleLogin = async (e: SyntheticEvent) => {
 		e.preventDefault();
 		try {
-			let resp = await makeRequest('/auth/login', 'post', {
-				username: input.username,
-				password: input.password,
+			let resp = await axios({
+				url: `${url}/api/auth/login`,
+				method: 'POST',
+				data: {
+					username: input.username,
+					password: input.password,
+				},
 			});
 			if (resp?.data) {
 				setLocal('user', {
@@ -40,8 +54,13 @@ const LoginPopup = () => {
 				history.push('/members/list');
 			}
 		} catch (e) {
+			if (e.response.status === 401) {
+				console.log('invalid credentials');
+			}
 			console.log(e);
+			return false;
 		}
+		return true;
 	};
 
 	const handleUsernameChange = (e: ChangeEvent) => {
@@ -68,7 +87,18 @@ const LoginPopup = () => {
 			}}
 		>
 			<LoginDiv>
-				<form>
+				<LoginLogo>
+					<Logo
+						height={'calc(20px + 6vw)'}
+						inverse
+					/>
+				</LoginLogo>
+				<LoginInfoDiv>
+					<LoginInfo>
+						Log in using your member account
+					</LoginInfo>
+				</LoginInfoDiv>
+				<LoginForm>
 					<AnimatedLabeledInputDiv>
 						<input
 							name={'username'}
@@ -96,9 +126,13 @@ const LoginPopup = () => {
 						</label>
 					</AnimatedLabeledInputDiv>
 					<ButtonDiv>
-						<LoginButton onClick={handleLogin}>Login</LoginButton>
+						<LoadingButton
+							onClick={handleLogin}
+						>
+							Log in
+						</LoadingButton>
 					</ButtonDiv>
-				</form>
+				</LoginForm>
 			</LoginDiv>
 		</Modal>
 	);

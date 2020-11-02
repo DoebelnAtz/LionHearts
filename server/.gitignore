@@ -3,6 +3,4 @@
 .env
 /member-applications/*
 !/member-applications/
-/profile-pictures/
-/images/*
 /build

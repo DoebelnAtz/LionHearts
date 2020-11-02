@@ -19,6 +19,7 @@ import ArticlePage from './MainSite/News/ArticlePage';
 import EventPage from './MainSite/Events/EventPage';
 import NotFound from './MainSite/NotFoundPage';
 import SuccessPage from './MainSite/Apply/SuccessPage';
+import MemberLogin from './Members/Login';
 
 function App() {
 	const [isMobile] = useWidth();
@@ -27,6 +28,12 @@ function App() {
 			<Switch>
 				<Route path={'/members'}>
 					<Switch>
+						<Route
+							exact
+							path={'/members/login'}
+						>
+							<MemberLogin />
+						</Route>
 						<Route path={'/members'}>
 							<MembersHome />
 						</Route>

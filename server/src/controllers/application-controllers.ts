@@ -142,7 +142,7 @@ export const createApplication = catchErrors(async (req, res, next) => {
 		`INSERT INTO applications 
 		(application_id, firstname, lastname, email, description) 
 		VALUES ($1, $2, $3, $4, $5)`,
-		[applicationId, firstname, lastname, email, description],
+		[applicationId, firstname.trim(), lastname.trim(), email, description],
 	);
 
 	res.status(201).json({

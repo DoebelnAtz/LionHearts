@@ -27,6 +27,14 @@ import {
 	setLocal,
 } from '../../../../Utils';
 
+const acceptedTypes = [
+	'image/jpeg',
+	'image/png',
+	'application/pdf',
+	'application/msword',
+];
+const fileSizeLimit = 100000;
+
 const ApplyFormSection: React.FC = () => {
 	const location = useLocation();
 	const history = useHistory();
@@ -101,10 +109,20 @@ const ApplyFormSection: React.FC = () => {
 		let targetFile = files[0];
 		// @ts-ignore
 		if (targetFile) {
-			if (targetFile.size > 50000) {
+			if (targetFile.size > fileSizeLimit) {
 				setErrors({
 					...errors,
-					fileError: 'File size exceeds 50kb',
+					fileError: `File size exceeds ${
+						fileSizeLimit / 1000
+					}kb`,
+				});
+			} else if (
+				!acceptedTypes.includes(targetFile.type)
+			) {
+				setErrors({
+					...errors,
+					fileError:
+						'Allowed formats: .jpeg, .png, .pdf, .doc',
 				});
 			} else {
 				setErrors({
@@ -127,7 +145,7 @@ const ApplyFormSection: React.FC = () => {
 			});
 		} else if (
 			!!selectedFile &&
-			selectedFile.size < 50000
+			selectedFile.size < fileSizeLimit
 		) {
 			data.append('file', selectedFile);
 			try {
@@ -159,7 +177,9 @@ const ApplyFormSection: React.FC = () => {
 		} else {
 			setErrors({
 				...errors,
-				fileError: 'File size exceeds 50kb',
+				fileError: `File size exceeds ${
+					fileSizeLimit / 1000
+				}kb`,
 			});
 		}
 	};
@@ -235,6 +255,7 @@ const ApplyFormSection: React.FC = () => {
 						description: input.description,
 					},
 				);
+				history.push('/apply/success');
 			} catch (e) {
 				if (
 					e.response.data.code === 2 ||

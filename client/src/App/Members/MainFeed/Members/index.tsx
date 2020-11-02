@@ -199,15 +199,15 @@ const MemberList: React.FC = () => {
 			cancel,
 			canceled,
 		}) => {
-			console.log(
-				last,
-				my,
-				vy,
-				dragging,
-				`closing: ${
-					!dragging && my === openHeight
-				}`,
-			);
+			// console.log(
+			// 	last,
+			// 	my,
+			// 	vy,
+			// 	dragging,
+			// 	`closing: ${
+			// 		!dragging && my === openHeight
+			// 	}`,
+			// );
 			// if the user drags up passed a threshold, then we cancel
 			// the drag so that the sheet resets to its open position
 			if (my > openHeight + 50 && cancel) {

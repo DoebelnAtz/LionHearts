@@ -47,7 +47,7 @@ export const MemberListResultDiv = styled(animated.div)`
 export const FilterListContainer = styled.div`
 	height: 0px;
 	position: relative;
-	box-shadow: 0px 2px 6px #aaaaaa;
+	box-shadow: 0px 3px 6px #aaaaaa;
 	z-index: 6;
 	border-top: 2px solid ${color.primary};
 `;

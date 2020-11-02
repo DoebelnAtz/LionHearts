@@ -2,7 +2,11 @@ import axios from 'axios';
 import { getLocal, setLocal } from '../Utils';
 import { url as baseURL } from '../config';
 
-export const makeRequest = async (url: string, method: any, data: any = {}) => {
+export const makeRequest = async (
+	url: string,
+	method: any,
+	data: any = {},
+) => {
 	let resp;
 
 	try {
@@ -17,7 +21,9 @@ export const makeRequest = async (url: string, method: any, data: any = {}) => {
 					(localStorage.getItem('user')
 						? getLocal('user').token
 						: ''),
-				'x-refresh-token': localStorage.getItem('user')
+				'x-refresh-token': localStorage.getItem(
+					'user',
+				)
 					? getLocal('user').refreshToken
 					: '',
 			},
@@ -40,7 +46,9 @@ export const makeRequest = async (url: string, method: any, data: any = {}) => {
 							(localStorage.getItem('user')
 								? getLocal('user').token
 								: ''),
-						'x-refresh-token': localStorage.getItem('user')
+						'x-refresh-token': localStorage.getItem(
+							'user',
+						)
 							? getLocal('user').refreshToken
 							: '',
 					},
@@ -54,26 +62,36 @@ export const makeRequest = async (url: string, method: any, data: any = {}) => {
 						method: method,
 						data: data,
 						headers: {
-							'Content-Type': 'application/json',
+							'Content-Type':
+								'application/json',
 							Authorization:
 								'Bearer ' +
-								(localStorage.getItem('user')
+								(localStorage.getItem(
+									'user',
+								)
 									? getLocal('user').token
 									: ''),
-							'x-refresh-token': localStorage.getItem('user')
-								? getLocal('user').refreshToken
+							'x-refresh-token': localStorage.getItem(
+								'user',
+							)
+								? getLocal('user')
+										.refreshToken
 								: '',
 						},
 					});
 				} catch (e) {
 					if (e.response.status === 401) {
-						window.location.replace('/');
+						window.location.replace(
+							'/members/login',
+						);
 					}
 					localStorage.clear();
 				}
 			} catch (e) {
 				if (e.response.status === 401) {
-					window.location.replace('/');
+					window.location.replace(
+						'/members/login',
+					);
 				}
 				localStorage.clear();
 			}
