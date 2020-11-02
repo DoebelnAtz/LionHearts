@@ -1,10 +1,16 @@
 import styled from 'styled-components';
-import { font, color, units, components } from '../../Styles';
+import {
+	font,
+	color,
+	units,
+	components,
+} from '../../Styles';
 
 export const SignupDiv = styled.div`
 	width: 100%;
 	height: 100%;
 	display: flex;
+	background-color: ${color.primary}70;
 `;
 
 export const SignupDivContainer = styled.div`
@@ -50,7 +56,10 @@ export const ProfilePicUploadDiv = styled.div`
 
 export const ErrorSpan = styled.span`
 	color: red;
+	margin-top: 10px;
 	${font.RBold};
+	position: relative;
+	z-index: 3;
 `;
 
 export const ProfilePicInput = styled.input`
@@ -70,6 +79,11 @@ export const ProfilePicPreview = styled.img`
 export const ProfilePicUploadButton = styled.button`
 	width: 100%;
 	${components.buttonWhite};
+`;
+
+export const AnimatedLabeledSignupInput = styled.div`
+	${components.animatedLabeledInput};
+	margin-bottom: 10px;
 `;
 
 export const ApplicantInfoDiv = styled.div`

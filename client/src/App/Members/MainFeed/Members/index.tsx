@@ -90,7 +90,6 @@ const MemberList: React.FC = () => {
 		setSearch(target.value);
 	};
 
-
 	const handleSkillFilterChange = (newFilter: Option) => {
 		console.log(newFilter);
 		if (skills) {
@@ -200,37 +199,46 @@ const MemberList: React.FC = () => {
 			cancel,
 			canceled,
 		}) => {
-			console.log(last, my, vy, dragging, `closing: ${!dragging && my === openHeight}`);
+			console.log(
+				last,
+				my,
+				vy,
+				dragging,
+				`closing: ${
+					!dragging && my === openHeight
+				}`,
+			);
 			// if the user drags up passed a threshold, then we cancel
 			// the drag so that the sheet resets to its open position
 			if (my > openHeight + 50 && cancel) {
-				console.log('canceled')
+				console.log('canceled');
 				cancel();
 			}
 
 			// when the user releases the sheet, we check whether it passed
 			// the threshold for it to close, or if we reset it to its open positino
 			if (last) {
-				if ((my < -170 || vy < -0.5) && !(vy > 0.5) ) {
+				if (
+					(my < -170 || vy < -0.5) &&
+					!(vy > 0.5)
+				) {
 					console.log('closed');
 					close(vy);
 				} else if (vy > 0.5) {
-					open({ canceled })
+					open({ canceled });
 				} else {
 					console.log('opened');
 					open({ canceled });
 				}
-			}
-			else if (!dragging && my === openHeight) {
+			} else if (!dragging && my === openHeight) {
 				close();
-			}
-			else if (!dragging && my === closedHeight) {
+			} else if (!dragging && my === closedHeight) {
 				open(true);
 			}
 			// when the user keeps dragging, we just move the sheet according to
 			// the cursor position
 			else {
- 				set({ y: my, immediate: true });
+				set({ y: my, immediate: true });
 			}
 		},
 		{
@@ -330,10 +338,9 @@ const MemberList: React.FC = () => {
 					<FilterListDragHandle {...bind()}>
 						<span>filters</span>
 						<DragIcon>
-							<DragIconLine/>
-							<DragIconLine/>
-							<DragIconLine/>
-
+							<DragIconLine />
+							<DragIconLine />
+							<DragIconLine />
 						</DragIcon>
 					</FilterListDragHandle>
 				</FilterListDiv>

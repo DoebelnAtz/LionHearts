@@ -18,7 +18,7 @@ export const sendToAllSubscriptions = async (
 
 	subscriptions.rows.forEach((sub) => {
 		let subscription = JSON.parse(sub.subscription);
-		console.log(`sending push to ${sub.u_id}`)
+		console.log(`sending push to ${sub.u_id}`);
 		if (excludedId && excludedId === sub.u_id) {
 			return;
 		} else {
@@ -44,7 +44,7 @@ export const sendToUser = async (
 	);
 
 	subscriptions.rows.forEach((sub) => {
-		console.log(`sending push to ${sub.u_id}`)
+		console.log(`sending push to ${sub.u_id}`);
 
 		let subscription = JSON.parse(sub.subscription);
 		if (excludedId && excludedId === sub.u_id) {

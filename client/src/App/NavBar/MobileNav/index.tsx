@@ -1,11 +1,21 @@
-import React, { Dispatch, RefObject, SetStateAction, useRef } from 'react';
+import React, {
+	Dispatch,
+	RefObject,
+	SetStateAction,
+	useRef,
+} from 'react';
 import {
 	MobileNavDiv,
 	MobileNavLink,
 	MobileNavLinks,
 	MobileLinkContainer,
 } from './Styles';
-import { useChain, useSpring, useTrail, useTransition } from 'react-spring';
+import {
+	useChain,
+	useSpring,
+	useTrail,
+	useTransition,
+} from 'react-spring';
 import { useHistory } from 'react-router-dom';
 import { NavBarLink } from '../Styles';
 import { makeId } from '../../../Utils';
@@ -30,56 +40,58 @@ const MobileNav: React.FC<{
 	useDismiss(mobileMenuRef, close, expandRef);
 
 	const expandMenu = useSpring({
-		ref: menuRef,
 		from: { height: '0px' },
 		to: { height: !expanded ? '0px' : '450px' },
 	});
 
-	const fadeIn = useSpring({
-		ref: spanRef,
-		from: { opacity: '1' },
-		to: { opacity: !expanded ? '1' : '0' },
-	});
-
 	const links = [
 		{ id: 0, text: 'ABOUT US', location: '/about-us' },
-		{ id: 0, text: 'COMMUNITY', location: '/community' },
+		{
+			id: 0,
+			text: 'COMMUNITY',
+			location: '/community',
+		},
 		{ id: 0, text: 'EVENTS', location: '/events' },
 		{ id: 0, text: 'NEWS', location: '/news' },
 		{ id: 0, text: 'APPLY', location: '/apply' },
 	];
 
-	const config = { mass: 10, tension: 2000, friction: 200 };
+	const config = {
+		mass: 10,
+		tension: 2000,
+		friction: 200,
+	};
 
 	const trail = useTrail(links.length, {
 		config,
-		opacity: expanded ? 1 : 0,
 		from: { opacity: 0 },
+		to: { opacity: expanded ? 1 : 0 },
 	});
 
 	const handleLinkClick = (to: string) => {
 		history.push(to);
 	};
 
-	useChain(expanded ? [menuRef] : [menuRef], expanded ? [0] : [1]);
-
 	return (
 		<MobileNavLinks
 			id={'Mobile Nav'}
 			style={expandMenu}
-			isMobile={isMobile}
 		>
 			{expanded && (
 				<MobileLinkContainer ref={mobileMenuRef}>
 					{trail.map(({ opacity }, index) => (
 						<MobileNavLink
 							onClick={() =>
-								handleLinkClick(links[index].location)
+								handleLinkClick(
+									links[index].location,
+								)
 							}
 							style={{ opacity: opacity }}
 							key={index}
 						>
-							<Link to={links[index].location}>
+							<Link
+								to={links[index].location}
+							>
 								{links[index].text}
 							</Link>
 						</MobileNavLink>

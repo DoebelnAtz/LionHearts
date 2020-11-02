@@ -4,9 +4,12 @@ import Color from 'color';
 const baseColor = '#ffffff';
 
 export const colorAdjust = {
-	darken: (color, amount) => Color(color).darken(amount).hex(),
-	lighten: (color, amount) => Color(color).lighten(amount).string(),
-	rgba: (color, opacity) => Color(color).alpha(opacity).string(),
+	darken: (color, amount) =>
+		Color(color).darken(amount).hex(),
+	lighten: (color, amount) =>
+		Color(color).lighten(amount).string(),
+	rgba: (color, opacity) =>
+		Color(color).alpha(opacity).string(),
 };
 
 export const color = {
@@ -68,7 +71,10 @@ export const font = {
 	link: css`
 		text-decoration: none;
 		&:hover {
-			color: ${colorAdjust.darken(color.tertiary, 0.2)};
+			color: ${colorAdjust.darken(
+				color.tertiary,
+				0.2,
+			)};
 		}
 	`,
 };
@@ -94,7 +100,8 @@ export const border = {
 		css`
 			border-color: ${color};
 			border-style: solid;
-			border-width: ${top}px ${right}px ${bot}px ${left}px;
+			border-width: ${top}px ${right}px ${bot}px
+				${left}px;
 		`,
 };
 
@@ -173,7 +180,7 @@ export const components = {
 		& input {
 			width: 100%;
 			height: 100%;
-			color: ${color.primary};
+			color: ${color.text};
 			padding-top: 20px;
 			border: none;
 			outline: none;
@@ -187,6 +194,16 @@ export const components = {
 				transform: translateY(-100%);
 			}
 			&:valid + label span {
+				transform: translateY(-100%);
+			}
+			&:-webkit-autofill,
+			:-webkit-autofill:focus {
+				background-color: ${color.BG0};
+				-webkit-box-shadow: 0 0 0 1000px
+					${color.BG0} inset !important;
+			}
+
+			&:-webkit-autofill + label span {
 				transform: translateY(-100%);
 			}
 		}
@@ -267,7 +284,10 @@ export const components = {
 		}
 		&:hover,
 		:active {
-			background-color: ${colorAdjust.darken(color.BG0, 0.1)};
+			background-color: ${colorAdjust.darken(
+				color.BG0,
+				0.1,
+			)};
 		}
 		&:disabled {
 			color: ${color.primary}90;
@@ -298,7 +318,10 @@ export const components = {
 			outline: none;
 		}
 		&:hover {
-			background-color: ${colorAdjust.darken(color.primary, 0.1)};
+			background-color: ${colorAdjust.darken(
+				color.primary,
+				0.1,
+			)};
 		}
 		&:disabled {
 			color: ${color.primary}90;
@@ -320,5 +343,6 @@ export const AnimatedLabeledInputDiv = styled.div`
 
 export const RowDiv = styled.div`
 	${layout.row};
-	margin: ${(props) => (props.margin ? props.margin : '0')};
+	margin: ${(props) =>
+		props.margin ? props.margin : '0'};
 `;

@@ -11,19 +11,19 @@ export const getArticles = catchErrors(async (req, res) => {
 		articles = await query(`
         SELECT a.article_id, a.title, a.isevent, a.thumbnail, a.content, 
         a.published_date, u.u_id, u.firstname, u.lastname, u.profile_pic
-        FROM articles a JOIN users u ON a.author = u.u_id WHERE a.isevent = true ORDER BY a.published_date DESC
+        FROM articles a LEFT JOIN users u ON a.author = u.u_id WHERE a.isevent = true ORDER BY a.published_date DESC
     `);
 	} else if (events === 'all') {
 		articles = await query(`
         SELECT a.article_id, a.title, a.isevent, a.thumbnail, a.content, 
         a.published_date, u.u_id, u.firstname, u.lastname, u.profile_pic
-        FROM articles a JOIN users u ON a.author = u.u_id ORDER BY a.published_date DESC
+        FROM articles a LEFT JOIN users u ON a.author = u.u_id ORDER BY a.published_date DESC
     `);
 	} else {
 		articles = await query(`
         SELECT a.article_id, a.title, a.isevent, a.thumbnail, a.content, 
         a.published_date, u.u_id, u.firstname, u.lastname, u.profile_pic
-        FROM articles a JOIN users u ON a.author = u.u_id WHERE a.isevent = false ORDER BY a.published_date DESC
+        FROM articles a LEFT JOIN users u ON a.author = u.u_id WHERE a.isevent = false ORDER BY a.published_date DESC
     `);
 	}
 
@@ -57,7 +57,7 @@ export const getArticleById = catchErrors(async (req, res) => {
 		SELECT a.article_id, a.title, a.isevent, a.content, a.thumbnail,
 		a.published_date, u.u_id,
 		u.username, u.firstname, u.lastname, u.profile_pic
-		FROM articles a JOIN users u ON a.author = u.u_id
+		FROM articles a LEFT JOIN users u ON a.author = u.u_id
 		WHERE a.article_id = $1
 	`,
 		[articleId],

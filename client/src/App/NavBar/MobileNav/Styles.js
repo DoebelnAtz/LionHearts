@@ -1,7 +1,12 @@
 import styled from 'styled-components';
 import { animated } from 'react-spring';
 
-import { color, cursor, font, units } from '../../../Styles';
+import {
+	color,
+	cursor,
+	font,
+	units,
+} from '../../../Styles';
 
 export const MobileNavDiv = styled(animated.div)`
 	background-color: ${color.primary};
@@ -20,11 +25,11 @@ export const MobileNavLinks = styled(animated.div)`
 	width: 100%;
 	position: absolute;
 	z-index: 2;
-	background-color: ${(props) =>
-		props.isMobile ? color.primary : `${color.primary}00`};
+	background-color: ${color.primary}00;
 	flex-direction: column;
 	text-align: center;
 	@media (max-width: 900px) {
+		background-color: ${color.primary};
 		position: fixed;
 	}
 `;
@@ -38,7 +43,10 @@ export const MobileLinkContainer = styled(animated.div)`
 `;
 
 export const MobileNavLink = styled(animated.span)`
-	color: ${(props) => (props.inverse ? `${color.primary}` : `${color.BG0}`)};
+	color: ${(props) =>
+		props.inverse
+			? `${color.primary}`
+			: `${color.BG0}`};
 	${font.DCBold};
 	font-size: 40px;
 	${cursor.clickable};
@@ -50,7 +58,9 @@ export const MobileNavLink = styled(animated.span)`
 	line-height: 70px;
 	& a {
 		color: ${(props) =>
-			props.inverse ? `${color.primary}` : `${color.BG0}`};
+			props.inverse
+				? `${color.primary}`
+				: `${color.BG0}`};
 		text-decoration: none;
 		text-transform: uppercase;
 	}

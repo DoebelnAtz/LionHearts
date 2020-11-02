@@ -18,6 +18,7 @@ import Community from './MainSite/Community';
 import ArticlePage from './MainSite/News/ArticlePage';
 import EventPage from './MainSite/Events/EventPage';
 import NotFound from './MainSite/NotFoundPage';
+import SuccessPage from './MainSite/Apply/SuccessPage';
 
 function App() {
 	const [isMobile] = useWidth();
@@ -47,13 +48,22 @@ function App() {
 							<Route exact path={'/apply'}>
 								<Apply />
 							</Route>
+							<Route
+								exact
+								path={'/apply/success'}
+							>
+								<SuccessPage />
+							</Route>
 							<Route exact path={'/about-us'}>
 								<AboutUs />
 							</Route>
 							<Route exact path={'/events'}>
 								<Events />
 							</Route>
-							<Route exact path={'/events/:aid'}>
+							<Route
+								exact
+								path={'/events/:aid'}
+							>
 								<EventPage />
 							</Route>
 							<Route exact path={'/news'}>
@@ -62,10 +72,16 @@ function App() {
 							<Route exact path={'/404'}>
 								<NotFound />
 							</Route>
-							<Route exact path={'/news/:aid'}>
+							<Route
+								exact
+								path={'/news/:aid'}
+							>
 								<ArticlePage />
 							</Route>
-							<Route exact path={'/community'}>
+							<Route
+								exact
+								path={'/community'}
+							>
 								<Community />
 							</Route>
 						</Switch>

@@ -74,17 +74,17 @@ export const FilterOptionsContainer = styled.div`
 export const DragIcon = styled.div`
 	margin: auto;
 	width: 24px;
-    display: flex;
-    flex-direction: column;
+	display: flex;
+	flex-direction: column;
 `;
 
 export const DragIconLine = styled.div`
 	height: 2px;
 	margin-bottom: 3px;
-    background-color: ${color.BG1};
-    &:last-child {
-    	margin-bottom: 0;
-    }
+	background-color: ${color.BG1};
+	&:last-child {
+		margin-bottom: 0;
+	}
 `;
 
 export const FilterListDragHandle = styled.div`
@@ -200,13 +200,13 @@ export const MemberListCard = styled.div`
 	border-width: 2px;
 	border-color: ${color.tertiary};
 	border-style: solid;
-		transition: all 0.2s;
+	transition: all 0.2s;
 	flex-direction: column;
 	${cursor.clickable};
 	&:hover {
-	box-shadow: 0px 0px 6px 2px ${color.BG2};
-	transform: scale(1.02);
-	background-color: ${color.tertiary};
+		box-shadow: 0px 0px 6px 2px ${color.BG2};
+		transform: scale(1.02);
+		background-color: ${color.tertiary};
 	}
 `;
 

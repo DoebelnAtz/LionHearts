@@ -21,21 +21,29 @@ import PrivacyPolicy from '../../../../assets/files/privacy-statement.pdf';
 import TOS from '../../../../assets/files/tos.pdf';
 import { useLocation, useHistory } from 'react-router-dom';
 import { useGet } from '../../../../Hooks';
-import { getLocal, makeId, setLocal } from '../../../../Utils';
+import {
+	getLocal,
+	makeId,
+	setLocal,
+} from '../../../../Utils';
 
 const ApplyFormSection: React.FC = () => {
 	const location = useLocation();
 	const history = useHistory();
 	const applicationId: any =
 		getLocal('application')?.applicationId ||
-		setLocal('application', { applicationId: makeId(15) });
+		setLocal('application', {
+			applicationId: makeId(15),
+		});
 
-	const [selectedFile, setSelectedFile] = useState<File>();
+	const [selectedFile, setSelectedFile] = useState<
+		File
+	>();
 	// const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
 
-	const [uploadedFiles, setUploadedFiles] = useGet<File[]>(
-		`/files/${applicationId}`,
-	);
+	const [uploadedFiles, setUploadedFiles] = useGet<
+		File[]
+	>(`/files/${applicationId}`);
 
 	const [input, setInput] = useState({
 		email: '',
@@ -113,8 +121,14 @@ const ApplyFormSection: React.FC = () => {
 		const data = new FormData();
 
 		if (!input.legal) {
-			setErrors({ ...errors, legalError: 'required' });
-		} else if (!!selectedFile && selectedFile.size < 50000) {
+			setErrors({
+				...errors,
+				legalError: 'required',
+			});
+		} else if (
+			!!selectedFile &&
+			selectedFile.size < 50000
+		) {
 			data.append('file', selectedFile);
 			try {
 				await makeRequest(
@@ -125,31 +139,50 @@ const ApplyFormSection: React.FC = () => {
 				if (
 					!!uploadedFiles &&
 					!uploadedFiles.find(
-						(file) => file.name === selectedFile.name,
+						(file) =>
+							file.name === selectedFile.name,
 					)
 				) {
-					setUploadedFiles([...uploadedFiles, selectedFile]);
+					setUploadedFiles([
+						...uploadedFiles,
+						selectedFile,
+					]);
 				} else {
-					setErrors({ ...errors, fileError: 'File already added' });
+					setErrors({
+						...errors,
+						fileError: 'File already added',
+					});
 				}
 			} catch (e) {
 				console.log(e);
 			}
 		} else {
-			setErrors({ ...errors, fileError: 'File size exceeds 50kb' });
+			setErrors({
+				...errors,
+				fileError: 'File size exceeds 50kb',
+			});
 		}
 	};
 
-	const handleFileRemoval = async (e: any, fileName: string) => {
+	const handleFileRemoval = async (
+		e: any,
+		fileName: string,
+	) => {
 		e.stopPropagation();
 		try {
-			await makeRequest('/files/delete-file', 'DELETE', {
-				applicationId,
-				fileName,
-			});
+			await makeRequest(
+				'/files/delete-file',
+				'DELETE',
+				{
+					applicationId,
+					fileName,
+				},
+			);
 			uploadedFiles &&
 				setUploadedFiles(
-					uploadedFiles.filter((file) => file.name !== fileName),
+					uploadedFiles.filter(
+						(file) => file.name !== fileName,
+					),
 				);
 		} catch (e) {
 			console.log(e);
@@ -165,7 +198,10 @@ const ApplyFormSection: React.FC = () => {
 						<RemoveFileSpan
 							style={{ marginLeft: 'auto' }}
 							onClick={(e: any) =>
-								handleFileRemoval(e, file.name)
+								handleFileRemoval(
+									e,
+									file.name,
+								)
 							}
 						>
 							remove file
@@ -176,7 +212,9 @@ const ApplyFormSection: React.FC = () => {
 		}
 	};
 
-	const handleSubmit = async (e: React.SyntheticEvent) => {
+	const handleSubmit = async (
+		e: React.SyntheticEvent,
+	) => {
 		e.preventDefault();
 		if (
 			input.email.length &&
@@ -186,29 +224,45 @@ const ApplyFormSection: React.FC = () => {
 			input.legal
 		) {
 			try {
-				await makeRequest('/files/create_application', 'POST', {
-					applicationId: applicationId,
-					firstname: input.firstname,
-					lastname: input.lastname,
-					email: input.email,
-					description: input.description,
-				});
+				await makeRequest(
+					'/files/create_application',
+					'POST',
+					{
+						applicationId: applicationId,
+						firstname: input.firstname,
+						lastname: input.lastname,
+						email: input.email,
+						description: input.description,
+					},
+				);
 			} catch (e) {
-				if (e.response.data.code === 2 || e.response.data.code === 3) {
-					history.push(`/apply?application=${makeId(15)}`);
+				if (
+					e.response.data.code === 2 ||
+					e.response.data.code === 3
+				) {
+					history.push(
+						`/apply?application=${makeId(15)}`,
+					);
 				} else if (e.response.data.code === 1) {
 					setErrors({
 						...errors,
-						emailError: 'This email has already been used',
+						emailError:
+							'This email has already been used',
 					});
 				}
 			}
 		} else {
 			setErrors({
 				...errors,
-				FNError: input.firstname.length ? '' : 'Firstname required',
-				LNError: input.lastname.length ? '' : 'Lastname required',
-				emailError: input.email.length ? '' : 'Email required',
+				FNError: input.firstname.length
+					? ''
+					: 'Firstname required',
+				LNError: input.lastname.length
+					? ''
+					: 'Lastname required',
+				emailError: input.email.length
+					? ''
+					: 'Email required',
 				descriptionError: input.description.length
 					? ''
 					: 'Description required',
@@ -217,12 +271,15 @@ const ApplyFormSection: React.FC = () => {
 		}
 	};
 
+	console.log(!selectedFile || !!errors.fileError.length);
+
 	return (
 		<ApplyContentDiv>
 			<ApplyFormSectionDiv>
 				<ApplyTextDiv>
 					<ApplyHeader>
-						GREAT THAT YOU GOT THIS FAR, TELL US ABOUT YOURSELF!
+						GREAT THAT YOU GOT THIS FAR, TELL US
+						ABOUT YOURSELF!
 					</ApplyHeader>
 				</ApplyTextDiv>
 				<FormDiv>
@@ -235,7 +292,9 @@ const ApplyFormSection: React.FC = () => {
 								value={input.firstname}
 								onChange={handleFNameChange}
 							/>
-							<FormError>{errors.FNError}</FormError>
+							<FormError>
+								{errors.FNError}
+							</FormError>
 						</label>
 						<label>
 							Last name
@@ -245,7 +304,9 @@ const ApplyFormSection: React.FC = () => {
 								value={input.lastname}
 								onChange={handleLNameChange}
 							/>
-							<FormError>{errors.LNError}</FormError>
+							<FormError>
+								{errors.LNError}
+							</FormError>
 						</label>
 						<label>
 							Email address
@@ -255,15 +316,22 @@ const ApplyFormSection: React.FC = () => {
 								value={input.email}
 								onChange={handleEmailChange}
 							/>
-							<FormError>{errors.emailError}</FormError>
+							<FormError>
+								{errors.emailError}
+							</FormError>
 						</label>
 						<label>
-							Why do you want to join Lionhearts?
+							Why do you want to join
+							Lionhearts?
 							<textarea
 								value={input.description}
-								onChange={handleDescriptionChange}
+								onChange={
+									handleDescriptionChange
+								}
 							/>
-							<FormError>{errors.descriptionError}</FormError>
+							<FormError>
+								{errors.descriptionError}
+							</FormError>
 						</label>
 
 						<label>
@@ -271,18 +339,27 @@ const ApplyFormSection: React.FC = () => {
 							<input
 								type={'file'}
 								onChange={(e: any) =>
-									handleFileChange(e.target.files)
+									handleFileChange(
+										e.target.files,
+									)
 								}
 							/>
-							<FormError>{errors.fileError}</FormError>
+							<FormError>
+								{errors.fileError}
+							</FormError>
 						</label>
 						<button
-							disabled={!selectedFile}
+							disabled={
+								!selectedFile ||
+								!!errors.fileError.length
+							}
 							onClick={handleFileUpload}
 						>
 							UPLOAD FILE
 						</button>
-						{!!uploadedFiles?.length && <p>Uploaded files:</p>}
+						{!!uploadedFiles?.length && (
+							<p>Uploaded files:</p>
+						)}
 						{renderUploadedFiles()}
 						<LegalRow>
 							<LegalCheckDiv>
@@ -302,14 +379,21 @@ const ApplyFormSection: React.FC = () => {
 										Terms of service
 									</LegalLink>{' '}
 									and{' '}
-									<LegalLink href={PrivacyPolicy}>
+									<LegalLink
+										href={PrivacyPolicy}
+									>
 										Privacy Policy
 									</LegalLink>
 								</LegalCheckTitle>
 							</LegalCheckDiv>
-							<FormError>{errors.legalError}</FormError>
+							<FormError>
+								{errors.legalError}
+							</FormError>
 						</LegalRow>
-						<button type={'submit'} onClick={handleSubmit}>
+						<button
+							type={'submit'}
+							onClick={handleSubmit}
+						>
 							SUBMIT
 						</button>
 					</ApplyForm>

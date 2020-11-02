@@ -2,7 +2,8 @@ const express = require('express');
 const { check } = require('express-validator');
 const authRouter = express.Router();
 import {
-	checkSignupAuth, checkToken,
+	checkSignupAuth,
+	checkToken,
 	login,
 	refreshToken,
 	saveSubscription,
@@ -11,7 +12,7 @@ import {
 
 authRouter.get('/signup/check_auth', checkSignupAuth);
 
-authRouter.get('/check_token', checkToken)
+authRouter.get('/check_token', checkToken);
 
 authRouter.post(
 	'/signup',

@@ -1,4 +1,9 @@
-import React, { ChangeEvent, SyntheticEvent, useEffect, useState } from 'react';
+import React, {
+	ChangeEvent,
+	SyntheticEvent,
+	useEffect,
+	useState,
+} from 'react';
 import queryString from 'query-string';
 import { useHistory, useLocation } from 'react-router';
 
@@ -11,10 +16,10 @@ import {
 	LionheartsLogoDiv,
 	ProfilePicInput,
 	ProfilePicPreview,
-	ProfilePicUploadButton,
 	ProfilePicUploadDiv,
 	SignupDiv,
 	SignupDivContainer,
+	AnimatedLabeledSignupInput,
 	SignupForm,
 } from './Styles';
 import LionHeartsLogo from '../../assets/images/logo_complete_blue.svg';
@@ -29,13 +34,16 @@ const acceptedTypes = ['image/jpeg', 'image/png'];
 const Signup: React.FC = () => {
 	const history = useHistory();
 	const location = useLocation();
-	const [selectedFile, setSelectedFile] = useState<File>();
+	const [selectedFile, setSelectedFile] = useState<
+		File
+	>();
 	const applicationId: any =
-		queryString.parse(location.search)?.id || history.push(`/`);
+		queryString.parse(location.search)?.id ||
+		history.push(`/`);
 
-	const [application, setApplication] = useGet<Application>(
-		`/auth/signup/check_auth?id=${applicationId}`,
-	);
+	const [application, setApplication] = useGet<
+		Application
+	>(`/auth/signup/check_auth?id=${applicationId}`);
 	const [errors, setErrors] = useState({
 		passError: '',
 		confError: '',
@@ -68,7 +76,9 @@ const Signup: React.FC = () => {
 		});
 	};
 
-	const handlePasswordConfirmationChange = (e: ChangeEvent) => {
+	const handlePasswordConfirmationChange = (
+		e: ChangeEvent,
+	) => {
 		let target = e.target as HTMLInputElement;
 
 		setInput({
@@ -80,12 +90,17 @@ const Signup: React.FC = () => {
 	const handleFileUpload = async (event: any) => {
 		const data = new FormData();
 
-		if (!!selectedFile && selectedFile.size < 80000 && application) {
+		if (
+			!!selectedFile &&
+			selectedFile.size < 80000 &&
+			application
+		) {
 			data.append('file', selectedFile);
 			try {
 				await makeRequest(
 					`/files/upload-file/profile-pictures/${(
-						application.firstname + application.lastname.charAt(0)
+						application.firstname +
+						application.lastname.charAt(0)
 					).toLowerCase()}`,
 					'POST',
 					data,
@@ -102,27 +117,51 @@ const Signup: React.FC = () => {
 		if (
 			!!input.phone.length &&
 			!!input.password.length &&
-			input.password === input.passwordConfirmation &&
 			application &&
 			selectedFile
 		) {
-
-
-			try {
-				await handleFileUpload(event);
-				await makeRequest('/auth/signup', 'POST', {
-					firstname: application.firstname,
-					lastname: application.lastname,
-					email: application.email,
-					password: input.password,
-					phone: input.phone,
-					profilePic: selectedFile.name,
-					applicationId: application.application_id,
+			if (
+				input.password ===
+				input.passwordConfirmation
+			) {
+				try {
+					await handleFileUpload(event);
+					await makeRequest(
+						'/auth/signup',
+						'POST',
+						{
+							firstname:
+								application.firstname,
+							lastname: application.lastname,
+							email: application.email,
+							password: input.password,
+							phone: input.phone,
+							profilePic: selectedFile.name,
+							applicationId:
+								application.application_id,
+						},
+					);
+					history.push('/login');
+				} catch (e) {
+					return false;
+				}
+			} else {
+				setErrors({
+					...errors,
+					passError: "password doesn't match",
+					confError: "password doesn't match",
 				});
-			} catch (e) {
-				console.log(e);
-				return false;
 			}
+		} else {
+			setErrors({
+				...errors,
+				phoneError: !input.phone.length
+					? 'required'
+					: '',
+				passError: !input.password.length
+					? 'required'
+					: '',
+			});
 		}
 		return true;
 	};
@@ -135,7 +174,9 @@ const Signup: React.FC = () => {
 					...errors,
 					fileError: 'File size exceeds 80kb',
 				});
-			} else if (!acceptedTypes.includes(targetFile.type)) {
+			} else if (
+				!acceptedTypes.includes(targetFile.type)
+			) {
 				setErrors({
 					...errors,
 					fileError: 'Allowed formats: jpeg, png',
@@ -155,34 +196,56 @@ const Signup: React.FC = () => {
 			{application && (
 				<SignupDivContainer>
 					<LionheartsLogoDiv>
-						<LionheartsLogo src={LionHeartsLogo} />
+						<LionheartsLogo
+							src={LionHeartsLogo}
+						/>
 					</LionheartsLogoDiv>
 					<ApplicantInfoDiv>
-						<ApplicantLabel>Firstname:</ApplicantLabel>
-						<ApplicantInfo>{application?.firstname}</ApplicantInfo>
-					</ApplicantInfoDiv>
-					<ApplicantInfoDiv>
-						<ApplicantLabel>Lastname:</ApplicantLabel>
-						<ApplicantInfo>{application?.lastname}</ApplicantInfo>
-					</ApplicantInfoDiv>
-					<ApplicantInfoDiv>
-						<ApplicantLabel>Username:</ApplicantLabel>
+						<ApplicantLabel>
+							Firstname:
+						</ApplicantLabel>
 						<ApplicantInfo>
-							{(
-								application?.firstname +
-								application?.lastname.charAt(0)
-							).toLowerCase()}
+							{application?.firstname}
 						</ApplicantInfo>
 					</ApplicantInfoDiv>
 					<ApplicantInfoDiv>
-						<ApplicantLabel>Email:</ApplicantLabel>
-						<ApplicantInfo>{application?.email}</ApplicantInfo>
+						<ApplicantLabel>
+							Lastname:
+						</ApplicantLabel>
+						<ApplicantInfo>
+							{application?.lastname}
+						</ApplicantInfo>
+					</ApplicantInfoDiv>
+					<ApplicantInfoDiv>
+						<ApplicantLabel>
+							Username:
+						</ApplicantLabel>
+						<ApplicantInfo>
+							{(
+								application?.firstname +
+								application?.lastname.charAt(
+									0,
+								)
+							)
+								.toLowerCase()
+								.trim()}
+						</ApplicantInfo>
+					</ApplicantInfoDiv>
+					<ApplicantInfoDiv>
+						<ApplicantLabel>
+							Email:
+						</ApplicantLabel>
+						<ApplicantInfo>
+							{application?.email}
+						</ApplicantInfo>
 					</ApplicantInfoDiv>
 					<ProfilePicUploadDiv>
 						<ProfilePicPreview
 							src={
 								selectedFile &&
-								URL.createObjectURL(selectedFile)
+								URL.createObjectURL(
+									selectedFile,
+								)
 							}
 						/>
 						<label>
@@ -190,53 +253,90 @@ const Signup: React.FC = () => {
 							<ProfilePicInput
 								type={'file'}
 								onChange={(e: any) =>
-									handleFileChange(e.target.files)
+									handleFileChange(
+										e.target.files,
+									)
 								}
 							/>
 						</label>
-						<ErrorSpan>{errors.fileError}</ErrorSpan>
+						<ErrorSpan>
+							{errors.fileError}
+						</ErrorSpan>
 					</ProfilePicUploadDiv>
 					<SignupForm>
-						<form>
-							<AnimatedLabeledInputDiv>
+						<form autoComplete={'off'}>
+							<AnimatedLabeledSignupInput>
 								<input
 									name={'phone'}
 									autoComplete={'off'}
 									value={input.phone}
-									onChange={handlePhoneChange}
-									type={'text'}
+									onChange={
+										handlePhoneChange
+									}
+									type={'tel'}
 									required
 								/>
 								<label htmlFor={'phone'}>
-									<span>Phone</span>
+									<span>
+										Phone number
+									</span>
 								</label>
-							</AnimatedLabeledInputDiv>
-							<AnimatedLabeledInputDiv>
+							</AnimatedLabeledSignupInput>
+							<ErrorSpan>
+								{errors.phoneError}
+							</ErrorSpan>
+							<AnimatedLabeledSignupInput>
 								<input
-									autoComplete={'new-password'}
+									autoComplete={
+										'new-password'
+									}
 									type={'password'}
 									value={input.password}
-									onChange={handlePasswordChange}
+									onChange={
+										handlePasswordChange
+									}
 									required
 								/>
 								<label htmlFor={'password'}>
 									<span>Password</span>
 								</label>
-							</AnimatedLabeledInputDiv>
-							<AnimatedLabeledInputDiv>
+							</AnimatedLabeledSignupInput>
+							<ErrorSpan>
+								{errors.passError}
+							</ErrorSpan>
+							<AnimatedLabeledSignupInput>
 								<input
-									autoComplete={'new-password'}
-									type={'password-confirmation'}
-									name={'confirm-password'}
-									value={input.passwordConfirmation}
-									onChange={handlePasswordConfirmationChange}
+									autoComplete={
+										'new-password'
+									}
+									type={'password'}
+									name={
+										'confirm-password'
+									}
+									value={
+										input.passwordConfirmation
+									}
+									onChange={
+										handlePasswordConfirmationChange
+									}
 									required
 								/>
-								<label htmlFor={'confirm-password'}>
-									<span>Confirm Password</span>
+								<label
+									htmlFor={
+										'confirm-password'
+									}
+								>
+									<span>
+										Confirm Password
+									</span>
 								</label>
-							</AnimatedLabeledInputDiv>
-							<LoadingButton onClick={handleSignup}>
+							</AnimatedLabeledSignupInput>
+							<ErrorSpan>
+								{errors.confError}
+							</ErrorSpan>
+							<LoadingButton
+								onClick={handleSignup}
+							>
 								Signup
 							</LoadingButton>
 						</form>

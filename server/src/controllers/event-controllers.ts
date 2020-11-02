@@ -55,7 +55,7 @@ export const getCommentsByEventId = catchErrors(async (req, res) => {
 	let comments = await query(
 		`
 		SELECT c_id, created, content, creator, u.username, u.profile_pic 
-		FROM comments JOIN users u
+		FROM comments LEFT JOIN users u
 		ON creator = u.u_id 
 		WHERE e_id = $1
 	`,
@@ -69,8 +69,11 @@ export const getChildCommentsByCommentId = catchErrors(async (req, res) => {
 
 	let comments = await query(
 		`
-		SELECT cc_id, created, content, creator, u.username, u.profile_pic 
-		FROM child_comments JOIN users u
+		SELECT cc_id, created, content, 
+		COALESCE(creator, 0) as creator, 
+		COALESCE(u.username, 'deleted') as username, 
+		u.profile_pic 
+		FROM child_comments LEFT JOIN users u
 		ON creator = u.u_id 
 		WHERE parent = $1
 	`,
@@ -84,7 +87,10 @@ export const getEventById = catchErrors(async (req, res) => {
 
 	let event = await query(
 		`
-		SELECT e.e_id, e.title, e.time, u.u_id, u.username, u.firstname, u.lastname FROM events e JOIN users u ON e.creator = u.u_id WHERE e.e_id = $1
+		SELECT e.e_id, e.title, e.time, u.u_id, COALESCE(u.username, 'deleted') AS username, 
+		COALESCE(u.firstname, 'user deleted') AS firstname, 
+		COALESCE(u.lastname, '') AS lastname 
+		FROM events e LEFT JOIN users u ON e.creator = u.u_id WHERE e.e_id = $1
 	`,
 		[eid],
 	);
@@ -107,8 +113,11 @@ export const getEventById = catchErrors(async (req, res) => {
 
 	let eventComments = await query(
 		`
-		SELECT c_id, created, content, creator, u.username, u.profile_pic 
-		FROM comments JOIN users u
+		SELECT c_id, created, 
+		content, creator, 
+		COALESCE(u.username, '[deleted]') as username, 
+		u.profile_pic 
+		FROM comments LEFT JOIN users u
 		ON creator = u.u_id 
 		WHERE e_id = $1
 	`,

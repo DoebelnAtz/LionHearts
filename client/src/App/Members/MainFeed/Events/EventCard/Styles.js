@@ -1,16 +1,27 @@
 import styled from 'styled-components';
-import { color, units, font, cursor } from '../../../../../Styles';
+import {
+	color,
+	units,
+	font,
+	cursor,
+} from '../../../../../Styles';
 
 export const EventCardDiv = styled.div`
 	width: calc(100% - ${units.margin} * 2);
 	padding: ${units.margin};
 	${cursor.clickable};
 	background-color: ${(props) =>
-		props.highlighted ? `${color.primary}20` : color.BG0};
+		props.highlighted
+			? `${color.primary}20`
+			: color.BG0};
 	border: 2px solid
-		${(props) => (props.highlighted ? color.secondary : color.primary)};
+		${(props) =>
+			props.highlighted
+				? color.secondary
+				: color.primary};
 	transition: all 0.1s;
-	transform: ${(props) => (props.highlighted ? `scale(1.02)` : 'scale(1)')};
+	transform: ${(props) =>
+		props.highlighted ? `scale(1.02)` : 'scale(1)'};
 	margin-bottom: ${units.margin};
 	&:nth-child(2n) {
 		margin-right: 0;

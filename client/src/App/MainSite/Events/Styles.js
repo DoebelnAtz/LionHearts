@@ -10,28 +10,31 @@ export const EventsPage = styled.div`
 `;
 
 export const EventsDiv = styled.div`
-	max-width: 1200px;
-	margin: ${units.margin} auto auto auto;
-	width: 100%;
-
+	width: calc(100% - min(10vw, 100px) * 2);
+	margin: 30px min(10vw, 100px);
+	background-color: ${color.BG0};
+	display: flex;
 	background-color: ${color.BG0};
 `;
 
 export const EventCard = styled.div`
-	min-width: calc(33% - 15px);
 	${cursor.clickable};
+	width: calc(33% - calc(40px / 3));
 	display: flex;
+	margin-bottom: 40px;
 	flex-direction: column;
+	transition: all 0.2s ease-in-out;
 	&:hover {
+		background-color: ${color.tertiary};
 		& .thumbnail {
-			transition: background-color 0.2s;
 			background-color: ${color.primary};
 		}
 	}
 	@media (max-width: 900px) {
 		flex-direction: row;
+
 		width: calc(100% - ${units.margin});
-		margin: ${units.margin} ${units.margin} 0 ${units.margin}!important;
+		margin: ${units.margin} 0 20px 0 !important;
 	}
 `;
 
@@ -39,50 +42,54 @@ export const EventList = styled.div`
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
-	& ${EventCard}:nth-child(3n + 3) {
-		margin: ${units.margin} ${units.margin} 0 ${units.margin};
-	}
-	& ${EventCard} {
-		margin: ${units.margin} 0 0 ${units.margin};
+	width: 100%;
+	& ${EventCard}:nth-child(3n+2) {
+		margin: 0 20px 40px 20px;
 	}
 `;
 
 export const EventCardContentContainer = styled.div`
-	width: 80%;
+	width: 100%;
 	display: flex;
+	padding: 10px;
+	min-height: 100px;
 	flex-direction: column;
-	margin: auto;
+	margin: 0;
 	@media (max-width: 900px) {
-		margin: ${units.margin}!important;
+		height: calc(12vw - 20px);
+		min-height: 70px;
+
+		margin: 0 !important;
 	}
 `;
 
 export const EventCardThumbnail = styled.div`
-	width: 90%;
-	margin: ${units.margin} auto;
-	max-width: 22vw;
-	min-width: 160px;
+	width: 100%;
 	min-height: 90px;
+	min-width: 140px;
 	height: 12vw;
+	@media (max-width: 900px) {
+		width: 140px;
+	}
 `;
 
 export const EventCardTitle = styled.span`
 	${font.DCBold};
-	margin: ${units.margin} auto 0 0;
+	margin: ${units.margin} 0 auto 0;
 	font-size: 26px;
 	color: ${color.primary};
 	@media (max-width: 900px) {
-		font-size: calc(10px + 4vw);
-		font-min-size: 20px;
+		font-size: calc(14px + 2vw);
+		margin: ${units.margin} auto 0 ${units.margin};
 	}
 `;
 
 export const EventCardDate = styled.span`
 	${font.DCBold};
-	margin: ${units.margin} auto ${units.margin} 0;
+	margin: auto auto 0 0;
 	color: ${color.secondary};
 	font-size: 16px;
 	@media (max-width: 900px) {
-		font-size: calc(10px + 2vw);
+		margin: ${units.margin} auto 0 ${units.margin};
 	}
 `;

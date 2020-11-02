@@ -19,7 +19,7 @@ export const signup = catchErrors(async (req, res) => {
 		profilePic,
 		phone,
 	} = req.body;
-	const username = (firstname + lastname.charAt(0)).toLowerCase();
+	const username = (firstname + lastname.charAt(0)).toLowerCase().trim();
 	let application = await query(
 		`
 			SELECT application_id, 
@@ -203,7 +203,7 @@ export const checkToken = catchErrors(async (req, res) => {
 						message: 'Invalid token',
 					});
 				} else {
-					return res.json({success: true})
+					return res.json({ success: true });
 				}
 			},
 		);
@@ -214,7 +214,6 @@ export const checkToken = catchErrors(async (req, res) => {
 		});
 	}
 }, 'Failed to check token');
-
 
 export const checkUserAuth = catchErrors(async (req, res) => {
 	let { role } = req.decoded;

@@ -1,5 +1,11 @@
 import styled from 'styled-components';
-import { color, components, cursor, font, units } from '../../../Styles';
+import {
+	color,
+	components,
+	cursor,
+	font,
+	units,
+} from '../../../Styles';
 
 export const ThumbnailDiv = styled.div`
 	width: 100%;
@@ -13,9 +19,8 @@ export const ThumbnailDiv = styled.div`
 	${cursor.clickable};
 	background-blend-mode: multiply;
 	background-color: ${color.primary}90;
+	transition: background-color 0.2s ease-in-out;
 	&:hover {
 		background-color: ${color.primary};
-
-		transition: background-color 0.2s;
 	}
 `;

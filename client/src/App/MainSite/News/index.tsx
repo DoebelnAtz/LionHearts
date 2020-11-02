@@ -20,7 +20,9 @@ import { url } from '../../../config';
 import { getLocalDateFormat } from '../../../Utils';
 
 const News: React.FC = () => {
-	const [events, setEvents] = useGet<AuthoredArticle[]>('/articles-no-token');
+	const [events, setEvents] = useGet<AuthoredArticle[]>(
+		'/articles-no-token',
+	);
 	const history = useHistory();
 
 	const handleCardClick = (id: number) => {
@@ -33,7 +35,9 @@ const News: React.FC = () => {
 				return (
 					<NewsCard
 						onClick={() =>
-							handleCardClick(event.article.article_id)
+							handleCardClick(
+								event.article.article_id,
+							)
 						}
 						key={event.article.article_id}
 					>
@@ -43,10 +47,13 @@ const News: React.FC = () => {
 							/>
 						</NewsCardThumbnail>
 						<NewsCardContentContainer>
-							<NewsCardTitle>{event.article.title}</NewsCardTitle>
+							<NewsCardTitle>
+								{event.article.title}
+							</NewsCardTitle>
 							<NewsCardDate>
 								{getLocalDateFormat(
-									event.article.published_date,
+									event.article
+										.published_date,
 								)}
 							</NewsCardDate>
 						</NewsCardContentContainer>
