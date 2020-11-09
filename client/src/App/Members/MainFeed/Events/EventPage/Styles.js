@@ -1,5 +1,10 @@
 import styled from 'styled-components';
-import { color, components, font, units } from '../../../../../Styles';
+import {
+	color,
+	components,
+	font,
+	units,
+} from '../../../../../Styles';
 import { animated } from 'react-spring';
 
 export const EventPageDiv = styled.div`
@@ -12,6 +17,7 @@ export const EventPageDiv = styled.div`
 export const EventPageInfoDiv = styled.div`
 	background-color: ${color.tertiary};
 	padding: 5%;
+	height: initial;
 	display: flex;
 	flex-direction: column;
 	width: calc(90%);
@@ -83,8 +89,10 @@ export const EventPageCreator = styled.span`
 export const CreateCommentDiv = styled(animated.div)`
 	width: 100%;
 	margin-top: 20px;
-	height: 40px;
 	overflow-y: hidden;
+	transition: height 0.2s ease-in-out;
+	height: ${(props) =>
+		props.expanded ? '250px' : '40px'};
 `;
 
 export const CreateCommentEditor = styled(animated.div)`

@@ -1,5 +1,10 @@
 import styled from 'styled-components';
-import { font, color, cursor, units } from '../../../../../Styles';
+import {
+	font,
+	color,
+	cursor,
+	units,
+} from '../../../../../Styles';
 import { Link } from 'react-router-dom';
 
 export const NavItemDiv = styled.div`
@@ -9,10 +14,13 @@ export const NavItemDiv = styled.div`
 	padding: 5px 5px;
 	display: flex;
 	margin: 5px auto;
+	transition: all 0.1s;
 	border-bottom: 5px solid
-		${(props) => (props.highlighted ? color.secondary : color.BG0)};
+		${(props) =>
+			props.highlighted
+				? color.secondary
+				: color.BG0};
 	&:hover {
-		transition: background-color 0.1s;
 		height: 35px;
 		border-bottom: 5px solid ${color.secondary};
 	}

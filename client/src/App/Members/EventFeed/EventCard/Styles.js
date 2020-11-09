@@ -1,12 +1,19 @@
 import styled from 'styled-components';
-import { color, units, font, cursor } from '../../../../Styles';
+import {
+	color,
+	units,
+	font,
+	cursor,
+} from '../../../../Styles';
 
 export const EventCardDiv = styled.div`
 	width: calc(100% - ${units.margin} * 2);
 	padding: ${units.margin};
 	${cursor.clickable};
 	background-color: ${(props) =>
-		props.highlighted ? `${color.primary}20` : color.BG0};
+		props.highlighted
+			? `${color.primary}20`
+			: color.BG0};
 	border-top: 2px solid ${color.BG1};
 	transition: background-color 0.1s;
 	&:hover {
@@ -25,6 +32,9 @@ export const EventCardResponseRow = styled.div`
 	width: 100%;
 	margin-top: 10px;
 	${font.RReg};
+	& span {
+		font-size: 16px;
+	}
 	& div {
 		margin-left: auto;
 	}

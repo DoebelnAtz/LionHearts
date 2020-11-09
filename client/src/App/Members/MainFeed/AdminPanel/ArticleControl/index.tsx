@@ -1,4 +1,9 @@
-import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
+import React, {
+	ChangeEvent,
+	useEffect,
+	useRef,
+	useState,
+} from 'react';
 import ReactQuill from 'react-quill';
 import {
 	AddArticleAuthor,
@@ -20,7 +25,11 @@ import {
 	ArticleEventTitle,
 } from './Styles';
 import { useGet } from '../../../../../Hooks';
-import { AuthoredArticle, Option, Profile } from '../../../../../@types';
+import {
+	AuthoredArticle,
+	Option,
+	Profile,
+} from '../../../../../@types';
 import TextEditor from '../../../../Components/TextEditor';
 import DropDownComponent from '../../../../Components/DropDown';
 import { makeRequest } from '../../../../../Api';
@@ -35,11 +44,13 @@ import ToggleButton from '../../../../Components/ToggleButton';
 const acceptedTypes = ['image/jpeg', 'image/png'];
 
 const ArticleControl: React.FC = () => {
-	const [articles, setArticles] = useGet<AuthoredArticle[]>(
-		'/articles-no-token?events=all',
-	);
+	const [articles, setArticles] = useGet<
+		AuthoredArticle[]
+	>('/articles-no-token?events=all');
 	const [adding, setAdding] = useState(true);
-	const [users, setUsers] = useGet<Profile[]>('/profiles');
+	const [users, setUsers] = useGet<Profile[]>(
+		'/profiles',
+	);
 	const editor = useRef(null);
 
 	const [errors, setErrors] = useState({
@@ -48,21 +59,38 @@ const ArticleControl: React.FC = () => {
 
 	const imageHandler = (image: any, callback: any) => {
 		// @ts-ignore
-		var range = editor.current.getEditor().getSelection();
+		var range = editor.current
+			.getEditor()
+			.getSelection();
 		var value = prompt('What is the image URL');
 		if (value) {
 			// @ts-ignore
 			editor.current
 				.getEditor()
-				.insertEmbed(range.index, 'image', value, 'user');
+				.insertEmbed(
+					range.index,
+					'image',
+					value,
+					'user',
+				);
 		}
 	};
 	let modules: any = {
 		toolbar: {
 			container: [
-				[{ header: '1' }, { header: '2' }, { font: [] }],
+				[
+					{ header: '1' },
+					{ header: '2' },
+					{ font: [] },
+				],
 				[{ size: [] }],
-				['bold', 'italic', 'underline', 'strike', 'blockquote'],
+				[
+					'bold',
+					'italic',
+					'underline',
+					'strike',
+					'blockquote',
+				],
 				[
 					{ list: 'ordered' },
 					{ list: 'bullet' },
@@ -81,9 +109,19 @@ const ArticleControl: React.FC = () => {
 		modules = {
 			toolbar: {
 				container: [
-					[{ header: '1' }, { header: '2' }, { font: [] }],
+					[
+						{ header: '1' },
+						{ header: '2' },
+						{ font: [] },
+					],
 					[{ size: [] }],
-					['bold', 'italic', 'underline', 'strike', 'blockquote'],
+					[
+						'bold',
+						'italic',
+						'underline',
+						'strike',
+						'blockquote',
+					],
 					[
 						{ list: 'ordered' },
 						{ list: 'bullet' },
@@ -103,7 +141,9 @@ const ArticleControl: React.FC = () => {
 			},
 		};
 	}, [editor.current]);
-	const [newArticle, setNewArticle] = useState<AuthoredArticle>({
+	const [newArticle, setNewArticle] = useState<
+		AuthoredArticle
+	>({
 		article: {
 			article_id: 0,
 			content: '',
@@ -112,27 +152,41 @@ const ArticleControl: React.FC = () => {
 			published_date: '',
 			title: '',
 		},
-		author: { firstname: '', lastname: '', profile_pic: '', u_id: 0 },
+		author: {
+			firstname: '',
+			lastname: '',
+			profile_pic: '',
+			u_id: 0,
+		},
 	});
 
-	const handleNewArticleContentChange = (newContent: string) => {
+	const handleNewArticleContentChange = (
+		newContent: string,
+	) => {
 		setNewArticle({
 			...newArticle,
-			article: { ...newArticle.article, content: newContent },
+			article: {
+				...newArticle.article,
+				content: newContent,
+			},
 		});
 	};
-	const [selectedFile, setSelectedFile] = useState<File>();
+	const [selectedFile, setSelectedFile] = useState<
+		File
+	>();
 
 	const expand = useSpring({
 		height: adding ? '560px' : '0px',
-		margin: adding ? '10px 10px' : '0px 10px',
 	});
 
 	const handleArticleCreation = async () => {
 		const data = new FormData();
 
 		try {
-			if (!selectedFile || !newArticle.article.content) {
+			if (
+				!selectedFile ||
+				!newArticle.article.content
+			) {
 			} else if (!newArticle.article.title) {
 			} else if (!newArticle.author.u_id) {
 			} else {
@@ -162,7 +216,9 @@ const ArticleControl: React.FC = () => {
 		}
 	};
 
-	const handleNewArticleUserChange = (newUser: Option) => {
+	const handleNewArticleUserChange = (
+		newUser: Option,
+	) => {
 		newUser.id &&
 			setNewArticle({
 				...newArticle,
@@ -174,7 +230,9 @@ const ArticleControl: React.FC = () => {
 			});
 	};
 
-	const handleNewArticleTitleChange = (e: ChangeEvent) => {
+	const handleNewArticleTitleChange = (
+		e: ChangeEvent,
+	) => {
 		let target = e.target as HTMLInputElement;
 		setNewArticle({
 			...newArticle,
@@ -215,7 +273,9 @@ const ArticleControl: React.FC = () => {
 					...errors,
 					fileError: 'File size exceeds 80kb',
 				});
-			} else if (!acceptedTypes.includes(targetFile.type)) {
+			} else if (
+				!acceptedTypes.includes(targetFile.type)
+			) {
 				setErrors({
 					...errors,
 					fileError: 'Allowed formats: jpeg, png',
@@ -242,7 +302,9 @@ const ArticleControl: React.FC = () => {
 
 	return (
 		<ArticleControlDiv>
-			<NewArticleButton onClick={() => setAdding(!adding)}>
+			<NewArticleButton
+				onClick={() => setAdding(!adding)}
+			>
 				New Article
 			</NewArticleButton>
 			<AddArticleDiv style={expand}>
@@ -251,7 +313,9 @@ const ArticleControl: React.FC = () => {
 						<Thumbnail
 							url={
 								selectedFile
-									? URL.createObjectURL(selectedFile)
+									? URL.createObjectURL(
+											selectedFile,
+									  )
 									: `${url}/api/photos/${newArticle.article.thumbnail}`
 							}
 						/>
@@ -260,8 +324,12 @@ const ArticleControl: React.FC = () => {
 						<AddArticleTitle>
 							Title
 							<input
-								value={newArticle.article.title}
-								onChange={handleNewArticleTitleChange}
+								value={
+									newArticle.article.title
+								}
+								onChange={
+									handleNewArticleTitleChange
+								}
 								placeholder={'title'}
 							/>
 						</AddArticleTitle>
@@ -272,17 +340,24 @@ const ArticleControl: React.FC = () => {
 							{users && (
 								<DropDownComponent
 									state={
-										newArticle.author.firstname || 'author'
+										newArticle.author
+											.firstname ||
+										'author'
 									}
-									setSelect={handleNewArticleUserChange}
-									optionList={users?.map((user) => {
-										return {
-											option: user.firstname,
-											id: user.u_id,
-										};
-									})}
+									setSelect={
+										handleNewArticleUserChange
+									}
+									optionList={users?.map(
+										(user) => {
+											return {
+												option:
+													user.firstname,
+												id:
+													user.u_id,
+											};
+										},
+									)}
 									width={'100px'}
-									height={'24px'}
 								/>
 							)}
 						</AddArticleAuthor>
@@ -291,27 +366,41 @@ const ArticleControl: React.FC = () => {
 				<ArticleOptionRow>
 					<ArticleThumbnailInput
 						type={'file'}
-						onChange={(e: any) => handleFileChange(e.target.files)}
+						onChange={(e: any) =>
+							handleFileChange(e.target.files)
+						}
 					/>
-					<ArticleEventTitle>Event: </ArticleEventTitle>
+					<ArticleEventTitle>
+						Event:{' '}
+					</ArticleEventTitle>
 					<ToggleButton
 						state={newArticle.article.isevent}
 						onClick={handleEventToggle}
 					/>
 				</ArticleOptionRow>
 				<ErrorSpan>{errors.fileError}</ErrorSpan>
-				<AddArticleContentTitle>Content</AddArticleContentTitle>
-				<AddArticleContentDiv className={'editor-container'}>
+				<AddArticleContentTitle>
+					Content
+				</AddArticleContentTitle>
+				<AddArticleContentDiv
+					className={'editor-container'}
+				>
 					<QuillEditor
-						onChange={handleNewArticleContentChange}
+						onChange={
+							handleNewArticleContentChange
+						}
 						value={newArticle.article.content}
 					/>
 				</AddArticleContentDiv>
-				<LoadingButton onClick={handleArticleCreation}>
+				<LoadingButton
+					onClick={handleArticleCreation}
+				>
 					SUBMIT
 				</LoadingButton>
 			</AddArticleDiv>
-			<ArticleListDiv>{renderArticles()}</ArticleListDiv>
+			<ArticleListDiv>
+				{renderArticles()}
+			</ArticleListDiv>
 		</ArticleControlDiv>
 	);
 };

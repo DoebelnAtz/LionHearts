@@ -16,6 +16,7 @@ import {
 import {
 	AddArticleAuthor,
 	AddArticleAuthorTitle,
+	AddArticleContainer,
 	AddArticleContentDiv,
 	AddArticleContentTitle,
 	AddArticleDiv,
@@ -54,9 +55,13 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
 	users,
 }) => {
 	const [editing, setEditing] = useState(false);
-	const [selectedFile, setSelectedFile] = useState<File>();
+	const [selectedFile, setSelectedFile] = useState<
+		File
+	>();
 
-	const [editedArticle, setEditedArticle] = useState<AuthoredArticle>({
+	const [editedArticle, setEditedArticle] = useState<
+		AuthoredArticle
+	>({
 		article,
 		author,
 	});
@@ -67,7 +72,6 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
 
 	const expand = useSpring({
 		height: editing ? '760px' : '0px',
-		margin: editing ? '10px 10px' : '0 10px',
 	});
 
 	const handleFileChange = (files: FileList) => {
@@ -79,7 +83,9 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
 					...errors,
 					fileError: 'File size exceeds 80kb',
 				});
-			} else if (!acceptedTypes.includes(targetFile.type)) {
+			} else if (
+				!acceptedTypes.includes(targetFile.type)
+			) {
 				setErrors({
 					...errors,
 					fileError: 'Allowed formats: jpeg, png',
@@ -94,10 +100,15 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
 		}
 	};
 
-	const handleNewArticleContentChange = (newContent: string) => {
+	const handleNewArticleContentChange = (
+		newContent: string,
+	) => {
 		setEditedArticle({
 			...editedArticle,
-			article: { ...editedArticle.article, content: newContent },
+			article: {
+				...editedArticle.article,
+				content: newContent,
+			},
 		});
 	};
 
@@ -106,7 +117,8 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
 
 		try {
 			if (
-				(!selectedFile && !editedArticle.article.thumbnail) ||
+				(!selectedFile &&
+					!editedArticle.article.thumbnail) ||
 				!editedArticle.article.content
 			) {
 			} else if (!editedArticle.article.title) {
@@ -124,14 +136,18 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
 					'/articles/update_article',
 					'PUT',
 					{
-						content: editedArticle.article.content,
+						content:
+							editedArticle.article.content,
 						author: editedArticle.author.u_id,
 						title: editedArticle.article.title,
 						thumbnail:
 							selectedFile?.name ||
 							editedArticle.article.thumbnail,
-						isevent: editedArticle.article.isevent,
-						articleId: editedArticle.article.article_id,
+						isevent:
+							editedArticle.article.isevent,
+						articleId:
+							editedArticle.article
+								.article_id,
 					},
 				);
 				return true;
@@ -143,7 +159,9 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
 		}
 	};
 
-	const handleNewArticleUserChange = (newUser: Option) => {
+	const handleNewArticleUserChange = (
+		newUser: Option,
+	) => {
 		newUser.id &&
 			setEditedArticle({
 				...editedArticle,
@@ -155,7 +173,9 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
 			});
 	};
 
-	const handleNewArticleTitleChange = (e: ChangeEvent) => {
+	const handleNewArticleTitleChange = (
+		e: ChangeEvent,
+	) => {
 		let target = e.target as HTMLInputElement;
 		setEditedArticle({
 			...editedArticle,
@@ -178,12 +198,17 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
 
 	return (
 		<ArticleCardDiv key={article.article_id}>
-			<ArticleCardContents onClick={() => setEditing(!editing)}>
+			<ArticleCardContents
+				onClick={() => setEditing(!editing)}
+			>
 				<ArticleCardTitle>
 					{editedArticle.article.title}
 				</ArticleCardTitle>
 				<ArticleCardTime>
-					{getLocalTimeFormat(editedArticle.article.published_date)}
+					{getLocalTimeFormat(
+						editedArticle.article
+							.published_date,
+					)}
 				</ArticleCardTime>
 				<ArticleCardName>
 					{editedArticle.author.firstname}
@@ -191,12 +216,15 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
 			</ArticleCardContents>
 
 			<AddArticleDiv style={expand}>
+				<AddArticleContainer></AddArticleContainer>
 				<AddArticleInfo>
 					<AddArticleThumbnail>
 						<Thumbnail
 							url={
 								selectedFile
-									? URL.createObjectURL(selectedFile)
+									? URL.createObjectURL(
+											selectedFile,
+									  )
 									: `${url}/api/photos/${editedArticle.article.thumbnail}`
 							}
 						/>
@@ -205,8 +233,13 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
 						<AddArticleTitle>
 							Title
 							<input
-								value={editedArticle.article.title}
-								onChange={handleNewArticleTitleChange}
+								value={
+									editedArticle.article
+										.title
+								}
+								onChange={
+									handleNewArticleTitleChange
+								}
 								placeholder={'title'}
 							/>
 						</AddArticleTitle>
@@ -217,18 +250,24 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
 							{users && (
 								<DropDownComponent
 									state={
-										editedArticle.author.firstname ||
+										editedArticle.author
+											.firstname ||
 										'author'
 									}
-									setSelect={handleNewArticleUserChange}
-									optionList={users?.map((user) => {
-										return {
-											option: user.firstname,
-											id: user.u_id,
-										};
-									})}
+									setSelect={
+										handleNewArticleUserChange
+									}
+									optionList={users?.map(
+										(user) => {
+											return {
+												option:
+													user.firstname,
+												id:
+													user.u_id,
+											};
+										},
+									)}
 									width={'100px'}
-									height={'24px'}
 								/>
 							)}
 						</AddArticleAuthor>
@@ -237,25 +276,41 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
 				<ArticleOptionRow>
 					<ArticleThumbnailInput
 						type={'file'}
-						onChange={(e: any) => handleFileChange(e.target.files)}
+						onChange={(e: any) =>
+							handleFileChange(e.target.files)
+						}
 					/>
-					<ArticleEventTitle>Event: </ArticleEventTitle>
+					<ArticleEventTitle>
+						Event:{' '}
+					</ArticleEventTitle>
 					<ToggleButton
-						state={editedArticle.article.isevent}
+						state={
+							editedArticle.article.isevent
+						}
 						onClick={handleEventToggle}
 					/>
 				</ArticleOptionRow>
 				<ErrorSpan>{errors.fileError}</ErrorSpan>
 
-				<AddArticleContentTitle>Content</AddArticleContentTitle>
+				<AddArticleContentTitle>
+					Content
+				</AddArticleContentTitle>
 				<AddArticleContentDiv>
 					<TextEditor
 						editable={editing}
-						state={editedArticle.article.content}
-						onChange={handleNewArticleContentChange}
+						state={
+							editedArticle.article.content
+						}
+						onChange={
+							handleNewArticleContentChange
+						}
 					/>
 				</AddArticleContentDiv>
-				<LoadingButton onClick={(e: any) => handleArticleUpdate()}>
+				<LoadingButton
+					onClick={(e: any) =>
+						handleArticleUpdate()
+					}
+				>
 					UPDATE
 				</LoadingButton>
 			</AddArticleDiv>

@@ -10,27 +10,47 @@ import {
 } from './Styles';
 import DropDownComponent from '../../../../Components/DropDown';
 import { makeRequest } from '../../../../../Api';
-import {calculateTimeSince, getLocalTimeFormat} from '../../../../../Utils';
+import {
+	calculateTimeSince,
+	getLocalTimeFormat,
+} from '../../../../../Utils';
 
 type EventCardProps = {
 	card: MemberEvent;
 	highlighted?: boolean;
 };
 
-const EventCard: React.FC<EventCardProps> = ({ card, highlighted = false }) => {
-	const [eventCard, setEventCard] = useState<MemberEvent>(card);
+const EventCard: React.FC<EventCardProps> = ({
+	card,
+	highlighted = false,
+}) => {
+	const [eventCard, setEventCard] = useState<MemberEvent>(
+		card,
+	);
 	const history = useHistory();
 
-	const handleEventStatusChange = async (newStatus: Option) => {
+	const handleEventStatusChange = async (
+		newStatus: Option,
+	) => {
 		let oldValue = eventCard.status;
 		try {
-			setEventCard({ ...eventCard, status: newStatus.option });
-			await makeRequest('/events/change_participation', 'POST', {
-				eventId: eventCard.e_id,
+			setEventCard({
+				...eventCard,
 				status: newStatus.option,
 			});
+			await makeRequest(
+				'/events/change_participation',
+				'POST',
+				{
+					eventId: eventCard.e_id,
+					status: newStatus.option,
+				},
+			);
 		} catch (e) {
-			setEventCard({ ...eventCard, status: oldValue });
+			setEventCard({
+				...eventCard,
+				status: oldValue,
+			});
 		}
 	};
 
@@ -42,12 +62,16 @@ const EventCard: React.FC<EventCardProps> = ({ card, highlighted = false }) => {
 		<EventCardDiv
 			id={'event-card'}
 			highlighted={highlighted}
-			onClick={() => handleEventCardClick(eventCard.e_id)}
+			onClick={() =>
+				handleEventCardClick(eventCard.e_id)
+			}
 			key={eventCard.e_id}
 		>
-			<EventCardTitle>{eventCard.title}</EventCardTitle>
+			<EventCardTitle>
+				{eventCard.title}
+			</EventCardTitle>
 			<EventCardResponseRow>
-				Respond:
+				<span>Respond:</span>
 				<DropDownComponent
 					state={eventCard.status || 'respond'}
 					setSelect={handleEventStatusChange}
@@ -56,8 +80,7 @@ const EventCard: React.FC<EventCardProps> = ({ card, highlighted = false }) => {
 						{ option: 'maybe' },
 						{ option: 'not going' },
 					]}
-					width={'78px'}
-					height={'20px'}
+					width={'110px'}
 				/>
 			</EventCardResponseRow>
 			<EventCardTimeUntilDiv>

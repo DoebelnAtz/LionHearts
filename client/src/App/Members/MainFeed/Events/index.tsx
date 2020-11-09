@@ -1,4 +1,8 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, {
+	useContext,
+	useEffect,
+	useState,
+} from 'react';
 import EventCalendar from '../../../Components/EventCalendar';
 import {
 	EventFeedDiv,
@@ -21,11 +25,17 @@ const Events: React.FC = () => {
 	const [events, setEvents] = useGet<MemberEvent[]>(
 		`/events?filter=${eventFilter}`,
 	);
-	const [highlightedEvents, setHighlightedEvents] = useState<MemberEvent[]>(
-		[],
+	const [
+		highlightedEvents,
+		setHighlightedEvents,
+	] = useState<MemberEvent[]>([]);
+	const [
+		selectedDay,
+		setSelectedDay,
+	] = useState<Date | null>(null);
+	const { state: level, update } = useContext(
+		AuthContext,
 	);
-	const [selectedDay, setSelectedDay] = useState<Date | null>(null);
-	const { state: level, update } = useContext(AuthContext);
 
 	const handleFilterChange = (newFilter: Option) => {
 		setEventFilter(newFilter.option);
@@ -54,7 +64,9 @@ const Events: React.FC = () => {
 					key={event.e_id}
 					highlighted={
 						!!highlightedEvents.find(
-							(highlighted) => highlighted.e_id === event.e_id,
+							(highlighted) =>
+								highlighted.e_id ===
+								event.e_id,
 						)
 					}
 					card={event}
@@ -68,7 +80,9 @@ const Events: React.FC = () => {
 			setHighlightedEvents(
 				events.filter((event) => {
 					return (
-						new Date(event.time).toDateString() ===
+						new Date(
+							event.time,
+						).toDateString() ===
 						value.toDateString()
 					);
 				}),
@@ -81,7 +95,10 @@ const Events: React.FC = () => {
 				onDayClick={handleDateClick}
 				selectedDay={selectedDay}
 				highlightedDates={
-					events && events?.map((event) => new Date(event.time))
+					events &&
+					events?.map(
+						(event) => new Date(event.time),
+					)
 				}
 			/>
 			{level > 1 && (
@@ -102,10 +119,11 @@ const Events: React.FC = () => {
 						{ option: 'past' },
 					]}
 					width={'80px'}
-					height={'22px'}
 				/>
 			</EventListOptionDiv>
-			<EventList id={'event-list'}>{renderEvents()}</EventList>
+			<EventList id={'event-list'}>
+				{renderEvents()}
+			</EventList>
 		</EventFeedDiv>
 	);
 };

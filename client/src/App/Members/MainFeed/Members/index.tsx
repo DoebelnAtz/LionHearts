@@ -61,17 +61,6 @@ const MemberList: React.FC = () => {
 		`/profiles?skill=${skillFilter.id}&language=${languageFilter.id}&search=${search}`,
 	);
 
-	const rotateArrowIcon = useSpring({
-		config: { mass: 1, velocity: 10 },
-		transform: expandFilter
-			? 'rotate(90deg)'
-			: 'rotate(0deg)',
-	});
-
-	const expandSpring = useSpring({
-		maxHeight: expandFilter ? '110px' : '0px',
-	});
-
 	const [skills, setSkills] = useGet<Skill[]>(`/skills`);
 
 	const [languages, setLanguages] = useGet<Language[]>(
@@ -171,6 +160,7 @@ const MemberList: React.FC = () => {
 	}));
 
 	const open = ({ canceled }: any) => {
+		console.log('open');
 		// when cancel is true, it means that the user passed the upwards threshold
 		// so we change the spring config to create a nice wobbly effect
 		set({
@@ -182,6 +172,7 @@ const MemberList: React.FC = () => {
 		});
 	};
 	const close = (velocity = 0) => {
+		console.log('close');
 		set({
 			y: closedHeight,
 			immediate: false,
@@ -199,18 +190,19 @@ const MemberList: React.FC = () => {
 			cancel,
 			canceled,
 		}) => {
-			// console.log(
-			// 	last,
-			// 	my,
-			// 	vy,
-			// 	dragging,
-			// 	`closing: ${
-			// 		!dragging && my === openHeight
-			// 	}`,
-			// );
+			console.log(
+				`last: ${last}\n`,
+				`movement-Y: ${my}\n`,
+				`speed-Y: ${vy}\n`,
+				`is-dragging: ${dragging}\n`,
+				`exceed-limit: ${my} / ${openHeight + 30}`,
+				`closing: ${
+					!dragging && my === openHeight
+				}`,
+			);
 			// if the user drags up passed a threshold, then we cancel
 			// the drag so that the sheet resets to its open position
-			if (my > openHeight + 50 && cancel) {
+			if (my > openHeight + 30 && cancel) {
 				console.log('canceled');
 				cancel();
 			}
@@ -222,12 +214,10 @@ const MemberList: React.FC = () => {
 					(my < -170 || vy < -0.5) &&
 					!(vy > 0.5)
 				) {
-					console.log('closed');
 					close(vy);
 				} else if (vy > 0.5) {
 					open({ canceled });
 				} else {
-					console.log('opened');
 					open({ canceled });
 				}
 			} else if (!dragging && my === openHeight) {
@@ -245,7 +235,7 @@ const MemberList: React.FC = () => {
 			initial: () => [0, y.get()],
 			filterTaps: true,
 			bounds: { top: -240 },
-			rubberband: true,
+			rubberband: false,
 		},
 	);
 	return (

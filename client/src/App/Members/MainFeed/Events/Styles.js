@@ -30,12 +30,15 @@ export const EventTitleSpan = styled.span`
 export const FilterOptionLabel = styled.span`
 	margin-right: ${units.margin};
 	${font.RReg};
+	font-size: 16px;
+	line-height: 30px;
 `;
 
 export const EventFeedDiv = styled.div`
 	background-color: ${color.BG0};
 	width: calc(100% - ${units.margin} * 2);
-	margin: ${units.margin} ${units.margin} ${units.margin} ${units.margin};
+	margin: ${units.margin} ${units.margin} ${units.margin}
+		${units.margin};
 	border-radius: ${units.radius};
 	padding-bottom: ${units.margin};
 `;

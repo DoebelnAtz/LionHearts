@@ -11,9 +11,9 @@ import {
 
 export const DropDown = styled.div`
 	position: relative;
-	${font.DCBold};
+	${font.RCReg};
 	color: ${color.primary};
-	font-size: 14px;
+	font-size: 16px;
 	background-color: ${color.tertiary};
 	width: ${(props) => props.width};
 	height: ${(props) => props.height};
@@ -25,20 +25,22 @@ export const DropDown = styled.div`
 export const CurrentOption = styled.div`
 	padding: 0 5px;
 	height: ${(props) => props.height};
-	font-size: calc(${(props) => props.height} - 6px);
+	font-size: 16px;
 	border: 1px solid ${color.primary};
-	//border-radius: 4px 4px ${(props) => (props.expanded ? '0 0' : '4px 4px')};
+	//border-radius: 4px 4px ${(props) =>
+		props.expanded ? '0 0' : '4px 4px'};
 	border-bottom: ${(props) => (props.expanded ? 'none' : '')};
 	${cursor.clickable};
 	text-overflow: ellipsis;
 	overflow: hidden;
 	white-space: nowrap;
+	background-color: ${color.tertiary};
 	text-transform: uppercase;
 	display: flex;
 	text-align: center;
 	& span {
 		vertical-align: middle;
-		line-height: 26px;
+		line-height: ${(props) => props.height};
 		margin: auto 0;
 	}
 	& img {
@@ -48,7 +50,8 @@ export const CurrentOption = styled.div`
 `;
 
 export const DropDownList = styled.div`
-	position: ${(props) => (props.modalOverflow ? 'fixed' : 'absolute')};
+	position: ${(props) =>
+		props.modalOverflow ? 'fixed' : 'absolute'};
 	//right: -1px;
 	width: calc(${(props) => props.width} - 2px);
 	background-color: ${color.BG0};
@@ -75,9 +78,9 @@ export const Option = styled.div`
 	text-overflow: ellipsis;
 	overflow: hidden;
 	white-space: nowrap;
-	height: calc(${(props) => props.height} - 1px);
-	width: calc(100% - 9px);
-	line-height: 20px;
+	height: 24px;
+	width: calc(100% - 8px);
+	line-height: 24px;
 	margin: 0 auto;
 	padding: 0 4px;
 	text-align: left;

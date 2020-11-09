@@ -1,15 +1,22 @@
 import styled from 'styled-components';
 
-import { color, components, cursor, font, units } from '../../../../Styles';
+import {
+	color,
+	components,
+	cursor,
+	font,
+	units,
+} from '../../../../Styles';
 
 export const ApplyContentDiv = styled.div`
 	border-top: 10px solid ${color.secondary};
+	background-color: ${color.BG0};
 	width: 100%;
 	display: flex;
 `;
 
 export const ApplyFormSectionDiv = styled.div`
-	width: 100%;
+	width: calc(100% - min(10vw, 100px) * 2);
 	margin: 30px min(10vw, 100px);
 	background-color: ${color.BG0};
 	display: flex;

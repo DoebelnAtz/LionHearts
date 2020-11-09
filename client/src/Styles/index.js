@@ -44,6 +44,15 @@ export const font = {
 		font-family: volkhov-italic, serif;
 		font-style: italic;
 	`,
+	RCBold: css`
+		font-family: roboto-condensed-bold, sans-serif;
+	`,
+	RCReg: css`
+		font-family: roboto-condensed-regular, sans-serif;
+	`,
+	RCLight: css`
+		font-family: roboto-condensed-light, sans-serif;
+	`,
 	RReg: css`
 		font-family: roboto-regular, sans-serif;
 	`,
@@ -162,13 +171,18 @@ export const cursor = {
 export const components = {
 	input: css`
 		${font.DCBold};
-
+		-webkit-appearance: none;
+		-moz-appearance: none;
+		appearance: none;
 		background-color: ${color.tertiary};
 		border: none;
 		caret-color: ${color.primary};
 		caret-shape: block;
 		color: ${color.primary};
 		padding: 6px;
+		font-size: 16px;
+		border-radius: 0;
+		box-shadow: none;
 		&:focus {
 			outline: none;
 		}
@@ -246,6 +260,9 @@ export const components = {
 		flex-direction: column;
 		margin: 10px 0;
 		& input {
+			font-size: 16px;
+			border-radius: 0;
+			box-shadow: none;
 			background-color: ${color.tertiary};
 			border: none;
 			caret-color: ${color.primary};
@@ -259,6 +276,9 @@ export const components = {
 		& textarea {
 			background-color: ${color.tertiary};
 			border: none;
+			font-size: 16px;
+			border-radius: 0;
+			box-shadow: none;
 			padding: 6px;
 			resize: vertical;
 		}

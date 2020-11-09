@@ -1,5 +1,11 @@
 import styled from 'styled-components';
-import { units, font, color, cursor } from '../../../../../../Styles';
+import {
+	units,
+	font,
+	color,
+	cursor,
+	components,
+} from '../../../../../../Styles';
 import { animated } from 'react-spring';
 
 export const EventCommentDiv = styled.div`
@@ -47,11 +53,26 @@ export const EventCommentContentCol = styled.div`
 	flex-direction: column;
 `;
 
-export const EventCommentEditor = styled(animated.div)`
+export const EventCommentEditor = styled.div`
 	width: calc(100%);
-	height: 140px;
+	height: 100px;
+
 	margin: ${units.margin} auto 0 auto;
 	overflow-y: hidden;
+`;
+
+export const EventCommentTextarea = styled.textarea`
+	width: calc(100% - 8px);
+	height: 60px;
+	color: ${color.text};
+	${font.RReg};
+	resize: none;
+	font-size: 16px;
+	border: 2px solid ${color.primary};
+	&:focus {
+		outline: none;
+		border-color: ${color.primaryShade};
+	}
 `;
 
 export const EventCommentInfo = styled.div`
@@ -68,9 +89,7 @@ export const EventCommentReplyButton = styled.img`
 	height: 24px;
 	padding: 4px;
 	border-radius: 6px;
-	right: -4px;
 	margin-left: auto;
-	position: relative;
 	background-color: ${color.BG0};
 	${cursor.clickable};
 	transition: background-color 0.2s ease-in-out;
@@ -97,6 +116,9 @@ export const EventCommentProfilePic = styled.div`
 
 export const EventCommentSection = styled(animated.div)`
 	width: 100%;
+	transition: height 0.2s ease-in-out;
+	height: ${(props) =>
+		props.expanded ? props.targetHeight : '0'};
 	overflow-y: hidden;
 `;
 

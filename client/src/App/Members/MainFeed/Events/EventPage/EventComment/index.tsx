@@ -1,4 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, {
+	ChangeEvent,
+	useEffect,
+	useRef,
+	useState,
+} from 'react';
 import {
 	EventCommentActionRow,
 	EventCommentContainer,
@@ -18,32 +23,51 @@ import {
 	EventChildCommentProfilePic,
 	EventChildCommentContentCol,
 	EventChildCommentPicCol,
+	EventCommentTextarea,
 } from './Styles';
-import { ChildComment, Comment } from '../../../../../../@types';
-import { capitalizeFirst, getLocalTimeFormat } from '../../../../../../Utils';
+import {
+	ChildComment,
+	Comment,
+} from '../../../../../../@types';
+import {
+	capitalizeFirst,
+	getLocalTimeFormat,
+} from '../../../../../../Utils';
 import ProfilePic from '../../../../../Components/ProfilePic';
 
 import CommentIcon from '../../../../../../assets/images/forum.svg';
 import { useSpring } from 'react-spring';
 import { useGet } from '../../../../../../Hooks';
 import { makeRequest } from '../../../../../../Api';
-import { CreateCommentEditor, SubmitCommentButton } from '../Styles';
+import {
+	CreateCommentEditor,
+	SubmitCommentButton,
+} from '../Styles';
 import QuillEditor from '../../../../../Components/QuillEditor';
 
 type EventCommentProps = {
 	comment: Comment;
 };
 
-const EventComment: React.FC<EventCommentProps> = ({ comment }) => {
+const EventComment: React.FC<EventCommentProps> = ({
+	comment,
+}) => {
 	const [createComment, setCreateComment] = useState('');
-	const [childComments, setChildComments] = useGet<ChildComment[]>(
-		`/events/child_comments/${comment.c_id}`,
-	);
+	const [childComments, setChildComments] = useGet<
+		ChildComment[]
+	>(`/events/child_comments/${comment.c_id}`);
 	const expandTarget = useRef<HTMLDivElement>(null);
-	const [expandCommentSection, setExpandCommentSection] = useState(false);
+	const [
+		expandCommentSection,
+		setExpandCommentSection,
+	] = useState(false);
+
+	// caused bugs on iOS devices, not in use but left for later debug
 	const expandCommentSectionSpring = useSpring({
 		maxHeight: expandCommentSection
-			? 166 + (expandTarget.current?.offsetHeight || 1) + 'px'
+			? 126 +
+			  (expandTarget.current?.offsetHeight || 1) +
+			  'px'
 			: '0px',
 	});
 
@@ -62,7 +86,11 @@ const EventComment: React.FC<EventCommentProps> = ({ comment }) => {
 						parentId: comment.c_id,
 					},
 				);
-				resp && setChildComments([...childComments, resp.data]);
+				resp &&
+					setChildComments([
+						...childComments,
+						resp.data,
+					]);
 				setCreateComment('');
 			}
 		} catch (e) {
@@ -81,16 +109,24 @@ const EventComment: React.FC<EventCommentProps> = ({ comment }) => {
 					>
 						<EventChildCommentPicCol>
 							<EventChildCommentProfilePic>
-								<ProfilePic src={comment.profile_pic} />
+								<ProfilePic
+									src={
+										comment.profile_pic
+									}
+								/>
 							</EventChildCommentProfilePic>
 						</EventChildCommentPicCol>
 						<EventChildCommentContentCol>
 							<EventCommentInfo>
 								<EventCommentInfoUsername>
-									{capitalizeFirst(comment.username)}
+									{capitalizeFirst(
+										comment.username,
+									)}
 								</EventCommentInfoUsername>
 								<EventCommentInfoDate>
-									{getLocalTimeFormat(comment.created)}
+									{getLocalTimeFormat(
+										comment.created,
+									)}
 								</EventCommentInfoDate>
 							</EventCommentInfo>
 							<EventCommentContent
@@ -110,43 +146,67 @@ const EventComment: React.FC<EventCommentProps> = ({ comment }) => {
 			<EventCommentContainer>
 				<EventCommentPicCol>
 					<EventCommentProfilePic>
-						<ProfilePic src={comment.profile_pic} />
+						<ProfilePic
+							src={comment.profile_pic}
+						/>
 					</EventCommentProfilePic>
 				</EventCommentPicCol>
 				<EventCommentContentCol>
 					<EventCommentInfo>
 						<EventCommentInfoUsername>
-							{capitalizeFirst(comment.username)}
+							{capitalizeFirst(
+								comment.username,
+							)}
 						</EventCommentInfoUsername>
 						<EventCommentInfoDate>
-							{getLocalTimeFormat(comment.created)}
+							{getLocalTimeFormat(
+								comment.created,
+							)}
 						</EventCommentInfoDate>
 					</EventCommentInfo>
 					<EventCommentContent
-						dangerouslySetInnerHTML={{ __html: comment.content }}
+						dangerouslySetInnerHTML={{
+							__html: comment.content,
+						}}
 					/>
 					<EventCommentActionRow>
 						<EventCommentReplyButton
 							onClick={() =>
-								setExpandCommentSection(!expandCommentSection)
+								setExpandCommentSection(
+									!expandCommentSection,
+								)
 							}
 							src={CommentIcon}
 						/>
 					</EventCommentActionRow>
 				</EventCommentContentCol>
 			</EventCommentContainer>
-			<EventCommentSection style={expandCommentSectionSpring}>
+			<EventCommentSection
+				expanded={expandCommentSection}
+				targetHeight={
+					126 +
+					(expandTarget.current?.offsetHeight ||
+						1) +
+					'px'
+				}
+			>
 				<EventCommentFeed ref={expandTarget}>
 					{renderComments()}
 				</EventCommentFeed>
 				<EventCommentEditor>
-					<QuillEditor
-						onChange={handleCreateCommentChange}
+					<EventCommentTextarea
 						value={createComment}
-						simple={true}
+						onChange={(e: ChangeEvent) => {
+							let target = e.target as HTMLTextAreaElement;
+							handleCreateCommentChange(
+								target.value,
+							);
+						}}
 					/>
 				</EventCommentEditor>
-				<SubmitCommentButton onClick={handleCommentCreation}>
+				<SubmitCommentButton
+					onClick={handleCommentCreation}
+				>
 					Submit
 				</SubmitCommentButton>
 			</EventCommentSection>

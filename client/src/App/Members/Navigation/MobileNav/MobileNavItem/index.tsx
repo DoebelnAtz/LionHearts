@@ -1,7 +1,10 @@
 import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
-import { NavItemDiv, NavItemIcon, NavItemTitle } from './Styles';
-import { useWidth } from '../../../../../Hooks';
+import {
+	NavItemDiv,
+	NavItemIcon,
+	NavItemTitle,
+} from './Styles';
 import { CurrentNavContext } from '../../../../../Context/CurrentNavContext';
 
 type NavItemProps = {
@@ -10,7 +13,12 @@ type NavItemProps = {
 	tablet?: boolean;
 };
 
-const NavItem: React.FC<NavItemProps> = ({ title, path, children, tablet }) => {
+const NavItem: React.FC<NavItemProps> = ({
+	title,
+	path,
+	children,
+	tablet,
+}) => {
 	const history = useHistory();
 	const { state } = useContext(CurrentNavContext);
 	const handleNavItemClick = () => {
@@ -19,7 +27,9 @@ const NavItem: React.FC<NavItemProps> = ({ title, path, children, tablet }) => {
 
 	return (
 		<NavItemDiv
-			highlighted={state.toLowerCase() === title.toLowerCase()}
+			highlighted={
+				state.toLowerCase() === title.toLowerCase()
+			}
 			tablet={tablet}
 			onClick={handleNavItemClick}
 		>

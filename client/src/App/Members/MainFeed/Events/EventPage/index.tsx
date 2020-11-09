@@ -39,8 +39,15 @@ const EventPage: React.FC = () => {
 	const history = useHistory();
 	useNav('event');
 	const [createComment, setCreateComment] = useState('');
-	const [expandCommentCreator, setExpandCommentCreator] = useState(false);
-	const [event, setEvent] = useGet<MemberEvent>(`/events/${params.eid}`);
+	const [
+		expandCommentCreator,
+		setExpandCommentCreator,
+	] = useState(false);
+	const [event, setEvent] = useGet<MemberEvent>(
+		`/events/${params.eid}`,
+	);
+
+	// caused bugs on iOS devices, not in use but left for later debug
 	const expandCreateCommentSection = useSpring({
 		height: expandCommentCreator ? '250px' : '40px',
 	});
@@ -51,20 +58,28 @@ const EventPage: React.FC = () => {
 
 	const handleEventTitleChange = (e: ChangeEvent) => {
 		let target = e.target as HTMLInputElement;
-		event && setEvent({ ...event, title: target.value });
+		event &&
+			setEvent({ ...event, title: target.value });
 	};
 
 	const handleCommentCreation = async () => {
 		try {
 			if (event) {
-				let resp = await makeRequest('/events/create_comment', 'POST', {
-					content: createComment,
-					eventId: event.e_id,
-				});
+				let resp = await makeRequest(
+					'/events/create_comment',
+					'POST',
+					{
+						content: createComment,
+						eventId: event.e_id,
+					},
+				);
 				resp &&
 					setEvent({
 						...event,
-						comments: [resp.data, ...event.comments],
+						comments: [
+							resp.data,
+							...event.comments,
+						],
 					});
 				setCreateComment('');
 			}
@@ -76,10 +91,14 @@ const EventPage: React.FC = () => {
 	const handleEventUpdate = async () => {
 		try {
 			if (event) {
-				let resp = await makeRequest('/events/update_event', 'PUT', {
-					title: event.title,
-					eventId: event.e_id,
-				});
+				let resp = await makeRequest(
+					'/events/update_event',
+					'PUT',
+					{
+						title: event.title,
+						eventId: event.e_id,
+					},
+				);
 			}
 			setEditing(false);
 			return true;
@@ -93,12 +112,18 @@ const EventPage: React.FC = () => {
 	const handleEventDeletion = async () => {
 		if (
 			event &&
-			window.confirm('Are you sure you want to delete this event?')
+			window.confirm(
+				'Are you sure you want to delete this event?',
+			)
 		) {
 			try {
-				let resp = await makeRequest('/events/delete_event', 'DELETE', {
-					eventId: event.e_id,
-				});
+				let resp = await makeRequest(
+					'/events/delete_event',
+					'DELETE',
+					{
+						eventId: event.e_id,
+					},
+				);
 				history.push('/members/list');
 				return true;
 			} catch (e) {
@@ -112,7 +137,12 @@ const EventPage: React.FC = () => {
 		return (
 			event &&
 			event.comments.map((comment) => {
-				return <EventComment key={comment.c_id} comment={comment} />;
+				return (
+					<EventComment
+						key={comment.c_id}
+						comment={comment}
+					/>
+				);
 			})
 		);
 	};
@@ -120,78 +150,98 @@ const EventPage: React.FC = () => {
 	return (
 		<EventPageDiv>
 			{event && (
-				<>
-					<EventPageInfoDiv>
-						<EditButtonRow>
-							<EventPageInfoTitle
-								disabled={!editing}
-								value={event.title}
-								onChange={handleEventTitleChange}
-							/>
-							{editing && checkUser(event.u_id) && (
+				<EventPageInfoDiv>
+					<EditButtonRow>
+						<EventPageInfoTitle
+							disabled={!editing}
+							value={event.title}
+							onChange={
+								handleEventTitleChange
+							}
+						/>
+						{editing &&
+							checkUser(event.u_id) && (
 								<DeleteEventButton
-									onClick={handleEventDeletion}
+									onClick={
+										handleEventDeletion
+									}
 								>
 									delete
 								</DeleteEventButton>
 							)}
-							{checkUser(event.u_id) &&
-								(editing ? (
-									<LoadingButton
-										onClick={handleEventUpdate}
-										height={'30px'}
-									>
-										save
-									</LoadingButton>
-								) : (
-									<EditButton
-										onClick={() => setEditing(!editing)}
-									>
-										edit
-									</EditButton>
-								))}
-						</EditButtonRow>
+						{checkUser(event.u_id) &&
+							(editing ? (
+								<LoadingButton
+									onClick={
+										handleEventUpdate
+									}
+									height={'30px'}
+								>
+									save
+								</LoadingButton>
+							) : (
+								<EditButton
+									onClick={() =>
+										setEditing(!editing)
+									}
+								>
+									edit
+								</EditButton>
+							))}
+					</EditButtonRow>
 
-						<EventPageInfoDate>
-							{getLocalTimeFormat(event.time)}
-						</EventPageInfoDate>
-						<EventPageCreator>
-							Created by: {capitalizeFirst(event?.firstname)}{' '}
-							{capitalizeFirst(event?.lastname)}
-						</EventPageCreator>
-						<EventPageParticipantsDiv>
-							<EventPageInfoParticipantsIcon
-								src={MemberIcon}
-								alt={'participants'}
-							/>
-							<EventPageInfoParticipants>
-								{event?.participants.length}
-							</EventPageInfoParticipants>
-						</EventPageParticipantsDiv>
-					</EventPageInfoDiv>
-				</>
+					<EventPageInfoDate>
+						{getLocalTimeFormat(event.time)}
+					</EventPageInfoDate>
+					<EventPageCreator>
+						Created by:{' '}
+						{capitalizeFirst(event?.firstname)}{' '}
+						{capitalizeFirst(event?.lastname)}
+					</EventPageCreator>
+					<EventPageParticipantsDiv>
+						<EventPageInfoParticipantsIcon
+							src={MemberIcon}
+							alt={'participants'}
+						/>
+						<EventPageInfoParticipants>
+							{event?.participants.length}
+						</EventPageInfoParticipants>
+					</EventPageParticipantsDiv>
+				</EventPageInfoDiv>
 			)}
 			<EventPageCommentSection>
-				<CreateCommentDiv style={expandCreateCommentSection}>
+				<CreateCommentDiv
+					expanded={expandCommentCreator}
+				>
 					<CreateCommentButton
 						onClick={() =>
-							setExpandCommentCreator(!expandCommentCreator)
+							setExpandCommentCreator(
+								!expandCommentCreator,
+							)
 						}
 					>
-						{expandCommentCreator ? 'Cancel' : 'Create comment'}
+						{expandCommentCreator
+							? 'Cancel'
+							: 'Create comment'}
 					</CreateCommentButton>
 					<CreateCommentEditor>
 						<QuillEditor
-							onChange={handleCreateCommentChange}
+							onChange={
+								handleCreateCommentChange
+							}
 							value={createComment}
 							simple={true}
 						/>
 					</CreateCommentEditor>
-					<SubmitCommentButton onClick={handleCommentCreation}>
+					<SubmitCommentButton
+						onClick={handleCommentCreation}
+					>
 						Submit
 					</SubmitCommentButton>
 				</CreateCommentDiv>
-				<EventPageCommentFeed>{renderComments()}</EventPageCommentFeed>
+				<EventPageCommentFeed>
+					{renderComments()}
+				</EventPageCommentFeed>
 			</EventPageCommentSection>
 		</EventPageDiv>
 	);

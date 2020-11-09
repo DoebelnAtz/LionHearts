@@ -10,6 +10,8 @@ export const EventCardDiv = styled.div`
 	width: calc(100% - ${units.margin} * 2);
 	padding: ${units.margin};
 	${cursor.clickable};
+	position: relative;
+	z-index: 3;
 	background-color: ${(props) =>
 		props.highlighted
 			? `${color.primary}20`
@@ -22,7 +24,7 @@ export const EventCardDiv = styled.div`
 	transition: all 0.1s;
 	transform: ${(props) =>
 		props.highlighted ? `scale(1.02)` : 'scale(1)'};
-	margin-bottom: ${units.margin};
+	margin-bottom: 30px;
 	&:nth-child(2n) {
 		margin-right: 0;
 	}
@@ -46,6 +48,10 @@ export const EventCardResponseRow = styled.div`
 	width: 100%;
 	margin-top: 10px;
 	${font.RReg};
+	& span {
+		line-height: 30px;
+		font-size: 16px;
+	}
 	& div {
 		margin-left: auto;
 	}
@@ -53,7 +59,7 @@ export const EventCardResponseRow = styled.div`
 
 export const EventCardTimeUntilDiv = styled.div`
 	width: 100%;
-	margin-top: 5px;
+	margin-top: 15px;
 `;
 
 export const EventCardTimeUntilSpan = styled.span`

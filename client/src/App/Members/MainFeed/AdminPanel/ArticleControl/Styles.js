@@ -1,5 +1,11 @@
 import styled from 'styled-components';
-import { color, components, cursor, font, units } from '../../../../../Styles';
+import {
+	color,
+	components,
+	cursor,
+	font,
+	units,
+} from '../../../../../Styles';
 import { animated } from 'react-spring';
 
 export const ArticleControlDiv = styled.div`
@@ -25,7 +31,7 @@ export const NewArticleButton = styled.div`
 
 export const AddArticleDiv = styled(animated.div)`
 	width: calc(100% - ${units.margin} * 2);
-	margin: ${units.margin};
+	margin: 0 ${units.margin};
 	height: 0px;
 	display: flex;
 	flex-direction: column;
@@ -35,6 +41,10 @@ export const AddArticleDiv = styled(animated.div)`
 export const ArticleListDiv = styled.div`
 	width: calc(100% - ${units.margin} * 2);
 	margin: 0 ${units.margin};
+`;
+
+export const AddArticleContainer = styled.div`
+	width: calc(100% - ${units.margin} * 2);
 `;
 
 export const AddArticleInfo = styled.div`
@@ -84,7 +94,7 @@ export const AddArticleTitleAuthor = styled.div`
 export const AddArticleAuthor = styled.div`
 	display: flex;
 	flex-direction: column;
-	margin: ${units.margin} ${units.margin} auto auto;
+	margin: ${units.margin} 0 auto auto;
 `;
 
 export const AddArticleAuthorTitle = styled.span`

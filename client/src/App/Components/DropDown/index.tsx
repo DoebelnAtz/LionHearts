@@ -14,12 +14,15 @@ import dropdownIcon from '../../../assets/images/dropdown.png';
 type DropDownProps = {
 	state: string | { option: string; id?: number };
 	// function that takes a string input and is run on option change
-	setSelect: (newOption: { option: string; id?: number }) => void;
+	setSelect: (newOption: {
+		option: string;
+		id?: number;
+	}) => void;
 	// provided list of options
 	optionList: { option: string; id?: number }[];
 	// Component height and width
-	width: string;
-	height: string;
+	width?: string;
+	height?: string;
 	// Optional text snippet that prepends currently selected option
 	// ex: text = 'sort by: , state = 'popular'
 	// component would read sort by: popular
@@ -37,8 +40,8 @@ const DropDownComponent: React.FC<DropDownProps> = ({
 	state,
 	setSelect,
 	optionList,
-	width = 100,
-	height,
+	width = '100px',
+	height = '28px',
 	children,
 	text,
 	withFilter = false,
@@ -53,26 +56,29 @@ const DropDownComponent: React.FC<DropDownProps> = ({
 	const [selectedIndex, setSelectedIndex] = useState(0);
 
 	const renderOptions = () => {
-		return options.map(({ option, id }, index: number) => {
-			return (
-				<Option
-					title={option}
-					key={index}
-					height={height}
-					highlighted={
-						state === option ||
-						(withFilter && index === selectedIndex)
-					}
-					onClick={(e: MouseEvent) => {
-						e.stopPropagation();
-						setSelect({ option, id });
-						setExpanded(false);
-					}}
-				>
-					{option}
-				</Option>
-			);
-		});
+		return options.map(
+			({ option, id }, index: number) => {
+				return (
+					<Option
+						title={option}
+						key={index}
+						height={height}
+						highlighted={
+							state === option ||
+							(withFilter &&
+								index === selectedIndex)
+						}
+						onClick={(e: MouseEvent) => {
+							e.stopPropagation();
+							setSelect({ option, id });
+							setExpanded(false);
+						}}
+					>
+						{option}
+					</Option>
+				);
+			},
+		);
 	};
 
 	useDismiss(inside, () => setExpanded(false));
@@ -91,7 +97,9 @@ const DropDownComponent: React.FC<DropDownProps> = ({
 	}, [optionList.length]);
 
 	// Filter options
-	const handleFilterChange = (e: React.SyntheticEvent) => {
+	const handleFilterChange = (
+		e: React.SyntheticEvent,
+	) => {
 		let target = e.target as HTMLInputElement;
 		setFilterInput(target.value);
 		onFilterChange
@@ -100,13 +108,18 @@ const DropDownComponent: React.FC<DropDownProps> = ({
 					optionList.filter(({ option }) => {
 						return option
 							.toLowerCase()
-							.includes(target.value.toLowerCase());
+							.includes(
+								target.value.toLowerCase(),
+							);
 					}),
 			  );
 	};
 
 	const handleEnterPress = (e: React.KeyboardEvent) => {
-		if (e.key === 'Enter' && options.length > selectedIndex) {
+		if (
+			e.key === 'Enter' &&
+			options.length > selectedIndex
+		) {
 			setSelect(options[selectedIndex]);
 		} else if (e.key === 'ArrowDown') {
 			e.preventDefault();
@@ -152,12 +165,12 @@ const DropDownComponent: React.FC<DropDownProps> = ({
 						<SearchInput
 							ref={filterInputRef}
 							placeholder={'filter'}
-							onChange={(e: React.SyntheticEvent) =>
-								handleFilterChange(e)
-							}
-							onKeyDown={(e: React.KeyboardEvent) =>
-								handleEnterPress(e)
-							}
+							onChange={(
+								e: React.SyntheticEvent,
+							) => handleFilterChange(e)}
+							onKeyDown={(
+								e: React.KeyboardEvent,
+							) => handleEnterPress(e)}
 							value={filterInput}
 						/>
 					)}

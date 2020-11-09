@@ -19,20 +19,37 @@ type EventCardProps = {
 	highlighted?: boolean;
 };
 
-const EventCard: React.FC<EventCardProps> = ({ card, highlighted = false }) => {
-	const [eventCard, setEventCard] = useState<MemberEvent>(card);
+const EventCard: React.FC<EventCardProps> = ({
+	card,
+	highlighted = false,
+}) => {
+	const [eventCard, setEventCard] = useState<MemberEvent>(
+		card,
+	);
 	const history = useHistory();
 
-	const handleEventStatusChange = async (newStatus: Option) => {
+	const handleEventStatusChange = async (
+		newStatus: Option,
+	) => {
 		let oldValue = eventCard.status;
 		try {
-			setEventCard({ ...eventCard, status: newStatus.option });
-			await makeRequest('/events/change_participation', 'POST', {
-				eventId: eventCard.e_id,
+			setEventCard({
+				...eventCard,
 				status: newStatus.option,
 			});
+			await makeRequest(
+				'/events/change_participation',
+				'POST',
+				{
+					eventId: eventCard.e_id,
+					status: newStatus.option,
+				},
+			);
 		} catch (e) {
-			setEventCard({ ...eventCard, status: oldValue });
+			setEventCard({
+				...eventCard,
+				status: oldValue,
+			});
 		}
 	};
 
@@ -43,10 +60,14 @@ const EventCard: React.FC<EventCardProps> = ({ card, highlighted = false }) => {
 	return (
 		<EventCardDiv
 			highlighted={highlighted}
-			onClick={() => handleEventCardClick(eventCard.e_id)}
+			onClick={() =>
+				handleEventCardClick(eventCard.e_id)
+			}
 			key={eventCard.e_id}
 		>
-			<EventCardTitle>{eventCard.title}</EventCardTitle>
+			<EventCardTitle>
+				{eventCard.title}
+			</EventCardTitle>
 			<EventCardResponseRow>
 				Respond:
 				<DropDownComponent
@@ -57,7 +78,11 @@ const EventCard: React.FC<EventCardProps> = ({ card, highlighted = false }) => {
 						{ option: 'maybe' },
 						{ option: 'not going' },
 					]}
-					width={'78px'}
+					width={
+						eventCard.status === 'not going'
+							? '104px'
+							: '90px'
+					}
 					height={'20px'}
 				/>
 			</EventCardResponseRow>

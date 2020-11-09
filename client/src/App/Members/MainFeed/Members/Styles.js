@@ -165,6 +165,7 @@ export const MemberFilterSearchDiv = styled.div`
 `;
 
 export const MemberSearchInput = styled.input`
+	${components.input};
 	width: 120px;
 	border: 1px solid ${color.primary}!important;
 `;
@@ -195,7 +196,8 @@ export const SearchMembersInput = styled.label`
 
 export const MemberListCard = styled.div`
 	width: calc(50% - ${units.margin} * 2 - 4px);
-	margin: min(50px, max(6vw, 30px)) auto 20px auto;
+	margin: min(50px, max(6vw, 30px)) auto 20px
+		${units.margin};
 	display: flex;
 	border-width: 2px;
 	border-color: ${color.tertiary};
