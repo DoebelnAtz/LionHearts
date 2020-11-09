@@ -46,8 +46,6 @@ const EventPage: React.FC = () => {
 	const [event, setEvent] = useGet<MemberEvent>(
 		`/events/${params.eid}`,
 	);
-
-	// caused bugs on iOS devices, not in use but left for later debug
 	const expandCreateCommentSection = useSpring({
 		height: expandCommentCreator ? '250px' : '40px',
 	});
@@ -150,68 +148,76 @@ const EventPage: React.FC = () => {
 	return (
 		<EventPageDiv>
 			{event && (
-				<EventPageInfoDiv>
-					<EditButtonRow>
-						<EventPageInfoTitle
-							disabled={!editing}
-							value={event.title}
-							onChange={
-								handleEventTitleChange
-							}
-						/>
-						{editing &&
-							checkUser(event.u_id) && (
-								<DeleteEventButton
-									onClick={
-										handleEventDeletion
-									}
-								>
-									delete
-								</DeleteEventButton>
-							)}
-						{checkUser(event.u_id) &&
-							(editing ? (
-								<LoadingButton
-									onClick={
-										handleEventUpdate
-									}
-									height={'30px'}
-								>
-									save
-								</LoadingButton>
-							) : (
-								<EditButton
-									onClick={() =>
-										setEditing(!editing)
-									}
-								>
-									edit
-								</EditButton>
-							))}
-					</EditButtonRow>
+				<>
+					<EventPageInfoDiv>
+						<EditButtonRow>
+							<EventPageInfoTitle
+								disabled={!editing}
+								value={event.title}
+								onChange={
+									handleEventTitleChange
+								}
+							/>
+							{editing &&
+								checkUser(event.u_id) && (
+									<DeleteEventButton
+										onClick={
+											handleEventDeletion
+										}
+									>
+										delete
+									</DeleteEventButton>
+								)}
+							{checkUser(event.u_id) &&
+								(editing ? (
+									<LoadingButton
+										onClick={
+											handleEventUpdate
+										}
+										height={'30px'}
+									>
+										save
+									</LoadingButton>
+								) : (
+									<EditButton
+										onClick={() =>
+											setEditing(
+												!editing,
+											)
+										}
+									>
+										edit
+									</EditButton>
+								))}
+						</EditButtonRow>
 
-					<EventPageInfoDate>
-						{getLocalTimeFormat(event.time)}
-					</EventPageInfoDate>
-					<EventPageCreator>
-						Created by:{' '}
-						{capitalizeFirst(event?.firstname)}{' '}
-						{capitalizeFirst(event?.lastname)}
-					</EventPageCreator>
-					<EventPageParticipantsDiv>
-						<EventPageInfoParticipantsIcon
-							src={MemberIcon}
-							alt={'participants'}
-						/>
-						<EventPageInfoParticipants>
-							{event?.participants.length}
-						</EventPageInfoParticipants>
-					</EventPageParticipantsDiv>
-				</EventPageInfoDiv>
+						<EventPageInfoDate>
+							{getLocalTimeFormat(event.time)}
+						</EventPageInfoDate>
+						<EventPageCreator>
+							Created by:{' '}
+							{capitalizeFirst(
+								event?.firstname,
+							)}{' '}
+							{capitalizeFirst(
+								event?.lastname,
+							)}
+						</EventPageCreator>
+						<EventPageParticipantsDiv>
+							<EventPageInfoParticipantsIcon
+								src={MemberIcon}
+								alt={'participants'}
+							/>
+							<EventPageInfoParticipants>
+								{event?.participants.length}
+							</EventPageInfoParticipants>
+						</EventPageParticipantsDiv>
+					</EventPageInfoDiv>
+				</>
 			)}
 			<EventPageCommentSection>
 				<CreateCommentDiv
-					expanded={expandCommentCreator}
+					style={expandCreateCommentSection}
 				>
 					<CreateCommentButton
 						onClick={() =>

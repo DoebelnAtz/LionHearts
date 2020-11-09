@@ -90,9 +90,6 @@ export const CreateCommentDiv = styled(animated.div)`
 	width: 100%;
 	margin-top: 20px;
 	overflow-y: hidden;
-	transition: height 0.2s ease-in-out;
-	height: ${(props) =>
-		props.expanded ? '250px' : '40px'};
 `;
 
 export const CreateCommentEditor = styled(animated.div)`

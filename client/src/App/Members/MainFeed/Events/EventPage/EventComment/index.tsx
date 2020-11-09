@@ -61,8 +61,6 @@ const EventComment: React.FC<EventCommentProps> = ({
 		expandCommentSection,
 		setExpandCommentSection,
 	] = useState(false);
-
-	// caused bugs on iOS devices, not in use but left for later debug
 	const expandCommentSectionSpring = useSpring({
 		maxHeight: expandCommentSection
 			? 126 +
@@ -182,13 +180,7 @@ const EventComment: React.FC<EventCommentProps> = ({
 				</EventCommentContentCol>
 			</EventCommentContainer>
 			<EventCommentSection
-				expanded={expandCommentSection}
-				targetHeight={
-					126 +
-					(expandTarget.current?.offsetHeight ||
-						1) +
-					'px'
-				}
+				style={expandCommentSectionSpring}
 			>
 				<EventCommentFeed ref={expandTarget}>
 					{renderComments()}

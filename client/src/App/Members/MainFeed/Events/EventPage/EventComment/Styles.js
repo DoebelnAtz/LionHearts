@@ -116,9 +116,7 @@ export const EventCommentProfilePic = styled.div`
 
 export const EventCommentSection = styled(animated.div)`
 	width: 100%;
-	transition: height 0.2s ease-in-out;
-	height: ${(props) =>
-		props.expanded ? props.targetHeight : '0'};
+
 	overflow-y: hidden;
 `;
 
