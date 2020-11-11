@@ -1,4 +1,8 @@
-import React, { Component, PropsWithChildren, SetStateAction } from 'react';
+import React, {
+	Component,
+	PropsWithChildren,
+	SetStateAction,
+} from 'react';
 import ReactQuill from 'react-quill';
 import { QuillEditorDiv } from './Styles';
 
@@ -10,7 +14,11 @@ type QuillEditorProps = {
 
 class QuillEditor extends Component<QuillEditorProps> {
 	private quillRef: ReactQuill | null | undefined;
-	constructor(props: PropsWithChildren<Readonly<QuillEditorProps>>) {
+	constructor(
+		props: PropsWithChildren<
+			Readonly<QuillEditorProps>
+		>,
+	) {
 		super(props);
 		this.state = { editorHtml: '', theme: 'snow' };
 	}
@@ -21,13 +29,20 @@ class QuillEditor extends Component<QuillEditorProps> {
 
 	imageHandler = (image: any, callback: any) => {
 		if (this.quillRef) {
-			let range = this.quillRef.getEditor().getSelection();
+			let range = this.quillRef
+				.getEditor()
+				.getSelection();
 			let value = prompt('What is the image URL');
 			if (range)
 				if (value) {
 					this.quillRef
 						.getEditor()
-						.insertEmbed(range.index, 'image', value, 'user');
+						.insertEmbed(
+							range.index,
+							'image',
+							value,
+							'user',
+						);
 				}
 		}
 	};
@@ -83,31 +98,47 @@ class QuillEditor extends Component<QuillEditorProps> {
 											'strike',
 										],
 										[
-											{ list: 'ordered' },
-											{ list: 'bullet' },
+											{
+												list:
+													'ordered',
+											},
+											{
+												list:
+													'bullet',
+											},
 										],
 										['link'],
 								  ]
 								: [
 										[
-											{ header: '1' },
-											{ header: '2' },
-											{ header: [3, 4, 5, 6] },
+											{
+												header: [
+													1,
+													2,
+													3,
+													4,
+													5,
+													6,
+												],
+											},
 											{ font: [] },
 										],
+										['bold', 'italic'],
 										[
-											'bold',
-											'italic',
-											'underline',
-											'strike',
-											'blockquote',
+											{
+												list:
+													'ordered',
+											},
+											{
+												list:
+													'bullet',
+											},
 										],
 										[
-											{ list: 'ordered' },
-											{ list: 'bullet' },
+											'link',
+											'image',
+											'video',
 										],
-										['link', 'video'],
-										['link', 'image', 'video'],
 								  ],
 							handlers: {
 								image: this.imageHandler,

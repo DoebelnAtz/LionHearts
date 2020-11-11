@@ -22,7 +22,7 @@ export const NavItemDiv = styled.div`
 				: color.BG0};
 	&:hover {
 		height: 35px;
-		border-bottom: 5px solid ${color.secondary};
+		//border-bottom: 5px solid ${color.secondary};
 	}
 	height: 35px;
 `;

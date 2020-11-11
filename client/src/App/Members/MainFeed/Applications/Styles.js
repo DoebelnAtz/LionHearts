@@ -1,5 +1,11 @@
 import styled from 'styled-components';
-import { color, colorAdjust, cursor, font, units } from '../../../../Styles';
+import {
+	color,
+	colorAdjust,
+	cursor,
+	font,
+	units,
+} from '../../../../Styles';
 
 export const ApplicationDiv = styled.div`
 	width: 100%;
@@ -26,7 +32,10 @@ export const ApplicationCard = styled.div`
 	${cursor.clickable};
 	&:hover {
 		transition: background-color 0.1s;
-		background-color: ${colorAdjust.darken('#ffffff', 0.05)};
+		background-color: ${colorAdjust.darken(
+			'#ffffff',
+			0.05,
+		)};
 	}
 `;
 
@@ -44,18 +53,26 @@ export const ApplicationInfoName = styled.div`
 export const ApplicationInfoSubmitted = styled.div`
 	display: flex;
 	margin: 0 auto;
-	width: 40%;
-
+	width: 30%;
 	flex-direction: column;
+	& span {
+		margin: 0 auto;
+	}
+	@media (max-width: ${units.mobile}) {
+		font-size: 16px;
+	}
 `;
 
 export const ApplicationInfoStatus = styled.div`
 	display: flex;
 	margin-left: auto;
-	width: 20%;
+	width: 30%;
 	flex-direction: column;
 	& span {
 		text-align: right;
+	}
+	@media (max-width: ${units.mobile}) {
+		font-size: 16px;
 	}
 `;
 
@@ -68,6 +85,7 @@ export const ApplicantName = styled.span`
 
 export const ApplicantStatus = styled.span`
 	${font.text};
+	font-size: 16px;
 	color: ${(props) => props.color};
 	margin-top: auto;
 `;

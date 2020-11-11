@@ -39,7 +39,8 @@ export const MemberViewDiv = styled.div`
 	background-color: ${color.BG0};
 	margin: 0 5px;
 	width: calc(
-		100% - ${MemberNavigationWidth} - ${units.margin} - ${EventFeedWidth}
+		100% - ${MemberNavigationWidth} - ${units.margin} -
+			${EventFeedWidth}
 	);
 	@media (max-width: ${units.tablet}) {
 		width: calc(100% - ${NavigationMobileWidth});
@@ -77,6 +78,9 @@ export const MemberMainDiv = styled.div`
 
 	@media (max-width: ${units.mobile}) {
 		background-color: ${color.BG0};
-		height: calc(100% - ${MobileNavHeight} - 5px);
+		height: calc(
+			100% - ${MobileNavHeight} - 5px -
+				env(safe-area-inset-bottom)
+		);
 	}
 `;

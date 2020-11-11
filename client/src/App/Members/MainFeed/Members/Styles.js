@@ -68,7 +68,7 @@ export const FilterListDiv = styled(animated.div)`
 
 export const FilterOptionsContainer = styled.div`
 	width: 100%;
-	margin: auto 0 ${units.margin} 0;
+	margin: auto 0 0 0;
 `;
 
 export const DragIcon = styled.div`
@@ -87,15 +87,24 @@ export const DragIconLine = styled.div`
 	}
 `;
 
+export const FilterListHandleContainer = styled.div`
+	background-color: ${color.primary};
+	display: flex;
+	width: 100%;
+	height: 100%;
+	border-radius: 4px;
+`;
+
 export const FilterListDragHandle = styled.div`
 	height: 30px;
 	width: 120px;
 	display: flex;
+
 	${cursor.draggable};
 	margin: 0 auto 0 auto;
-	transform: translateY(26px);
-	border-radius: 4px;
-	background-color: ${color.primary};
+	transform: translateY(30px);
+	background-color: ${color.primary}00;
+	padding: 5px;
 	&:active {
 		${cursor.dragging}
 	}
@@ -167,6 +176,8 @@ export const MemberFilterSearchDiv = styled.div`
 export const MemberSearchInput = styled.input`
 	${components.input};
 	width: 120px;
+	height: 20px;
+	padding: 2px 6px;
 	border: 1px solid ${color.primary}!important;
 `;
 

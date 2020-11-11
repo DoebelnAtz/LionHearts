@@ -1,12 +1,17 @@
 export const capitalizeFirst = (string: string) => {
-	if (string) return string[0].toUpperCase() + string.slice(1);
+	if (string)
+		return string[0].toUpperCase() + string.slice(1);
 };
 
 export const getLocal = (item: string) => {
 	let unparsedString: string | null;
 	try {
 		if (item) {
-			if ((unparsedString = localStorage.getItem(item)))
+			if (
+				(unparsedString = localStorage.getItem(
+					item,
+				))
+			)
 				return JSON.parse(unparsedString);
 			else return null;
 		} else {
@@ -89,23 +94,37 @@ export const calculateTimeSince = (isoString: string) => {
 
 	if (interval > 1) {
 		return (
-			prefix + interval + (interval === 1 ? ' year' : ' years') + suffix
+			prefix +
+			interval +
+			(interval === 1 ? ' year' : ' years') +
+			suffix
 		);
 	}
 	interval = Math.floor(seconds / 2592000);
 	if (interval >= 1) {
 		return (
-			prefix + interval + (interval === 1 ? ' month' : 'months') + suffix
+			prefix +
+			interval +
+			(interval === 1 ? ' month' : ' months') +
+			suffix
 		);
 	}
 	interval = Math.floor(seconds / 86400);
 	if (interval >= 1) {
-		return prefix + interval + (interval === 1 ? ' day' : ' days') + suffix;
+		return (
+			prefix +
+			interval +
+			(interval === 1 ? ' day' : ' days') +
+			suffix
+		);
 	}
 	interval = Math.floor(seconds / 3600);
 	if (interval >= 1) {
 		return (
-			prefix + interval + (interval === 1 ? ' hour' : ' hours') + suffix
+			prefix +
+			interval +
+			(interval === 1 ? ' hour' : ' hours') +
+			suffix
 		);
 	}
 	interval = Math.floor(seconds / 60);
@@ -120,7 +139,9 @@ export const calculateTimeSince = (isoString: string) => {
 	return (
 		prefix +
 		Math.floor(seconds) +
-		(Math.floor(seconds) === 1 ? ' second' : ' seconds') +
+		(Math.floor(seconds) === 1
+			? ' second'
+			: ' seconds') +
 		suffix
 	);
 };

@@ -20,8 +20,9 @@ const NavItem: React.FC<NavItemProps> = ({
 	tablet,
 }) => {
 	const history = useHistory();
-	const { state } = useContext(CurrentNavContext);
+	const { state, update } = useContext(CurrentNavContext);
 	const handleNavItemClick = () => {
+		update(title.toLowerCase());
 		history.push(path);
 	};
 

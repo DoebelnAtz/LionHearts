@@ -34,6 +34,7 @@ export const AddArticleDiv = styled(animated.div)`
 	margin: 0 ${units.margin};
 	height: 0px;
 	display: flex;
+	flex-shrink: 0;
 	flex-direction: column;
 	overflow-y: hidden;
 `;
@@ -50,6 +51,8 @@ export const AddArticleContainer = styled.div`
 export const AddArticleInfo = styled.div`
 	display: flex;
 	width: 100%;
+	flex-shrink: 0;
+
 	margin: ${units.margin} auto;
 `;
 
@@ -64,11 +67,14 @@ export const ArticleThumbnailBorder = styled.div`
 
 export const ArticleThumbnailInput = styled.input`
 	${components.input};
+	max-width: calc(100% - 140px);
+	flex-shrink: 0;
 `;
 
 export const ArticleOptionRow = styled.div`
 	display: flex;
 	width: 100%;
+	flex-shrink: 0;
 `;
 
 export const ArticleEventTitle = styled.span`
@@ -89,12 +95,9 @@ export const AddArticleTitleAuthor = styled.div`
 	display: flex;
 	width: calc(100% - 100px);
 	margin: 0 auto auto auto;
-`;
-
-export const AddArticleAuthor = styled.div`
-	display: flex;
-	flex-direction: column;
-	margin: ${units.margin} 0 auto auto;
+	@media (max-width: ${units.mobile}) {
+		flex-direction: column;
+	}
 `;
 
 export const AddArticleAuthorTitle = styled.span`
@@ -103,12 +106,39 @@ export const AddArticleAuthorTitle = styled.span`
 	font-size: 20px;
 `;
 
+export const AddArticleAuthor = styled.div`
+	display: flex;
+	flex-direction: column;
+	margin: ${units.margin} ${units.margin} auto auto;
+	@media (max-width: ${units.mobile}) {
+		flex-direction: row;
+		margin-top: 20px;
+		width: 100%;
+		& ${AddArticleAuthorTitle} {
+			margin-right: auto;
+			margin-left: ${units.margin};
+		}
+	}
+`;
+
 export const AddArticleTitle = styled.label`
 	${components.labeledInput};
 	margin-top: ${units.margin};
 	margin-left: ${units.margin};
 	margin-right: ${units.margin};
 	min-width: 140px;
+	@media (max-width: ${units.mobile}) {
+		flex-direction: row;
+		line-height: 30px;
+		margin: auto 0 auto ${units.margin};
+		& input {
+			margin-left: auto;
+		}
+	}
+	& input {
+		height: 26px;
+		max-width: 140px;
+	}
 `;
 
 export const AddArticleAuthord = styled.div`

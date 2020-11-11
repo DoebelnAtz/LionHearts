@@ -56,7 +56,6 @@ export const EventCommentContentCol = styled.div`
 export const EventCommentEditor = styled.div`
 	width: calc(100%);
 	height: 100px;
-
 	margin: ${units.margin} auto 0 auto;
 	overflow-y: hidden;
 `;
@@ -66,6 +65,10 @@ export const EventCommentTextarea = styled.textarea`
 	height: 60px;
 	color: ${color.text};
 	${font.RReg};
+	flex-shrink: 0;
+	box-shadow: none;
+	border-radius: 0;
+	padding: 0;
 	resize: none;
 	font-size: 16px;
 	border: 2px solid ${color.primary};
@@ -85,11 +88,19 @@ export const EventCommentActionRow = styled.div`
 	margin-top: ${units.margin};
 `;
 
+export const EventCommentChildrenCounter = styled.span`
+	${font.DCBold};
+	color: ${color.primary};
+	font-size: 20px;
+	padding-top: 6px;
+	margin: auto 0 auto auto;
+`;
+
 export const EventCommentReplyButton = styled.img`
 	height: 24px;
 	padding: 4px;
 	border-radius: 6px;
-	margin-left: auto;
+	margin-left: ${units.margin};
 	background-color: ${color.BG0};
 	${cursor.clickable};
 	transition: background-color 0.2s ease-in-out;

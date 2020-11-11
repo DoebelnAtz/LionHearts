@@ -24,6 +24,7 @@ import {
 	EventChildCommentContentCol,
 	EventChildCommentPicCol,
 	EventCommentTextarea,
+	EventCommentChildrenCounter,
 } from './Styles';
 import {
 	ChildComment,
@@ -53,6 +54,9 @@ const EventComment: React.FC<EventCommentProps> = ({
 	comment,
 }) => {
 	const [createComment, setCreateComment] = useState('');
+	const [commentChildren, setCommentChildren] = useState(
+		comment.children,
+	);
 	const [childComments, setChildComments] = useGet<
 		ChildComment[]
 	>(`/events/child_comments/${comment.c_id}`);
@@ -89,6 +93,7 @@ const EventComment: React.FC<EventCommentProps> = ({
 						...childComments,
 						resp.data,
 					]);
+				setCommentChildren(commentChildren + 1);
 				setCreateComment('');
 			}
 		} catch (e) {
@@ -168,6 +173,9 @@ const EventComment: React.FC<EventCommentProps> = ({
 						}}
 					/>
 					<EventCommentActionRow>
+						<EventCommentChildrenCounter>
+							{commentChildren}
+						</EventCommentChildrenCounter>
 						<EventCommentReplyButton
 							onClick={() =>
 								setExpandCommentSection(

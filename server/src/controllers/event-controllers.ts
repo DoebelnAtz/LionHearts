@@ -114,12 +114,16 @@ export const getEventById = catchErrors(async (req, res) => {
 	let eventComments = await query(
 		`
 		SELECT c_id, created, 
-		content, creator, 
-		COALESCE(u.username, '[deleted]') as username, 
-		u.profile_pic 
-		FROM comments LEFT JOIN users u
-		ON creator = u.u_id 
-		WHERE e_id = $1
+	  content, creator, 
+	  COALESCE(u.username, '[deleted]') as username, 
+	  u.profile_pic, COALESCE(children, 0) as children 
+	  FROM comments LEFT JOIN users u
+	  ON creator = u.u_id 
+	  LEFT JOIN 
+	  (SELECT COUNT(*) as children, parent 
+	  FROM child_comments GROUP BY parent) cc 
+	  ON cc.parent = c_id 
+	  WHERE e_id = $1; 
 	`,
 		[eid],
 	);

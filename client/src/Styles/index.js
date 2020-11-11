@@ -179,7 +179,7 @@ export const components = {
 		caret-color: ${color.primary};
 		caret-shape: block;
 		color: ${color.primary};
-		padding: 6px;
+		padding: 2px 6px;
 		font-size: 16px;
 		border-radius: 0;
 		box-shadow: none;
@@ -268,7 +268,7 @@ export const components = {
 			caret-color: ${color.primary};
 			caret-shape: block;
 			color: ${color.primary};
-			padding: 6px;
+			padding: 2px 6px;
 		}
 		& input:focus {
 			outline: none;
@@ -294,6 +294,7 @@ export const components = {
 		text-transform: uppercase;
 		font-size: 20px;
 		line-height: 30px;
+		flex-shrink: 0;
 		background-color: ${color.BG0};
 		${cursor.clickable};
 		border: 2px solid ${color.primary};

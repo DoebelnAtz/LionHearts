@@ -1,11 +1,17 @@
 import styled from 'styled-components';
-import { font, color, units, cursor } from '../../../../Styles';
+import {
+	font,
+	color,
+	units,
+	cursor,
+} from '../../../../Styles';
 
 export const AdminPanelDiv = styled.div`
 	width: 100%;
 	height: 100%;
 	display: flex;
 	flex-direction: column;
+	flex-shrink: 0;
 	overflow-y: hidden;
 `;
 
@@ -13,6 +19,8 @@ export const AdminPanelNavTabs = styled.div`
 	width: 100%;
 	display: flex;
 	height: 50px;
+	flex-shrink: 0;
+
 	flex-wrap: nowrap;
 `;
 
@@ -26,11 +34,16 @@ export const AdminPanelTab = styled.div`
 	text-align: center;
 	${cursor.clickable};
 	border-bottom: 2px solid
-		${(props) => (props.highlighted ? color.secondary : color.BG2)};
+		${(props) =>
+			props.highlighted
+				? color.secondary
+				: color.BG2};
 	&:hover {
 		background-color: ${color.BG1};
 		border-bottom-color: ${(props) =>
-			props.highlighted ? color.secondary : color.tertiary};
+			props.highlighted
+				? color.secondary
+				: color.tertiary};
 	}
 `;
 

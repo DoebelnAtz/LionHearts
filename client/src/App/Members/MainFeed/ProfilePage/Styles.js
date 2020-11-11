@@ -64,20 +64,41 @@ export const OccupationInfoDiv = styled.div`
 	display: flex;
 	flex-direction: column;
 	margin-top: ${units.margin};
+	& > div {
+		margin-bottom: ${units.margin};
+	}
 `;
 
-export const PlaceOfStudy = styled.span`
+export const StudySpan = styled.span`
+	${font.DCBold};
+	font-size: 16px;
+	line-height: 20px;
+	color: ${color.primary};
+`;
+
+export const PlaceOfStudy = styled.div`
 	${font.DCBold};
 	font-size: 16px;
 	color: ${color.primary};
 	display: flex;
 	line-height: 28px;
-
+	flex-direction: ${(props) =>
+		props.editing ? 'column' : 'row'};
 	text-transform: uppercase;
+	& > div {
+		margin-top: ${units.margin};
+	}
 	@media (max-width: ${units.mobile}) {
 		font-size: 3vw;
 		line-height: 20px;
 	}
+`;
+
+export const LocationSpan = styled.span`
+	${font.DCBold};
+	font-size: 16px;
+	line-height: 20px;
+	color: ${color.primary};
 `;
 
 export const Location = styled.div`
@@ -87,6 +108,7 @@ export const Location = styled.div`
 	color: ${color.primary};
 	display: flex;
 	text-transform: uppercase;
+
 	@media (max-width: ${units.mobile}) {
 		font-size: 3vw;
 		line-height: 20px;
@@ -124,15 +146,19 @@ export const ContactInfoDiv = styled.div`
 `;
 
 export const ContactInfo = styled.input`
+	${components.input};
 	color: ${color.primary};
 	${font.DCBold};
 	width: calc(100% - ${units.margin} * 1);
-	height: ${(props) => (props.disabled ? '22px' : `20px`)};
+	height: ${(props) =>
+		props.disabled ? '22px' : `20px`};
 	letter-spacing: 0.5px;
 	margin: 5px 0;
 	font-size: 14px;
 	border: ${(props) =>
-		props.disabled ? 'none' : `1px solid ${color.primary}`};
+		props.disabled
+			? 'none'
+			: `1px solid ${color.primary}`};
 	background-color: ${(props) =>
 		props.disabled ? 'none' : `${color.tertiary}`};
 `;
@@ -309,7 +335,10 @@ export const CreateSkillDiv = styled.div`
 			? colorAdjust.lighten(color.tertiary, 0.03)
 			: color.tertiary};
 	border-radius: 4px;
-	${(props) => (props.disabled ? cursor.notAllowed : cursor.clickable)};
+	${(props) =>
+		props.disabled
+			? cursor.notAllowed
+			: cursor.clickable};
 	margin-right: ${units.margin};
 	padding: 2px 5px;
 	&:hover {

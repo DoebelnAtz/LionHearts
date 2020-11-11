@@ -19,6 +19,7 @@ export const EventPageInfoDiv = styled.div`
 	padding: 5%;
 	height: initial;
 	display: flex;
+	flex-shrink: 0;
 	flex-direction: column;
 	width: calc(90%);
 `;
@@ -35,6 +36,8 @@ export const EventPageInfoTitle = styled.input`
 	${font.DCBold};
 	&:disabled {
 		border: none;
+		opacity: 1;
+		padding: 0;
 	}
 	&:focus {
 		outline: none;

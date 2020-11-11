@@ -186,12 +186,12 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
 		});
 	};
 
-	const handleEventToggle = () => {
+	const handleEventToggle = (event: boolean) => {
 		setEditedArticle({
 			...editedArticle,
 			article: {
 				...editedArticle.article,
-				isevent: !editedArticle.article.isevent,
+				isevent: event,
 			},
 		});
 	};
@@ -287,7 +287,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
 						state={
 							editedArticle.article.isevent
 						}
-						onClick={handleEventToggle}
+						setState={handleEventToggle}
 					/>
 				</ArticleOptionRow>
 				<ErrorSpan>{errors.fileError}</ErrorSpan>

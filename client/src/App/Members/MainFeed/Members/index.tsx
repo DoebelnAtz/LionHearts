@@ -16,6 +16,7 @@ import {
 	FilterListContainer,
 	FilterListDiv,
 	FilterListDragHandle,
+	FilterListHandleContainer,
 	FilterOptionsContainer,
 	FilterOptionsDiv,
 	FilterOptionsExpandable,
@@ -210,15 +211,14 @@ const MemberList: React.FC = () => {
 			// when the user releases the sheet, we check whether it passed
 			// the threshold for it to close, or if we reset it to its open positino
 			if (last) {
-				if (
-					(my < -170 || vy < -0.5) &&
-					!(vy > 0.5)
-				) {
+				if (vy < -0.5) {
 					close(vy);
 				} else if (vy > 0.5) {
-					open({ canceled });
+					open(false);
+				} else if (my < -200) {
+					close();
 				} else {
-					open({ canceled });
+					open(false);
 				}
 			} else if (!dragging && my === openHeight) {
 				close();
@@ -235,7 +235,7 @@ const MemberList: React.FC = () => {
 			initial: () => [0, y.get()],
 			filterTaps: true,
 			bounds: { top: -240 },
-			rubberband: false,
+			rubberband: true,
 		},
 	);
 	return (
@@ -326,12 +326,14 @@ const MemberList: React.FC = () => {
 						</MemberFilterLanguageDiv>
 					</FilterOptionsContainer>
 					<FilterListDragHandle {...bind()}>
-						<span>filters</span>
-						<DragIcon>
-							<DragIconLine />
-							<DragIconLine />
-							<DragIconLine />
-						</DragIcon>
+						<FilterListHandleContainer>
+							<span>filters</span>
+							<DragIcon>
+								<DragIconLine />
+								<DragIconLine />
+								<DragIconLine />
+							</DragIcon>
+						</FilterListHandleContainer>
 					</FilterListDragHandle>
 				</FilterListDiv>
 

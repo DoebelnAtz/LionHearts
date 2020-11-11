@@ -290,12 +290,12 @@ const ArticleControl: React.FC = () => {
 		}
 	};
 
-	const handleEventToggle = () => {
+	const handleEventToggle = (newState: boolean) => {
 		setNewArticle({
 			...newArticle,
 			article: {
 				...newArticle.article,
-				isevent: !newArticle.article.isevent,
+				isevent: newState,
 			},
 		});
 	};
@@ -357,7 +357,7 @@ const ArticleControl: React.FC = () => {
 											};
 										},
 									)}
-									width={'100px'}
+									width={'152px'}
 								/>
 							)}
 						</AddArticleAuthor>
@@ -375,7 +375,7 @@ const ArticleControl: React.FC = () => {
 					</ArticleEventTitle>
 					<ToggleButton
 						state={newArticle.article.isevent}
-						onClick={handleEventToggle}
+						setState={handleEventToggle}
 					/>
 				</ArticleOptionRow>
 				<ErrorSpan>{errors.fileError}</ErrorSpan>
