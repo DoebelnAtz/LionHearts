@@ -58,6 +58,15 @@ export interface Language {
 	name: string;
 }
 
+export interface EventParticipant {
+	u_id: number;
+	username: string
+	firstname: string;
+	lastname: string;
+	profile_pic: string;
+	status: 'going' | 'maybe' | 'not going' | null
+}
+
 export interface Profile {
 	u_id: number;
 	location: string;

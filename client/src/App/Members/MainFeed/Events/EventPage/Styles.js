@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import {
 	color,
-	components,
+	components, cursor,
 	font,
 	units,
 } from '../../../../../Styles';
@@ -69,10 +69,20 @@ export const EditButton = styled.button`
 export const EventPageInfoParticipantsIcon = styled.img`
 	height: 20px;
 	width: 20px;
+	
 `;
 
 export const EventPageParticipantsDiv = styled.div`
 	display: flex;
+	${cursor.clickable};
+	border-radius: 4px;
+	transform: translateX(-6px);
+	margin-right: auto;
+	padding: 6px 6px 2px 6px;
+	transition: background-color 0.1s ease-in-out;
+	&:hover {
+		background-color: ${color.tertiaryShade};
+	}
 `;
 
 export const EventPageInfoParticipants = styled.span`
@@ -81,6 +91,7 @@ export const EventPageInfoParticipants = styled.span`
 	padding-top: 2px;
 	margin-left: 5px;
 	font-size: 18px;
+	line-height: 20px;
 `;
 
 export const EventPageCreator = styled.span`

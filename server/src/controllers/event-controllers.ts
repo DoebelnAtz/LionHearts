@@ -97,7 +97,7 @@ export const getEventById = catchErrors(async (req, res) => {
 
 	let participants = await query(
 		`
-		SELECT u.username, u.profile_pic, u.u_id FROM users u JOIN event_participants ep ON ep.u_id = u.u_id WHERE ep.e_id = $1 
+		SELECT u.username, u.firstname, u.lastname, u.profile_pic, u.u_id FROM users u JOIN event_participants ep ON ep.u_id = u.u_id WHERE ep.e_id = $1 
 	`,
 		[eid],
 	);
@@ -134,6 +134,19 @@ export const getEventById = catchErrors(async (req, res) => {
 		participants: participants.rows,
 	});
 }, 'Failed to get event by id');
+
+export const getEventParticipationList = catchErrors(async(req, res) => {
+
+	const eventId = req.params.eid;
+
+	let participants = await query(`
+		SELECT u.username, u.lastname, u.firstname, u.profile_pic, u.username, u.u_id, 
+  ep.status
+  FROM users u LEFT JOIN event_participants ep ON ep.u_id = u.u_id AND ep.e_id = $1;
+	`, [eventId]);
+
+	res.json(participants.rows)
+}, 'Failed to get event participants');
 
 export const createEventComment = catchErrors(async (req, res) => {
 	const { content, eventId } = req.body;

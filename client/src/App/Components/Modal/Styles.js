@@ -48,8 +48,8 @@ export const CloseButton = styled.span`
 	font-weight: 600;
 	margin-left: auto;
 	margin-right: 10px;
+		transition: color 0.2s;
 	&:hover {
-		transition: color 0.1s;
 		color: ${colorAdjust.darken(color.primary, 0.2)};
 	}
 `;

@@ -5,7 +5,7 @@
   "main": "src/index.ts",
   "scripts": {
     "start": "node build/index.js",
-    "dev": "ts-node-dev src/index.ts",
+    "dev": "ts-node-dev --files src/index.ts",
     "build": "tsc",
     "gcp-build": "tsc",
     "deploy": "gcloud config set project lionhearts-291621 && gcloud app deploy api.yaml"

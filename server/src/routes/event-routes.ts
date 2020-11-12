@@ -10,7 +10,7 @@ import {
 	joinEvent,
 	updateEvent,
 	createEventChildComment,
-	getChildCommentsByCommentId,
+	getChildCommentsByCommentId, getEventParticipationList,
 } from '../controllers/event-controllers';
 
 const eventRouter = express.Router();
@@ -21,7 +21,10 @@ eventRouter.get('/comments/:eid', getCommentsByEventId);
 
 eventRouter.get('/child_comments/:cid', getChildCommentsByCommentId);
 
+eventRouter.get('/participants/:eid', getEventParticipationList);
+
 eventRouter.get('/:eid', getEventById);
+
 
 eventRouter.post(
 	'/change_participation',

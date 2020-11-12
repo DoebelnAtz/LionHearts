@@ -41,7 +41,7 @@ const HomeImg: React.FC<HomeImgProps> = ({ text, BGsrc, hash }) => {
 			setLoaded(true);
 			setSrc(imageLoader.src);
 		};
-	});
+	}, [BGsrc]);
 	return (
 		<HomeBlurHash id={'blurhash'}>
 			<BHNavBarContainer>

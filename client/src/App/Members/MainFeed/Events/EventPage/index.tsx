@@ -33,9 +33,11 @@ import EventComment from './EventComment';
 import { useSpring } from 'react-spring';
 import { SaveBtn } from '../../../../Components/LoadingButton/Styles';
 import LoadingButton from '../../../../Components/LoadingButton';
+import ParticipantListModal from "./ParticipantListModal";
 
 const EventPage: React.FC = () => {
 	const params = useParams<{ eid: string }>();
+	const [showParticipants, setShowParticipants] = useState(false);
 	const history = useHistory();
 	useNav('event');
 	const [createComment, setCreateComment] = useState('');
@@ -147,6 +149,7 @@ const EventPage: React.FC = () => {
 
 	return (
 		<EventPageDiv>
+			{showParticipants && event && <ParticipantListModal event={event} setEvent={setEvent} setShowParticipants={setShowParticipants}/>}
 			{event && (
 				<>
 					<EventPageInfoDiv>
@@ -203,7 +206,7 @@ const EventPage: React.FC = () => {
 								event?.lastname,
 							)}
 						</EventPageCreator>
-						<EventPageParticipantsDiv>
+						<EventPageParticipantsDiv onClick={() => setShowParticipants(true)}>
 							<EventPageInfoParticipantsIcon
 								src={MemberIcon}
 								alt={'participants'}
