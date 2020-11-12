@@ -3,7 +3,6 @@ import CustomError from '../errors/customError';
 import { hash, compare } from 'bcryptjs';
 import { query } from '../postgres';
 import { connect } from '../postgres';
-import { transaction } from '../errors/transaction';
 import { accessLogger } from '../logger';
 import { JsonWebTokenError, sign } from 'jsonwebtoken';
 let config = require('../config');
@@ -19,7 +18,9 @@ export const signup = catchErrors(async (req, res) => {
 		profilePic,
 		phone,
 	} = req.body;
-	const username = (firstname + lastname.charAt(0)).toLowerCase().trim();
+	const username = (firstname.toLowerCase().trim() + lastname.charAt(0))
+		.toLowerCase()
+		.trim();
 	let application = await query(
 		`
 			SELECT application_id, 
@@ -52,28 +53,32 @@ export const signup = catchErrors(async (req, res) => {
 	}
 	let hashedPassword: string;
 	hashedPassword = await hash(password, 10);
+
 	const client = await connect();
-	await transaction(
-		async () => {
-			await query(
-				`
+	try {
+		await client.query('BEGIN');
+		await query(
+			`
 	        INSERT INTO users (firstname, lastname, password, email, username, phone, profile_pic)
 	        VALUES ($1, $2, $3, $4, $5, $6, $7)
 	    `,
-				[
-					firstname,
-					lastname,
-					hashedPassword,
-					email,
-					username,
-					phone,
-					`${username}/${profilePic}`,
-				],
-			);
-		},
-		client,
-		'failed to create user',
-	);
+			[
+				firstname,
+				lastname,
+				hashedPassword,
+				email,
+				username,
+				phone,
+				`${username}/${profilePic}`,
+			],
+		);
+		await client.query('COMMIT');
+	} catch (e) {
+		await client.query('ROLLBACK');
+		throw new CustomError('Failed to create user', 500, e);
+	} finally {
+		client.release();
+	}
 	res.status(201).json({ success: true });
 });
 

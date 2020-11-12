@@ -308,7 +308,7 @@ export const getLanguages = catchErrors(async (req, res) => {
 			WHERE lc.u_id = $1 GROUP BY lc.u_id) a`,
 			[userId],
 		);
-		forbidden = forbidden.rows[0].forb || [];
+		forbidden = forbidden.rows[0]?.forb || [0];
 		console.log(forbidden);
 		//issues with pg inserting array/
 		langauges = await query(

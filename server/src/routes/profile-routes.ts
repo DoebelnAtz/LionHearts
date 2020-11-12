@@ -34,11 +34,8 @@ profileRouter.put(
 	'/update_profile',
 	[
 		check('email').not().isEmpty(),
-		check('bio').not().isEmpty(),
 		check('phone').not().isEmpty(),
 		check('location').isNumeric(),
-		check('school').isNumeric(),
-		check('degree').isNumeric(),
 	],
 	updateProfile,
 );

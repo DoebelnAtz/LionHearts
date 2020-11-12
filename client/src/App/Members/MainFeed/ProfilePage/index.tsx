@@ -1,5 +1,9 @@
 import React, { ChangeEvent, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import {
+	Link,
+	useParams,
+	useHistory,
+} from 'react-router-dom';
 import { useGet, useNav } from '../../../../Hooks';
 import { url } from '../../../../config';
 import {
@@ -27,6 +31,7 @@ import {
 	LanguageTitle,
 	Location,
 	LocationSpan,
+	LogoutButton,
 	OccupationInfoDiv,
 	PlaceOfStudy,
 	ProfilePageBio,
@@ -67,6 +72,7 @@ import LinkedinIcon from '../../../../assets/images/linkedin_icon.png';
 
 const ProfilePage: React.FC = () => {
 	const params = useParams<{ uid: string }>();
+	const history = useHistory();
 	useNav('profile');
 	const [editing, setEditing] = useState(false);
 	const [degrees, setDegrees] = useGet<Degree[]>(
@@ -363,6 +369,11 @@ const ProfilePage: React.FC = () => {
 		}
 	};
 
+	const handleLogout = () => {
+		localStorage.removeItem('user');
+		history.push('/');
+	};
+
 	const handleLocationChange = (newLocation: Option) => {
 		if (profile) {
 			setProfile({
@@ -563,14 +574,15 @@ const ProfilePage: React.FC = () => {
 						{profile && `${profile?.lastname}`}
 					</ProfilePageName>
 					<OccupationInfoDiv>
-						{profile?.degree && profile.school && (
+						{
 							<PlaceOfStudy editing={editing}>
 								{profile &&
 								checkUser(profile.u_id) &&
 								editing ? (
 									<DropDownComponent
 										state={
-											profile?.degree
+											profile?.degree ||
+											'Select degree'
 										}
 										setSelect={(
 											newDeg,
@@ -600,7 +612,9 @@ const ProfilePage: React.FC = () => {
 									/>
 								) : (
 									<StudySpan>
-										{`Studying ${profile?.degree} at ${profile?.school}`}
+										{profile?.degree &&
+											profile.school &&
+											`Studying ${profile?.degree} at ${profile?.school}`}
 									</StudySpan>
 								)}
 								{profile &&
@@ -608,7 +622,8 @@ const ProfilePage: React.FC = () => {
 								editing ? (
 									<DropDownComponent
 										state={
-											profile?.school
+											profile?.school ||
+											'Select school'
 										}
 										setSelect={(
 											newSchool,
@@ -638,7 +653,7 @@ const ProfilePage: React.FC = () => {
 									/>
 								) : null}
 							</PlaceOfStudy>
-						)}
+						}
 						<Location>
 							{profile &&
 							checkUser(profile.u_id) &&
@@ -691,6 +706,11 @@ const ProfilePage: React.FC = () => {
 						</ProfilePageEditButtons>
 					) : (
 						<ProfilePageEditButtons>
+							<LogoutButton
+								onClick={handleLogout}
+							>
+								Log out
+							</LogoutButton>
 							<LoadingButton
 								width={'66px'}
 								height={'30px'}
@@ -878,27 +898,30 @@ const ProfilePage: React.FC = () => {
 							</AddSkillDiv>
 						)}
 						<SkillResults>
-							{!!languageSearch.length && (
-								<CreateSkillDiv
-									disabled={(
-										languageResults ||
-										[]
-									).find(
-										(language) =>
-											language.name.toLowerCase() ===
-											languageSearch.toLowerCase(),
-									)}
-									onClick={
-										handleLanguageCreation
-									}
-								>
-									<SkillTitle>
-										Add language: '
-										{languageSearch}'
-									</SkillTitle>
-								</CreateSkillDiv>
-							)}
-							{renderLanguageSearchResults()}
+							{editing &&
+								!!languageSearch.length && (
+									<CreateSkillDiv
+										disabled={(
+											languageResults ||
+											[]
+										).find(
+											(language) =>
+												language.name.toLowerCase() ===
+												languageSearch.toLowerCase(),
+										)}
+										onClick={
+											handleLanguageCreation
+										}
+									>
+										<SkillTitle>
+											Add language: '
+											{languageSearch}
+											'
+										</SkillTitle>
+									</CreateSkillDiv>
+								)}
+							{editing &&
+								renderLanguageSearchResults()}
 						</SkillResults>
 					</ProfilePageLanguageDiv>
 
@@ -935,7 +958,7 @@ const ProfilePage: React.FC = () => {
 						</AddSkillDiv>
 					)}
 					<SkillResults>
-						{!!skillSearch.length && (
+						{editing && !!skillSearch.length && (
 							<CreateSkillDiv
 								disabled={(
 									skillResults || []
@@ -954,7 +977,8 @@ const ProfilePage: React.FC = () => {
 								</SkillTitle>
 							</CreateSkillDiv>
 						)}
-						{renderSkillSearchResults()}
+						{editing &&
+							renderSkillSearchResults()}
 					</SkillResults>
 				</ProfilePageBioSkillsDiv>
 			</ProfilePageContent>

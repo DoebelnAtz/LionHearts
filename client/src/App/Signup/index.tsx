@@ -118,33 +118,41 @@ const Signup: React.FC = () => {
 		if (
 			!!input.phone.length &&
 			!!input.password.length &&
-			application &&
-			selectedFile
+			application
 		) {
 			if (
 				input.password ===
 				input.passwordConfirmation
 			) {
-				try {
-					await handleFileUpload(event);
-					await makeRequest(
-						'/auth/signup',
-						'POST',
-						{
-							firstname:
-								application.firstname,
-							lastname: application.lastname,
-							email: application.email,
-							password: input.password,
-							phone: input.phone,
-							profilePic: selectedFile.name,
-							applicationId:
-								application.application_id,
-						},
-					);
-					history.push('/members/login');
-				} catch (e) {
-					return false;
+				if (selectedFile) {
+					try {
+						await handleFileUpload(event);
+						await makeRequest(
+							'/auth/signup',
+							'POST',
+							{
+								firstname:
+									application.firstname,
+								lastname:
+									application.lastname,
+								email: application.email,
+								password: input.password,
+								phone: input.phone,
+								profilePic:
+									selectedFile.name,
+								applicationId:
+									application.application_id,
+							},
+						);
+						history.push('/members/login');
+					} catch (e) {
+						return false;
+					}
+				} else {
+					setErrors({
+						...errors,
+						fileError: 'required',
+					});
 				}
 			} else {
 				setErrors({
@@ -152,6 +160,7 @@ const Signup: React.FC = () => {
 					passError: "password doesn't match",
 					confError: "password doesn't match",
 				});
+				return false;
 			}
 		} else {
 			setErrors({
@@ -163,6 +172,7 @@ const Signup: React.FC = () => {
 					? 'required'
 					: '',
 			});
+			return false;
 		}
 		return true;
 	};

@@ -170,7 +170,7 @@ export const cursor = {
 
 export const components = {
 	input: css`
-		${font.DCBold};
+		${font.RCReg};
 		-webkit-appearance: none;
 		-moz-appearance: none;
 		appearance: none;
@@ -262,6 +262,7 @@ export const components = {
 		& input {
 			font-size: 16px;
 			border-radius: 0;
+			${font.RCReg};
 			box-shadow: none;
 			background-color: ${color.tertiary};
 			border: none;

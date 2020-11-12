@@ -25,6 +25,11 @@ export const ProfilePageEditButtons = styled.div`
 	display: flex;
 `;
 
+export const LogoutButton = styled.button`
+	${components.buttonWhite};
+	margin-right: ${units.margin};
+`;
+
 export const EditProfileButton = styled.div`
     background-image: url("${(props) => props.url}");
     height: 20px;
@@ -51,12 +56,12 @@ export const ProfilePageNameDiv = styled.div`
 export const ProfilePageName = styled.span`
 	${font.DCBold};
 	font-size: 38px;
-	line-height: 34px;
+	line-height: 39px;
 	color: ${color.primary};
 	text-transform: uppercase;
 	@media (max-width: ${units.mobile}) {
 		font-size: calc(14px + 2vw);
-		line-height: 20px;
+		line-height: 22px;
 	}
 `;
 
@@ -340,6 +345,7 @@ export const CreateSkillDiv = styled.div`
 			? cursor.notAllowed
 			: cursor.clickable};
 	margin-right: ${units.margin};
+	margin-bottom: ${units.margin};
 	padding: 2px 5px;
 	&:hover {
 		background-color: ${(props) =>
@@ -374,6 +380,8 @@ export const AddSkillButton = styled(animated.div)`
 	transition: border-radius 4s;
 	padding: 2px 0;
 	width: 34px;
+	height: 22px;
+	line-height: 22px;
 	text-align: center;
 	${cursor.clickable};
 	&:hover {

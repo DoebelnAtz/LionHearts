@@ -62,7 +62,7 @@ export const searchSkills = catchErrors(async (req, res) => {
 			WHERE sc.u_id = $1 GROUP BY sc.u_id) a`,
 			[userId],
 		);
-		forbidden = forbidden.rows[0].forb || [];
+		forbidden = forbidden.rows[0]?.forb || [0];
 		console.log(forbidden);
 		skills = await query(
 			`
