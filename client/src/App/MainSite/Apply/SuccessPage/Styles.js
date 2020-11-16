@@ -6,9 +6,8 @@ export const SuccessPageContainer = styled.div`
 	margin: 130px min(10vw, 100px);
 	background-color: ${color.BG0};
 	display: flex;
-	@media (max-width: 900px) {
 		flex-direction: column;
-	}
+	
 `;
 
 export const SuccessHeader = styled.h1`

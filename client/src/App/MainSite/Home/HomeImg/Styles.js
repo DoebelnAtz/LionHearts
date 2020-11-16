@@ -22,14 +22,7 @@ export const HomeBlurHash = styled.div`
 	width: 100%;
 	display: flex;
 	flex-direction: column;
-	z-index: 2;
-	background-color: ${color.primary};
-	transition: opacity 1s linear;
-	background-image: url(${(props) => props.src});
-	background-color: ${color.primary};
-	background-size: cover;
-	background-repeat: no-repeat;
-	background-position: center;
+	z-index: 5;
 `;
 
 export const BHNavBarContainer = styled.div`
@@ -37,10 +30,14 @@ export const BHNavBarContainer = styled.div`
 	width: 100%;
 `;
 
-export const BGImg = styled(animated.div)`
+export const BGImg = styled.div`
 	max-height: 570px;
 	height: 100%;
 	width: 100%;
+	position: absolute;
+	opacity: ${props => props.completed ? 1 : 0};
+	z-index: 4;
+	transition: all 2s ease-in-out;
 	background-image: url(${(props) => props.src});
 	background-color: ${color.primary};
 	background-blend-mode: multiply;
@@ -52,10 +49,11 @@ export const BGImg = styled(animated.div)`
 export const Vision = styled.h1`
 	${font.DCBold};
 	font-size: min(86px, max(12vw, 34px));
-	margin: auto 0 120px min(10vw, 100px);
-	z-index: 1;
+	margin: auto 0 60px min(10vw, 100px);
+	z-index: 5;
 	padding: 0;
 	width: calc(100% - 100px);
+	opacity: 1;
 	max-width: min(400px, 60vw);
 	color: white;
 	@media (max-width: 900px) {

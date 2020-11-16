@@ -28,12 +28,12 @@ const ArticlePage: React.FC = () => {
 
 	return (
 		<EventsDiv>
-			<HomeImg text={'NEWS'} />
+			<HomeImg text={'ARTICLES'} />
 			<ArticleContainer>
 				<ButtonDiv>
-					<BackToEventsButton onClick={() => history.push('/news')}>
+					<BackToEventsButton onClick={() => history.push('/articles')}>
 						<img src={arrowLeft} />
-						<span>news</span>
+						<span>articles</span>
 					</BackToEventsButton>
 				</ButtonDiv>
 				<ArticleHeader>{article?.article.title}</ArticleHeader>

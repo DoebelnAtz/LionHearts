@@ -11,19 +11,19 @@ const SummarySection: React.FC = () => {
 				<SummaryColumn
 					title={'A community'}
 					text={
-						'Our members create a community where they can complete each other’s backgrounds and areas of expertise, producing sharp and wholesome insights that enable us to approach complex issues with a variety of perspectives.'
+						'Our members create a community where we can complete each other’s backgrounds and areas of expertise. With multiple perspectives, we are poised to produce sharp and wholesome insights that enable us to address complex issues beyond silos.'
 					}
 				/>
 				<SummaryColumn
-					title={'A Network  '}
+					title={'A Vision'}
 					text={
-						'At Lionhearts, we aim at working hand in hand with the previous generations, where our fresh ideas and determination can ally with years of experience in a specific field to build a better tomorrow, together.'
+							'As young people, we have the determination and audacity to improve our society. More than just an organization, Lionhearts allows us to apply our innovativeness and unique talents to fascinating projects and bring forward the changes we believe are needed! '
 					}
 				/>
 				<SummaryColumn
-					title={'A vision'}
+					title={'A way forward'}
 					text={
-						'As young people, we have the determination and audacity to improve our society. More than just an organization, Lionhearts allows us to apply our innovation and talent to fascinating projects and bring the changes we believe are needed!'
+						'Facilitated by a strategy consultancy Co-founders, our work at Lionhearts brings together different generations. We get to collaborate with seasoned, yet forward-looking professionals from different fields to build a better tomorrow, together.'
 					}
 				/>
 			</SummaryColumns>

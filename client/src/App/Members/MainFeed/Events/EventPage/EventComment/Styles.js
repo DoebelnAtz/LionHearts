@@ -13,12 +13,13 @@ export const EventCommentDiv = styled.div`
 	padding: ${units.margin};
 	display: flex;
 	flex-direction: column;
-	border-top: 2px solid ${color.secondary};
+	border-top: 2px solid ${color.tertiary};
 `;
 
 export const EventCommentContainer = styled.div`
 	display: flex;
 	width: 100%;
+	padding-top: 10px;
 	height: auto;
 `;
 
@@ -32,6 +33,7 @@ export const EventChildCommentContainer = styled.div`
 
 export const EventCommentPicCol = styled.div`
 	width: 60px;
+	border-left: 4px dotted ${color.tertiary};
 	padding-right: ${units.margin};
 `;
 
@@ -61,14 +63,14 @@ export const EventCommentEditor = styled.div`
 `;
 
 export const EventCommentTextarea = styled.textarea`
-	width: calc(100% - 8px);
-	height: 60px;
+	width: calc(100% - 24px);
+	height: 50px;
 	color: ${color.text};
 	${font.RReg};
+	//box-shadow: inset 0px 0px 10px 10px ${color.BG1};
 	flex-shrink: 0;
-	box-shadow: none;
 	border-radius: 0;
-	padding: 0;
+	padding: 10px;
 	resize: none;
 	font-size: 16px;
 	border: 2px solid ${color.primary};
@@ -123,6 +125,9 @@ export const EventChildCommentProfilePic = styled.div`
 export const EventCommentProfilePic = styled.div`
 	height: 50px;
 	width: 50px;
+	padding: 4px;
+	transform: translateX(-4px);
+	background-color: ${color.BG0};
 `;
 
 export const EventCommentSection = styled(animated.div)`
@@ -134,8 +139,7 @@ export const EventCommentSection = styled(animated.div)`
 export const EventCommentFeed = styled.div`
 	width: 100%;
 	margin-top: ${units.margin};
-
-	position: relative;
+	margin-bottom: 20px;
 	overflow-y: auto;
 `;
 

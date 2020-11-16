@@ -73,15 +73,15 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
 	const expand = useSpring({
 		height: editing ? '760px' : '0px',
 	});
-
+	const sizeLimit = 500000;
 	const handleFileChange = (files: FileList) => {
 		let targetFile = files[0];
 
 		if (targetFile) {
-			if (targetFile.size > 80000) {
+			if (targetFile.size > sizeLimit) {
 				setErrors({
 					...errors,
-					fileError: 'File size exceeds 80kb',
+					fileError: `File size exceeds ${sizeLimit / 1000}kb`,
 				});
 			} else if (
 				!acceptedTypes.includes(targetFile.type)

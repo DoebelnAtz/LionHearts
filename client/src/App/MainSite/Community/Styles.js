@@ -17,6 +17,18 @@ export const CommunityContainer = styled.div`
 	}
 `;
 
+export const ParagraphHeader = styled.h2`
+    ${font.DCBold};
+    color: ${color.secondary};
+    font-size: 32px;
+`;
+
+export const ParagraphSubHeader = styled.h3`
+    ${font.DCBold};
+    color: ${color.secondary};
+`;
+
+
 export const LanguageList = styled.div`
 	display: flex;
 	width: 100%;
@@ -29,17 +41,21 @@ export const SummaryTitle = styled.span`
 	margin: ${units.margin} 0;
 `;
 
-export const SchoolItem = styled.p`
-	font-size: 16px;
-	line-height: 1rem !important;
+export const SchoolItem = styled.li`
+	font-size: 18px;
+	${font.RReg};
+	line-height: 1em !important;
 	margin-bottom: 1rem !important;
+	text-transform: capitalize;
 `;
+
+
 
 export const LanguageIcon = styled.div`
 	height: 50px;
 	width: 50px;
 
-	margin: ${units.margin} 5px ${units.margin} 0;
+	margin:0 20px 0 0;
 	background: url(${(props) => props.url});
 	background-position: center;
 	background-size: cover;

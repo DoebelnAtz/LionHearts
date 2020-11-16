@@ -30,7 +30,7 @@ import LoadingButton from '../Components/LoadingButton';
 import { AnimatedLabeledInputDiv } from '../../Styles';
 
 const acceptedTypes = ['image/jpeg', 'image/png'];
-const imageSizeLimit = 200000;
+const imageSizeLimit = 5000000;
 
 const Signup: React.FC = () => {
 	const history = useHistory();
@@ -184,8 +184,8 @@ const Signup: React.FC = () => {
 				setErrors({
 					...errors,
 					fileError: `File size exceeds ${
-						imageSizeLimit / 1000
-					}kb`,
+						imageSizeLimit / 1000000
+					}mb`,
 				});
 			} else if (
 				!acceptedTypes.includes(targetFile.type)

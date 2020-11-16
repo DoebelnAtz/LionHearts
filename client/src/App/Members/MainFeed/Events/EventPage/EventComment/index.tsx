@@ -67,7 +67,7 @@ const EventComment: React.FC<EventCommentProps> = ({
 	] = useState(false);
 	const expandCommentSectionSpring = useSpring({
 		maxHeight: expandCommentSection
-			? 126 +
+			? 136 +
 			  (expandTarget.current?.offsetHeight || 1) +
 			  'px'
 			: '0px',

@@ -13,7 +13,7 @@ export const MobileNavDiv = styled(animated.div)`
 	display: flex;
 	transition: height linear 1s;
 	width: 100%;
-	z-index: 2;
+	z-index: 10;
 	flex-direction: column;
 	flex-wrap: nowrap;
 	opacity: 1;
@@ -24,7 +24,7 @@ export const MobileNavLinks = styled(animated.div)`
 	padding-top: 60px;
 	width: 100%;
 	position: absolute;
-	z-index: 2;
+	z-index: 11;
 	background-color: ${color.primary}00;
 	flex-direction: column;
 	text-align: center;
@@ -38,7 +38,7 @@ export const MobileLinkContainer = styled(animated.div)`
 	padding: 20px 0;
 	border-top: 3px solid ${color.BG0};
 	display: flex;
-	z-index: 2;
+	z-index: 10;
 	flex-direction: column;
 `;
 

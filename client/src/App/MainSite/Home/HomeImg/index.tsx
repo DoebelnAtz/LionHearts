@@ -19,16 +19,13 @@ type HomeImgProps = {
 	hash?: string;
 };
 
-const HomeImg: React.FC<HomeImgProps> = ({ text, BGsrc, hash }) => {
+const HomeImg: React.FC<HomeImgProps> = ({ text, BGsrc, hash= 'iGF5,BxvITs:RiM{t7xaxt_N-;RjadIVNGs.WBa#%fn%ofNGs.xaM{RkRjj]WBM{Rkxat7RjjFoet7bHj[oLkDbbWAWVf+' }) => {
 	const fadeDiv = useRef<HTMLDivElement>(null);
 	const [loaded, setLoaded] = useState(true);
 	const [src, setSrc] = useState(
 		`${url}/api/photos/${BGsrc ? BGsrc : 'lh_meeting.jpg'}`,
 	);
-	const fadeIn = useSpring({
-		config: { mass: 20, clamp: true },
-		opacity: !loaded ? 1 : 0,
-	});
+
 	useEffect(() => {
 		const imageLoader = new Image();
 		imageLoader.src = `${url}/api/photos/${
@@ -42,18 +39,19 @@ const HomeImg: React.FC<HomeImgProps> = ({ text, BGsrc, hash }) => {
 			setSrc(imageLoader.src);
 		};
 	}, [BGsrc]);
+
 	return (
 		<HomeBlurHash id={'blurhash'}>
 			<BHNavBarContainer>
 				<NavBar />
 			</BHNavBarContainer>
 
-			<BGImg src={src}>
-				<ImgDiv ref={fadeDiv}>
 					<Vision>{text}</Vision>
+			<BGImg completed={loaded} src={src}>
+				<ImgDiv ref={fadeDiv}>
 				</ImgDiv>
 			</BGImg>
-			<BHContainer style={fadeIn}>
+			<BHContainer>
 				<Blurhash
 					style={{
 						position: 'relative',
@@ -61,8 +59,7 @@ const HomeImg: React.FC<HomeImgProps> = ({ text, BGsrc, hash }) => {
 						mixBlendMode: 'multiply',
 					}}
 					hash={
-						hash ||
-						'iGF5,BxvITs:RiM{t7xaxt_N-;RjadIVNGs.WBa#%fn%ofNGs.xaM{RkRjj]WBM{Rkxat7RjjFoet7bHj[oLkDbbWAWVf+'
+						hash
 					}
 					width={'100%'}
 					height={'100%'}

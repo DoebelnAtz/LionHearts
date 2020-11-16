@@ -26,7 +26,7 @@ const News: React.FC = () => {
 	const history = useHistory();
 
 	const handleCardClick = (id: number) => {
-		history.push(`/news/${id}`);
+		history.push(`/articles/${id}`);
 	};
 
 	const renderEvents = () => {
@@ -65,7 +65,13 @@ const News: React.FC = () => {
 
 	return (
 		<NewsPage>
-			<HomeImg text={'NEWS'} />
+			<HomeImg
+				text={'ARTICLES'}
+				hash={
+					'iIIg[oyZS$nhI]xuRjaekW5TIA8_MxkCozV@M|n$Osb_s9V[s,V@oJaej[Vus8tQtR%LtRt8t6R*n3V?RjoMs,S4kCofV['
+				}
+				BGsrc={'cinnamon_buns.jpg'}
+			/>
 			<NewsDiv>
 				<NewsList>{renderEvents()}</NewsList>
 			</NewsDiv>

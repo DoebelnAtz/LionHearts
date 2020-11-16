@@ -1,3 +1,5 @@
+import {url} from "./config";
+
 if ('function' === typeof importScripts) {
 	importScripts(
 		'https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js',
@@ -62,21 +64,21 @@ if ('function' === typeof importScripts) {
 		};
 		/* injection point for manifest files.  */
 		workbox.routing.registerRoute(
-			new RegExp(`^http://localhost:5000/api/.*`),
+			new RegExp(`^${url}/api/.*`),
 			new workbox.strategies.NetworkFirst({
 				cacheName: 'dev-build-api-cache',
 			}),
 		);
 
 		workbox.routing.registerRoute(
-			new RegExp('^http://localhost:5000/api/photos/.*'),
+			new RegExp(`^${url}/api/photos/.*`),
 			new workbox.strategies.CacheFirst({
 				cacheName: 'img-cache',
 			}),
 		);
 
 		workbox.routing.registerRoute(
-			new RegExp('^http://localhost:5000/api/languages/.*'),
+			new RegExp(`^${url}/api/languages/.*`),
 			new workbox.strategies.CacheFirst({
 				cacheName: 'img-cache',
 			}),

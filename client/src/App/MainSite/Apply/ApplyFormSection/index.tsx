@@ -7,6 +7,8 @@ import {
 	ApplyTextDiv,
 	FormDiv,
 	FormError,
+	InstructionList,
+	InstructionListItem,
 	LegalCheckBox,
 	LegalCheckDiv,
 	LegalCheckTitle,
@@ -302,6 +304,36 @@ const ApplyFormSection: React.FC = () => {
 						GREAT THAT YOU GOT THIS FAR, TELL US
 						ABOUT YOURSELF!
 					</ApplyHeader>
+					<InstructionList>
+						<InstructionListItem>
+							Fill in your contact details
+						</InstructionListItem>
+						<InstructionListItem>
+							Explain why you would like to be
+							a Lionhearts
+						</InstructionListItem>
+						<InstructionListItem>
+							Send in your cv and relevant
+							files in English or in Finnish
+						</InstructionListItem>
+						<InstructionListItem>
+							We contact you shortly after for
+							a potential interview (online or
+							in person)
+						</InstructionListItem>
+						<InstructionListItem>
+							We conduct the interview
+						</InstructionListItem>
+						<InstructionListItem>
+							We let you know if you are in!
+						</InstructionListItem>
+						<InstructionListItem>
+							If so, we provide you with your
+							own Lionhearts member account
+							and you can start joining our
+							events and projects!
+						</InstructionListItem>
+					</InstructionList>
 				</ApplyTextDiv>
 				<FormDiv>
 					<ApplyForm>

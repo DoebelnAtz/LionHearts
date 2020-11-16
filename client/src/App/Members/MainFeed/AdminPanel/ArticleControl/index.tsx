@@ -15,11 +15,9 @@ import {
 	ArticleControlDiv,
 	ArticleListDiv,
 	NewArticleButton,
-	SubmitButton,
 	AddArticleInfo,
 	AddArticleThumbnail,
 	AddArticleAuthorTitle,
-	ArticleThumbnailBorder,
 	ArticleThumbnailInput,
 	ArticleOptionRow,
 	ArticleEventTitle,
@@ -51,96 +49,11 @@ const ArticleControl: React.FC = () => {
 	const [users, setUsers] = useGet<Profile[]>(
 		'/profiles',
 	);
-	const editor = useRef(null);
 
 	const [errors, setErrors] = useState({
 		fileError: '',
 	});
 
-	const imageHandler = (image: any, callback: any) => {
-		// @ts-ignore
-		var range = editor.current
-			.getEditor()
-			.getSelection();
-		var value = prompt('What is the image URL');
-		if (value) {
-			// @ts-ignore
-			editor.current
-				.getEditor()
-				.insertEmbed(
-					range.index,
-					'image',
-					value,
-					'user',
-				);
-		}
-	};
-	let modules: any = {
-		toolbar: {
-			container: [
-				[
-					{ header: '1' },
-					{ header: '2' },
-					{ font: [] },
-				],
-				[{ size: [] }],
-				[
-					'bold',
-					'italic',
-					'underline',
-					'strike',
-					'blockquote',
-				],
-				[
-					{ list: 'ordered' },
-					{ list: 'bullet' },
-					{ indent: '-1' },
-					{ indent: '+1' },
-				],
-				['link', 'image', 'video'],
-				['clean'],
-			],
-			handlers: {
-				image: imageHandler,
-			},
-		},
-	};
-	useEffect(() => {
-		modules = {
-			toolbar: {
-				container: [
-					[
-						{ header: '1' },
-						{ header: '2' },
-						{ font: [] },
-					],
-					[{ size: [] }],
-					[
-						'bold',
-						'italic',
-						'underline',
-						'strike',
-						'blockquote',
-					],
-					[
-						{ list: 'ordered' },
-						{ list: 'bullet' },
-						{ indent: '-1' },
-						{ indent: '+1' },
-					],
-					['link', 'image', 'video'],
-					['clean'],
-				],
-				handlers: {
-					image: imageHandler,
-				},
-			},
-			clipboard: {
-				// toggle to add extra line breaks when pasting HTML:
-				matchVisual: false,
-			},
-		};
-	}, [editor.current]);
 	const [newArticle, setNewArticle] = useState<
 		AuthoredArticle
 	>({
@@ -263,15 +176,16 @@ const ArticleControl: React.FC = () => {
 			})
 		);
 	};
+	const sizeLimit = 500000;
 
 	const handleFileChange = (files: FileList) => {
 		let targetFile = files[0];
 
 		if (targetFile) {
-			if (targetFile.size > 80000) {
+			if (targetFile.size > sizeLimit) {
 				setErrors({
 					...errors,
-					fileError: 'File size exceeds 80kb',
+					fileError: `File size exceeds ${sizeLimit/1000}kb`,
 				});
 			} else if (
 				!acceptedTypes.includes(targetFile.type)

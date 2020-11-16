@@ -10,6 +10,7 @@ import Footer from '../../Footer';
 import NewsSection from './NewsSection';
 import { Route } from 'react-router-dom';
 import LoginPopup from '../../LoginPopup';
+import VideoSection from './VideoSection';
 
 const Home: React.FC = () => {
 	return (
@@ -21,6 +22,7 @@ const Home: React.FC = () => {
 				text={'TOMORROW, BUILT BY YOU.'}
 			/>
 			<SummarySection />
+			<VideoSection />
 			<EventSection />
 			<ApplyNow />
 			<NewsSection />

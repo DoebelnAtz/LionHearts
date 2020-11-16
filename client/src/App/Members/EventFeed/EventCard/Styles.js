@@ -15,9 +15,9 @@ export const EventCardDiv = styled.div`
 			? `${color.primary}20`
 			: color.BG0};
 	border-top: 2px solid ${color.BG1};
-	transition: background-color 0.1s;
+	transition: background-color 0.15s ease-in-out;
 	&:hover {
-		background-color: ${color.BG2};
+		background-color: ${color.BG2}70;
 	}
 `;
 

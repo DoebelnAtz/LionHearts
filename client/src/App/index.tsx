@@ -73,7 +73,7 @@ function App() {
 							>
 								<EventPage />
 							</Route>
-							<Route exact path={'/news'}>
+							<Route exact path={'/articles'}>
 								<News />
 							</Route>
 							<Route exact path={'/404'}>
@@ -81,7 +81,7 @@ function App() {
 							</Route>
 							<Route
 								exact
-								path={'/news/:aid'}
+								path={'/articles/:aid'}
 							>
 								<ArticlePage />
 							</Route>

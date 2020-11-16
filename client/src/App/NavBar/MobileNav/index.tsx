@@ -52,7 +52,7 @@ const MobileNav: React.FC<{
 			location: '/community',
 		},
 		{ id: 0, text: 'EVENTS', location: '/events' },
-		{ id: 0, text: 'NEWS', location: '/news' },
+		{ id: 0, text: 'ARTICLES', location: '/articles' },
 		{ id: 0, text: 'APPLY', location: '/apply' },
 	];
 

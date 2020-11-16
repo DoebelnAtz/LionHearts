@@ -33,7 +33,9 @@ const Events: React.FC = () => {
 				return (
 					<EventCard
 						onClick={() =>
-							handleCardClick(event.article.article_id)
+							handleCardClick(
+								event.article.article_id,
+							)
 						}
 						key={event.article.article_id}
 					>
@@ -48,7 +50,8 @@ const Events: React.FC = () => {
 							</EventCardTitle>
 							<EventCardDate>
 								{getLocalDateFormat(
-									event.article.published_date,
+									event.article
+										.published_date,
 								)}
 							</EventCardDate>
 						</EventCardContentContainer>
@@ -62,10 +65,7 @@ const Events: React.FC = () => {
 		<EventsPage>
 			<HomeImg
 				text={'EVENTS'}
-				hash={
-					'iIIg[oyZS$nhI]xuRjaekW5TIA8_MxkCozV@M|n$Osb_s9V[s,V@oJaej[Vus8tQtR%LtRt8t6R*n3V?RjoMs,S4kCofV['
-				}
-				BGsrc={'cinnamon_buns.jpg'}
+				BGsrc={'lh_code_meeting.jpg'}
 			/>
 			<EventsDiv>
 				<EventList>{renderEvents()}</EventList>

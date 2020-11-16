@@ -47,7 +47,7 @@ const Footer: React.FC = () => {
 									<Link to={`/events`}>EVENTS</Link>
 								</FooterNavBarLink>
 								<FooterNavBarLink inverse isMobile={isMobile}>
-									<Link to={`/news`}>NEWS</Link>
+									<Link to={`/articles`}>ARTICLES</Link>
 								</FooterNavBarLink>
 								<FooterNavBarLink inverse isMobile={isMobile}>
 									<Link to={`/apply`}>APPLY</Link>

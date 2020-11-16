@@ -102,11 +102,34 @@ export const LegalLink = styled.a`
 	}
 `;
 
+export const InstructionList = styled.ol`
+    
+    padding: 0;
+`;
+
+export const InstructionListItem = styled.li`
+    ${font.RCReg};
+    font-size: 18px;
+    line-height: 1.5em;
+    margin-bottom: 1em;
+    letter-spacing: 1px;
+`;
+
 export const ApplyForm = styled.form`
 	display: flex;
 	flex-direction: column;
 	& label {
 		${components.labeledInput};
+		& input {
+		margin-top: 1em;
+		margin-bottom: 1.5em;
+		height: 24px;
+		}
+		& textarea {
+		margin-top: 1em;
+		margin-bottom: 1.5em;
+		height: 64px;
+		}
 	}
 	& button {
 		${components.buttonWhite};

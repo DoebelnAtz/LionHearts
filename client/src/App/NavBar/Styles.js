@@ -7,7 +7,7 @@ export const NavBarDiv = styled.div`
 	width: 100%;
 	height: 60px;
 	position: relative;
-	z-index: 2;
+	z-index: 10;
 	display: flex;
 	@media (max-width: 900px) {
 		position: fixed;
@@ -17,7 +17,7 @@ export const NavBarDiv = styled.div`
 export const NavBarLogoDiv = styled.div`
 	margin: ${(props) => (props.isMobile ? 'auto' : 'auto 0 auto 0')};
 	position: relative;
-	z-index: 3;
+	z-index: 11;
 
 	left: ${(props) => (props.isMobile ? '0' : 'min(10vw, 100px)')};
 `;
@@ -25,7 +25,7 @@ export const NavBarLogoDiv = styled.div`
 export const NavBarLinksDiv = styled.div`
 	margin: auto auto;
 	position: relative;
-	z-index: 3;
+	z-index: 11;
 	display: flex;
 `;
 
@@ -34,7 +34,7 @@ export const NavBarMemberIcon = styled.div`
 	position: relative;
 	${cursor.clickable};
 	right: min(10vw, 100px);
-	z-index: 3;
+	z-index: 11;
 	height: 30px;
 	& img {
 		height: 30px;
@@ -49,7 +49,7 @@ export const NavBarLink = styled(Link)`
 	color: ${(props) => (props.inverse ? `${color.primary}` : `${color.BG0}`)};
 	${font.DCBold};
 	font-size: 20px;
-	z-index: 3;
+	z-index: 11;
 	height: 22px;
 	line-height: 30px;
 	padding: 0 1vw 0 1vw;
@@ -67,6 +67,7 @@ export const NavBarLink = styled(Link)`
 export const MenuBtnDiv = styled.div`
 	position: relative;
 	margin: auto 0;
+	z-index: 11;
 	${cursor.clickable};
 	left: min(10vw, 100px);
 `;

@@ -14,9 +14,9 @@ export const colorAdjust = {
 
 export const color = {
 	primary: '#0064FF',
-	primaryShade: colorAdjust.darken('#0064FF', 0.2),
+	primaryShade: colorAdjust.darken('#0064FF', 0.1),
 	secondary: '#FF684F',
-	secondaryShade: colorAdjust.darken('#FF684F', 0.2),
+	secondaryShade: colorAdjust.darken('#FF684F', 0.1),
 	tertiary: '#FFE8D8',
 	tertiaryShade: colorAdjust.darken('#FFE8D8', 0.1),
 	text: '#232323',
@@ -358,6 +358,49 @@ export const components = {
 		}
 	`,
 };
+
+export const UnorderedList = styled.ul`
+    
+`;
+
+export const ListItem = styled.li`
+    ${font.RReg};
+    font-size: 18px;
+    line-height: 1.5em;
+    @media (max-width: ${units.mobile}) {
+    	font-size: calc(8px + 2vw);
+    }
+`;
+
+export const Paragraph = styled.p`
+    ${font.RReg};
+    line-height: 1.5em;
+    max-width: 700px;
+    margin: 1.5em 0!important;
+    font-size: 18px!important;
+    @media (max-width: ${units.mobile}) {
+    	font-size: calc(8px + 2vw)!important;
+    }
+`;
+
+export const Header2 = styled.h2`
+    ${font.DCBold};
+    color: ${color.primary};
+    font-size: 34px;
+    @media (max-width: ${units.mobile}) {
+    	font-size: calc(22px + 2vw);
+    }
+`;
+
+export const Header3 = styled.h3`
+    ${font.DCBold};
+    margin-top: 2.5em;
+    font-size: 24px;
+    color: ${color.primaryShade};
+    @media (max-width: ${units.mobile}) {
+    	font-size: calc(12px + 2vw);
+    }
+`;
 
 export const AnimatedLabeledInputDiv = styled.div`
 	${components.animatedLabeledInput};

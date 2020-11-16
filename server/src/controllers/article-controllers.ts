@@ -62,28 +62,32 @@ export const getArticleById = catchErrors(async (req, res) => {
 	`,
 		[articleId],
 	);
-	article = article.rows[0];
-	const createdArticle = {
-		article: {
-			article_id: article.article_id,
-			thumbnail: article.thumbnail,
-			title: article.title,
-			isEvent: article.event,
-			published_date: article.published_date,
-			content: article.content,
-		},
-		author: {
-			firstname: article.firstname,
-			lastname: article.lastname,
-			profile_pic: article.profile_pic,
-			u_id: article.u_id,
-		},
-	};
-	res.json(createdArticle);
+	if (!article.rows.length) {
+		res.status(404).json({message: 'article not found'})
+	} else {
+		article = article.rows[0];
+		const createdArticle = {
+			article: {
+				article_id: article.article_id,
+				thumbnail: article.thumbnail,
+				title: article.title,
+				isEvent: article.event,
+				published_date: article.published_date,
+				content: article.content,
+			},
+			author: {
+				firstname: article.firstname,
+				lastname: article.lastname,
+				profile_pic: article.profile_pic,
+				u_id: article.u_id,
+			},
+		};
+		res.json(createdArticle);
+	}
 }, 'Failed to get article by id');
 
 export const CreateArticle = catchErrors(async (req, res) => {
-	const { content, author, title, thumbnail, isEvent } = req.body;
+	const { content, author, title, thumbnail, isevent } = req.body;
 
 	let createdArticle: any;
 	const client = await connect();
@@ -91,10 +95,10 @@ export const CreateArticle = catchErrors(async (req, res) => {
 		async () => {
 			let newArticle = await query(
 				`
-                INSERT INTO articles (content, author, title, thumbnail, isEvent) VALUES
+                INSERT INTO articles (content, author, title, thumbnail, isevent) VALUES
                 ($1, $2, $3, $4, $5) RETURNING content, author, article_id, published_date
             `,
-				[content, author, title, thumbnail, isEvent],
+				[content, author, title, thumbnail, isevent],
 			);
 			let newAuthor = await query(
 				`

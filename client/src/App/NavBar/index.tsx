@@ -73,7 +73,7 @@ const NavBar = () => {
 					<NavBarLink to={`/about-us`}>ABOUT US</NavBarLink>
 					<NavBarLink to={`/community`}>COMMUNITY</NavBarLink>
 					<NavBarLink to={`/events`}>EVENTS</NavBarLink>
-					<NavBarLink to={`/news`}>NEWS</NavBarLink>
+					<NavBarLink to={`/articles`}>ARTICLES</NavBarLink>
 					<NavBarLink to={`/apply`}>APPLY</NavBarLink>
 				</NavBarLinksDiv>
 			)}
