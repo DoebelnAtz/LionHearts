@@ -64,21 +64,21 @@ if ('function' === typeof importScripts) {
 		};
 		/* injection point for manifest files.  */
 		workbox.routing.registerRoute(
-			new RegExp(`^https://api-dot-lionhearts-291621.ew.r.appspot.com/api/.*`),
+			new RegExp(`^https://api-dot-lionhearts-291621.appspot.com/api/.*`),
 			new workbox.strategies.NetworkFirst({
-				cacheName: 'dev-build-api-cache',
+				cacheName: 'api-cache',
 			}),
 		);
 
 		workbox.routing.registerRoute(
-			new RegExp(`^https://api-dot-lionhearts-291621.ew.r.appspot.com/api/photos/.*`),
+			new RegExp(`^https://api-dot-lionhearts-291621.appspot.com/api/photos/.*`),
 			new workbox.strategies.CacheFirst({
 				cacheName: 'img-cache',
 			}),
 		);
 
 		workbox.routing.registerRoute(
-			new RegExp(`^https://api-dot-lionhearts-291621.ew.r.appspot.com/api/languages/.*`),
+			new RegExp(`^https://api-dot-lionhearts-291621.appspot.com/api/languages/.*`),
 			new workbox.strategies.CacheFirst({
 				cacheName: 'img-cache',
 			}),
