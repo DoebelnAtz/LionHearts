@@ -1,4 +1,4 @@
-import {url} from "./config";
+
 
 if ('function' === typeof importScripts) {
 	importScripts(
@@ -64,21 +64,21 @@ if ('function' === typeof importScripts) {
 		};
 		/* injection point for manifest files.  */
 		workbox.routing.registerRoute(
-			new RegExp(`^${url}/api/.*`),
+			new RegExp(`^https://api-dot-lionhearts-291621.appspot.com/api/.*`),
 			new workbox.strategies.NetworkFirst({
-				cacheName: 'dev-build-api-cache',
+				cacheName: 'api-cache',
 			}),
 		);
 
 		workbox.routing.registerRoute(
-			new RegExp(`^${url}/api/photos/.*`),
+			new RegExp(`^https://api-dot-lionhearts-291621.appspot.com/api/photos/.*`),
 			new workbox.strategies.CacheFirst({
 				cacheName: 'img-cache',
 			}),
 		);
 
 		workbox.routing.registerRoute(
-			new RegExp(`^${url}/api/languages/.*`),
+			new RegExp(`^https://api-dot-lionhearts-291621.appspot.com/api/languages/.*`),
 			new workbox.strategies.CacheFirst({
 				cacheName: 'img-cache',
 			}),
