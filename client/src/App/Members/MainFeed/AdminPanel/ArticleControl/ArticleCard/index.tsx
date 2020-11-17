@@ -81,7 +81,9 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
 			if (targetFile.size > sizeLimit) {
 				setErrors({
 					...errors,
-					fileError: `File size exceeds ${sizeLimit / 1000}kb`,
+					fileError: `File size exceeds ${
+						sizeLimit / 1000
+					}kb`,
 				});
 			} else if (
 				!acceptedTypes.includes(targetFile.type)
@@ -225,7 +227,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
 									? URL.createObjectURL(
 											selectedFile,
 									  )
-									: `${url}/api/photos/${editedArticle.article.thumbnail}`
+									: `${editedArticle.article.thumbnail}`
 							}
 						/>
 					</AddArticleThumbnail>

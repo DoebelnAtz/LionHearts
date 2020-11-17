@@ -93,7 +93,7 @@ const FileControl: React.FC = () => {
 				return (
 					<ImagePreviewCard key={index}>
 						<ImagePreview
-							src={`${url}/api/photos/${file}`}
+							src={`https://storage.googleapis.com/lionhearts-images/${file}`}
 							alt={file}
 						/>
 						<ImagePreviewCardName>

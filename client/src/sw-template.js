@@ -71,7 +71,7 @@ if ('function' === typeof importScripts) {
 		);
 
 		workbox.routing.registerRoute(
-			new RegExp(`^https://api-dot-lionhearts-291621.appspot.com/api/photos/.*`),
+			new RegExp(`^https://storage.googleapis.com/.*`),
 			new workbox.strategies.CacheFirst({
 				cacheName: 'img-cache',
 			}),

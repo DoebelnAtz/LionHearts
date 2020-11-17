@@ -19,21 +19,31 @@ type HomeImgProps = {
 	hash?: string;
 };
 
-const HomeImg: React.FC<HomeImgProps> = ({ text, BGsrc, hash= 'iGF5,BxvITs:RiM{t7xaxt_N-;RjadIVNGs.WBa#%fn%ofNGs.xaM{RkRjj]WBM{Rkxat7RjjFoet7bHj[oLkDbbWAWVf+' }) => {
+const HomeImg: React.FC<HomeImgProps> = ({
+	text,
+	BGsrc,
+	hash = 'iGF5,BxvITs:RiM{t7xaxt_N-;RjadIVNGs.WBa#%fn%ofNGs.xaM{RkRjj]WBM{Rkxat7RjjFoet7bHj[oLkDbbWAWVf+',
+}) => {
 	const fadeDiv = useRef<HTMLDivElement>(null);
-	const [loaded, setLoaded] = useState(true);
+	const [loaded, setLoaded] = useState(false);
 	const [src, setSrc] = useState(
-		`${url}/api/photos/${BGsrc ? BGsrc : 'lh_meeting.jpg'}`,
+		`https://storage.googleapis.com/lionhearts-images/${
+			BGsrc ? BGsrc : 'lh_meeting.jpg'
+		}`,
 	);
 
 	useEffect(() => {
 		const imageLoader = new Image();
-		imageLoader.src = `${url}/api/photos/${
+		imageLoader.src = `https://storage.googleapis.com/lionhearts-images/${
 			BGsrc ? BGsrc : 'lh_meeting.jpg'
 		}`;
 		if (!imageLoader.complete) {
 			setLoaded(false);
 		}
+		// just to make sure we actually show the image
+		setTimeout(() => {
+			setLoaded(true);
+		}, 4000);
 		imageLoader.onload = () => {
 			setLoaded(true);
 			setSrc(imageLoader.src);
@@ -46,10 +56,9 @@ const HomeImg: React.FC<HomeImgProps> = ({ text, BGsrc, hash= 'iGF5,BxvITs:RiM{t
 				<NavBar />
 			</BHNavBarContainer>
 
-					<Vision>{text}</Vision>
+			<Vision>{text}</Vision>
 			<BGImg completed={loaded} src={src}>
-				<ImgDiv ref={fadeDiv}>
-				</ImgDiv>
+				<ImgDiv ref={fadeDiv}></ImgDiv>
 			</BGImg>
 			<BHContainer>
 				<Blurhash
@@ -58,9 +67,7 @@ const HomeImg: React.FC<HomeImgProps> = ({ text, BGsrc, hash= 'iGF5,BxvITs:RiM{t
 						zIndex: 1,
 						mixBlendMode: 'multiply',
 					}}
-					hash={
-						hash
-					}
+					hash={hash}
 					width={'100%'}
 					height={'100%'}
 				/>

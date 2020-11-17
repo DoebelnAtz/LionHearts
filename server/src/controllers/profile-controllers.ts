@@ -55,7 +55,6 @@ export const uploadProfilePicture = catchErrors(async (req, res) => {
 			'no file detected',
 		);
 	}
-	const userId = req.query.uid || 0;
 	const bucketName = `lionhearts-profile-pictures`;
 	const bucket = storage().bucket(bucketName);
 	const gcsFileName = `${req.file.originalname}`;
@@ -72,12 +71,7 @@ export const uploadProfilePicture = catchErrors(async (req, res) => {
 			`https://storage.googleapis.com/${bucket.name}/${blob.name}`,
 		);
 		console.log(publicUrl);
-		query('UPDATE users SET profile_pic = $1 WHERE u_id = $2', [
-			publicUrl,
-			userId,
-		]).then(() => {
-			res.status(200).send(publicUrl);
-		});
+		res.status(200).send(publicUrl);
 	});
 
 	blobStream.end(req.file.buffer);

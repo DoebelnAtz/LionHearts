@@ -13,13 +13,16 @@ import {
 	NewsThumbnailList,
 } from './Styles';
 import { useGet, useWidth } from '../../../../Hooks';
-import { Article, AuthoredArticle } from '../../../../@types';
+import {
+	Article,
+	AuthoredArticle,
+} from '../../../../@types';
 import Thumbnail from '../../../Components/Thumbnail';
 import { url } from '../../../../config';
 const NewsSection: React.FC = () => {
-	const [articles, setArticles] = useGet<AuthoredArticle[]>(
-		'/articles-no-token',
-	);
+	const [articles, setArticles] = useGet<
+		AuthoredArticle[]
+	>('/articles-no-token');
 	const history = useHistory();
 
 	const renderArticles = () => {
@@ -29,14 +32,18 @@ const NewsSection: React.FC = () => {
 				return (
 					<ArticleThumbnail
 						onClick={() =>
-							history.push(`/news/${article.article.article_id}`)
+							history.push(
+								`/news/${article.article.article_id}`,
+							)
 						}
 						key={article.article.article_id}
 					>
 						<Thumbnail
-							url={`${url}/api/photos/${article.article.thumbnail}`}
+							url={`${article.article.thumbnail}`}
 						>
-							<ArticleTitle>{article.article.title}</ArticleTitle>
+							<ArticleTitle>
+								{article.article.title}
+							</ArticleTitle>
 						</Thumbnail>
 					</ArticleThumbnail>
 				);
@@ -51,7 +58,10 @@ const NewsSection: React.FC = () => {
 				</NewsHeaderLink>
 			</NewsListDiv>
 			<NewsCarusel>
-				<NewsThumbnailList className={'scrollbar'} id={'news-carusel'}>
+				<NewsThumbnailList
+					className={'scrollbar'}
+					id={'news-carusel'}
+				>
 					{renderArticles()}
 				</NewsThumbnailList>
 			</NewsCarusel>

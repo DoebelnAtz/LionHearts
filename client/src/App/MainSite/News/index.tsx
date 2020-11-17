@@ -43,7 +43,7 @@ const News: React.FC = () => {
 					>
 						<NewsCardThumbnail>
 							<Thumbnail
-								url={`${url}/api/photos/${event.article.thumbnail}`}
+								url={`${event.article.thumbnail}`}
 							/>
 						</NewsCardThumbnail>
 						<NewsCardContentContainer>

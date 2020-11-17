@@ -41,7 +41,7 @@ const Events: React.FC = () => {
 					>
 						<EventCardThumbnail>
 							<Thumbnail
-								url={`${url}/api/photos/${event.article.thumbnail}`}
+								url={`${event.article.thumbnail}`}
 							/>
 						</EventCardThumbnail>
 						<EventCardContentContainer>

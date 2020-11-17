@@ -41,10 +41,11 @@ const MobileNav: React.FC<{
 
 	const expandMenu = useSpring({
 		from: { height: '0px' },
-		to: { height: !expanded ? '0px' : '450px' },
+		to: { height: !expanded ? '0px' : '510px' },
 	});
 
 	const links = [
+		{ id: 0, text: 'HOME', location: '/' },
 		{ id: 0, text: 'ABOUT US', location: '/about-us' },
 		{
 			id: 0,

@@ -11,6 +11,7 @@ export const ImgDiv = styled.div`
 export const BHContainer = styled(animated.div)`
 	width: 100%;
 	height: 100%;
+	opacity: 1;
 	position: absolute;
 	background-color: ${color.primary};
 `;

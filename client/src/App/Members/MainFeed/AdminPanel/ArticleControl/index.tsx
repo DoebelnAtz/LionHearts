@@ -105,7 +105,7 @@ const ArticleControl: React.FC = () => {
 			} else {
 				data.append('file', selectedFile);
 				await makeRequest(
-					`/files/upload-file/images/articles`,
+					`/files/upload-file/lionhearts-images`,
 					'POST',
 					data,
 				);
@@ -185,7 +185,9 @@ const ArticleControl: React.FC = () => {
 			if (targetFile.size > sizeLimit) {
 				setErrors({
 					...errors,
-					fileError: `File size exceeds ${sizeLimit/1000}kb`,
+					fileError: `File size exceeds ${
+						sizeLimit / 1000
+					}kb`,
 				});
 			} else if (
 				!acceptedTypes.includes(targetFile.type)

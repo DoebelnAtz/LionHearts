@@ -99,10 +99,7 @@ const Signup: React.FC = () => {
 			data.append('file', selectedFile);
 			try {
 				await makeRequest(
-					`/files/upload-file/profile-pictures/${(
-						application.firstname +
-						application.lastname.charAt(0)
-					).toLowerCase()}`,
+					`/files/upload-profile-picture`,
 					'POST',
 					data,
 				);
