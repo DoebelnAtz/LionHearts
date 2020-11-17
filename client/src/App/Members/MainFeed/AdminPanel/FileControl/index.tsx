@@ -19,8 +19,12 @@ import LoadingButton from '../../../../Components/LoadingButton';
 const acceptedTypes = ['image/jpeg', 'image/png'];
 
 const FileControl: React.FC = () => {
-	const [fileNames, setFileNames] = useGet<string[]>('/files/photos');
-	const [selectedFile, setSelectedFile] = useState<File>();
+	const [fileNames, setFileNames] = useGet<string[]>(
+		'/files/photos',
+	);
+	const [selectedFile, setSelectedFile] = useState<
+		File
+	>();
 	const [errors, setErrors] = useState({
 		fileError: '',
 	});
@@ -28,11 +32,14 @@ const FileControl: React.FC = () => {
 	const handleFileUpload = async (event: any) => {
 		const data = new FormData();
 
-		if (!!selectedFile && selectedFile.size < 50000000) {
+		if (
+			!!selectedFile &&
+			selectedFile.size < 50000000
+		) {
 			data.append('file', selectedFile);
 			try {
 				await makeRequest(
-					`/files/upload-file/images/articles`,
+					`/files/upload-file/images`,
 					'POST',
 					data,
 				);
@@ -54,7 +61,9 @@ const FileControl: React.FC = () => {
 					...errors,
 					fileError: 'File size exceeds 50mb',
 				});
-			} else if (!acceptedTypes.includes(targetFile.type)) {
+			} else if (
+				!acceptedTypes.includes(targetFile.type)
+			) {
 				setErrors({
 					...errors,
 					fileError: 'Allowed formats: jpeg, png',
@@ -72,7 +81,9 @@ const FileControl: React.FC = () => {
 	const renderFiles = () => {
 		const handleCopyCodeClick = async (img: string) => {
 			try {
-				await navigator.clipboard.writeText(`${url}/api/photos/${img}`);
+				await navigator.clipboard.writeText(
+					`${url}/api/photos/${img}`,
+				);
 			} catch (e) {}
 		};
 
@@ -85,9 +96,13 @@ const FileControl: React.FC = () => {
 							src={`${url}/api/photos/${file}`}
 							alt={file}
 						/>
-						<ImagePreviewCardName>{file}</ImagePreviewCardName>
+						<ImagePreviewCardName>
+							{file}
+						</ImagePreviewCardName>
 						<CopyImageHtml
-							onClick={() => handleCopyCodeClick(file)}
+							onClick={() =>
+								handleCopyCodeClick(file)
+							}
 						>
 							COPY SRC
 						</CopyImageHtml>
@@ -102,9 +117,13 @@ const FileControl: React.FC = () => {
 			<UploadFileDiv>
 				<UploadFileInput
 					type={'file'}
-					onChange={(e: any) => handleFileChange(e.target.files)}
+					onChange={(e: any) =>
+						handleFileChange(e.target.files)
+					}
 				/>
-				<LoadingButton onClick={handleFileUpload}>Upload</LoadingButton>
+				<LoadingButton onClick={handleFileUpload}>
+					Upload
+				</LoadingButton>
 				<ErrorSpan>{errors.fileError}</ErrorSpan>
 			</UploadFileDiv>
 			<ExistingFiles>{renderFiles()}</ExistingFiles>

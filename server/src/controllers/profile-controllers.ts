@@ -1,8 +1,12 @@
 import { catchErrors } from '../errors/catchErrors';
+const { Storage } = require('@google-cloud/storage');
 import fs from 'fs';
-import path from 'path';
+import { lookup } from 'mime-types';
 import { connect, query } from '../postgres';
 import { transaction } from '../errors/transaction';
+import { storage } from '../middleware';
+import CustomError from '../errors/customError';
+import { format } from 'util';
 
 const mime = {
 	html: 'text/html',
@@ -17,37 +21,66 @@ const mime = {
 };
 
 export const getProfilePicture = catchErrors(async (req, res) => {
-	const fileName = req.query.fileName;
+	const fileName =
+		typeof req.query.fileName === 'string'
+			? req.query.fileName
+			: 'placeholder.jpg';
 
-	const filePath = `./profile-pictures/${fileName}`;
-	// @ts-ignore
-	let type = mime[path.extname(fileName).slice(1)] || 'image/jpeg';
+	const bucket = storage().bucket('lionhearts-profile-pictures');
 
-	let f = fs.createReadStream(filePath);
-	f.on('open', function () {
-		res.set('Content-Type', type);
-		f.pipe(res);
+	const remoteFile = await bucket.file(fileName);
+	const stream = await remoteFile.createReadStream();
+	res.writeHead(200, {
+		'Content-Disposition': `attachment; filename="${fileName}"`,
+		'Content-Type': lookup(fileName as string) || 'image/jpeg',
 	});
-	f.on('error', function () {
-		res.set('Content-Type', 'text/plain');
-		res.status(404).end('Not found');
+	stream.pipe(res);
+
+	stream.on('error', function (err: Error) {
+		console.log(err);
+	});
+	stream.on('data', function (data: any) {
+		res.write(data);
+	});
+	stream.on('end', function () {
+		res.end();
 	});
 }, 'Failed to get file');
 
 export const uploadProfilePicture = catchErrors(async (req, res) => {
-	const client = await connect();
-	await transaction(
-		async () => {
-			query(
-				`
-	            UPDATE users SET profile_pic = $1 WHERE username = $2
-	        `,
-				[],
-			);
-		},
-		client,
-		'',
-	);
+	if (!req.file) {
+		throw new CustomError(
+			'Failed to upload profile pic',
+			500,
+			'no file detected',
+		);
+	}
+	const userId = req.query.uid || 0;
+	const bucketName = `lionhearts-profile-pictures`;
+	const bucket = storage().bucket(bucketName);
+	const gcsFileName = `${req.file.originalname}`;
+	const blob = bucket.file(gcsFileName);
+	const blobStream = blob.createWriteStream();
+
+	blobStream.on('error', (err) => {
+		console.log(err);
+	});
+
+	blobStream.on('finish', () => {
+		// The public URL can be used to directly access the file via HTTP.
+		const publicUrl = format(
+			`https://storage.googleapis.com/${bucket.name}/${blob.name}`,
+		);
+		console.log(publicUrl);
+		query('UPDATE users SET profile_pic = $1 WHERE u_id = $2', [
+			publicUrl,
+			userId,
+		]).then(() => {
+			res.status(200).send(publicUrl);
+		});
+	});
+
+	blobStream.end(req.file.buffer);
 }, 'Failed to upload profile picture');
 
 export const getProfileById = catchErrors(async (req, res) => {

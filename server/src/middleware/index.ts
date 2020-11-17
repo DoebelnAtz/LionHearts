@@ -2,12 +2,52 @@ import { ErrorRequestHandler, RequestHandler } from 'express';
 import { JsonWebTokenError } from 'jsonwebtoken';
 import { accessLogger, errorLogger } from '../logger';
 import { ErrorReporting } from '@google-cloud/error-reporting';
+const path = require('path');
+import { Storage } from '@google-cloud/storage';
+import { format } from 'util';
+import exp from 'constants';
 const jwt = require('jsonwebtoken');
 const config = require('../config');
 let errors: any;
 if (process.env.NODE_ENV === 'produciton') {
 	errors = new ErrorReporting({ reportMode: 'always' });
 }
+
+const keyFilePath = path.join(__dirname, '../../keyfile.json');
+
+export const storage = () =>
+	new Storage({
+		projectId: process.env.PROJECT_ID,
+		keyFilename: keyFilePath,
+	});
+
+export const sendUploadToGCS: RequestHandler = (req, res, next) => {
+	if (!req.file) {
+		return next();
+	}
+	const bucketName = `lionhearts-images`;
+	const bucket = storage().bucket(bucketName);
+	const gcsFileName = `${req.file.originalname}`;
+	const blob = bucket.file(gcsFileName);
+	const blobStream = blob.createWriteStream();
+
+	blobStream.on('error', (err) => {
+		console.log(err);
+		next(err);
+	});
+
+	blobStream.on('finish', () => {
+		// The public URL can be used to directly access the file via HTTP.
+		const publicUrl = format(
+			`https://storage.googleapis.com/${bucket.name}/${blob.name}`,
+		);
+		console.log(publicUrl);
+		res.status(200).send(publicUrl);
+	});
+
+	blobStream.end(req.file.buffer);
+};
+
 export const checkToken: RequestHandler = (req, res, next) => {
 	let token =
 		(req.headers['x-access-token'] as string) ||
@@ -68,7 +108,7 @@ export const handleError: ErrorRequestHandler = (error, req, res, next) => {
 	if (process.env.NODE_ENV === 'produciton') {
 		errors.report(`${error.status}: ${error.description}`);
 	}
-	return res.status(error.status).json({
+	return res.status(error.status || 500).json({
 		error: error.response,
 		message: error.message,
 		code: error.code || 0,

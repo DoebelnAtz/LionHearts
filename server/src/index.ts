@@ -4,6 +4,8 @@ import cors from 'cors';
 import { config } from 'dotenv';
 const debugAgent = require('@google-cloud/debug-agent');
 config();
+import * as proxy from 'http-proxy-middleware';
+
 if (process.env.NODE_ENV === 'production') {
 	debugAgent.start({
 		serviceContext: { enableCanary: false },
@@ -31,7 +33,10 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(
 	'/api/photos',
-	express.static(path.join(__dirname, '../images/articles')),
+	proxy.createProxyMiddleware({
+		target: `https://storage.googleapis.com/lionhearts-images`,
+		changeOrigin: true,
+	}),
 );
 app.use('/api/languages', express.static(path.join(__dirname, '../languages')));
 app.use('/api/auth', authRouter);

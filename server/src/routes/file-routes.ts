@@ -1,35 +1,40 @@
 import express from 'express';
-import multer from 'multer';
-import fs from 'fs';
 import { check } from 'express-validator';
-
+import { sendUploadToGCS } from '../middleware';
 import {
 	createApplication,
 	deleteApplicationFile,
 	getApplicationIdFiles,
 	uploadFile,
 } from '../controllers/application-controllers';
-import { getProfilePicture } from '../controllers/profile-controllers';
+import {
+	getProfilePicture,
+	uploadProfilePicture,
+} from '../controllers/profile-controllers';
 import { getArticleImages } from '../controllers/file-controllers';
+const Multer = require('multer');
 
 const fileRouter = express.Router();
 
-const storage = multer.diskStorage({
-	destination: function (req, file, cb) {
-		const path = `./${req.params.dest}/${req.params.name}`;
-		if (!fs.existsSync(path)) {
-			fs.mkdirSync(path);
-		}
-		cb(null, path || 'failed');
-	},
-	filename: function (req, file, cb) {
-		cb(null, file.originalname);
+const multer = Multer({
+	storage: Multer.MemoryStorage,
+	limits: {
+		fileSize: 5 * 1024 * 1024, // Maximum file size is 5MB
 	},
 });
 
-const upload = multer({ storage: storage });
+fileRouter.post(
+	'/upload-file/:bucket',
+	multer.single('file'),
+	sendUploadToGCS,
+	uploadFile,
+);
 
-fileRouter.post('/upload-file/:dest/:name', upload.single('file'), uploadFile);
+fileRouter.post(
+	'/upload-profile-picture/:uid',
+	multer.single('file'),
+	uploadProfilePicture,
+);
 
 fileRouter.delete(
 	'/delete-file',

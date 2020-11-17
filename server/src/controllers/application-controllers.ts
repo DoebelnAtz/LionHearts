@@ -61,8 +61,8 @@ export const getApplicationById = catchErrors(async (req, res) => {
 }, 'Failed to get application by id');
 
 export const uploadFile = catchErrors(async (req, res, next) => {
-	const file = req.file;
-	res.json(file);
+	console.log(req.file);
+	res.status(200).json({ files: req.file });
 }, 'failed to upload file');
 
 export const getApplicationFile = catchErrors(async (req, res) => {

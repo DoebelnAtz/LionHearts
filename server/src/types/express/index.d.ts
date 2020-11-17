@@ -5,5 +5,7 @@ declare namespace Express {
 			username: string;
 			role: string;
 		};
+		files?: any;
+		file?: any;
 	}
 }

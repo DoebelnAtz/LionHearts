@@ -4,3 +4,4 @@
 /member-applications/*
 !/member-applications/
 /build
+/keyfile.json

@@ -7,3 +7,5 @@ export const getArticleImages = catchErrors(async (req, res) => {
 	fileNames = fs.readdirSync('./images/articles');
 	res.json(fileNames);
 }, 'Failed to get images');
+
+export const getImages = catchErrors(async (req, res) => {}, '');
