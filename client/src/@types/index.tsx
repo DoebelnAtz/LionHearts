@@ -25,6 +25,7 @@ export function createCtx<A>(defaultValue: A) {
 
 export interface Application {
 	a_id: number;
+	username: string;
 	application_id: string;
 	firstname: string;
 	lastname: string;
@@ -60,11 +61,11 @@ export interface Language {
 
 export interface EventParticipant {
 	u_id: number;
-	username: string
+	username: string;
 	firstname: string;
 	lastname: string;
 	profile_pic: string;
-	status: 'going' | 'maybe' | 'not going' | null
+	status: 'going' | 'maybe' | 'not going' | null;
 }
 
 export interface Profile {

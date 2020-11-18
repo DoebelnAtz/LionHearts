@@ -67,12 +67,61 @@ export const ProfilePicInput = styled.input`
 	padding: 5px;
 	margin-bottom: 5px;
 	width: calc(100% - ${units.margin});
+	
+`;
+
+export const PasswordStrengthMeterDiv = styled.div`
+    display: flex;
+    width: 100%;
+    & > div {
+		margin-right: 4%;
+		border-radius: 4px;
+		height: 10px;
+		width: 22%;
+
+	}
+	& > div:last-child {
+		margin-right: 0;
+	}
+`;
+
+export const PasswordStrengthMeterBarLowest = styled.div`
+    background-color: ${props => 
+    	props.level >= 1 ? '#ff4810' : color.BG1
+    
+    };
+`;
+
+export const PasswordStrengthMeterBarLow = styled.div`
+    background-color: ${props => 
+    	props.level >= 2 ? '#f5b634' : color.BG1
+    
+    };
+`;
+
+export const PasswordStrengthMeterBarGood = styled.div`
+    background-color: ${props => 
+    	props.level >= 3 ? '#c5ff3d' : color.BG1
+    
+    };
+`;
+
+export const PasswordStrengthMeterBarExcellent = styled.div`
+
+    background-color: ${props => 
+    	props.level >= 4 ? '#59ff8d' : color.BG1
+    
+    };
 `;
 
 export const ProfilePicPreview = styled.img`
-	width: 40%;
-	height: 40%;
+	width: calc(10px + 8vw);
+	height: calc(10px + 8vw);
 	border-radius: 50%;
+	background: url(${props => props.src}), ${color.BG0};
+	background-position: center;
+	background-repeat: no-repeat;
+	background-color: ${color.BG0};
 	margin: 0 auto;
 `;
 

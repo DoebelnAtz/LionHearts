@@ -31,7 +31,7 @@ fileRouter.post(
 );
 
 fileRouter.post(
-	'/upload-profile-picture/:uid',
+	'/upload-profile-picture',
 	multer.single('file'),
 	uploadProfilePicture,
 );

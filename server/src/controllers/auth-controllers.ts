@@ -34,7 +34,7 @@ export const signup = catchErrors(async (req, res) => {
 	if (!application.rows) {
 		throw new CustomError(
 			'Application does not exist',
-			401,
+			403,
 			`Failed to sign up, invalid id: ${applicationId}`,
 			'Unauthorized sign up attempt',
 		);
@@ -46,7 +46,7 @@ export const signup = catchErrors(async (req, res) => {
 	if (!!existingUser.rows.length) {
 		throw new CustomError(
 			`User already exists`,
-			401,
+			403,
 			`Failed to sign up: user already exists`,
 			'This email has already been used.',
 		);
@@ -103,7 +103,28 @@ export const checkSignupAuth = catchErrors(async (req, res) => {
 			'Unauthorized sign up attempt',
 		);
 	}
-	res.json(application.rows[0]);
+
+	const username = (
+		application.rows[0].firstname.trim() +
+		application.rows[0].lastname.trim().charAt(0)
+	).toLowerCase();
+	console.log(username);
+	let existingUsername = await query(
+		`
+		SELECT username, u_id FROM users WHERE username = $1
+	`,
+		[username],
+	);
+
+	if (!!existingUsername.rows.length) {
+		throw new CustomError(
+			'Username already exists',
+			401,
+			`Failed to sign up, invalid id: ${applicationId}`,
+			'Unauthorized sign up attempt',
+		);
+	}
+	res.json({ ...application.rows[0], username });
 }, 'Failed to signup, invalid attempt');
 
 export const login = catchErrors(async (req, res, next) => {
