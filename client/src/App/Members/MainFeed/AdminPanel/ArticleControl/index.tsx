@@ -21,6 +21,7 @@ import {
 	ArticleOptionRow,
 	ArticleEventTitle,
 	AddParagraphButton,
+	PreviewDiv,
 } from './Styles';
 import { useGet } from '../../../../../Hooks';
 import {
@@ -51,7 +52,7 @@ const ArticleControl: React.FC = () => {
 		'/profiles',
 	);
 	const [text, setText] = useState<string[]>(['']);
-
+	const [preview, setPreview] = useState(false);
 	const [errors, setErrors] = useState({
 		fileError: '',
 	});
@@ -75,6 +76,10 @@ const ArticleControl: React.FC = () => {
 		},
 	});
 	const paragraphDiv = useRef<HTMLDivElement>(null);
+
+	const handlePreviewChange = () => {
+		setPreview(!preview);
+	};
 
 	const handleNewArticleContentChange = (
 		newContent: string,
@@ -116,7 +121,7 @@ const ArticleControl: React.FC = () => {
 					'/articles/create_article',
 					'POST',
 					{
-						content: newArticle.article.content,
+						content: text.join(''),
 						author: newArticle.author.u_id,
 						title: newArticle.article.title,
 						thumbnail: selectedFile?.name,
@@ -193,6 +198,7 @@ const ArticleControl: React.FC = () => {
 
 	const handleAddParagraphClick = () => {
 		setText([...text, '']);
+		preview && setPreview(false);
 		// wait until paragraph added to dom then scroll
 		setTimeout(() => {
 			paragraphDiv.current?.scrollIntoView({
@@ -343,16 +349,23 @@ const ArticleControl: React.FC = () => {
 				<AddArticleContentTitle>
 					Content
 				</AddArticleContentTitle>
+				<ToggleButton
+					state={preview}
+					setState={handlePreviewChange}
+				/>
 				<AddArticleContentDiv
 					className={'editor-container'}
 				>
-					{renderParagraphs()}
-					{/*<QuillEditor*/}
-					{/*	onChange={*/}
-					{/*		handleNewArticleContentChange*/}
-					{/*	}*/}
-					{/*	value={newArticle.article.content}*/}
-					{/*/>*/}
+					{preview ? (
+						<PreviewDiv
+							dangerouslySetInnerHTML={{
+								__html: text.join(''),
+							}}
+						/>
+					) : (
+						renderParagraphs()
+					)}
+
 					<div ref={paragraphDiv}> </div>
 				</AddArticleContentDiv>
 				<AddParagraphButton

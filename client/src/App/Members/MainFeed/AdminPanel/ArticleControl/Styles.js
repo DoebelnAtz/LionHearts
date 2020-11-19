@@ -106,6 +106,11 @@ export const AddArticleAuthorTitle = styled.span`
 	font-size: 20px;
 `;
 
+export const PreviewDiv = styled.div`
+    width: 100%;
+    height: calc(100% - 24px);
+`;
+
 export const AddParagraphButton = styled.button`
     ${components.buttonWhite};
     margin-bottom: ${units.margin};

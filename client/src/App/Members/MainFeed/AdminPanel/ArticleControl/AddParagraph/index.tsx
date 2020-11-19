@@ -127,6 +127,7 @@ export const AddParagraph: React.FC<AddParagraphProps> = ({
 			{editing ? (
 				<AddParagraphEditor>
 					<QuillEditor
+						simple
 						onChange={setText}
 						value={text}
 					/>
