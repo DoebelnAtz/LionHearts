@@ -64,7 +64,7 @@ export const getArticleById = catchErrors(async (req, res) => {
 		[articleId],
 	);
 	if (!article.rows.length) {
-		res.status(404).json({message: 'article not found'})
+		res.status(404).json({ message: 'article not found' });
 	} else {
 		article = article.rows[0];
 		const createdArticle = {
@@ -118,7 +118,6 @@ export const CreateArticle = catchErrors(async (req, res) => {
 		throw new CustomError('Failed to create article', 500, e);
 	} finally {
 		client.release();
-
 	}
 	res.status(201).json(createdArticle);
 }, 'Failed to create article');

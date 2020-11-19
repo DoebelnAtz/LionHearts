@@ -4,7 +4,7 @@ import path from 'path';
 import { connect, query } from '../postgres';
 import CustomError from '../errors/customError';
 import { transaction } from '../errors/transaction';
-import { storage } from '../middleware'
+import { storage } from '../middleware';
 const mime = {
 	html: 'text/html',
 	txt: 'text/plain',
@@ -36,11 +36,13 @@ const deleteFolderRecursive = function (filePath: string) {
 export const getApplicationIdFiles = catchErrors(async (req, res, next) => {
 	let fileNames: { name: string }[] = [];
 	const applicationId = req.params.aid;
-	const [files] = await storage().bucket('lionhearts-applications').getFiles({ prefix: `${applicationId}/`});
+	const [files] = await storage()
+		.bucket('lionhearts-applications')
+		.getFiles({ prefix: `${applicationId}/` });
 
 	files.forEach((file) => {
-		console.log(file.name.split("/").pop());
-		fileNames.push({name: file.name.split("/").pop() || 'undefined'});
+		console.log(file.name.split('/').pop());
+		fileNames.push({ name: file.name.split('/').pop() || 'undefined' });
 	});
 
 	res.json(fileNames);

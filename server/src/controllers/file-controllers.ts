@@ -19,8 +19,6 @@ export const getArticleImages = catchErrors(async (req, res) => {
 }, 'Failed to get images');
 
 export const uploadApplicationFile = catchErrors(async (req, res, next) => {
-
-
 	const applicationId = req.params.aid;
 
 	const bucketName = `lionhearts-applications`;

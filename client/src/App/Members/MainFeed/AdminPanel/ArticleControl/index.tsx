@@ -1,10 +1,9 @@
 import React, {
 	ChangeEvent,
-	useEffect,
 	useRef,
 	useState,
 } from 'react';
-import ReactQuill from 'react-quill';
+import _ from 'lodash';
 import {
 	AddArticleAuthor,
 	AddArticleContentDiv,
@@ -21,6 +20,7 @@ import {
 	ArticleThumbnailInput,
 	ArticleOptionRow,
 	ArticleEventTitle,
+	AddParagraphButton,
 } from './Styles';
 import { useGet } from '../../../../../Hooks';
 import {
@@ -39,6 +39,7 @@ import QuillEditor from '../../../../Components/QuillEditor';
 import Thumbnail from '../../../../Components/Thumbnail';
 import { ErrorSpan } from '../FileControl/Styles';
 import ToggleButton from '../../../../Components/ToggleButton';
+import { AddParagraph } from './AddParagraph';
 const acceptedTypes = ['image/jpeg', 'image/png'];
 
 const ArticleControl: React.FC = () => {
@@ -49,6 +50,7 @@ const ArticleControl: React.FC = () => {
 	const [users, setUsers] = useGet<Profile[]>(
 		'/profiles',
 	);
+	const [text, setText] = useState<string[]>(['']);
 
 	const [errors, setErrors] = useState({
 		fileError: '',
@@ -72,6 +74,7 @@ const ArticleControl: React.FC = () => {
 			u_id: 0,
 		},
 	});
+	const paragraphDiv = useRef<HTMLDivElement>(null);
 
 	const handleNewArticleContentChange = (
 		newContent: string,
@@ -89,7 +92,7 @@ const ArticleControl: React.FC = () => {
 	>();
 
 	const expand = useSpring({
-		height: adding ? '560px' : '0px',
+		height: adding ? '760px' : '0px',
 	});
 
 	const handleArticleCreation = async () => {
@@ -156,6 +159,48 @@ const ArticleControl: React.FC = () => {
 		});
 	};
 
+	const renderParagraphs = () => {
+		return text.map((paragraph, index) => {
+			// Looks wierd, check lodash docs on flow to understand.
+
+			const handleTextChange = (newText: string) => {
+				console.log(newText);
+				setText(
+					_.flow(
+						(t) => {
+							console.log(t);
+							return t.filter(
+								(p: string, i: number) =>
+									i !== index,
+							);
+						},
+						(t) => [
+							...t.slice(0, index),
+							newText,
+							...t.slice(index),
+						],
+					)(text),
+				);
+			};
+			return (
+				<AddParagraph
+					setText={handleTextChange}
+					text={paragraph}
+				/>
+			);
+		});
+	};
+
+	const handleAddParagraphClick = () => {
+		setText([...text, '']);
+		// wait until paragraph added to dom then scroll
+		setTimeout(() => {
+			paragraphDiv.current?.scrollIntoView({
+				behavior: 'smooth',
+			});
+		}, 100);
+	};
+
 	const renderArticles = () => {
 		return (
 			articles &&
@@ -176,7 +221,7 @@ const ArticleControl: React.FC = () => {
 			})
 		);
 	};
-	const sizeLimit = 500000;
+	const sizeLimit = 100000;
 
 	const handleFileChange = (files: FileList) => {
 		let targetFile = files[0];
@@ -232,7 +277,7 @@ const ArticleControl: React.FC = () => {
 									? URL.createObjectURL(
 											selectedFile,
 									  )
-									: `${url}/api/photos/${newArticle.article.thumbnail}`
+									: `https://storage.googleapis.com/lionhearts-images/placeholder-image.png`
 							}
 						/>
 					</AddArticleThumbnail>
@@ -301,14 +346,22 @@ const ArticleControl: React.FC = () => {
 				<AddArticleContentDiv
 					className={'editor-container'}
 				>
-					<QuillEditor
-						onChange={
-							handleNewArticleContentChange
-						}
-						value={newArticle.article.content}
-					/>
+					{renderParagraphs()}
+					{/*<QuillEditor*/}
+					{/*	onChange={*/}
+					{/*		handleNewArticleContentChange*/}
+					{/*	}*/}
+					{/*	value={newArticle.article.content}*/}
+					{/*/>*/}
+					<div ref={paragraphDiv}> </div>
 				</AddArticleContentDiv>
+				<AddParagraphButton
+					onClick={handleAddParagraphClick}
+				>
+					ADD PARAGRAPH
+				</AddParagraphButton>
 				<LoadingButton
+					height={'30px'}
 					onClick={handleArticleCreation}
 				>
 					SUBMIT

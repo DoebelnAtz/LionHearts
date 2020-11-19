@@ -87,8 +87,6 @@ const FileControl: React.FC = () => {
 	};
 
 	const renderFiles = () => {
-
-
 		return (
 			fileNames &&
 			fileNames.map((file, index) => {

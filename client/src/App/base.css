@@ -160,7 +160,9 @@ p {
  */
 
 .quill {
-    height: calc(100% - 68px);
+    height: calc(100%);
+    display: flex;
+    flex-direction: column;
 }
 
 .ql-container {

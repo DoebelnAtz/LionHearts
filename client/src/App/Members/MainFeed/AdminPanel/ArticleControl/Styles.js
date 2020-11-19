@@ -106,6 +106,11 @@ export const AddArticleAuthorTitle = styled.span`
 	font-size: 20px;
 `;
 
+export const AddParagraphButton = styled.button`
+    ${components.buttonWhite};
+    margin-bottom: ${units.margin};
+`;
+
 export const AddArticleAuthor = styled.div`
 	display: flex;
 	flex-direction: column;
@@ -139,12 +144,6 @@ export const AddArticleTitle = styled.label`
 		height: 26px;
 		max-width: 140px;
 	}
-`;
-
-export const AddArticleAuthord = styled.div`
-	display: flex;
-	flex-direction: column;
-	margin: ${units.margin} ${units.margin} auto auto;
 `;
 
 export const AddArticleContentTitle = styled.span`
