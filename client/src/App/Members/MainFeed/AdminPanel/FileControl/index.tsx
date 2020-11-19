@@ -78,14 +78,16 @@ const FileControl: React.FC = () => {
 		}
 	};
 
+	const handleCopyCodeClick = async (img: string) => {
+		try {
+			await navigator.clipboard.writeText(
+				`https://storage.googleapis.com/lionhearts-images/${img}`,
+			);
+		} catch (e) {}
+	};
+
 	const renderFiles = () => {
-		const handleCopyCodeClick = async (img: string) => {
-			try {
-				await navigator.clipboard.writeText(
-					`${url}/api/photos/${img}`,
-				);
-			} catch (e) {}
-		};
+
 
 		return (
 			fileNames &&
