@@ -152,7 +152,7 @@ const ApplyFormSection: React.FC = () => {
 			data.append('file', selectedFile);
 			try {
 				await makeRequest(
-					`/files/upload-file/member-applications/${applicationId}`,
+					`/files/upload-application/${applicationId}`,
 					'POST',
 					data,
 				);

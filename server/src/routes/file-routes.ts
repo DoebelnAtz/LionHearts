@@ -11,7 +11,7 @@ import {
 	getProfilePicture,
 	uploadProfilePicture,
 } from '../controllers/profile-controllers';
-import { getArticleImages } from '../controllers/file-controllers';
+import { getArticleImages, uploadApplicationFile } from '../controllers/file-controllers';
 const Multer = require('multer');
 
 const fileRouter = express.Router();
@@ -31,6 +31,13 @@ fileRouter.post(
 );
 
 fileRouter.post(
+	'/upload-application/:aid',
+	multer.single('file'),
+	uploadApplicationFile,
+);
+
+
+fileRouter.post(
 	'/upload-profile-picture',
 	multer.single('file'),
 	uploadProfilePicture,
@@ -45,7 +52,7 @@ fileRouter.delete(
 fileRouter.get('/profile_picture', getProfilePicture);
 fileRouter.get('/photos', getArticleImages);
 
-fileRouter.get('/:applicationId', getApplicationIdFiles);
+fileRouter.get('/:aid', getApplicationIdFiles);
 
 fileRouter.post(
 	'/create_application',

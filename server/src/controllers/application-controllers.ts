@@ -4,7 +4,7 @@ import path from 'path';
 import { connect, query } from '../postgres';
 import CustomError from '../errors/customError';
 import { transaction } from '../errors/transaction';
-
+import { storage } from '../middleware'
 const mime = {
 	html: 'text/html',
 	txt: 'text/plain',
@@ -34,16 +34,16 @@ const deleteFolderRecursive = function (filePath: string) {
 };
 
 export const getApplicationIdFiles = catchErrors(async (req, res, next) => {
-	const path = `./member-applications/${req.params.applicationId}/`;
+	let fileNames: { name: string }[] = [];
+	const applicationId = req.params.aid;
+	const [files] = await storage().bucket('lionhearts-applications').getFiles({ prefix: `${applicationId}/`});
 
-	let files: any = [];
-	if (!!fs.existsSync(path)) {
-		fs.readdirSync(path).forEach((file) => {
-			files.push({ name: file });
-		});
-	} else {
-	}
-	res.json(files);
+	files.forEach((file) => {
+		console.log(file.name.split("/").pop());
+		fileNames.push({name: file.name.split("/").pop() || 'undefined'});
+	});
+
+	res.json(fileNames);
 }, 'Failed to get application files');
 
 export const getApplicationById = catchErrors(async (req, res) => {
