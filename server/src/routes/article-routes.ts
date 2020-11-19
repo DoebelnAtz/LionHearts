@@ -3,7 +3,7 @@ import {
 	CreateArticle,
 	getArticleById,
 	getArticles,
-	UpdateArticle,
+	updateArticle,
 } from '../controllers/article-controllers';
 import { check } from 'express-validator';
 
@@ -34,7 +34,7 @@ articleRouter.put(
 		check('isevent').isBoolean().not().isEmpty(),
 		check('thumbnail').not().isEmpty(),
 	],
-	UpdateArticle,
+	updateArticle,
 );
 
 export default { articleRouter, articleNoTokenRouter };

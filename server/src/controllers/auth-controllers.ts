@@ -5,6 +5,7 @@ import { query } from '../postgres';
 import { connect } from '../postgres';
 import { accessLogger } from '../logger';
 import { JsonWebTokenError, sign } from 'jsonwebtoken';
+import { capitalizeFirst } from '../utils';
 let config = require('../config');
 let jwt = require('jsonwebtoken');
 
@@ -63,8 +64,8 @@ export const signup = catchErrors(async (req, res) => {
 	        VALUES ($1, $2, $3, $4, $5, $6, $7)
 	    `,
 			[
-				firstname,
-				lastname,
+				capitalizeFirst(firstname),
+				capitalizeFirst(lastname),
 				hashedPassword,
 				email,
 				username,

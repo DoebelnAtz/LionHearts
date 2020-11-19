@@ -1,6 +1,7 @@
 import { catchErrors } from '../errors/catchErrors';
 import { connect, query } from '../postgres';
 import { transaction } from '../errors/transaction';
+import CustomError from '../errors/customError';
 
 export const getArticles = catchErrors(async (req, res) => {
 	const events = req.query.events || 'false';
@@ -91,61 +92,67 @@ export const CreateArticle = catchErrors(async (req, res) => {
 
 	let createdArticle: any;
 	const client = await connect();
-	await transaction(
-		async () => {
-			let newArticle = await query(
-				`
+	try {
+		await client.query('BEGIN');
+		let newArticle = await query(
+			`
                 INSERT INTO articles (content, author, title, thumbnail, isevent) VALUES
                 ($1, $2, $3, $4, $5) RETURNING content, author, article_id, published_date
             `,
-				[content, author, title, thumbnail, isevent],
-			);
-			let newAuthor = await query(
-				`
+			[content, author, title, thumbnail, isevent],
+		);
+		let newAuthor = await query(
+			`
 			    SELECT firstname, lastname, u_id, profile_pic FROM users WHERE u_id = $1
 			`,
-				[author],
-			);
+			[author],
+		);
 
-			createdArticle = {
-				article: newArticle.rows[0],
-				author: newAuthor.rows[0],
-			};
-		},
-		client,
-		'Failed to create article',
-	);
+		createdArticle = {
+			article: newArticle.rows[0],
+			author: newAuthor.rows[0],
+		};
+		await client.query('COMMIT');
+	} catch (e) {
+		await client.query('ROLLBACK');
+		throw new CustomError('Failed to create article', 500, e);
+	} finally {
+		client.release();
 
+	}
 	res.status(201).json(createdArticle);
 }, 'Failed to create article');
 
-export const UpdateArticle = catchErrors(async (req, res) => {
+export const updateArticle = catchErrors(async (req, res) => {
 	const { content, author, title, articleId, thumbnail, isevent } = req.body;
 	let updatedArticle: any = {};
 	const client = await connect();
-	await transaction(
-		async () => {
-			let newArticle = await query(
-				`
+	try {
+		await client.query('BEGIN');
+		let newArticle = await query(
+			`
                 UPDATE articles SET content = $1, author = $2, title = $3, thumbnail = $4, isevent = $5 WHERE article_id = $6
                 RETURNING content, author, article_id, published_date
             `,
-				[content, author, title, thumbnail, isevent, articleId],
-			);
-			let newAuthor = await query(
-				`
+			[content, author, title, thumbnail, isevent, articleId],
+		);
+		let newAuthor = await query(
+			`
 			    SELECT firstname, lastname, u_id, profile_pic FROM users WHERE u_id = $1
 			`,
-				[author],
-			);
-			updatedArticle = {
-				article: newArticle.rows[0],
-				author: newAuthor.rows[0],
-			};
-		},
-		client,
-		'Failed to create article',
-	);
+			[author],
+		);
+		updatedArticle = {
+			article: newArticle.rows[0],
+			author: newAuthor.rows[0],
+		};
+		await client.query('COMMIT');
+	} catch (e) {
+		await client.query('ROLLBACK');
+		throw new CustomError('Failed to update article', 500, e);
+	} finally {
+		client.release();
+	}
 
 	res.json(updatedArticle);
 }, 'Failed to update article');

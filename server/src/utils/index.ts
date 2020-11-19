@@ -8,6 +8,11 @@ webPush.setVapidDetails(
 	process.env.PRIVATE_KEY,
 );
 
+export const capitalizeFirst = (string: string) => {
+	if (string)
+		return string[0].toUpperCase() + string.slice(1);
+};
+
 export const sendToAllSubscriptions = async (
 	notification: any,
 	excludedId?: number,
