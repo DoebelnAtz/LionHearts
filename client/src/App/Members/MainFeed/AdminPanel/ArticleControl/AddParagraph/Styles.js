@@ -25,10 +25,35 @@ export const AddParagraphPreview = styled.div`
     height: calc(200px - 4px - ${units.margin} * 2);
 `;
 
+export const AddParagraphImageSizeOption = styled.input`
+    ${components.input};
+    width: 60px;
+    height: 24px;
+    border: 1px solid ${color.primary};
+`;
+
 export const AddParagraphImage = styled.div`
     margin: 0 auto ${units.margin} auto;
     width: calc(30px + 8vw);
     height: calc(30px + 8vw);
+    max-height: 100px;
+    max-width: 100px;
+`;
+
+export const ShowImageSelectorButton = styled.div`
+    ${components.buttonWhite};
+    background-color: ${color.tertiary};
+    height: 30px;
+    border-width: 1px;
+    ${font.RCReg};
+    font-size: 16px;
+    line-height: 30px;
+    padding: 0 10px;
+    letter-spacing: 0;
+    transition: background-color 0.2s ease-in-out;
+    &:hover {
+      background-color: ${color.tertiaryShade};
+    }
 `;
 
 export const AddParagraphImageOptions = styled.div`

@@ -22,6 +22,7 @@ import {
 	ArticleEventTitle,
 	AddParagraphButton,
 	PreviewDiv,
+	ArticleContentOptionsDiv,
 } from './Styles';
 import { useGet } from '../../../../../Hooks';
 import {
@@ -51,7 +52,9 @@ const ArticleControl: React.FC = () => {
 	const [users, setUsers] = useGet<Profile[]>(
 		'/profiles',
 	);
-	const [text, setText] = useState<string[]>(['']);
+	const [text, setText] = useState<
+		{ image: ''; text: '' }[]
+	>([{ image: '', text: '' }]);
 	const [preview, setPreview] = useState(false);
 	const [errors, setErrors] = useState({
 		fileError: '',
@@ -164,11 +167,24 @@ const ArticleControl: React.FC = () => {
 		});
 	};
 
+	const joinParagraphs = () =>
+		text.reduce((result, nextParagraph) => {
+			return (
+				result +
+				'\n' +
+				nextParagraph.image +
+				nextParagraph.text
+			);
+		}, '');
+
 	const renderParagraphs = () => {
 		return text.map((paragraph, index) => {
 			// Looks wierd, check lodash docs on flow to understand.
 
-			const handleTextChange = (newText: string) => {
+			const handleTextChange = (
+				newText: string,
+				newImage: string,
+			) => {
 				console.log(newText);
 				setText(
 					_.flow(
@@ -181,7 +197,10 @@ const ArticleControl: React.FC = () => {
 						},
 						(t) => [
 							...t.slice(0, index),
-							newText,
+							{
+								image: newImage,
+								text: newText,
+							},
 							...t.slice(index),
 						],
 					)(text),
@@ -189,15 +208,17 @@ const ArticleControl: React.FC = () => {
 			};
 			return (
 				<AddParagraph
+					key={index}
 					setText={handleTextChange}
-					text={paragraph}
+					text={paragraph.text}
+					image={paragraph.image}
 				/>
 			);
 		});
 	};
 
 	const handleAddParagraphClick = () => {
-		setText([...text, '']);
+		setText([...text, { image: '', text: '' }]);
 		preview && setPreview(false);
 		// wait until paragraph added to dom then scroll
 		setTimeout(() => {
@@ -346,20 +367,22 @@ const ArticleControl: React.FC = () => {
 					/>
 				</ArticleOptionRow>
 				<ErrorSpan>{errors.fileError}</ErrorSpan>
-				<AddArticleContentTitle>
-					Content
-				</AddArticleContentTitle>
-				<ToggleButton
-					state={preview}
-					setState={handlePreviewChange}
-				/>
+				<ArticleContentOptionsDiv>
+					<AddArticleContentTitle>
+						Content
+					</AddArticleContentTitle>
+					<ToggleButton
+						state={preview}
+						setState={handlePreviewChange}
+					/>
+				</ArticleContentOptionsDiv>
 				<AddArticleContentDiv
 					className={'editor-container'}
 				>
 					{preview ? (
 						<PreviewDiv
 							dangerouslySetInnerHTML={{
-								__html: text.join(''),
+								__html: joinParagraphs(),
 							}}
 						/>
 					) : (

@@ -1,4 +1,5 @@
 import React, {
+	ChangeEvent,
 	Dispatch,
 	SetStateAction,
 	useRef,
@@ -8,73 +9,138 @@ import {
 	AddParagraphContainer,
 	AddParagraphEditor,
 	AddParagraphImage,
-	AddParagraphImageInput,
 	AddParagraphImageOptions,
+	AddParagraphImageSizeOption,
 	AddParagraphPreview,
 	ParagraphOption,
 	ParagraphOptionRow,
+	ShowImageSelectorButton,
 } from './Styles';
 import QuillEditor from '../../../../../Components/QuillEditor';
 import DropDownComponent from '../../../../../Components/DropDown';
 import { Option } from '../../../../../../@types';
-import { url } from '../../../../../../config';
 import Thumbnail from '../../../../../Components/Thumbnail';
 import ToggleButton from '../../../../../Components/ToggleButton';
+import ImageSelector from '../../../../../Components/ImageSelector';
+import { useGet } from '../../../../../../Hooks';
 
 type AddParagraphProps = {
-	setText: (newVal: string) => void;
+	setText: (newText: string, newImage: string) => void;
 	text: string;
+	image: string;
 };
 
 export const AddParagraph: React.FC<AddParagraphProps> = ({
 	text,
 	setText,
+	image,
 }) => {
 	const [editing, setEditing] = useState(true);
 	const [imagePlacement, setImagePlacement] = useState(
 		'none',
 	);
+	const [width, setWidth] = useState('100');
+	const [height, setHeight] = useState('100');
+	const [imagePreview, setImagePreview] = useState('');
+	const [fileNames] = useGet<string[]>('/files/photos');
+	const [
+		showImageSelector,
+		setShowImageSelector,
+	] = useState(false);
 
-	const [selectedFile, setSelectedFile] = useState<
-		File
-	>();
+	const toggleImageSelector = () => {
+		setShowImageSelector(!showImageSelector);
+	};
 
-	const [errors, setErrors] = useState({
-		fileError: '',
-	});
+	const closeImageSelector = () => {
+		setShowImageSelector(false);
+	};
 
 	const handlePreviewToggle = () => {
 		setEditing(!editing);
 	};
 
-	const acceptedTypes = ['image/jpeg', 'image/png'];
-	const sizeLimit = 100000;
+	const handleHeightChange = (e: ChangeEvent) => {
+		let value = (e.target as HTMLInputElement).value;
+		setHeight(value);
+		handleImageChange(
+			imagePreview,
+			imagePlacement,
+			value,
+			width,
+		);
+	};
 
-	const handleFileChange = (files: FileList) => {
-		let targetFile = files[0];
+	const handleWidthChange = (e: ChangeEvent) => {
+		let value = (e.target as HTMLInputElement).value;
+		setWidth(value);
+		handleImageChange(
+			imagePreview,
+			imagePlacement,
+			height,
+			value,
+		);
+	};
 
-		if (targetFile) {
-			if (targetFile.size > sizeLimit) {
-				setErrors({
-					...errors,
-					fileError: `File size exceeds ${
-						sizeLimit / 1000
-					}kb`,
-				});
-			} else if (
-				!acceptedTypes.includes(targetFile.type)
-			) {
-				setErrors({
-					...errors,
-					fileError: 'Allowed formats: jpeg, png',
-				});
-			} else {
-				setErrors({
-					...errors,
-					fileError: '',
-				});
-				setSelectedFile(targetFile);
-			}
+	const handleTextChange = (newVal: string) => {
+		setText(newVal, image);
+	};
+
+	console.log(image, text, imagePlacement);
+
+	const handleImageChange = (
+		newImage: string,
+		option: string = imagePlacement,
+		newHeight = height,
+		newWidth = width,
+	) => {
+		showImageSelector && closeImageSelector();
+		setImagePreview(newImage);
+		switch (option) {
+			case 'above':
+				setText(
+					text,
+					`<img src="${newImage}" style="width: ${
+						isNaN(Number(newWidth))
+							? newWidth
+							: newWidth + 'px'
+					}; height: ${
+						isNaN(Number(newHeight))
+							? newHeight
+							: newHeight + 'px'
+					}; margin: 0 auto; display: block">`,
+				);
+				break;
+			case 'left':
+				setText(
+					text,
+					`<img src="${newImage}" style="width: ${
+						isNaN(Number(newWidth))
+							? newWidth
+							: newWidth + 'px'
+					}; height: ${
+						isNaN(Number(newHeight))
+							? newHeight
+							: newHeight + 'px'
+					}; float: left;">`,
+				);
+				break;
+			case 'right':
+				setText(
+					text,
+					`<img src="${newImage}" style="width: ${
+						isNaN(Number(newWidth))
+							? newWidth
+							: newWidth + 'px'
+					}; height: ${
+						isNaN(Number(newHeight))
+							? newHeight
+							: newHeight + 'px'
+					}; float: right">`,
+				);
+				break;
+			default:
+				setText(text, ``);
 		}
 	};
 
@@ -82,29 +148,48 @@ export const AddParagraph: React.FC<AddParagraphProps> = ({
 		newOption: Option,
 	) => {
 		setImagePlacement(newOption.option);
+		handleImageChange(imagePreview, newOption.option);
 	};
-	console.log(text);
+
+	console.log(showImageSelector);
 	return (
 		<AddParagraphContainer>
 			<AddParagraphImage>
 				<Thumbnail
 					url={
-						selectedFile
-							? URL.createObjectURL(
-									selectedFile,
-							  )
-							: `https://storage.googleapis.com/lionhearts-images/placeholder-image.png`
+						imagePreview ||
+						`https://storage.googleapis.com/lionhearts-images/placeholder-image.png`
 					}
 				/>
 			</AddParagraphImage>
 			<AddParagraphImageOptions>
 				<ParagraphOption>
 					File
-					<AddParagraphImageInput
-						type={'file'}
-						onChange={(e: any) =>
-							handleFileChange(e.target.files)
-						}
+					<ShowImageSelectorButton
+						onClick={toggleImageSelector}
+					>
+						Add image
+					</ShowImageSelectorButton>
+					{showImageSelector && fileNames && (
+						<ImageSelector
+							srcList={fileNames}
+							onSelect={handleImageChange}
+							setShow={setShowImageSelector}
+						/>
+					)}
+				</ParagraphOption>
+				<ParagraphOption>
+					Height:
+					<AddParagraphImageSizeOption
+						value={height}
+						onChange={handleHeightChange}
+					/>
+				</ParagraphOption>
+				<ParagraphOption>
+					Width:
+					<AddParagraphImageSizeOption
+						value={width}
+						onChange={handleWidthChange}
 					/>
 				</ParagraphOption>
 				<ParagraphOption>
@@ -117,7 +202,6 @@ export const AddParagraph: React.FC<AddParagraphProps> = ({
 						optionList={[
 							{ option: 'none' },
 							{ option: 'above' },
-							{ option: 'under' },
 							{ option: 'left' },
 							{ option: 'right' },
 						]}
@@ -128,14 +212,14 @@ export const AddParagraph: React.FC<AddParagraphProps> = ({
 				<AddParagraphEditor>
 					<QuillEditor
 						simple
-						onChange={setText}
+						onChange={handleTextChange}
 						value={text}
 					/>
 				</AddParagraphEditor>
 			) : (
 				<AddParagraphPreview
 					dangerouslySetInnerHTML={{
-						__html: text,
+						__html: image + text,
 					}}
 				/>
 			)}

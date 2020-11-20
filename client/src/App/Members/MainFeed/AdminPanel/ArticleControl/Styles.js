@@ -163,6 +163,11 @@ export const SubmitButton = styled.button`
 	${components.buttonWhite};
 `;
 
+export const ArticleContentOptionsDiv = styled.div`
+    width: 100%;
+    margin-top: ${units.margin};
+    margin-bottom: ${units.margin};
+`;
 export const AddArticleContentDiv = styled.div`
 	width: 100%;
 	height: calc(100%);

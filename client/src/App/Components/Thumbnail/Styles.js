@@ -12,7 +12,7 @@ export const ThumbnailDiv = styled.div`
 	height: 100%;
 	position: relative;
 	display: flex;
-	background: url(${(props) => props.url}), url(${props => props.placeholder});
+	background: url(${(props) => props.url});
 	background-size: cover;
 	//filter: grayscale(100%);
 	background-position: center;
