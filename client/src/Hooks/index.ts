@@ -1,4 +1,11 @@
-import { RefObject, useContext, useEffect, useRef, useState } from 'react';
+import React, {
+	createRef,
+	RefObject,
+	useContext,
+	useEffect,
+	useRef,
+	useState,
+} from 'react';
 import { makeRequest } from '../Api';
 import { WidthContext } from '../Context/WidthContext';
 import { useHistory } from 'react-router';
@@ -7,6 +14,8 @@ import { CurrentNavContext } from '../Context/CurrentNavContext';
 import { getLocal, setLocal } from '../Utils';
 import { AuthContext } from '../Context/AuthContext';
 import { QueryOptions } from '../@types';
+import { timingGA } from '../Utils/GoogleAnalytics';
+import { throttle } from 'lodash';
 
 export const useNav = (current: string) => {
 	const { update } = useContext(CurrentNavContext);
@@ -16,7 +25,9 @@ export const useNav = (current: string) => {
 };
 
 export const useIsomorphicLayoutEffect =
-	typeof window !== 'undefined' ? useLayoutEffect : useEffect;
+	typeof window !== 'undefined'
+		? useLayoutEffect
+		: useEffect;
 // custom hook for easy modal dismissal
 export const useDismiss = (
 	refInside: RefObject<HTMLDivElement | null>,
@@ -45,72 +56,16 @@ export const useDismiss = (
 		document.addEventListener('keydown', handleEsc);
 		document.addEventListener('mousedown', handleClick);
 		return () => {
-			document.removeEventListener('keydown', handleEsc);
-			document.removeEventListener('mousedown', handleClick);
+			document.removeEventListener(
+				'keydown',
+				handleEsc,
+			);
+			document.removeEventListener(
+				'mousedown',
+				handleClick,
+			);
 		};
 	}, []);
-};
-
-const isBrowser = typeof window !== `undefined`;
-
-function getScrollPosition({ element, useWindow }: any) {
-	if (!isBrowser) return { x: 0, y: 0 };
-
-	const target = element ? element.current : document.body;
-	const position = target.getBoundingClientRect();
-
-	return useWindow
-		? { x: window.scrollX, y: window.scrollY }
-		: { x: position.left, y: position.top };
-}
-
-export function useScrollPosition(
-	effect?: any,
-	deps?: [],
-	element?: boolean,
-	useWindow?: boolean,
-	wait?: null,
-) {
-	const position = useRef(getScrollPosition({ useWindow }));
-
-	let throttleTimeout: NodeJS.Timeout | null = null;
-
-	const callBack = () => {
-		const currPos = getScrollPosition({ element, useWindow });
-		effect({ prevPos: position.current, currPos });
-		position.current = currPos;
-		throttleTimeout = null;
-	};
-
-	useIsomorphicLayoutEffect(() => {
-		if (!isBrowser) {
-			return;
-		}
-
-		const handleScroll = () => {
-			if (wait) {
-				if (throttleTimeout === null) {
-					throttleTimeout = setTimeout(callBack, wait);
-				}
-			} else {
-				callBack();
-			}
-		};
-
-		window.addEventListener('scroll', handleScroll);
-
-		return () => {
-			window.removeEventListener('scroll', handleScroll);
-			throttleTimeout && clearTimeout(throttleTimeout);
-		};
-	}, deps);
-}
-
-useScrollPosition.defaultProps = {
-	deps: [],
-	element: false,
-	useWindow: false,
-	wait: null,
 };
 
 // A hook that helps with checking if a component is mounted,
@@ -127,9 +82,62 @@ export const useMounted = () => {
 	return isMounted;
 };
 
+// Hook that checks if returned ref is visible (credit: https://stackoverflow.com/a/61719846)
+export default function useVisibility<
+	Element extends HTMLElement
+>(
+	offset = 0,
+	throttleMilliseconds = 100,
+): [Boolean, React.RefObject<Element>] {
+	const [isVisible, setIsVisible] = useState(false);
+	const currentElement = createRef<Element>();
+
+	const onScroll = throttle(() => {
+		if (!currentElement.current) {
+			setIsVisible(false);
+			return;
+		}
+		const top = currentElement.current.getBoundingClientRect()
+			.top;
+		setIsVisible(
+			top + offset >= 0 &&
+				top - offset <= window.innerHeight,
+		);
+	}, throttleMilliseconds);
+
+	useEffect(() => {
+		window.addEventListener('scroll', onScroll);
+		return () =>
+			window.removeEventListener('scroll', onScroll);
+	});
+
+	return [isVisible, currentElement];
+}
+
+// A hook that lets you analyze loading times for current page
+export const usePerformanceGA = (
+	variableName: string,
+	categoryName = 'render time',
+) => {
+	const isMounted = useMounted();
+
+	useEffect(() => {
+		const currentTime = new Date().getMilliseconds();
+		if (isMounted) {
+			timingGA(
+				categoryName,
+				variableName,
+				new Date().getMilliseconds() - currentTime,
+			);
+		}
+	});
+};
+
 // A hook that keeps track of width used for mobile specific styles
 export const useWidth = () => {
-	const { state: width, update: setWidth } = useContext(WidthContext);
+	const { state: width, update: setWidth } = useContext(
+		WidthContext,
+	);
 	const handleResize = (e: UIEvent) => {
 		let target = e.target as Window;
 		setWidth(target.innerWidth);
@@ -138,7 +146,10 @@ export const useWidth = () => {
 		setWidth(window.innerWidth);
 		window.addEventListener('resize', handleResize);
 		return () => {
-			window.removeEventListener('resize', handleResize);
+			window.removeEventListener(
+				'resize',
+				handleResize,
+			);
 		};
 	});
 	// return value for width and a boolean for convenient isMobile check
@@ -158,7 +169,10 @@ export const useScroll = () => {
 		};
 		window.addEventListener('wheel', handleScroll);
 		return () => {
-			window.removeEventListener('wheel', handleScroll);
+			window.removeEventListener(
+				'wheel',
+				handleScroll,
+			);
 		};
 	}, [scroll]);
 	return [scroll];
@@ -173,18 +187,26 @@ export function useGet<F>(
 ) {
 	const [data, setData] = useState<F>();
 	const { cachePolicy = 'cache-first' } = options;
-	const [isLoading, setIsLoading] = useState<boolean>(true);
+	const [isLoading, setIsLoading] = useState<boolean>(
+		true,
+	);
 	const resp = useRef<any>(null);
 	const history = useHistory();
 	const mounted = useMounted();
 	useEffect(() => {
 		async function request() {
 			try {
-				if (cachePolicy === 'cache-first' && cache[url]) {
+				if (
+					cachePolicy === 'cache-first' &&
+					cache[url]
+				) {
 					setData(cache[url]);
 				}
 				setIsLoading(true);
-				resp.current = await makeRequest(url, 'GET');
+				resp.current = await makeRequest(
+					url,
+					'GET',
+				);
 				if (mounted.current) {
 					if (cachePolicy === 'cache-first') {
 						cache[url] = resp.current.data;
@@ -196,7 +218,9 @@ export function useGet<F>(
 				} else if (e.response.status === 401) {
 					localStorage.clear();
 
-					history.push(`/login?next=${history.location.pathname}`);
+					history.push(
+						`/login?next=${history.location.pathname}`,
+					);
 				}
 			} finally {
 				if (mounted.current) {
@@ -214,7 +238,10 @@ export const useAuth = () => {
 	useEffect(() => {
 		async function checkAuth() {
 			try {
-				let resp = await makeRequest('/token-auth/check-auth', 'GET');
+				let resp = await makeRequest(
+					'/token-auth/check-auth',
+					'GET',
+				);
 				resp && update(resp.data.accessLevel);
 			} catch (e) {
 				console.log(e);

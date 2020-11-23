@@ -22,7 +22,7 @@ export const AddParagraphPreview = styled.div`
     border: 2px solid ${color.primary};
     padding: ${units.margin};
     margin-bottom: ${units.margin};
-    height: calc(200px - 4px - ${units.margin} * 2);
+    min-height: calc(200px - 4px - ${units.margin} * 2);
 `;
 
 export const AddParagraphImageSizeOption = styled.input`

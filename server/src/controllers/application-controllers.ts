@@ -17,20 +17,14 @@ const mime = {
 	js: 'application/javascript',
 };
 
-const deleteFolderRecursive = function (filePath: string) {
-	if (fs.existsSync(filePath)) {
-		fs.readdirSync(filePath).forEach((file, index) => {
-			const curPath = path.join(filePath, file);
-			if (fs.lstatSync(curPath).isDirectory()) {
-				// recurse
-				deleteFolderRecursive(curPath);
-			} else {
-				// delete file
-				fs.unlinkSync(curPath);
-			}
-		});
-		fs.rmdirSync(filePath);
-	}
+const deleteFolderRecursive = async function (applicationId: string) {
+	const [files] = await storage()
+		.bucket('lionhearts-applications')
+		.getFiles({ prefix: `${applicationId}/` });
+
+	files.forEach((file) => {
+		file.delete().then(() => console.log(`deleted: ${file.name}`));
+	});
 };
 
 export const getApplicationIdFiles = catchErrors(async (req, res, next) => {
@@ -41,6 +35,7 @@ export const getApplicationIdFiles = catchErrors(async (req, res, next) => {
 		.getFiles({ prefix: `${applicationId}/` });
 
 	files.forEach((file) => {
+		console.log(file.name);
 		console.log(file.name.split('/').pop());
 		fileNames.push({ name: file.name.split('/').pop() || 'undefined' });
 	});
@@ -87,11 +82,11 @@ export const getApplicationFile = catchErrors(async (req, res) => {
 
 export const deleteApplicationFile = catchErrors(async (req, res, next) => {
 	const { applicationId, fileName } = req.body;
-	const path = `./member-applications/${applicationId}/${fileName}`;
-
-	if (!!fs.existsSync(path)) {
-		fs.unlinkSync(path);
-	}
+	await storage()
+		.bucket('lionhearts-applications')
+		.file(`${applicationId}/${fileName}`)
+		.delete();
+	console.log(`delete: ${fileName}`);
 	res.json({ success: true, message: `deleted: ${fileName}` });
 }, 'Failed to delete file');
 
@@ -182,7 +177,7 @@ export const rejectApplicant = catchErrors(async (req, res) => {
 		'',
 	);
 
-	deleteFolderRecursive(`./member-applications/${applicationId}`);
+	deleteFolderRecursive(applicationId);
 
 	res.json({ success: true });
 }, 'Failed to reject applicant');

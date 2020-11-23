@@ -33,7 +33,7 @@ const NewsSection: React.FC = () => {
 					<ArticleThumbnail
 						onClick={() =>
 							history.push(
-								`/news/${article.article.article_id}`,
+								`/articles/${article.article.article_id}`,
 							)
 						}
 						key={article.article.article_id}
@@ -53,8 +53,8 @@ const NewsSection: React.FC = () => {
 	return (
 		<NewsSectionDiv>
 			<NewsListDiv>
-				<NewsHeaderLink to={'/news'}>
-					<NewsHeader>NEWS!</NewsHeader>
+				<NewsHeaderLink to={'/articles'}>
+					<NewsHeader>ARTICLES!</NewsHeader>
 				</NewsHeaderLink>
 			</NewsListDiv>
 			<NewsCarusel>

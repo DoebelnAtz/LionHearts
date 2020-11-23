@@ -42,7 +42,9 @@ export const AddParagraph: React.FC<AddParagraphProps> = ({
 	const [width, setWidth] = useState('100');
 	const [height, setHeight] = useState('100');
 	const [imagePreview, setImagePreview] = useState('');
-	const [fileNames] = useGet<string[]>('/files/photos');
+	const [fileNames] = useGet<
+		{ link: string; name: string }[]
+	>('/files/photos');
 	const [
 		showImageSelector,
 		setShowImageSelector,
@@ -86,8 +88,6 @@ export const AddParagraph: React.FC<AddParagraphProps> = ({
 		setText(newVal, image);
 	};
 
-	console.log(image, text, imagePlacement);
-
 	const handleImageChange = (
 		newImage: string,
 		option: string = imagePlacement,
@@ -108,7 +108,7 @@ export const AddParagraph: React.FC<AddParagraphProps> = ({
 						isNaN(Number(newHeight))
 							? newHeight
 							: newHeight + 'px'
-					}; margin: 0 auto; display: block">`,
+					}; margin: 20px auto; display: block">`,
 				);
 				break;
 			case 'left':
@@ -122,7 +122,7 @@ export const AddParagraph: React.FC<AddParagraphProps> = ({
 						isNaN(Number(newHeight))
 							? newHeight
 							: newHeight + 'px'
-					}; float: left;">`,
+					}; float: left; margin: 21px 20px 20px 20px;">`,
 				);
 				break;
 			case 'right':
@@ -136,7 +136,7 @@ export const AddParagraph: React.FC<AddParagraphProps> = ({
 						isNaN(Number(newHeight))
 							? newHeight
 							: newHeight + 'px'
-					}; float: right">`,
+					}; float: right; margin: 21px 20px 20px 20pxk;">`,
 				);
 				break;
 			default:
@@ -151,7 +151,6 @@ export const AddParagraph: React.FC<AddParagraphProps> = ({
 		handleImageChange(imagePreview, newOption.option);
 	};
 
-	console.log(showImageSelector);
 	return (
 		<AddParagraphContainer>
 			<AddParagraphImage>

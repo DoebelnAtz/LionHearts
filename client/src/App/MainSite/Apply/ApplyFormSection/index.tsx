@@ -4,6 +4,7 @@ import {
 	ApplyForm,
 	ApplyFormSectionDiv,
 	ApplyHeader,
+	ApplyMemberProfilesDiv,
 	ApplyTextDiv,
 	FormDiv,
 	FormError,
@@ -14,6 +15,9 @@ import {
 	LegalCheckTitle,
 	LegalLink,
 	LegalRow,
+	MemberProfileCard,
+	MemberProfileCardPicture,
+	MemberProfileText,
 	RemoveFileSpan,
 	UploadedFilesDiv,
 } from './Styles';
@@ -28,6 +32,9 @@ import {
 	makeId,
 	setLocal,
 } from '../../../../Utils';
+import HenrikPic from '../../../../assets/images/henrikr.jpg';
+import LeilahPic from '../../../../assets/images/leilah.jpg';
+import { eventGA } from '../../../../Utils/GoogleAnalytics';
 
 const acceptedTypes = [
 	'image/jpeg',
@@ -211,29 +218,6 @@ const ApplyFormSection: React.FC = () => {
 		}
 	};
 
-	const renderUploadedFiles = () => {
-		if (uploadedFiles) {
-			return uploadedFiles.map((file: any, index) => {
-				return (
-					<UploadedFilesDiv key={index}>
-						<span>{file.name}</span>
-						<RemoveFileSpan
-							style={{ marginLeft: 'auto' }}
-							onClick={(e: any) =>
-								handleFileRemoval(
-									e,
-									file.name,
-								)
-							}
-						>
-							remove file
-						</RemoveFileSpan>
-					</UploadedFilesDiv>
-				);
-			});
-		}
-	};
-
 	const handleSubmit = async (
 		e: React.SyntheticEvent,
 	) => {
@@ -256,6 +240,12 @@ const ApplyFormSection: React.FC = () => {
 						email: input.email,
 						description: input.description,
 					},
+				);
+				eventGA(
+					'application',
+					'application',
+					'application',
+					100,
 				);
 				history.push('/apply/success');
 			} catch (e) {
@@ -294,6 +284,66 @@ const ApplyFormSection: React.FC = () => {
 		}
 	};
 
+	const renderUploadedFiles = () => {
+		if (uploadedFiles) {
+			return uploadedFiles.map((file: any, index) => {
+				return (
+					<UploadedFilesDiv key={index}>
+						<span>{file.name}</span>
+						<RemoveFileSpan
+							style={{ marginLeft: 'auto' }}
+							onClick={(e: any) =>
+								handleFileRemoval(
+									e,
+									file.name,
+								)
+							}
+						>
+							remove file
+						</RemoveFileSpan>
+					</UploadedFilesDiv>
+				);
+			});
+		}
+	};
+
+	const memberProfiles = [
+		{
+			pic: LeilahPic,
+			name: 'Leila',
+			text: `I’m Leila, a second-year Law student at the University of Bristol. 
+			My experience growing up between two cultures – Finnish and Tunisian – has 
+			instilled in me the value of enriching ourselves with a variety of perspectives. 
+			When I’m not getting to grips with the latest legal reform, you can find me honing my 
+			skills on the violin or outdoors enjoying a nice, hike with my sister. 
+			I’m dedicated to working towards a sustainable tomorrow, and it would be a pleasure to 
+			have You on the journey with us.`,
+		},
+		{
+			pic: HenrikPic,
+			name: 'Henrik',
+			text: `My name is Henrik and I’m a 22-year-old Accounting and Finance 
+				student at Turku School of Economics. My interests include a wide 
+				range of topics from financial management to investing and from 
+				journalism to politics. In my free time I am most likely on a golf 
+				course, but you can also find me exercising at the gym, playing piano 
+				or staring at a chessboard.`,
+		},
+	];
+
+	const renderMemberProfiles = () =>
+		memberProfiles.map((profile, index) => (
+			<MemberProfileCard key={index}>
+				<MemberProfileCardPicture
+					src={profile.pic}
+					alt={profile.name}
+				/>
+				<MemberProfileText>
+					{profile.text}
+				</MemberProfileText>
+			</MemberProfileCard>
+		));
+
 	console.log(!selectedFile || !!errors.fileError.length);
 
 	return (
@@ -306,35 +356,57 @@ const ApplyFormSection: React.FC = () => {
 					</ApplyHeader>
 					<InstructionList>
 						<InstructionListItem>
-							Fill in your contact details
+							Fill in your contact details on
+							the right
 						</InstructionListItem>
 						<InstructionListItem>
-							Explain why you would like to be
-							a Lionhearts
+							Share with us why you would like
+							to be a Lionheart. We have one
+							guiding question: If you know
+							you would succeed, which
+							challenge you would solve right
+							now?
 						</InstructionListItem>
 						<InstructionListItem>
-							Send in your cv and relevant
-							files in English or in Finnish
+							Send us your thoughts wrapped in
+							a motivational letter, together
+							with your CV and other optional
+							attachments. Any of the main
+							languages do. We do our best to
+							understand.
 						</InstructionListItem>
 						<InstructionListItem>
-							We contact you shortly after for
-							a potential interview (online or
-							in person)
+							We get back to you shortly to
+							schedule an interview (online or
+							in-person)
 						</InstructionListItem>
 						<InstructionListItem>
-							We conduct the interview
+							Let’s have the interview! Or
+							it’s more like a relaxed yet
+							well-appointed dialogue. We want
+							to get to know you as much as
+							you want to get to know us.
 						</InstructionListItem>
 						<InstructionListItem>
-							We let you know if you are in!
+							If we both get excited and think
+							it’s a great match, you become a
+							Lionheart!
 						</InstructionListItem>
 						<InstructionListItem>
-							If so, we provide you with your
-							own Lionhearts member account
-							and you can start joining our
-							events and projects!
+							You will get your Lionhearts
+							member account and after setting
+							up your profile, you can start
+							joining our events, contributing
+							to projects that are relevant to
+							many, and building a community
+							that celebrates diverse views
+							over dogmas.
 						</InstructionListItem>
 					</InstructionList>
 				</ApplyTextDiv>
+				<ApplyMemberProfilesDiv>
+					{renderMemberProfiles()}
+				</ApplyMemberProfilesDiv>
 				<FormDiv>
 					<ApplyForm>
 						<label>

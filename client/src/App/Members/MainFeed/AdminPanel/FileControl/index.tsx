@@ -19,9 +19,9 @@ import LoadingButton from '../../../../Components/LoadingButton';
 const acceptedTypes = ['image/jpeg', 'image/png'];
 
 const FileControl: React.FC = () => {
-	const [fileNames, setFileNames] = useGet<string[]>(
-		'/files/photos',
-	);
+	const [fileNames, setFileNames] = useGet<
+		{ link: string; name: string }[]
+	>('/files/photos');
 	const [selectedFile, setSelectedFile] = useState<
 		File
 	>();
@@ -93,15 +93,17 @@ const FileControl: React.FC = () => {
 				return (
 					<ImagePreviewCard key={index}>
 						<ImagePreview
-							src={`https://storage.googleapis.com/lionhearts-images/${file}`}
-							alt={file}
+							src={file.link}
+							alt={file.name}
 						/>
 						<ImagePreviewCardName>
-							{file}
+							{file.name}
 						</ImagePreviewCardName>
 						<CopyImageHtml
 							onClick={() =>
-								handleCopyCodeClick(file)
+								handleCopyCodeClick(
+									file.link,
+								)
 							}
 						>
 							COPY SRC

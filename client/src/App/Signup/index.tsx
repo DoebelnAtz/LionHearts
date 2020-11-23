@@ -34,6 +34,7 @@ import { useGet } from '../../Hooks';
 import LoadingButton from '../Components/LoadingButton';
 import { AnimatedLabeledInputDiv } from '../../Styles';
 import placeHolderPic from '../../assets/images/profile_placeholder.png';
+import { eventGA } from '../../Utils/GoogleAnalytics';
 
 const acceptedTypes = ['image/jpeg', 'image/png'];
 const imageSizeLimit = 5000000;
@@ -189,6 +190,13 @@ const Signup: React.FC = () => {
 									application.application_id,
 							},
 						);
+						eventGA(
+							'member-event',
+							'signup',
+							'signup',
+							100,
+						);
+
 						history.push('/members/login');
 					} catch (e) {
 						return false;

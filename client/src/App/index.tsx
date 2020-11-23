@@ -1,13 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { AppDiv } from './Styles';
-import { Route, Switch } from 'react-router-dom';
-import { useGet, useWidth } from '../Hooks';
+import {
+	Route,
+	Switch,
+	useLocation,
+} from 'react-router-dom';
+import {
+	useGet,
+	usePerformanceGA,
+	useWidth,
+} from '../Hooks';
 
 import Home from './MainSite/Home';
 import './base.css';
 import Signup from './Signup';
 import Apply from './MainSite/Apply';
-import Footer from './Footer';
 import LoginPopup from './LoginPopup';
 import MembersHome from './Members';
 import { WidthContextProvider } from '../Context/WidthContext';
@@ -20,9 +27,24 @@ import EventPage from './MainSite/Events/EventPage';
 import NotFound from './MainSite/NotFoundPage';
 import SuccessPage from './MainSite/Apply/SuccessPage';
 import MemberLogin from './Members/Login';
+import {
+	initializeGA,
+	pageViewGA,
+} from '../Utils/GoogleAnalytics';
 
 function App() {
-	const [isMobile] = useWidth();
+	const location = useLocation();
+
+	// useEffect(() => {
+	// 	initializeGA();
+	// }, []);
+	//
+	// useEffect(() => {
+	// 	pageViewGA(location.pathname);
+	// }, [location.pathname]);
+
+	usePerformanceGA('app');
+
 	return (
 		<AppDiv>
 			<Switch>

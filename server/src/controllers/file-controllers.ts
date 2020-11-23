@@ -7,13 +7,13 @@ import { format } from 'util';
 // Creates a client
 const s = storage();
 export const getArticleImages = catchErrors(async (req, res) => {
-	let fileNames: string[] = [];
+	let fileNames: { link: string; name: string }[] = [];
 	const [files] = await s.bucket('lionhearts-images').getFiles();
 
-	console.log('Files:');
+	('');
 	files.forEach((file) => {
 		console.log(file.metadata.mediaLink);
-		fileNames.push(file.metadata.mediaLink);
+		fileNames.push({ link: file.metadata.mediaLink, name: file.name });
 	});
 
 	res.json(fileNames);

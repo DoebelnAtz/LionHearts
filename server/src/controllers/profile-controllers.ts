@@ -326,7 +326,7 @@ export const getLanguages = catchErrors(async (req, res) => {
 			[`%${search}%`, limit],
 		);
 	} else if (filter === 'available') {
-		console.log('ha');
+		('');
 		let forbidden = await query(
 			`
 			SELECT a.forb FROM 

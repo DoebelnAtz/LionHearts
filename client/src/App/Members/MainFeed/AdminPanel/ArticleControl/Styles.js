@@ -109,6 +109,12 @@ export const AddArticleAuthorTitle = styled.span`
 export const PreviewDiv = styled.div`
     width: 100%;
     height: calc(100% - 24px);
+        display: ${props => props.show ? 'inline' : 'none'};
+
+`;
+
+export const ParagraphListDiv = styled.div`
+    display: ${props => props.show ? 'inline' : 'none'};
 `;
 
 export const AddParagraphButton = styled.button`

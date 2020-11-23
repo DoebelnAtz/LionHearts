@@ -10,7 +10,7 @@ import {
 } from './Styles';
 
 const SuccessPage: React.FC = () => {
-	console.log('success');
+	''
 	return (
 		<ApplyDiv>
 			<HomeImg text={'BECOME A LIONHEART'} />

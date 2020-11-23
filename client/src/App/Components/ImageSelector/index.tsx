@@ -8,7 +8,7 @@ import Modal from '../Modal';
 import { useDismiss } from '../../../Hooks';
 
 type ImageSelectorProps = {
-	srcList: string[];
+	srcList: { link: string; name: string }[];
 	onSelect: (selectedImage: string) => void;
 	setShow: (newVal: boolean) => void;
 };
@@ -27,8 +27,8 @@ const ImageSelector: React.FC<ImageSelectorProps> = ({
 			<ImageThumbnailContainer>
 				<ImageThumbnail
 					key={index}
-					onClick={() => onSelect(src)}
-					src={`${src}`}
+					onClick={() => onSelect(src.link)}
+					src={src.link}
 				/>
 			</ImageThumbnailContainer>
 		));

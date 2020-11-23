@@ -160,7 +160,7 @@ p {
  */
 
 .quill {
-    height: calc(100%);
+    height: calc(100% - 31px);
     display: flex;
     flex-direction: column;
 }
@@ -839,6 +839,15 @@ p {
   padding-bottom: 5px;
   padding-top: 5px;
 }
+
+.ql-snow .ql-picker-options .ql-picker-item:focus {
+  outline: none;
+}
+
+.ql-snow .ql-picker-label:focus {
+  outline: none;
+}
+
 .ql-snow .ql-picker.ql-expanded .ql-picker-label {
   color: #ccc;
   z-index: 2;

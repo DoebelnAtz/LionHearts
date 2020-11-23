@@ -21,6 +21,7 @@ import { AnimatedLabeledInputDiv } from '../../Styles';
 import Logo from '../Logo';
 import { url } from '../../config';
 import LoadingButton from '../Components/LoadingButton';
+import { eventGA } from '../../Utils/GoogleAnalytics';
 
 const LoginPopup = () => {
 	const loginModal = useRef<HTMLDivElement>(null);
@@ -51,6 +52,12 @@ const LoginPopup = () => {
 					user: resp.data.user,
 					refreshToken: resp.data.refreshToken,
 				});
+				eventGA(
+					'member-event',
+					'login',
+					'login',
+					100,
+				);
 				history.push('/members/list');
 			}
 		} catch (e) {

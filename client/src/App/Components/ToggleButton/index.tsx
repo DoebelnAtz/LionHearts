@@ -68,14 +68,14 @@ const ToggleButton: React.FC<ToggleButtonProps> = ({
 			cancel,
 			canceled,
 		}) => {
-			console.log(
-				`last: ${last}\n`,
-				`movement-X: ${mx}\n`,
-				`speed-Y: ${vx}\n`,
-				`is-dragging: ${dragging}\n`,
-				`exceed-limit: ${mx} / ${on + 30}`,
-				`closing: ${!dragging && mx === on}`,
-			);
+			// console.log(
+			// 	`last: ${last}\n`,
+			// 	`movement-X: ${mx}\n`,
+			// 	`speed-X: ${vx}\n`,
+			// 	`is-dragging: ${dragging}\n`,
+			// 	`exceed-limit: ${mx} / ${on + 30}`,
+			// 	`closing: ${!dragging && mx === on}`,
+			// );
 			// if the user drags up passed a threshold, then we cancel
 			// the drag so that the sheet resets to its open position
 			if (mx > on + 2 && cancel) {

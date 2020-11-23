@@ -23,6 +23,7 @@ import {
 	MemberLoginContainer,
 	MemberLoginDiv,
 } from './Styles';
+import { eventGA } from '../../../Utils/GoogleAnalytics';
 
 const MemberLogin: React.FC = () => {
 	const [input, setInput] = useState({
@@ -48,6 +49,13 @@ const MemberLogin: React.FC = () => {
 					user: resp.data.user,
 					refreshToken: resp.data.refreshToken,
 				});
+				eventGA(
+					'member-event',
+					'login',
+					'login',
+					100,
+				);
+
 				history.push('/members/list');
 			}
 		} catch (e) {

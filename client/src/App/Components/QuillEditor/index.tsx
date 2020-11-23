@@ -92,10 +92,22 @@ class QuillEditor extends Component<QuillEditorProps> {
 							container: this.props.simple
 								? [
 										[
+											{ font: [] },
+											{
+												size: [
+													'small',
+													'normal',
+													'large',
+												],
+											},
+										],
+										[
 											'bold',
 											'italic',
+
 											'underline',
 											'strike',
+											'blockquote',
 										],
 										[
 											{

@@ -6,10 +6,13 @@ import {
 } from './Styles';
 // @ts-ignore
 import LHIntroVideo from '../../../../assets/videos/LionHearts_intro_sub.mp4';
+import useVisibility from '../../../../Hooks';
 
 const VideoSection: React.FC = () => {
+	const [isVisible, ref] = useVisibility();
+	console.log(isVisible);
 	return (
-		<VideoSectionContainer>
+		<VideoSectionContainer ref={ref}>
 			<VideoPlayerContainer>
 				<VideoPlayer width={'100%'} controls>
 					<source src={LHIntroVideo} />

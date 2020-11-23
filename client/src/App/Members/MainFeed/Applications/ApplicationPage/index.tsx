@@ -28,7 +28,7 @@ const ApplicationPage: React.FC = () => {
 	const [uploadedFiles, setUploadedFiles] = useGet<
 		File[]
 	>(
-		`/files/${application?.application_id || '1'}`,
+		`/files/${application?.application_id}`,
 		!!application,
 	);
 	const handleFileDl = async (fileName: string) => {

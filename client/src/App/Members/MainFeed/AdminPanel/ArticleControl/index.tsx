@@ -23,6 +23,7 @@ import {
 	AddParagraphButton,
 	PreviewDiv,
 	ArticleContentOptionsDiv,
+	ParagraphListDiv,
 } from './Styles';
 import { useGet } from '../../../../../Hooks';
 import {
@@ -42,6 +43,8 @@ import Thumbnail from '../../../../Components/Thumbnail';
 import { ErrorSpan } from '../FileControl/Styles';
 import ToggleButton from '../../../../Components/ToggleButton';
 import { AddParagraph } from './AddParagraph';
+import ImageSelector from '../../../../Components/ImageSelector';
+import { ShowImageSelectorButton } from './AddParagraph/Styles';
 const acceptedTypes = ['image/jpeg', 'image/png'];
 
 const ArticleControl: React.FC = () => {
@@ -59,6 +62,10 @@ const ArticleControl: React.FC = () => {
 	const [errors, setErrors] = useState({
 		fileError: '',
 	});
+	const [imagePreview, setImagePreview] = useState('');
+	const [fileNames] = useGet<
+		{ link: string; name: string }[]
+	>('/files/photos');
 
 	const [newArticle, setNewArticle] = useState<
 		AuthoredArticle
@@ -84,6 +91,11 @@ const ArticleControl: React.FC = () => {
 		setPreview(!preview);
 	};
 
+	const handleImageChange = (newImage: string) => {
+		showImageSelector && closeImageSelector();
+		setImagePreview(newImage);
+	};
+
 	const handleNewArticleContentChange = (
 		newContent: string,
 	) => {
@@ -99,35 +111,49 @@ const ArticleControl: React.FC = () => {
 		File
 	>();
 
+	const [
+		showImageSelector,
+		setShowImageSelector,
+	] = useState(false);
+
+	const toggleImageSelector = () => {
+		setShowImageSelector(!showImageSelector);
+	};
+
+	const closeImageSelector = () => {
+		setShowImageSelector(false);
+	};
+
 	const expand = useSpring({
 		height: adding ? '760px' : '0px',
 	});
+
+	const joinParagraphs = () =>
+		text.reduce((result, nextParagraph) => {
+			return (
+				result +
+				'\n' +
+				nextParagraph.image +
+				nextParagraph.text
+			);
+		}, '');
 
 	const handleArticleCreation = async () => {
 		const data = new FormData();
 
 		try {
-			if (
-				!selectedFile ||
-				!newArticle.article.content
-			) {
+			if (!imagePreview) {
 			} else if (!newArticle.article.title) {
 			} else if (!newArticle.author.u_id) {
 			} else {
-				data.append('file', selectedFile);
 				await makeRequest(
-					`/files/upload-file/lionhearts-images`,
-					'POST',
-					data,
-				);
-				let createdArticle = await makeRequest(
 					'/articles/create_article',
 					'POST',
 					{
-						content: text.join(''),
+						content: joinParagraphs(),
 						author: newArticle.author.u_id,
 						title: newArticle.article.title,
-						thumbnail: selectedFile?.name,
+						thumbnail: imagePreview,
 						isevent: newArticle.article.isevent,
 					},
 				);
@@ -166,16 +192,6 @@ const ArticleControl: React.FC = () => {
 			},
 		});
 	};
-
-	const joinParagraphs = () =>
-		text.reduce((result, nextParagraph) => {
-			return (
-				result +
-				'\n' +
-				nextParagraph.image +
-				nextParagraph.text
-			);
-		}, '');
 
 	const renderParagraphs = () => {
 		return text.map((paragraph, index) => {
@@ -248,7 +264,7 @@ const ArticleControl: React.FC = () => {
 			})
 		);
 	};
-	const sizeLimit = 100000;
+	const sizeLimit = 1000000;
 
 	const handleFileChange = (files: FileList) => {
 		let targetFile = files[0];
@@ -290,6 +306,13 @@ const ArticleControl: React.FC = () => {
 
 	return (
 		<ArticleControlDiv>
+			{showImageSelector && fileNames && (
+				<ImageSelector
+					srcList={fileNames}
+					onSelect={handleImageChange}
+					setShow={setShowImageSelector}
+				/>
+			)}
 			<NewArticleButton
 				onClick={() => setAdding(!adding)}
 			>
@@ -300,11 +323,8 @@ const ArticleControl: React.FC = () => {
 					<AddArticleThumbnail>
 						<Thumbnail
 							url={
-								selectedFile
-									? URL.createObjectURL(
-											selectedFile,
-									  )
-									: `https://storage.googleapis.com/lionhearts-images/placeholder-image.png`
+								imagePreview ||
+								`https://storage.googleapis.com/lionhearts-images/placeholder-image.png`
 							}
 						/>
 					</AddArticleThumbnail>
@@ -352,12 +372,11 @@ const ArticleControl: React.FC = () => {
 					</AddArticleTitleAuthor>
 				</AddArticleInfo>
 				<ArticleOptionRow>
-					<ArticleThumbnailInput
-						type={'file'}
-						onChange={(e: any) =>
-							handleFileChange(e.target.files)
-						}
-					/>
+					<ShowImageSelectorButton
+						onClick={toggleImageSelector}
+					>
+						Add image
+					</ShowImageSelectorButton>
 					<ArticleEventTitle>
 						Event:{' '}
 					</ArticleEventTitle>
@@ -379,15 +398,16 @@ const ArticleControl: React.FC = () => {
 				<AddArticleContentDiv
 					className={'editor-container'}
 				>
-					{preview ? (
-						<PreviewDiv
-							dangerouslySetInnerHTML={{
-								__html: joinParagraphs(),
-							}}
-						/>
-					) : (
-						renderParagraphs()
-					)}
+					<PreviewDiv
+						show={preview}
+						dangerouslySetInnerHTML={{
+							__html: joinParagraphs(),
+						}}
+					/>
+
+					<ParagraphListDiv show={!preview}>
+						{renderParagraphs()}
+					</ParagraphListDiv>
 
 					<div ref={paragraphDiv}> </div>
 				</AddArticleContentDiv>
