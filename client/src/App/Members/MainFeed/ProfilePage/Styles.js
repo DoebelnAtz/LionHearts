@@ -81,6 +81,90 @@ export const StudySpan = styled.span`
 	color: ${color.primary};
 `;
 
+export const DegreeList = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+`;
+
+export const DegreeResultList = styled.div`
+	display: flex;
+	flex-wrap: wrap;
+`;
+
+export const TagItemIcon = styled.img`
+    height: 18px;
+    margin: auto 10px auto 10px;
+`;
+
+export const TagItemName = styled.span`
+    ${font.DCBold};
+        margin: auto 10px auto 0;
+	line-height: 30px;
+    font-size: 16px;
+    padding: 0;
+    letter-spacing: 0.5px;
+    color: ${color.BG0};
+    &:hover {
+    	: 
+    }
+`;
+
+export const TagItem = styled.div`
+    padding: 0px 5px;
+    display: flex;
+    height: 26px;
+    border-radius: 12px/14px;
+    margin-right: 20px;
+    margin-bottom: 10px;
+    background-color: ${color.primary};
+    &:hover {
+    & ${TagItemName} {
+		${(props) =>
+		props.removable
+			? `text-decoration: line-through; ${cursor.clickable}`
+			: ''}
+		
+		};
+	}
+`;
+
+
+
+export const AddDegreeDiv = styled.div`
+    display: flex;
+`;
+
+export const AddDegreeInput = styled(animated.input)`
+	${components.input};
+	border: 2px solid ${color.primary};
+	background-color: ${color.BG0};
+	color: ${color.primaryShade};
+	border-radius: 0 4px 4px 0;
+`;
+
+export const AddDegreeButton = styled(animated.div)`
+	background-color: ${color.primary};
+	border: 1px solid ${color.primary};
+	transition: border-radius 4s;
+	padding: 2px 0;
+	width: 34px;
+	color: ${color.BG0};
+	height: 22px;
+	line-height: 22px;
+	text-align: center;
+	${cursor.clickable};
+	&:hover {
+		border-color: ${color.primaryShade};
+		background-color: ${color.primaryShade};
+		transition: background-color 0.1s;
+		${AddDegreeInput} {
+			background-color: ${color.primaryShade}!important;
+		}
+	}
+`;
+
+
+
 export const PlaceOfStudy = styled.div`
 	${font.DCBold};
 	font-size: 16px;
@@ -112,7 +196,6 @@ export const Location = styled.div`
 	line-height: 28px;
 	color: ${color.primary};
 	display: flex;
-	text-transform: uppercase;
 
 	@media (max-width: ${units.mobile}) {
 		font-size: 3vw;
@@ -397,7 +480,7 @@ export const AddSkillInput = styled(animated.input)`
 `;
 
 export const ProfilePictureDiv = styled.div`
-	height: min(16vw, 200px);
+	height: min(16vw, 150px);
 	display: flex;
-	width: min(16vw, 200px);
+	width: min(16vw, 150px);
 `;

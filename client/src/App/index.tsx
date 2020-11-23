@@ -5,7 +5,7 @@ import {
 	Switch,
 	useLocation,
 } from 'react-router-dom';
-import {
+import useVisibility, {
 	useGet,
 	usePerformanceGA,
 	useWidth,
@@ -46,7 +46,7 @@ function App() {
 	usePerformanceGA('app');
 
 	return (
-		<AppDiv>
+		<AppDiv id={'App'}>
 			<Switch>
 				<Route path={'/members'}>
 					<Switch>

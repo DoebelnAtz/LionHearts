@@ -1,5 +1,6 @@
 import express from 'express';
 import {
+	addDegreeToUser,
 	addLanguageToUser,
 	createDegree,
 	createLanguage,
@@ -11,6 +12,7 @@ import {
 	getProfileById,
 	getProfiles,
 	getSchools,
+	removeDegreeFromUser,
 	removeLanguage,
 	updateProfile,
 } from '../controllers/profile-controllers';
@@ -72,6 +74,12 @@ profileRouter.post(
 );
 
 profileRouter.post(
+	'/add_degree',
+	[check('completed').isBoolean(), check('degreeId').isNumeric()],
+	addDegreeToUser,
+);
+
+profileRouter.post(
 	'/create_school',
 	[check('name').not().isEmpty()],
 	createSchool,
@@ -81,6 +89,12 @@ profileRouter.delete(
 	'/remove_language',
 	[check('languageId').not().isEmpty().isNumeric()],
 	removeLanguage,
+);
+
+profileRouter.delete(
+	'/remove_degree',
+	[check('degreeId').isNumeric()],
+	removeDegreeFromUser,
 );
 
 export default profileRouter;

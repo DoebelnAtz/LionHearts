@@ -135,11 +135,8 @@ const MemberList: React.FC = () => {
 							<MemberCardName>{`${member.firstname} ${member.lastname}`}</MemberCardName>
 							<MemberCardInfo>
 								<MemberCardStudy>
-									{member.degree &&
-										member.school &&
-										`Studying ${
-											member.degree
-										} at ${capitalizeFirst(
+									{member.school &&
+										`Studying at ${capitalizeFirst(
 											member.school,
 										)}`}
 								</MemberCardStudy>

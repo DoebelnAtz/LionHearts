@@ -85,15 +85,21 @@ export const getProfileById = catchErrors(async (req, res) => {
         SELECT u.username, u.firstname, u.lastname, u.phone,
         u.linkedin, u.instagram, u.twitter,
         u.email, u.profile_pic, u.bio, u.u_id, 
-        d.name AS degree, d.d_id,
         s.name AS school, s.s_id,
         l.name AS location, l.l_id
         FROM users u JOIN locations l
         ON u.location = l.l_id
-        LEFT JOIN degrees d ON d.d_id = u.degree
         LEFT JOIN schools s ON s.s_id = u.school
         WHERE u.u_id = $1
     `,
+		[userId],
+	);
+
+	let degrees = await query(
+		`
+		SELECT d.name, d.d_id, dc.completed FROM degrees d JOIN degree_connections dc
+		ON d.d_id = dc.d_id WHERE dc.u_id = $1
+	`,
 		[userId],
 	);
 
@@ -106,7 +112,11 @@ export const getProfileById = catchErrors(async (req, res) => {
 		[userId],
 	);
 
-	res.json({ ...profile.rows[0], languages: languages.rows });
+	res.json({
+		...profile.rows[0],
+		languages: languages.rows,
+		degrees: degrees.rows,
+	});
 }, 'Failed to get profile');
 
 export const updateProfile = catchErrors(async (req, res) => {
@@ -117,40 +127,41 @@ export const updateProfile = catchErrors(async (req, res) => {
 		bio,
 		location,
 		school,
-		degree,
 		instagram,
 		twitter,
 		linkedin,
 	} = req.body;
 
 	const client = await connect();
-	await transaction(
-		async () => {
-			query(
-				`
+	try {
+		await client.query('BEGIN');
+		await query(
+			`
 	            UPDATE users 
 	            SET email=$1, phone=$2, bio=$3, 
-	            location=$4, school=$6, degree=$7,
-	            twitter=$8, linkedin=$9, instagram=$10
+	            location=$4, school=$6,
+	            twitter=$7, linkedin=$8, instagram=$9
 	             WHERE u_id = $5
 	        `,
-				[
-					email,
-					phone,
-					bio,
-					location,
-					userId,
-					school,
-					degree,
-					twitter,
-					linkedin,
-					instagram,
-				],
-			);
-		},
-		client,
-		'Failed to update profile',
-	);
+			[
+				email,
+				phone,
+				bio,
+				location,
+				userId,
+				school,
+				twitter,
+				linkedin,
+				instagram,
+			],
+		);
+		await client.query('COMMIT');
+	} catch (e) {
+		await client.query('ROLLBACK');
+		throw new CustomError('Failed to update profile', 500, e);
+	} finally {
+		client.release();
+	}
 	res.status(201).json({ success: true });
 }, 'Failed to update profile');
 
@@ -241,16 +252,63 @@ export const getProfiles = catchErrors(async (req, res) => {
 export const createDegree = catchErrors(async (req, res) => {
 	const { name } = req.body;
 
-	await query(
+	let createdDegree = await query(
 		`
 		INSERT INTO degrees (name)
-		VALUES ($1)
+		VALUES ($1) RETURNING name, d_id
 	`,
 		[name],
 	);
 
-	res.status(201).json({ success: true });
+	res.status(201).json({ createdDegree });
 }, 'Failed to create degree');
+
+export const addDegreeToUser = catchErrors(async (req, res) => {
+	const { degreeId, completed } = req.body;
+	const userId = req.decoded.u_id;
+
+	const client = await connect();
+	try {
+		await client.query('BEGIN');
+		await query(
+			`
+			INSERT INTO degree_connections (completed, d_id, u_id)
+			VALUES ($1, $2, $3);
+		`,
+			[completed, degreeId, userId],
+		);
+		await client.query('COMMIT');
+	} catch (e) {
+		await client.query('ROLLBACK');
+		throw new CustomError('Failed to add degree to user', 500, e);
+	} finally {
+		client.release();
+	}
+	res.status(201).json({ success: true });
+}, 'Failed to add degree to user');
+
+export const removeDegreeFromUser = catchErrors(async (req, res) => {
+	const { degreeId } = req.body;
+	const userId = req.decoded.u_id;
+
+	const client = await connect();
+	try {
+		await client.query('BEGIN');
+		await query(
+			`
+			DELETE FROM degree_connections WHERE d_id = $1 AND u_id = $2
+		`,
+			[degreeId, userId],
+		);
+		await client.query('COMMIT');
+	} catch (e) {
+		await client.query('ROLLBACK');
+		throw new CustomError('Failed to add degree to user', 500, e);
+	} finally {
+		client.release();
+	}
+	res.status(200).json({ success: true });
+}, 'Failed to add degree to user');
 
 export const getDegrees = catchErrors(async (req, res) => {
 	let degrees = await query(`

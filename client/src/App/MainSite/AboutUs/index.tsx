@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import HomeImg from '../Home/HomeImg';
 import {
 	AboutUsContainer,
@@ -8,12 +8,32 @@ import {
 	AboutUsVideoSection,
 	ParagraphHeader,
 	SectionContainer,
+	VideoPlayerControlsRow,
 } from './Styles';
 import Footer from '../../Footer';
 import { Paragraph, Header2 } from '../../../Styles';
 import AboutUsLHVideo from '../../../assets/videos/Lionhearts.m4v';
+import useVisibility from '../../../Hooks';
+import ToggleMuteButton from '../../Components/ToggleMuteButton';
 
-const AboutUs: React.FC = () => {
+let AboutUs: React.FC;
+AboutUs = () => {
+	const [isVisible, ref] = useVisibility();
+	const videoRef = useRef<HTMLVideoElement>(null);
+	const [muted, setMuted] = useState(true);
+	useEffect(() => {
+		if (isVisible && videoRef.current) {
+			videoRef.current.play();
+			videoRef.current.volume = 0.5;
+		} else if (!isVisible && videoRef.current) {
+			videoRef.current.pause();
+		}
+	}, [isVisible]);
+
+	const handleMuteToggle = () => {
+		setMuted(!muted);
+	};
+
 	return (
 		<AboutUsDiv>
 			<HomeImg
@@ -80,10 +100,20 @@ const AboutUs: React.FC = () => {
 						organization.
 					</Paragraph>
 				</SectionContainer>
-				<AboutUsVideoSection>
-					<AboutUsVideo controls>
+				<AboutUsVideoSection ref={ref}>
+					<AboutUsVideo
+						controls
+						muted={muted}
+						ref={videoRef}
+					>
 						<source src={AboutUsLHVideo} />
 					</AboutUsVideo>
+					<VideoPlayerControlsRow>
+						<ToggleMuteButton
+							muted={muted}
+							onClick={handleMuteToggle}
+						/>
+					</VideoPlayerControlsRow>
 				</AboutUsVideoSection>
 				<SectionContainer>
 					<Header2>

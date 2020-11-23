@@ -17,6 +17,8 @@ export const CommunityContainer = styled.div`
 	}
 `;
 
+
+
 export const ParagraphHeader = styled.h2`
     ${font.DCBold};
     color: ${color.secondary};

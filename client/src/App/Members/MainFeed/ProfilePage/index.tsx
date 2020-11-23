@@ -23,6 +23,10 @@ import {
 	ContactLink,
 	ContactTitle,
 	CreateSkillDiv,
+	DegreeList,
+	TagItem,
+	TagItemIcon,
+	TagItemName,
 	EditProfileButton,
 	EditSocialMediaInput,
 	LanguageCard,
@@ -57,6 +61,9 @@ import {
 	SocialMediaIcon,
 	SocialMediaLink,
 	StudySpan,
+	AddDegreeDiv,
+	AddDegreeInput,
+	DegreeResultList,
 } from './Styles';
 import CogWheel from '../../../../assets/images/cogwheel_blue.png';
 import { checkUser, getLocal } from '../../../../Utils';
@@ -69,6 +76,11 @@ import LoadingButton from '../../../Components/LoadingButton';
 import TwitterIcon from '../../../../assets/images/twitter_icon.png';
 import InstagramIcon from '../../../../assets/images/ig_icon.png';
 import LinkedinIcon from '../../../../assets/images/linkedin_icon.png';
+import degreeIcon from '../../../../assets/images/degree.svg';
+import studyIcon from '../../../../assets/images/studying.svg';
+import locationIcon from '../../../../assets/images/location.svg';
+import ExpandableInput from '../../../Components/ExpandableInput';
+import AddDegreeButton from './AddDegreeButton';
 
 const ProfilePage: React.FC = () => {
 	const params = useParams<{ uid: string }>();
@@ -78,9 +90,16 @@ const ProfilePage: React.FC = () => {
 	const [degrees, setDegrees] = useGet<Degree[]>(
 		'/profiles/degrees',
 	);
+
+	const [filteredDegrees, setFilteredDegrees] = useState(
+		degrees,
+	);
 	const [schools, setSchools] = useGet<School[]>(
 		'/profiles/schools',
 	);
+
+	const [degreeInput, setDegreeInput] = useState('');
+
 	const [languageSearch, setLanguageSearch] = useState(
 		'',
 	);
@@ -136,6 +155,26 @@ const ProfilePage: React.FC = () => {
 	const [skills, setSkills] = useGet<Skill[]>(
 		`/skills/${params.uid}`,
 	);
+
+	const handleDegreeInputChange = (newValue: string) => {
+		console.log(degrees);
+		console.log(filteredDegrees);
+		if (newValue === '') {
+			setFilteredDegrees([]);
+		} else {
+			setFilteredDegrees(
+				degrees?.filter((degree) => {
+					return (
+						degree.name.includes(newValue) &&
+						!profile?.degrees.find(
+							(d) => d.d_id === degree.d_id,
+						)
+					);
+				}),
+			);
+		}
+		setDegreeInput(newValue);
+	};
 
 	const handleSkillSearchChange = (e: ChangeEvent) => {
 		let target = e.target as HTMLInputElement;
@@ -384,16 +423,6 @@ const ProfilePage: React.FC = () => {
 		}
 	};
 
-	const handleDegreeChange = (newDegree: Option) => {
-		if (profile) {
-			setProfile({
-				...profile,
-				degree: newDegree.option,
-				d_id: newDegree.id || 1,
-			});
-		}
-	};
-
 	const handleSchoolChange = (newSchool: Option) => {
 		if (profile) {
 			setProfile({
@@ -459,6 +488,70 @@ const ProfilePage: React.FC = () => {
 				});
 		} catch (e) {
 			console.log(e);
+		}
+	};
+
+	const handleDegreeRemoval = async (
+		degreeId: number,
+	) => {
+		if (editing) {
+			try {
+				await makeRequest(
+					'/profiles/remove_degree',
+					'DELETE',
+					{
+						degreeId,
+					},
+				);
+				profile &&
+					setProfile({
+						...profile,
+						degrees: profile.degrees.filter(
+							(degree) =>
+								degree.d_id !== degreeId,
+						),
+					});
+			} catch (e) {
+				console.log(e);
+			}
+		}
+	};
+
+	const renderDegrees = () => {
+		if (profile?.degrees) {
+			return profile.degrees.map((degree) => (
+				<TagItem
+					key={degree.d_id}
+					removable={editing}
+					onClick={() =>
+						handleDegreeRemoval(degree.d_id)
+					}
+				>
+					<TagItemIcon
+						src={
+							degree.completed
+								? degreeIcon
+								: studyIcon
+						}
+					/>
+					<TagItemName>{degree.name}</TagItemName>
+				</TagItem>
+			));
+		}
+	};
+
+	const renderDegreeResults = () => {
+		if (filteredDegrees && profile) {
+			return filteredDegrees.map((degree) => (
+				<AddDegreeButton
+					name={degree.name}
+					degreeId={degree.d_id}
+					key={degree.d_id}
+					profile={profile}
+					setEditing={setEditing}
+					setProfile={setProfile}
+				/>
+			));
 		}
 	};
 
@@ -576,47 +669,13 @@ const ProfilePage: React.FC = () => {
 					<OccupationInfoDiv>
 						{
 							<PlaceOfStudy editing={editing}>
-								{profile &&
-								checkUser(profile.u_id) &&
-								editing ? (
-									<DropDownComponent
-										state={
-											profile?.degree ||
-											'Select degree'
-										}
-										setSelect={(
-											newDeg,
-										) =>
-											handleDegreeChange(
-												newDeg,
-											)
-										}
-										optionList={
-											degrees
-												? degrees.map(
-														(
-															degree,
-														) => {
-															return {
-																option:
-																	degree.name,
-																id:
-																	degree.d_id,
-															};
-														},
-												  )
-												: []
-										}
-										width={'200px'}
-										height={'22px'}
-									/>
-								) : (
-									<StudySpan>
-										{profile?.degree &&
-											profile.school &&
-											`Studying ${profile?.degree} at ${profile?.school}`}
-									</StudySpan>
-								)}
+								{/*{!editing && (*/}
+								{/*	<StudySpan>*/}
+								{/*		{profile?.school &&*/}
+								{/*			`Studying at ${profile?.school}`}*/}
+								{/*	</StudySpan>*/}
+								{/*)}*/}
+
 								{profile &&
 								checkUser(profile.u_id) &&
 								editing ? (
@@ -654,6 +713,29 @@ const ProfilePage: React.FC = () => {
 								) : null}
 							</PlaceOfStudy>
 						}
+					</OccupationInfoDiv>
+					<OccupationInfoDiv>
+						<DegreeList>
+							{renderDegrees()}
+							{profile &&
+								checkUser(profile.u_id) &&
+								editing && (
+									<ExpandableInput
+										onChange={
+											handleDegreeInputChange
+										}
+										value={degreeInput}
+										borderRadius={
+											'12px/14px'
+										}
+									/>
+								)}
+						</DegreeList>
+						{editing && (
+							<DegreeResultList>
+								{renderDegreeResults()}
+							</DegreeResultList>
+						)}
 						<Location>
 							{profile &&
 							checkUser(profile.u_id) &&
@@ -686,8 +768,16 @@ const ProfilePage: React.FC = () => {
 								/>
 							) : (
 								<LocationSpan>
-									Living in{' '}
-									{profile?.location}
+									<TagItem>
+										<TagItemIcon
+											src={
+												locationIcon
+											}
+										/>
+										<TagItemName>
+											{profile?.location.toLowerCase()}
+										</TagItemName>
+									</TagItem>
 								</LocationSpan>
 							)}
 						</Location>

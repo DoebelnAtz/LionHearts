@@ -47,6 +47,7 @@ export interface Option {
 export interface Degree {
 	d_id: number;
 	name: string;
+	completed: boolean;
 }
 
 export interface School {
@@ -72,10 +73,10 @@ export interface Profile {
 	u_id: number;
 	location: string;
 	l_id: number;
-	degree: string;
 	d_id: number;
 	school: string;
 	s_id: number;
+	degrees: Degree[];
 	instagram: string;
 	linkedin: string;
 	twitter: string;

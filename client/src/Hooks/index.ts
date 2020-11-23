@@ -16,6 +16,7 @@ import { AuthContext } from '../Context/AuthContext';
 import { QueryOptions } from '../@types';
 import { timingGA } from '../Utils/GoogleAnalytics';
 import { throttle } from 'lodash';
+import { log } from 'util';
 
 export const useNav = (current: string) => {
 	const { update } = useContext(CurrentNavContext);
@@ -106,9 +107,12 @@ export default function useVisibility<
 	}, throttleMilliseconds);
 
 	useEffect(() => {
-		window.addEventListener('scroll', onScroll);
-		return () =>
-			window.removeEventListener('scroll', onScroll);
+		let app = document.getElementById('App');
+		if (app) app.addEventListener('scroll', onScroll);
+		return () => {
+			app &&
+				app.removeEventListener('scroll', onScroll);
+		};
 	});
 
 	return [isVisible, currentElement];

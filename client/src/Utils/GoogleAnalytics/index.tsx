@@ -4,7 +4,6 @@ export const initializeGA = () => {
 	if (process.env.NODE_ENV === 'production')
 		try {
 			ReactGA.initialize('UA-183748149-1');
-			console.log(ReactGA);
 		} catch {
 			console.log(
 				'failed to initialize google analytics',

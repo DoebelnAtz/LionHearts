@@ -19,17 +19,25 @@ export const AboutUsParagraph = styled.p`
     font-size: 18px;
 `;
 
+export const VideoPlayerControlsRow = styled.div`
+    display: flex;
+    margin-bottom: 5%;
+    justify-content: center;
+    width: 100%;
+`;
+
 export const AboutUsVideoSection = styled.div`
     width: 100vw;
     position: relative;
      left: max(-10vw, -100px);
     background-color: ${color.tertiary};
     display: flex;
+    flex-direction: column;
 `;
 
 export const AboutUsVideo = styled.video`
     width: 80%;
-    margin: 5% auto;
+    margin: 5% auto ${units.margin} auto;
      &:focus {
     outline: none;
     border: none;
