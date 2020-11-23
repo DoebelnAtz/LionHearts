@@ -35,7 +35,7 @@ import LoadingButton from '../Components/LoadingButton';
 import { AnimatedLabeledInputDiv } from '../../Styles';
 import placeHolderPic from '../../assets/images/profile_placeholder.png';
 import { eventGA } from '../../Utils/GoogleAnalytics';
-
+import SignupBG from '../../assets/images/signup_BG.jpg';
 const acceptedTypes = ['image/jpeg', 'image/png'];
 const imageSizeLimit = 5000000;
 
@@ -271,7 +271,7 @@ const Signup: React.FC = () => {
 	};
 
 	return (
-		<SignupDiv>
+		<SignupDiv src={SignupBG}>
 			<SignupDivContainer>
 				<LionheartsLogoDiv>
 					<LionheartsLogo src={LionHeartsLogo} />

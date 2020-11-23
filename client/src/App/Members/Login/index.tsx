@@ -22,8 +22,10 @@ import {
 	BackToFrontPage,
 	MemberLoginContainer,
 	MemberLoginDiv,
+	MemberLoginFormContainer,
 } from './Styles';
 import { eventGA } from '../../../Utils/GoogleAnalytics';
+import LoginBG from '../../../assets/images/login_BG.jpg';
 
 const MemberLogin: React.FC = () => {
 	const [input, setInput] = useState({
@@ -90,65 +92,72 @@ const MemberLogin: React.FC = () => {
 	};
 
 	return (
-		<MemberLoginDiv>
+		<MemberLoginDiv src={LoginBG}>
 			<MemberLoginContainer>
-				<LoginDiv>
-					<LoginLogo>
-						<Logo
-							height={'calc(20px + 6vw)'}
-							inverse
-						/>
-					</LoginLogo>
-					<LoginInfoDiv>
-						<LoginInfo>
-							Log in using your member account
-						</LoginInfo>
-					</LoginInfoDiv>
-					<LoginForm>
-						<AnimatedLabeledInputDiv>
-							<input
-								name={'username'}
-								autoComplete={'off'}
-								value={input.username}
-								onChange={
-									handleUsernameChange
-								}
-								type={'text'}
-								required
+				<MemberLoginFormContainer>
+					<LoginDiv>
+						<LoginLogo>
+							<Logo
+								height={'calc(20px + 6vw)'}
+								inverse
 							/>
-							<label htmlFor={'username'}>
-								<span>Username</span>
-							</label>
-						</AnimatedLabeledInputDiv>
-						<AnimatedLabeledInputDiv>
-							<input
-								name={'password'}
-								autoComplete={'password'}
-								value={input.password}
-								onChange={
-									handlePasswordChange
-								}
-								type={'password'}
-								required
-							/>
-							<label htmlFor={'password'}>
-								<span>Password</span>
-							</label>
-						</AnimatedLabeledInputDiv>
-						<ButtonDiv>
-							<BackToFrontPage
-								onClick={handleHomeClick}
-							>
-								Home
-							</BackToFrontPage>
-							<LoadingButton
-								onClick={handleLogin}
-							>
-								Log in
-							</LoadingButton>
-						</ButtonDiv>
-					</LoginForm>
-				</LoginDiv>
+						</LoginLogo>
+						<LoginInfoDiv>
+							<LoginInfo>
+								Log in using your member
+								account
+							</LoginInfo>
+						</LoginInfoDiv>
+						<LoginForm>
+							<AnimatedLabeledInputDiv>
+								<input
+									name={'username'}
+									autoComplete={'off'}
+									value={input.username}
+									onChange={
+										handleUsernameChange
+									}
+									type={'text'}
+									required
+								/>
+								<label htmlFor={'username'}>
+									<span>Username</span>
+								</label>
+							</AnimatedLabeledInputDiv>
+							<AnimatedLabeledInputDiv>
+								<input
+									name={'password'}
+									autoComplete={
+										'password'
+									}
+									value={input.password}
+									onChange={
+										handlePasswordChange
+									}
+									type={'password'}
+									required
+								/>
+								<label htmlFor={'password'}>
+									<span>Password</span>
+								</label>
+							</AnimatedLabeledInputDiv>
+							<ButtonDiv>
+								<BackToFrontPage
+									onClick={
+										handleHomeClick
+									}
+								>
+									Home
+								</BackToFrontPage>
+								<LoadingButton
+									onClick={handleLogin}
+								>
+									Log in
+								</LoadingButton>
+							</ButtonDiv>
+						</LoginForm>
+					</LoginDiv>
+				</MemberLoginFormContainer>
 			</MemberLoginContainer>
 		</MemberLoginDiv>
 	);

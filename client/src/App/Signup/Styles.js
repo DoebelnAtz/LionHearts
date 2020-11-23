@@ -11,6 +11,9 @@ export const SignupDiv = styled.div`
 	height: 100%;
 	display: flex;
 	background-color: ${color.primary}70;
+	background: url(${props => props.src});
+	background-size: cover;
+	background-repeat: no-repeat;
 `;
 
 export const SignupDivContainer = styled.div`
