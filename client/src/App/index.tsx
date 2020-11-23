@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AppDiv } from './Styles';
 import {
 	Route,
@@ -31,10 +31,13 @@ import {
 	initializeGA,
 	pageViewGA,
 } from '../Utils/GoogleAnalytics';
+import CookieConsentPopup from './CookieConsentPopup';
 
 function App() {
 	const location = useLocation();
-
+	const [showCookieModal, setShowCookieModal] = useState(
+		true,
+	);
 	// useEffect(() => {
 	// 	initializeGA();
 	// }, []);
@@ -47,6 +50,11 @@ function App() {
 
 	return (
 		<AppDiv id={'App'}>
+			{showCookieModal && (
+				<CookieConsentPopup
+					setShowCookieModal={setShowCookieModal}
+				/>
+			)}
 			<Switch>
 				<Route path={'/members'}>
 					<Switch>

@@ -328,7 +328,7 @@ export const components = {
 		letter-spacing: 1px;
 		${font.DCBold};
 		text-transform: uppercase;
-		height: 32px;
+		height: 30px;
 		font-size: 20px;
 		line-height: 30px;
 		background-color: ${color.primary};
