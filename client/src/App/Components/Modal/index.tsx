@@ -1,4 +1,8 @@
-import React, { RefObject } from 'react';
+import React, {
+	RefObject,
+	SyntheticEvent,
+	useEffect,
+} from 'react';
 import {
 	OutsideDiv,
 	InsideDiv,
@@ -13,17 +17,28 @@ type ModalProps = {
 	close: () => void;
 };
 
-const Modal: React.FC<ModalProps> = ({ children, inside, close }) => {
+const Modal: React.FC<ModalProps> = ({
+	children,
+	inside,
+	close,
+}) => {
 	const [, isMobile] = useWidth();
+
 	return (
 		<OutsideDiv>
-			<InsideDiv id={'modal-inside'} isMobile={isMobile} ref={inside}>
+			<InsideDiv
+				id={'modal-inside'}
+				isMobile={isMobile}
+				ref={inside}
+			>
 				<ModalButtonsRow>
 					<CloseButton onClick={close}>
 						<span>✕</span>
 					</CloseButton>
 				</ModalButtonsRow>
-				<ModalContent id={'modal-content'}>{children}</ModalContent>
+				<ModalContent id={'modal-content'}>
+					{children}
+				</ModalContent>
 			</InsideDiv>
 		</OutsideDiv>
 	);

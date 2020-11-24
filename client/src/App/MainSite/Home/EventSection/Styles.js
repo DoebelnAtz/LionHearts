@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 
 export const NewsSectionDiv = styled.div`
 	width: 100%;
-	border-top: 5px solid ${color.secondary};
 	padding-bottom: 6vw;
 	background-color: ${color.BG0};
 `;

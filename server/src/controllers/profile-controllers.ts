@@ -260,7 +260,7 @@ export const createDegree = catchErrors(async (req, res) => {
 		[name],
 	);
 
-	res.status(201).json({ createdDegree });
+	res.status(201).json(createdDegree.rows[0]);
 }, 'Failed to create degree');
 
 export const addDegreeToUser = catchErrors(async (req, res) => {
@@ -444,10 +444,15 @@ export const createLocation = catchErrors(async (req, res) => {
 
 export const getProfileSummary = catchErrors(async (req, res) => {
 	let languages = await query(`
-		SELECT l.name as languages FROM languages l JOIN language_connections lc ON lc.language_id = l.language_id GROUP BY l.name 
+		SELECT l.name as languages FROM languages l 
+		JOIN language_connections lc 
+		ON lc.language_id = l.language_id 
+		GROUP BY l.name 
 	`);
 	let education = await query(`
-		SELECT d.name as degrees, s.name as schools FROM users u JOIN schools s ON u.school = s.s_id JOIN degrees d ON d.d_id = u.degree;
+		SELECT d.name as degrees, s.name as schools 
+		FROM users u JOIN schools s ON u.school = s.s_id 
+		JOIN degrees d ON d.d_id = u.degree;
 	`);
 
 	res.json({

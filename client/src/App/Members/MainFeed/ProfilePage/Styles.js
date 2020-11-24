@@ -18,6 +18,23 @@ export const ProfilePageInfo = styled.div`
 	display: flex;
 	background-color: ${color.tertiary};
 	padding: 5%;
+		flex-direction: column;
+	@media(max-width: ${units.mobile}) {
+	}
+`;
+
+export const ProfilePageInfoDiv = styled.div`
+    width: 100%;
+    display: flex;
+`;
+
+export const ProfilePageInfoEditButtons = styled.div`
+    width: 228px;
+`;
+
+export const ProfilePageTagDiv = styled.div`
+    display: flex;
+    flex-direction: column;
 `;
 
 export const ProfilePageEditButtons = styled.div`
@@ -34,7 +51,7 @@ export const EditProfileButton = styled.div`
     background-image: url("${(props) => props.url}");
     height: 20px;
     z-index: 3;
-    
+    margin-left: auto;
     background-position: center;
     background-size: contain;
     width: 20px;
@@ -49,7 +66,7 @@ export const EditProfileButton = styled.div`
 export const ProfilePageNameDiv = styled.div`
 	display: flex;
 	flex-direction: column;
-	margin: auto 0 auto 3vw;
+	margin: auto 0 auto 0;
 	width: calc(90% - min(16vw, 200px));
 `;
 
@@ -65,13 +82,19 @@ export const ProfilePageName = styled.span`
 	}
 `;
 
+export const ProfilePictureDiv = styled.div`
+	height: min(calc(50px + 6vw), 150px);
+	display: flex;
+	flex-shrink: 0;
+	margin-right: 20px;
+	width: min(calc(50px + 6vw), 150px);
+`;
+
 export const OccupationInfoDiv = styled.div`
 	display: flex;
 	flex-direction: column;
-	margin-top: ${units.margin};
-	& > div {
-		margin-bottom: ${units.margin};
-	}
+	margin-top: 10px;
+	
 `;
 
 export const StudySpan = styled.span`
@@ -93,12 +116,12 @@ export const DegreeResultList = styled.div`
 
 export const TagItemIcon = styled.img`
     height: 18px;
-    margin: auto 10px auto 10px;
+    margin: auto 0 auto 6px;
 `;
 
 export const TagItemName = styled.span`
     ${font.DCBold};
-        margin: auto 10px auto 0;
+        margin: auto 6px auto 6px;
 	line-height: 30px;
     font-size: 16px;
     padding: 0;
@@ -109,22 +132,43 @@ export const TagItemName = styled.span`
     }
 `;
 
-export const TagItem = styled.div`
-    padding: 0px 5px;
+export const AddTagItem = styled.div`
+    padding: 0px 3px;
     display: flex;
     height: 26px;
     border-radius: 12px/14px;
-    margin-right: 20px;
+    margin-right: 10px;
     margin-bottom: 10px;
     background-color: ${color.primary};
+    ${cursor.clickable};
+    transition: background-color 0.1s ease-in-out;
+    &:last-child {
+    	margin-right: 0;
+    }
     &:hover {
-    & ${TagItemName} {
-		${(props) =>
-		props.removable
-			? `text-decoration: line-through; ${cursor.clickable}`
-			: ''}
-		
-		};
+		background-color: ${color.primaryShade};
+	}
+`;
+
+export const TagItem = styled.div`
+    padding: 0px 3px;
+    display: flex;
+    height: 26px;
+    border-radius: 12px/14px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    background-color: ${color.primary};
+    &:last-child {
+    	margin-right: 0;
+    }
+    &:hover {
+		& ${TagItemName} {
+			${(props) =>
+			props.removable
+				? `text-decoration: line-through; ${cursor.clickable}`
+				: ''}
+			
+			};
 	}
 `;
 
@@ -174,9 +218,7 @@ export const PlaceOfStudy = styled.div`
 	flex-direction: ${(props) =>
 		props.editing ? 'column' : 'row'};
 	text-transform: uppercase;
-	& > div {
-		margin-top: ${units.margin};
-	}
+	
 	@media (max-width: ${units.mobile}) {
 		font-size: 3vw;
 		line-height: 20px;
@@ -380,6 +422,7 @@ export const ProfilePageBioTitle = styled.span`
 
 export const ProfilePageBio = styled.div`
 	margin-bottom: ${units.margin};
+	margin-top: ${units.margin};
 `;
 
 export const ProfilePageSkillsTitle = styled.span`
@@ -392,6 +435,7 @@ export const ProfilePageSkillsDiv = styled.div`
 	width: 100%;
 	display: flex;
 	flex-wrap: wrap;
+	margin-top: ${units.margin};
 `;
 
 export const SkillTitle = styled.span`
@@ -479,8 +523,4 @@ export const AddSkillInput = styled(animated.input)`
 	border-radius: 0 4px 4px 0;
 `;
 
-export const ProfilePictureDiv = styled.div`
-	height: min(16vw, 150px);
-	display: flex;
-	width: min(16vw, 150px);
-`;
+

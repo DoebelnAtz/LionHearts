@@ -64,6 +64,10 @@ import {
 	AddDegreeDiv,
 	AddDegreeInput,
 	DegreeResultList,
+	ProfilePageInfoDiv,
+	ProfilePageTagDiv,
+	ProfilePageInfoEditButtons,
+	AddTagItem,
 } from './Styles';
 import CogWheel from '../../../../assets/images/cogwheel_blue.png';
 import { checkUser, getLocal } from '../../../../Utils';
@@ -81,6 +85,7 @@ import studyIcon from '../../../../assets/images/studying.svg';
 import locationIcon from '../../../../assets/images/location.svg';
 import ExpandableInput from '../../../Components/ExpandableInput';
 import AddDegreeButton from './AddDegreeButton';
+import { color } from '../../../../Styles';
 
 const ProfilePage: React.FC = () => {
 	const params = useParams<{ uid: string }>();
@@ -165,7 +170,11 @@ const ProfilePage: React.FC = () => {
 			setFilteredDegrees(
 				degrees?.filter((degree) => {
 					return (
-						degree.name.includes(newValue) &&
+						degree.name
+							.toLowerCase()
+							.includes(
+								newValue.toLowerCase(),
+							) &&
 						!profile?.degrees.find(
 							(d) => d.d_id === degree.d_id,
 						)
@@ -176,12 +185,11 @@ const ProfilePage: React.FC = () => {
 		setDegreeInput(newValue);
 	};
 
-	const handleSkillSearchChange = (e: ChangeEvent) => {
-		let target = e.target as HTMLInputElement;
-		if (target.value === '') {
+	const handleSkillSearchChange = (e: string) => {
+		if (e === '') {
 			setSkillResults([]);
 		}
-		setSkillSearch(target.value);
+		setSkillSearch(e);
 	};
 
 	const handleSkillCreation = async () => {
@@ -433,12 +441,11 @@ const ProfilePage: React.FC = () => {
 		}
 	};
 
-	const handleLanguageSearchChange = (e: ChangeEvent) => {
-		let target = e.target as HTMLInputElement;
-		if (target.value === '') {
+	const handleLanguageSearchChange = (e: string) => {
+		if (e === '') {
 			setLanguageResults([]);
 		}
-		setLanguageSearch(target.value);
+		setLanguageSearch(e);
 	};
 
 	const handleSkillRemoval = async (skillId: number) => {
@@ -515,6 +522,24 @@ const ProfilePage: React.FC = () => {
 				console.log(e);
 			}
 		}
+	};
+
+	const handleDegreeCreation = async () => {
+		try {
+			let createdDegree = await makeRequest(
+				'/profiles/create_degree',
+				'POST',
+				{
+					name: degreeInput,
+				},
+			);
+			if (createdDegree?.data && filteredDegrees) {
+				setFilteredDegrees([
+					...filteredDegrees,
+					createdDegree.data,
+				]);
+			}
+		} catch (e) {}
 	};
 
 	const renderDegrees = () => {
@@ -652,68 +677,61 @@ const ProfilePage: React.FC = () => {
 	return (
 		<ProfilePageDiv>
 			<ProfilePageInfo>
-				{!editing && (
-					<ProfilePictureDiv>
-						<ProfilePic
-							src={profile?.profile_pic}
-						/>
-					</ProfilePictureDiv>
-				)}
-				<ProfilePageNameDiv>
-					<ProfilePageName>
-						{profile && `${profile?.firstname}`}
-					</ProfilePageName>
-					<ProfilePageName>
-						{profile && `${profile?.lastname}`}
-					</ProfilePageName>
-					<OccupationInfoDiv>
-						{
-							<PlaceOfStudy editing={editing}>
-								{/*{!editing && (*/}
-								{/*	<StudySpan>*/}
-								{/*		{profile?.school &&*/}
-								{/*			`Studying at ${profile?.school}`}*/}
-								{/*	</StudySpan>*/}
-								{/*)}*/}
-
-								{profile &&
-								checkUser(profile.u_id) &&
-								editing ? (
-									<DropDownComponent
-										state={
-											profile?.school ||
-											'Select school'
-										}
-										setSelect={(
-											newSchool,
-										) =>
-											handleSchoolChange(
-												newSchool,
+				<ProfilePageInfoDiv>
+					{!editing && (
+						<ProfilePictureDiv>
+							<ProfilePic
+								src={profile?.profile_pic}
+							/>
+						</ProfilePictureDiv>
+					)}
+					<ProfilePageNameDiv>
+						<ProfilePageName>
+							{profile &&
+								`${profile?.firstname}`}
+						</ProfilePageName>
+						<ProfilePageName>
+							{profile &&
+								`${profile?.lastname}`}
+						</ProfilePageName>
+					</ProfilePageNameDiv>
+					<ProfilePageInfoEditButtons>
+						{profile &&
+							checkUser(profile.u_id) &&
+							(profile && !editing ? (
+								<ProfilePageEditButtons>
+									<EditProfileButton
+										onClick={() =>
+											setEditing(
+												!editing,
 											)
 										}
-										optionList={
-											schools
-												? schools.map(
-														(
-															school,
-														) => {
-															return {
-																option:
-																	school.name,
-																id:
-																	school.s_id,
-															};
-														},
-												  )
-												: []
-										}
-										width={'200px'}
-										height={'22px'}
+										url={CogWheel}
 									/>
-								) : null}
-							</PlaceOfStudy>
-						}
-					</OccupationInfoDiv>
+								</ProfilePageEditButtons>
+							) : (
+								<ProfilePageEditButtons>
+									<LogoutButton
+										onClick={
+											handleLogout
+										}
+									>
+										Log out
+									</LogoutButton>
+									<LoadingButton
+										width={'66px'}
+										height={'30px'}
+										onClick={
+											handleChangeSave
+										}
+									>
+										<span>Save</span>
+									</LoadingButton>
+								</ProfilePageEditButtons>
+							))}
+					</ProfilePageInfoEditButtons>
+				</ProfilePageInfoDiv>
+				<ProfilePageTagDiv>
 					<OccupationInfoDiv>
 						<DegreeList>
 							{renderDegrees()}
@@ -725,14 +743,21 @@ const ProfilePage: React.FC = () => {
 											handleDegreeInputChange
 										}
 										value={degreeInput}
-										borderRadius={
-											'12px/14px'
-										}
+										height={'26px'}
 									/>
 								)}
 						</DegreeList>
 						{editing && (
 							<DegreeResultList>
+								{!!degreeInput.length && (
+									<AddTagItem
+										onClick={
+											handleDegreeCreation
+										}
+									>
+										<TagItemName>{`Add degree "${degreeInput}"`}</TagItemName>
+									</AddTagItem>
+								)}
 								{renderDegreeResults()}
 							</DegreeResultList>
 						)}
@@ -782,34 +807,53 @@ const ProfilePage: React.FC = () => {
 							)}
 						</Location>
 					</OccupationInfoDiv>
-				</ProfilePageNameDiv>
-				{profile &&
+					{profile &&
 					checkUser(profile.u_id) &&
-					(profile && !editing ? (
-						<ProfilePageEditButtons>
-							<EditProfileButton
-								onClick={() =>
-									setEditing(!editing)
-								}
-								url={CogWheel}
-							/>
-						</ProfilePageEditButtons>
-					) : (
-						<ProfilePageEditButtons>
-							<LogoutButton
-								onClick={handleLogout}
-							>
-								Log out
-							</LogoutButton>
-							<LoadingButton
-								width={'66px'}
-								height={'30px'}
-								onClick={handleChangeSave}
-							>
-								<span>Save</span>
-							</LoadingButton>
-						</ProfilePageEditButtons>
-					))}
+					editing ? (
+						<OccupationInfoDiv>
+							<PlaceOfStudy editing={editing}>
+								{/*{!editing && (*/}
+								{/*	<StudySpan>*/}
+								{/*		{profile?.school &&*/}
+								{/*			`Studying at ${profile?.school}`}*/}
+								{/*	</StudySpan>*/}
+								{/*)}*/}
+
+								<DropDownComponent
+									state={
+										profile?.school ||
+										'Select school'
+									}
+									setSelect={(
+										newSchool,
+									) =>
+										handleSchoolChange(
+											newSchool,
+										)
+									}
+									optionList={
+										schools
+											? schools.map(
+													(
+														school,
+													) => {
+														return {
+															option:
+																school.name,
+															id:
+																school.s_id,
+														};
+													},
+											  )
+											: []
+									}
+									width={'200px'}
+									height={'22px'}
+								/>
+							</PlaceOfStudy>
+						</OccupationInfoDiv>
+					) : null}
+				</ProfilePageTagDiv>
 			</ProfilePageInfo>
 			<ProfilePageContent id={'profile-content'}>
 				<ProfilePageContactDiv id={'contact'}>
@@ -958,34 +1002,13 @@ const ProfilePage: React.FC = () => {
 							{renderLanguages()}
 						</LanguageList>
 						{editing && (
-							<AddSkillDiv>
-								<AddSkillButton
-									style={
-										expandAddSchoolButton
-									}
-									onClick={() =>
-										setAddingLanguage(
-											!addingLanguage,
-										)
-									}
-								>
-									{addingLanguage
-										? '-'
-										: '+'}
-								</AddSkillButton>
-								<AddSkillInput
-									value={languageSearch}
-									onChange={
-										handleLanguageSearchChange
-									}
-									style={expandAddSchool}
-									placeholder={
-										addingLanguage
-											? 'search'
-											: ''
-									}
-								/>
-							</AddSkillDiv>
+							<ExpandableInput
+								height={'26px'}
+								onChange={
+									handleLanguageSearchChange
+								}
+								value={languageSearch}
+							/>
 						)}
 						<SkillResults>
 							{editing &&
@@ -1022,30 +1045,13 @@ const ProfilePage: React.FC = () => {
 						{skills && renderSkills(skills)}
 					</ProfilePageSkillsDiv>
 					{editing && (
-						<AddSkillDiv>
-							<AddSkillButton
-								style={expandAddSkillButton}
-								onClick={() =>
-									setAddingSkill(
-										!addingSkill,
-									)
-								}
-							>
-								{addingSkill ? '-' : '+'}
-							</AddSkillButton>
-							<AddSkillInput
-								value={skillSearch}
-								onChange={
-									handleSkillSearchChange
-								}
-								style={expandAddSkill}
-								placeholder={
-									addingSkill
-										? 'search'
-										: ''
-								}
-							/>
-						</AddSkillDiv>
+						<ExpandableInput
+							height={'26px'}
+							onChange={
+								handleSkillSearchChange
+							}
+							value={skillSearch}
+						/>
 					)}
 					<SkillResults>
 						{editing && !!skillSearch.length && (

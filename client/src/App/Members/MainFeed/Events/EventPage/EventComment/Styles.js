@@ -9,7 +9,7 @@ import {
 import { animated } from 'react-spring';
 
 export const EventCommentDiv = styled.div`
-	width: calc(100%);
+	width: calc(100% - ${units.margin} * 2);
 	padding: ${units.margin};
 	display: flex;
 	flex-direction: column;
@@ -55,16 +55,25 @@ export const EventCommentContentCol = styled.div`
 	flex-direction: column;
 `;
 
+export const EventCommentResponseDiv = styled.div`
+	width: calc(100% - 40px);
+    padding: 20px;
+    background-color: ${color.tertiary};
+`;
+
 export const EventCommentEditor = styled.div`
 	width: calc(100%);
-	height: 100px;
-	margin: ${units.margin} auto 0 auto;
 	overflow-y: hidden;
+`;
+
+export const EventCommentSubmitButton = styled.button`
+	width: calc(100%);
+	${components.buttonWhite};
+	margin-top: 0;
 `;
 
 export const EventCommentTextarea = styled.textarea`
 	width: calc(100% - 24px);
-	height: 50px;
 	color: ${color.text};
 	${font.RReg};
 	//box-shadow: inset 0px 0px 10px 10px ${color.BG1};
@@ -74,6 +83,8 @@ export const EventCommentTextarea = styled.textarea`
 	resize: none;
 	font-size: 16px;
 	border: 2px solid ${color.primary};
+	
+	margin-bottom: 0;
 	&:focus {
 		outline: none;
 		border-color: ${color.primaryShade};
@@ -151,4 +162,5 @@ export const EventCommentInfoDate = styled.span`
 
 export const EventCommentContent = styled.div`
 	width: calc(100%);
+	${font.RReg};
 `;

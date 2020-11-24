@@ -25,6 +25,8 @@ import {
 	EventChildCommentPicCol,
 	EventCommentTextarea,
 	EventCommentChildrenCounter,
+	EventCommentResponseDiv,
+	EventCommentSubmitButton,
 } from './Styles';
 import {
 	ChildComment,
@@ -54,23 +56,29 @@ const EventComment: React.FC<EventCommentProps> = ({
 	comment,
 }) => {
 	const [createComment, setCreateComment] = useState('');
-	const [commentChildren, setCommentChildren] = useState(
-		comment.children,
-	);
+
+	const [commentChildren, setCommentChildren] = useState<
+		number
+	>(comment.children);
+
 	const [childComments, setChildComments] = useGet<
 		ChildComment[]
 	>(`/events/child_comments/${comment.c_id}`);
+
 	const expandTarget = useRef<HTMLDivElement>(null);
+
 	const [
 		expandCommentSection,
 		setExpandCommentSection,
 	] = useState(false);
+
 	const expandCommentSectionSpring = useSpring({
 		maxHeight: expandCommentSection
-			? 136 +
+			? 166 +
 			  (expandTarget.current?.offsetHeight || 1) +
 			  'px'
 			: '0px',
+		config: { tension: 200, mass: 2, friction: 50 },
 	});
 
 	const handleCreateCommentChange = (val: string) => {
@@ -93,7 +101,9 @@ const EventComment: React.FC<EventCommentProps> = ({
 						...childComments,
 						resp.data,
 					]);
-				setCommentChildren(commentChildren + 1);
+				setCommentChildren(
+					Number(commentChildren) + Number(1),
+				);
 				setCreateComment('');
 			}
 		} catch (e) {
@@ -145,7 +155,7 @@ const EventComment: React.FC<EventCommentProps> = ({
 	};
 
 	return (
-		<EventCommentDiv className={'ql-editor'}>
+		<EventCommentDiv>
 			<EventCommentContainer>
 				<EventCommentPicCol>
 					<EventCommentProfilePic>
@@ -193,22 +203,24 @@ const EventComment: React.FC<EventCommentProps> = ({
 				<EventCommentFeed ref={expandTarget}>
 					{renderComments()}
 				</EventCommentFeed>
-				<EventCommentEditor>
-					<EventCommentTextarea
-						value={createComment}
-						onChange={(e: ChangeEvent) => {
-							let target = e.target as HTMLTextAreaElement;
-							handleCreateCommentChange(
-								target.value,
-							);
-						}}
-					/>
-				</EventCommentEditor>
-				<SubmitCommentButton
-					onClick={handleCommentCreation}
-				>
-					Submit
-				</SubmitCommentButton>
+				<EventCommentResponseDiv>
+					<EventCommentEditor>
+						<EventCommentTextarea
+							value={createComment}
+							onChange={(e: ChangeEvent) => {
+								let target = e.target as HTMLTextAreaElement;
+								handleCreateCommentChange(
+									target.value,
+								);
+							}}
+						/>
+					</EventCommentEditor>
+					<EventCommentSubmitButton
+						onClick={handleCommentCreation}
+					>
+						Submit
+					</EventCommentSubmitButton>
+				</EventCommentResponseDiv>
 			</EventCommentSection>
 		</EventCommentDiv>
 	);

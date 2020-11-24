@@ -42,7 +42,7 @@ const acceptedTypes = [
 	'application/pdf',
 	'application/msword',
 ];
-const fileSizeLimit = 100000;
+const fileSizeLimit = 5000000;
 
 const ApplyFormSection: React.FC = () => {
 	const location = useLocation();
@@ -187,8 +187,8 @@ const ApplyFormSection: React.FC = () => {
 			setErrors({
 				...errors,
 				fileError: `File size exceeds ${
-					fileSizeLimit / 1000
-				}kb`,
+					fileSizeLimit / 1000000
+				}mb`,
 			});
 		}
 	};

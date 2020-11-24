@@ -18,7 +18,12 @@ export const VideoPlayerControlsRow = styled.div`
     justify-content: center;
 `;
 
+export const VideoPlayerDiv = styled.div`
+
+`;
+
 export const VideoPlayer = styled.video`
+background-color: ${color.BG0};
     &:focus {
     outline: none;
     border: none;

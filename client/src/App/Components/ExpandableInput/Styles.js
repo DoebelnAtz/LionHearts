@@ -1,6 +1,7 @@
 import styled from 'styled-components'
-import { color, components, font, cursor} from "../../../Styles";
+import {color, components, font, cursor, colorAdjust} from "../../../Styles";
 import {animated} from 'react-spring';
+import Color from "color";
 
 export const ExpandableInputDiv = styled.div`
     display: flex;
@@ -8,31 +9,30 @@ export const ExpandableInputDiv = styled.div`
 
 export const ExpandInput = styled(animated.input)`
 	${components.input};
-	border: 2px solid ${color.primary};
+	border: 2px solid ${props => props.backgroundColor};
 	background-color: ${color.BG0};
 	color: ${color.primaryShade};
 	border-radius: 0 4px 4px 0;
-	height: 24px;
+	height: calc(${props => props.height} - 4px);
 `;
 
 export const ExpandButton = styled(animated.div)`
-	background-color: ${color.primary};
-	border: 1px solid ${color.primary};
-	transition: border-radius 4s;
+	background-color: ${props => props.backgroundColor};
+	border: 1px solid ${props => props.backgroundColor};
 	padding: 2px 0;
 	width: 34px;
 	display: flex;
 	color: ${color.BG0};
-	height: 22px;
+	height: calc(${props => props.height} - 4px - 2px);
 	line-height: 22px;
 	text-align: center;
 	${cursor.clickable};
-	&:hover {
-		border-color: ${color.primaryShade};
-		background-color: ${color.primaryShade};
 		transition: background-color 0.1s;
+	&:hover {
+		border-color: ${props => colorAdjust.darken(props.backgroundColor, 0.1)};
+		background-color: ${props => colorAdjust.darken(props.backgroundColor, 0.1)};
 		${ExpandInput} {
-			background-color: ${color.primaryShade}!important;
+			background-color: ${props => colorAdjust.darken(props.backgroundColor, 0.1)}!important;
 		}
 	}
 `;

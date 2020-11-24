@@ -6,4 +6,5 @@ export const AppDiv = styled.div`
 	height: 100%;
 	overflow-y: auto;
 	background-color: ${color.BG0};
-`;
+    –webkit-overflow-scrolling: touch; 
+    -webkit-transform: translate3d(0,0,0);`;

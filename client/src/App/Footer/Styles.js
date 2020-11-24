@@ -68,7 +68,7 @@ export const FooterNavBarLink = styled.span`
 
 export const LegalInfoDiv = styled.div`
 	margin: 10px min(10vw, 100px);
-
+	display: flex;
 	width: calc(100% - min(10vw, 100px) * 2);
 `;
 
@@ -84,6 +84,11 @@ export const LegalLink = styled.a`
 	&:visited {
 		color: ${color.primary};
 	}
+`;
+
+export const RevokeCookieConsent = styled.span`
+    ${font.RReg};
+    margin-left: auto;
 `;
 
 export const SoMeLinksDiv = styled.div`

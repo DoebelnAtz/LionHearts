@@ -1,4 +1,5 @@
 import ReactGA from 'react-ga';
+import cookie from 'cookie';
 
 export const initializeGA = () => {
 	if (process.env.NODE_ENV === 'production')
@@ -15,7 +16,9 @@ export const initializeGA = () => {
 };
 
 export const pageViewGA = (page: string) => {
-	ReactGA.pageview(page);
+	let compliance = cookie.parse(document.cookie)
+		.cookieCompliance;
+	compliance && ReactGA.pageview(page);
 };
 
 export const eventGA = (
@@ -25,17 +28,23 @@ export const eventGA = (
 	value = 10,
 	nonInteraction = false,
 ) => {
-	ReactGA.event({
-		category: categoryName, // Required
-		action: eventName, // Required
-		label: label,
-		value: value,
-		nonInteraction: nonInteraction,
-	});
+	let compliance = cookie.parse(document.cookie)
+		.cookieCompliance;
+	compliance &&
+		ReactGA.event({
+			category: categoryName, // Required
+			action: eventName, // Required
+			label: label,
+			value: value,
+			nonInteraction: nonInteraction,
+		});
 };
 
 export const exceptionGA = (detail: string) => {
-	ReactGA.exception({ description: detail });
+	let compliance = cookie.parse(document.cookie)
+		.cookieCompliance;
+	compliance &&
+		ReactGA.exception({ description: detail });
 };
 
 export const timingGA = (
@@ -43,9 +52,12 @@ export const timingGA = (
 	variableName: string,
 	valueNum: number,
 ) => {
-	ReactGA.timing({
-		category: categoryName,
-		variable: variableName,
-		value: valueNum,
-	});
+	let compliance = cookie.parse(document.cookie)
+		.cookieCompliance;
+	compliance &&
+		ReactGA.timing({
+			category: categoryName,
+			variable: variableName,
+			value: valueNum,
+		});
 };

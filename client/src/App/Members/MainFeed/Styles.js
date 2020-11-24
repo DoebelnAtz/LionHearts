@@ -22,6 +22,8 @@ export const MainFeedHeader = styled.div`
 export const MainFeedContent = styled.div`
 	width: 100%;
 	overflow: auto;
+	–webkit-overflow-scrolling: touch; 
+  	-webkit-transform: translate3d(0,0,0);
 	height: calc(100% - 10px - ${mainFeedHeaderHeight});
 	@media (max-width: ${units.mobile}) {
 		height: calc(100% - 5px - ${mainFeedHeaderHeight});

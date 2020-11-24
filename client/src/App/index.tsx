@@ -10,6 +10,7 @@ import useVisibility, {
 	usePerformanceGA,
 	useWidth,
 } from '../Hooks';
+import cookie from 'cookie';
 
 import Home from './MainSite/Home';
 import './base.css';
@@ -38,18 +39,32 @@ function App() {
 	const [showCookieModal, setShowCookieModal] = useState(
 		true,
 	);
-	// useEffect(() => {
-	// 	initializeGA();
-	// }, []);
-	//
-	// useEffect(() => {
-	// 	pageViewGA(location.pathname);
-	// }, [location.pathname]);
+	let compliance = cookie.parse(document.cookie)
+		.cookieCompliance;
+	useEffect(() => {
+		console.log(compliance);
+		if (compliance === undefined) {
+			setShowCookieModal(true);
+		} else if (compliance) {
+			initializeGA();
+		}
+	}, [compliance]);
+
+	useEffect(() => {
+		pageViewGA(location.pathname);
+	}, [location.pathname]);
 
 	usePerformanceGA('app');
 
 	return (
-		<AppDiv id={'App'}>
+		<AppDiv
+			id={'App'}
+			style={{
+				overflowY: showCookieModal
+					? 'hidden'
+					: 'auto',
+			}}
+		>
 			{showCookieModal && (
 				<CookieConsentPopup
 					setShowCookieModal={setShowCookieModal}

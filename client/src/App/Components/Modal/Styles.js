@@ -7,6 +7,18 @@ import {
 	colorAdjust,
 } from '../../../Styles';
 
+export const OutsideContainer = styled.div`
+    position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	display: flex;
+	z-index: 11;
+`;
+
 export const OutsideDiv = styled.div`
 	position: fixed;
 	width: 100%;

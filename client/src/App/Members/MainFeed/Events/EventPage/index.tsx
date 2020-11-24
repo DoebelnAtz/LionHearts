@@ -19,7 +19,10 @@ import {
 	EventPageParticipantsDiv,
 	SubmitCommentButton,
 } from './Styles';
-import { useGet, useNav } from '../../../../../Hooks';
+import useVisibility, {
+	useGet,
+	useNav,
+} from '../../../../../Hooks';
 import { MemberEvent } from '../../../../../@types';
 import {
 	capitalizeFirst,

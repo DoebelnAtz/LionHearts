@@ -3,10 +3,11 @@ import {
 	VideoPlayer,
 	VideoPlayerContainer,
 	VideoPlayerControlsRow,
+	VideoPlayerDiv,
 	VideoSectionContainer,
 } from './Styles';
 // @ts-ignore
-import LHIntroVideo from '../../../../assets/videos/LionHearts_intro_sub.mp4';
+import LHIntroVideo from '../../../../assets/videos/LH_long_sub.mp4';
 import useVisibility from '../../../../Hooks';
 import ToggleMuteButton from '../../../Components/ToggleMuteButton';
 
@@ -29,15 +30,17 @@ const VideoSection: React.FC = () => {
 
 	return (
 		<VideoSectionContainer>
-			<VideoPlayerContainer ref={ref}>
-				<VideoPlayer
-					muted={muted}
-					ref={videoRef}
-					width={'100%'}
-					controls
-				>
-					<source src={LHIntroVideo} />
-				</VideoPlayer>
+			<VideoPlayerContainer>
+				<VideoPlayerDiv ref={ref}>
+					<VideoPlayer
+						muted={muted}
+						ref={videoRef}
+						width={'100%'}
+						controls
+					>
+						<source src={LHIntroVideo} />
+					</VideoPlayer>
+				</VideoPlayerDiv>
 				<VideoPlayerControlsRow>
 					<ToggleMuteButton
 						muted={muted}

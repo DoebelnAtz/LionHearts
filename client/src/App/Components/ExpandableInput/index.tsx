@@ -7,17 +7,20 @@ import {
 	ExpandButtonIconDiv,
 	ExpandButtonIconContainer,
 } from './Styles';
+import { color } from '../../../Styles';
 
 type expandableInputProps = {
 	onChange: (newValue: string) => void;
 	value: string;
-	borderRadius: string;
+	height?: string;
+	backgroundColor?: string;
 };
 
 const ExpandableInput: React.FC<expandableInputProps> = ({
 	value,
 	onChange,
-	borderRadius = '4px',
+	height = '28px',
+	backgroundColor = color.primary,
 }) => {
 	const [expand, setExpand] = useState(false);
 
@@ -27,7 +30,7 @@ const ExpandableInput: React.FC<expandableInputProps> = ({
 		transform: expand
 			? 'translateX(0px)'
 			: 'translateX(-4px)',
-		delay: expand ? 200 : 0,
+		delay: expand ? 100 : 0,
 	});
 
 	const animateIcon = useSpring({
@@ -47,8 +50,10 @@ const ExpandableInput: React.FC<expandableInputProps> = ({
 	return (
 		<ExpandableInputDiv>
 			<ExpandButton
+				height={height}
 				onClick={() => setExpand(!expand)}
 				style={expandInputButton}
+				backgroundColor={backgroundColor}
 			>
 				<ExpandButtonIconContainer>
 					<ExpandButtonIconDiv
@@ -58,6 +63,8 @@ const ExpandableInput: React.FC<expandableInputProps> = ({
 				</ExpandButtonIconContainer>
 			</ExpandButton>
 			<ExpandInput
+				height={height}
+				backgroundColor={backgroundColor}
 				value={value}
 				onChange={(e: ChangeEvent) => {
 					onChange(

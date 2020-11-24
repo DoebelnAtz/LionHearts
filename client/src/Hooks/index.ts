@@ -6,6 +6,8 @@ import React, {
 	useRef,
 	useState,
 } from 'react';
+import cookie from 'cookie';
+
 import { makeRequest } from '../Api';
 import { WidthContext } from '../Context/WidthContext';
 import { useHistory } from 'react-router';
@@ -128,11 +130,15 @@ export const usePerformanceGA = (
 	useEffect(() => {
 		const currentTime = new Date().getMilliseconds();
 		if (isMounted) {
-			timingGA(
-				categoryName,
-				variableName,
-				new Date().getMilliseconds() - currentTime,
-			);
+			let compliance = cookie.parse(document.cookie)
+				.cookieCompliance;
+			compliance &&
+				timingGA(
+					categoryName,
+					variableName,
+					new Date().getMilliseconds() -
+						currentTime,
+				);
 		}
 	});
 };
