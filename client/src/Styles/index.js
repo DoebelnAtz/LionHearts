@@ -194,6 +194,7 @@ export const components = {
 		& input {
 			width: 100%;
 			height: 100%;
+			font-size: 16px;
 			color: ${color.text};
 			padding-top: 20px;
 			border: none;

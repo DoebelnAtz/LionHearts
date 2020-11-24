@@ -103,6 +103,14 @@ export const getProfileById = catchErrors(async (req, res) => {
 		[userId],
 	);
 
+	let schools = await query(
+		`
+		SELECT s.name, s.s_id FROM schools s JOIN school_connections sc
+		ON s.s_id = sc.s_id WHERE sc.u_id = $1
+	`,
+		[userId],
+	);
+
 	let languages = await query(
 		`
 		SELECT lang.name, lang.language_id 
@@ -116,6 +124,7 @@ export const getProfileById = catchErrors(async (req, res) => {
 		...profile.rows[0],
 		languages: languages.rows,
 		degrees: degrees.rows,
+		schools: schools.rows,
 	});
 }, 'Failed to get profile');
 
@@ -303,12 +312,12 @@ export const removeDegreeFromUser = catchErrors(async (req, res) => {
 		await client.query('COMMIT');
 	} catch (e) {
 		await client.query('ROLLBACK');
-		throw new CustomError('Failed to add degree to user', 500, e);
+		throw new CustomError('Failed to remove degree from user', 500, e);
 	} finally {
 		client.release();
 	}
 	res.status(200).json({ success: true });
-}, 'Failed to add degree to user');
+}, 'Failed to remove degree from user');
 
 export const getDegrees = catchErrors(async (req, res) => {
 	let degrees = await query(`
@@ -321,16 +330,63 @@ export const getDegrees = catchErrors(async (req, res) => {
 export const createSchool = catchErrors(async (req, res) => {
 	const { name } = req.body;
 
-	await query(
+	let createdSchool = await query(
 		`
 		INSERT INTO schools (name)
-		VALUES ($1)
+		VALUES ($1) RETURNING s_id, name
 	`,
 		[name],
 	);
 
+	res.status(201).json(createdSchool.rows[0]);
+}, 'Failed to create school');
+
+export const addSchoolToUser = catchErrors(async (req, res) => {
+	const { schoolId } = req.body;
+	const userId = req.decoded.u_id;
+
+	const client = await connect();
+	try {
+		await client.query('BEGIN');
+		await query(
+			`
+			INSERT INTO school_connections (s_id, u_id)
+			VALUES ($1, $2);
+		`,
+			[schoolId, userId],
+		);
+		await client.query('COMMIT');
+	} catch (e) {
+		await client.query('ROLLBACK');
+		throw new CustomError('Failed to add school to user', 500, e);
+	} finally {
+		client.release();
+	}
 	res.status(201).json({ success: true });
-}, 'Failed to create degree');
+}, 'Failed to add school to user');
+
+export const removeSchoolFromUser = catchErrors(async (req, res) => {
+	const { schoolId } = req.body;
+	const userId = req.decoded.u_id;
+
+	const client = await connect();
+	try {
+		await client.query('BEGIN');
+		await query(
+			`
+			DELETE FROM school_connections WHERE s_id = $1 AND u_id = $2
+		`,
+			[schoolId, userId],
+		);
+		await client.query('COMMIT');
+	} catch (e) {
+		await client.query('ROLLBACK');
+		throw new CustomError('Failed to remove school from user', 500, e);
+	} finally {
+		client.release();
+	}
+	res.status(200).json({ success: true });
+}, 'Failed to remove school from user');
 
 export const getSchools = catchErrors(async (req, res) => {
 	let degrees = await query(`
@@ -338,7 +394,7 @@ export const getSchools = catchErrors(async (req, res) => {
 	`);
 
 	res.json(degrees.rows);
-}, 'Failed to get degrees');
+}, 'Failed to get schools');
 
 export const addLanguageToUser = catchErrors(async (req, res) => {
 	const { userId, languageId } = req.body;
@@ -449,15 +505,23 @@ export const getProfileSummary = catchErrors(async (req, res) => {
 		ON lc.language_id = l.language_id 
 		GROUP BY l.name 
 	`);
-	let education = await query(`
-		SELECT d.name as degrees, s.name as schools 
-		FROM users u JOIN schools s ON u.school = s.s_id 
-		JOIN degrees d ON d.d_id = u.degree;
+	let degrees = await query(`
+		SELECT d.name as degrees 
+		FROM degrees d JOIN degree_connections dc 
+		ON dc.d_id = d.d_id 
+		GROUP BY d.name 
+	`);
+
+	let schools = await query(`
+		SELECT s.name as schools 
+		FROM schools s JOIN school_connections sc 
+		ON sc.s_id = s.s_id 
+		GROUP BY s.name 
 	`);
 
 	res.json({
 		languages: languages.rows.map((e) => e.languages),
-		schools: education.rows.map((e) => e.schools),
-		degrees: education.rows.map((e) => e.degrees),
+		schools: schools.rows.map((e) => e.schools),
+		degrees: degrees.rows.map((e) => e.degrees),
 	});
 }, 'Failed to get summary');

@@ -1,7 +1,10 @@
 import React from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import { useGet } from '../../../../Hooks';
-import { Article, AuthoredArticle } from '../../../../@types';
+import {
+	Article,
+	AuthoredArticle,
+} from '../../../../@types';
 import HomeImg from '../../Home/HomeImg';
 import Footer from '../../../Footer';
 import {
@@ -31,12 +34,18 @@ const EventPage: React.FC = () => {
 			<HomeImg text={'EVENTS'} />
 			<ArticleContainer>
 				<ButtonDiv>
-					<BackToEventsButton onClick={() => history.push('/events')}>
+					<BackToEventsButton
+						onClick={() =>
+							history.push('/events')
+						}
+					>
 						<img src={arrowLeft} />
 						<span>events</span>
 					</BackToEventsButton>
 				</ButtonDiv>
-				<ArticleHeader>{article?.article.title}</ArticleHeader>
+				<ArticleHeader>
+					{article?.article.title}
+				</ArticleHeader>
 				<ArticleContentContainer>
 					<ArticleInfo>
 						<ArticleInfoDate>
@@ -48,13 +57,18 @@ const EventPage: React.FC = () => {
 						<ArticleInfoCreator>
 							{article &&
 								`${capitalizeFirst(
-									article.author.firstname,
-								)} ${capitalizeFirst(article.author.lastname)}`}
+									article.author
+										.firstname,
+								)} ${capitalizeFirst(
+									article.author.lastname,
+								)}`}
 						</ArticleInfoCreator>
 					</ArticleInfo>
 					<ArticleContent
+						className={'article'}
 						dangerouslySetInnerHTML={{
-							__html: article?.article.content,
+							__html:
+								article?.article.content,
 						}}
 					/>
 				</ArticleContentContainer>

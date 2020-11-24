@@ -95,12 +95,16 @@ export const SoMeLinksDiv = styled.div`
 	flex-wrap: nowrap;
 	display: flex;
 	margin: auto 0;
-	& img {
+	& a {
+	
 		margin: auto 2vw 0 0;
-		height: 26px;
 		&:last-child {
 			margin: auto 0 0 0;
 		}
+	}
+	& a img {
+			height: 26px;
+
 	}
 	@media (max-width: 900px) {
 		margin-top: ${units.margin};

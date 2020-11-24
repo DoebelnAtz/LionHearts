@@ -100,22 +100,31 @@ const Footer: React.FC = () => {
 							</FooterNavBarLinksDiv>
 						</FooterNavDiv>
 						<SoMeLinksDiv>
-							<img
-								src={fbIcon}
-								alt={'Lionhearts facebook'}
-							/>
-							<img
-								src={twitterIcon}
-								alt={'Lionhearts Twitter'}
-							/>
-							<img
-								src={linkedinIcon}
-								alt={'Lionhearts linkedIn'}
-							/>
-							<img
-								src={igIcon}
-								alt={'Lionhearts Instagram'}
-							/>
+							{/*<img*/}
+							{/*	src={fbIcon}*/}
+							{/*	alt={'Lionhearts facebook'}*/}
+							{/*/>*/}
+							{/*<img*/}
+							{/*	src={twitterIcon}*/}
+							{/*	alt={'Lionhearts Twitter'}*/}
+							{/*/>*/}
+							{/*<img*/}
+							{/*	src={linkedinIcon}*/}
+							{/*	alt={'Lionhearts linkedIn'}*/}
+							{/*/>*/}
+							<a
+								href={
+									'https://www.instagram.com/lionhearts_vision/'
+								}
+								target={'__blank'}
+							>
+								<img
+									src={igIcon}
+									alt={
+										'Lionhearts Instagram'
+									}
+								/>
+							</a>
 							{/*<img src={ytIcon} alt={'Lionhearts Youtube'} />*/}
 						</SoMeLinksDiv>
 					</LinkDiv>

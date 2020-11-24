@@ -112,6 +112,7 @@ export const DegreeList = styled.div`
 export const DegreeResultList = styled.div`
 	display: flex;
 	flex-wrap: wrap;
+	margin-top: ${units.margin};
 `;
 
 export const TagItemIcon = styled.img`
@@ -150,13 +151,17 @@ export const AddTagItem = styled.div`
 	}
 `;
 
+export const TagItemList = styled.div`
+    display: flex;
+    margin-top: ${units.margin};
+`;
+
 export const TagItem = styled.div`
     padding: 0px 3px;
     display: flex;
     height: 26px;
     border-radius: 12px/14px;
     margin-right: 10px;
-    margin-bottom: 10px;
     background-color: ${color.primary};
     &:last-child {
     	margin-right: 0;

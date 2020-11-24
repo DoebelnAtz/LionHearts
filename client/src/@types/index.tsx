@@ -77,6 +77,7 @@ export interface Profile {
 	school: string;
 	s_id: number;
 	degrees: Degree[];
+	schools: School[];
 	instagram: string;
 	linkedin: string;
 	twitter: string;

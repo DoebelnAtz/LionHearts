@@ -2,6 +2,7 @@ import express from 'express';
 import {
 	addDegreeToUser,
 	addLanguageToUser,
+	addSchoolToUser,
 	createDegree,
 	createLanguage,
 	createLocation,
@@ -14,6 +15,7 @@ import {
 	getSchools,
 	removeDegreeFromUser,
 	removeLanguage,
+	removeSchoolFromUser,
 	updateProfile,
 } from '../controllers/profile-controllers';
 import { check } from 'express-validator';
@@ -85,6 +87,12 @@ profileRouter.post(
 	createSchool,
 );
 
+profileRouter.post(
+	'/add_school',
+	[check('schoolId').isNumeric()],
+	addSchoolToUser,
+);
+
 profileRouter.delete(
 	'/remove_language',
 	[check('languageId').not().isEmpty().isNumeric()],
@@ -95,6 +103,12 @@ profileRouter.delete(
 	'/remove_degree',
 	[check('degreeId').isNumeric()],
 	removeDegreeFromUser,
+);
+
+profileRouter.delete(
+	'/remove_school',
+	[check('schoolId').isNumeric()],
+	removeSchoolFromUser,
 );
 
 export default profileRouter;

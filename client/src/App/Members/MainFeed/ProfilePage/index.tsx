@@ -68,6 +68,7 @@ import {
 	ProfilePageTagDiv,
 	ProfilePageInfoEditButtons,
 	AddTagItem,
+	TagItemList,
 } from './Styles';
 import CogWheel from '../../../../assets/images/cogwheel_blue.png';
 import { checkUser, getLocal } from '../../../../Utils';
@@ -83,6 +84,7 @@ import LinkedinIcon from '../../../../assets/images/linkedin_icon.png';
 import degreeIcon from '../../../../assets/images/degree.svg';
 import studyIcon from '../../../../assets/images/studying.svg';
 import locationIcon from '../../../../assets/images/location.svg';
+import schoolIcon from '../../../../assets/images/school.svg';
 import ExpandableInput from '../../../Components/ExpandableInput';
 import AddDegreeButton from './AddDegreeButton';
 import { color } from '../../../../Styles';
@@ -103,7 +105,12 @@ const ProfilePage: React.FC = () => {
 		'/profiles/schools',
 	);
 
+	const [filteredSchools, setFilteredSchools] = useState(
+		schools,
+	);
+
 	const [degreeInput, setDegreeInput] = useState('');
+	const [schoolInput, setSchoolInput] = useState('');
 
 	const [languageSearch, setLanguageSearch] = useState(
 		'',
@@ -113,9 +120,6 @@ const ProfilePage: React.FC = () => {
 	>(
 		`/profiles/languages?limit=20&filter=available&q=${languageSearch}`,
 		languageSearch !== '',
-	);
-	const [addingLanguage, setAddingLanguage] = useState(
-		false,
 	);
 
 	const [skillSearch, setSkillSearch] = useState('');
@@ -129,33 +133,6 @@ const ProfilePage: React.FC = () => {
 		`/skills/search?q=${skillSearch.toLowerCase()}&limit=20&filter=available`,
 		skillSearch !== '',
 	);
-	const [addingSkill, setAddingSkill] = useState(false);
-
-	const expandAddSkill = useSpring({
-		width: addingSkill ? '100px' : '0px',
-		padding: addingSkill ? '4px' : '0px',
-		delay: addingSkill ? 100 : 0,
-	});
-
-	const expandAddSkillButton = useSpring({
-		borderRadius: addingSkill
-			? '4px 0px 0px 4px'
-			: '4px 4px 4px 4px',
-		delay: addingSkill ? 0 : 400,
-	});
-
-	const expandAddSchool = useSpring({
-		width: addingLanguage ? '100px' : '0px',
-		padding: addingLanguage ? '4px' : '0px',
-		delay: addingLanguage ? 100 : 0,
-	});
-
-	const expandAddSchoolButton = useSpring({
-		borderRadius: addingLanguage
-			? '4px 0px 0px 4px'
-			: '4px 4px 4px 4px',
-		delay: addingLanguage ? 0 : 400,
-	});
 
 	const [skills, setSkills] = useGet<Skill[]>(
 		`/skills/${params.uid}`,
@@ -183,6 +160,30 @@ const ProfilePage: React.FC = () => {
 			);
 		}
 		setDegreeInput(newValue);
+	};
+
+	const handleSchoolInputChange = (newValue: string) => {
+		console.log(schools);
+		console.log(filteredSchools);
+		if (newValue === '') {
+			setFilteredSchools([]);
+		} else {
+			setFilteredSchools(
+				schools?.filter((school) => {
+					return (
+						school.name
+							.toLowerCase()
+							.includes(
+								newValue.toLowerCase(),
+							) &&
+						!profile?.schools.find(
+							(s) => s.s_id === school.s_id,
+						)
+					);
+				}),
+			);
+		}
+		setSchoolInput(newValue);
 	};
 
 	const handleSkillSearchChange = (e: string) => {
@@ -524,6 +525,62 @@ const ProfilePage: React.FC = () => {
 		}
 	};
 
+	const handleSchoolRemoval = async (
+		schoolId: number,
+	) => {
+		if (editing) {
+			try {
+				await makeRequest(
+					'/profiles/remove_school',
+					'DELETE',
+					{
+						schoolId,
+					},
+				);
+				profile &&
+					setProfile({
+						...profile,
+						schools: profile.schools.filter(
+							(school) =>
+								school.s_id !== schoolId,
+						),
+					});
+			} catch (e) {
+				console.log(e);
+			}
+		}
+	};
+
+	const handleAddSchool = async (
+		schoolId: number,
+		name: string,
+	) => {
+		try {
+			const addedSchool = await makeRequest(
+				'/profiles/add_school',
+				'POST',
+				{
+					schoolId,
+				},
+			);
+			if (addedSchool?.data && profile) {
+				setProfile({
+					...profile,
+					schools: [
+						...profile.schools,
+						{
+							name,
+							s_id: schoolId,
+						},
+					],
+				});
+				setEditing(false);
+			}
+		} catch (e) {
+			console.log(e);
+		}
+	};
+
 	const handleDegreeCreation = async () => {
 		try {
 			let createdDegree = await makeRequest(
@@ -537,6 +594,24 @@ const ProfilePage: React.FC = () => {
 				setFilteredDegrees([
 					...filteredDegrees,
 					createdDegree.data,
+				]);
+			}
+		} catch (e) {}
+	};
+
+	const handleSchoolCreation = async () => {
+		try {
+			let createdSchool = await makeRequest(
+				'/profiles/create_school',
+				'POST',
+				{
+					name: schoolInput,
+				},
+			);
+			if (createdSchool?.data && filteredSchools) {
+				setFilteredSchools([
+					...filteredSchools,
+					createdSchool.data,
 				]);
 			}
 		} catch (e) {}
@@ -576,6 +651,40 @@ const ProfilePage: React.FC = () => {
 					setEditing={setEditing}
 					setProfile={setProfile}
 				/>
+			));
+		}
+	};
+
+	const renderSchools = () => {
+		if (profile?.schools) {
+			return profile.schools.map((school) => (
+				<TagItem
+					key={school.s_id}
+					removable={editing}
+					onClick={() =>
+						handleSchoolRemoval(school.s_id)
+					}
+				>
+					<TagItemIcon src={schoolIcon} />
+					<TagItemName>{school.name}</TagItemName>
+				</TagItem>
+			));
+		}
+	};
+
+	const renderSchoolResults = () => {
+		if (filteredSchools && profile) {
+			return filteredSchools.map((school) => (
+				<AddTagItem
+					onClick={() =>
+						handleAddSchool(
+							school.s_id,
+							school.name,
+						)
+					}
+				>
+					<TagItemName>{school.name}</TagItemName>
+				</AddTagItem>
 			));
 		}
 	};
@@ -733,20 +842,26 @@ const ProfilePage: React.FC = () => {
 				</ProfilePageInfoDiv>
 				<ProfilePageTagDiv>
 					<OccupationInfoDiv>
-						<DegreeList>
-							{renderDegrees()}
-							{profile &&
-								checkUser(profile.u_id) &&
-								editing && (
-									<ExpandableInput
-										onChange={
-											handleDegreeInputChange
-										}
-										value={degreeInput}
-										height={'26px'}
-									/>
-								)}
-						</DegreeList>
+						<TagItemList>
+							<DegreeList>
+								{renderDegrees()}
+								{profile &&
+									checkUser(
+										profile.u_id,
+									) &&
+									editing && (
+										<ExpandableInput
+											onChange={
+												handleDegreeInputChange
+											}
+											value={
+												degreeInput
+											}
+											height={'26px'}
+										/>
+									)}
+							</DegreeList>
+						</TagItemList>
 						{editing && (
 							<DegreeResultList>
 								{!!degreeInput.length && (
@@ -755,7 +870,7 @@ const ProfilePage: React.FC = () => {
 											handleDegreeCreation
 										}
 									>
-										<TagItemName>{`Add degree "${degreeInput}"`}</TagItemName>
+										<TagItemName>{`Create degree "${degreeInput}"`}</TagItemName>
 									</AddTagItem>
 								)}
 								{renderDegreeResults()}
@@ -792,67 +907,103 @@ const ProfilePage: React.FC = () => {
 									height={'22px'}
 								/>
 							) : (
-								<LocationSpan>
-									<TagItem>
-										<TagItemIcon
-											src={
-												locationIcon
-											}
-										/>
-										<TagItemName>
-											{profile?.location.toLowerCase()}
-										</TagItemName>
-									</TagItem>
-								</LocationSpan>
+								<TagItemList>
+									<LocationSpan>
+										<TagItem>
+											<TagItemIcon
+												src={
+													locationIcon
+												}
+											/>
+											<TagItemName>
+												{profile?.location.toLowerCase()}
+											</TagItemName>
+										</TagItem>
+									</LocationSpan>
+								</TagItemList>
 							)}
 						</Location>
+						<TagItemList>
+							<DegreeList>
+								{renderSchools()}
+								{profile &&
+									checkUser(
+										profile.u_id,
+									) &&
+									editing && (
+										<ExpandableInput
+											onChange={
+												handleSchoolInputChange
+											}
+											value={
+												schoolInput
+											}
+											height={'26px'}
+										/>
+									)}
+							</DegreeList>
+						</TagItemList>
+						{editing && (
+							<DegreeResultList>
+								{!!schoolInput.length && (
+									<AddTagItem
+										onClick={
+											handleSchoolCreation
+										}
+									>
+										<TagItemName>{`Create school "${schoolInput}"`}</TagItemName>
+									</AddTagItem>
+								)}
+								{renderSchoolResults()}
+							</DegreeResultList>
+						)}
 					</OccupationInfoDiv>
-					{profile &&
-					checkUser(profile.u_id) &&
-					editing ? (
-						<OccupationInfoDiv>
-							<PlaceOfStudy editing={editing}>
-								{/*{!editing && (*/}
-								{/*	<StudySpan>*/}
-								{/*		{profile?.school &&*/}
-								{/*			`Studying at ${profile?.school}`}*/}
-								{/*	</StudySpan>*/}
-								{/*)}*/}
+					{/*{profile &&*/}
+					{/*checkUser(profile.u_id) &&*/}
+					{/*editing ? (*/}
+					{/*	<OccupationInfoDiv>*/}
+					{/*		<PlaceOfStudy editing={editing}>*/}
+					{/*			/!*{!editing && (*!/*/}
+					{/*			/!*	<StudySpan>*!/*/}
+					{/*			/!*		{profile?.school &&*!/*/}
+					{/*			/!*			`Studying at ${profile?.school}`}*!/*/}
+					{/*			/!*	</StudySpan>*!/*/}
+					{/*			/!*)}*!/*/}
 
-								<DropDownComponent
-									state={
-										profile?.school ||
-										'Select school'
-									}
-									setSelect={(
-										newSchool,
-									) =>
-										handleSchoolChange(
-											newSchool,
-										)
-									}
-									optionList={
-										schools
-											? schools.map(
-													(
-														school,
-													) => {
-														return {
-															option:
-																school.name,
-															id:
-																school.s_id,
-														};
-													},
-											  )
-											: []
-									}
-									width={'200px'}
-									height={'22px'}
-								/>
-							</PlaceOfStudy>
-						</OccupationInfoDiv>
-					) : null}
+					{/*			<DropDownComponent*/}
+					{/*				state={*/}
+					{/*					profile?.school ||*/}
+					{/*					'Select school'*/}
+					{/*				}*/}
+					{/*				setSelect={(*/}
+					{/*					newSchool,*/}
+					{/*				) =>*/}
+					{/*					handleSchoolChange(*/}
+					{/*						newSchool,*/}
+					{/*					)*/}
+					{/*				}*/}
+					{/*				optionList={*/}
+					{/*					schools*/}
+					{/*						? schools.map(*/}
+					{/*								(*/}
+					{/*									school,*/}
+					{/*								) => {*/}
+					{/*									return {*/}
+					{/*										option:*/}
+					{/*											school.name,*/}
+					{/*										id:*/}
+					{/*											school.s_id,*/}
+					{/*									};*/}
+					{/*								},*/}
+					{/*						  )*/}
+					{/*						: []*/}
+					{/*				}*/}
+					{/*				width={'200px'}*/}
+					{/*				height={'22px'}*/}
+					{/*			/>*/}
+					{/*		</PlaceOfStudy>*/}
+					{/*	</OccupationInfoDiv>*/}
+					{/*) : null}*/}
 				</ProfilePageTagDiv>
 			</ProfilePageInfo>
 			<ProfilePageContent id={'profile-content'}>
