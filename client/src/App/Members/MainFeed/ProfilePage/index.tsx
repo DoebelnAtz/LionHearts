@@ -34,7 +34,7 @@ import {
 	LanguageList,
 	LanguageTitle,
 	Location,
-	LocationSpan,
+	LocationDiv,
 	LogoutButton,
 	OccupationInfoDiv,
 	PlaceOfStudy,
@@ -908,7 +908,7 @@ const ProfilePage: React.FC = () => {
 								/>
 							) : (
 								<TagItemList>
-									<LocationSpan>
+									<LocationDiv>
 										<TagItem>
 											<TagItemIcon
 												src={
@@ -919,7 +919,7 @@ const ProfilePage: React.FC = () => {
 												{profile?.location.toLowerCase()}
 											</TagItemName>
 										</TagItem>
-									</LocationSpan>
+									</LocationDiv>
 								</TagItemList>
 							)}
 						</Location>

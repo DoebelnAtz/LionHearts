@@ -2,27 +2,27 @@ import React, { ChangeEvent, useState } from 'react';
 import { useGet, useNav } from '../../../../Hooks';
 import {
 	Language,
+	MemberCard,
 	Option,
 	Profile,
 	Skill,
 } from '../../../../@types';
 import { useHistory } from 'react-router-dom';
+import degreeIcon from '../../../../assets/images/degree.svg';
+import studyIcon from '../../../../assets/images/studying.svg';
+import locationIcon from '../../../../assets/images/location.svg';
+import schoolIcon from '../../../../assets/images/school.svg';
 import {
 	DragIcon,
 	DragIconLine,
-	ExpandFilterButtonLabel,
-	ExpandFilterOptionsButton,
-	ExpandFilterOptionsButtonArrowIcon,
 	FilterListContainer,
 	FilterListDiv,
 	FilterListDragHandle,
 	FilterListHandleContainer,
 	FilterOptionsContainer,
 	FilterOptionsDiv,
-	FilterOptionsExpandable,
 	MemberCardContent,
 	MemberCardInfo,
-	MemberCardLocation,
 	MemberCardName,
 	MemberCardPic,
 	MemberCardPicContainer,
@@ -33,11 +33,16 @@ import {
 	MemberFilterSkillsDiv,
 	MemberListCard,
 	MemberListDiv,
+	MemberListFeed,
 	MemberListFilterTitle,
 	MemberListOptions,
 	MemberListResultDiv,
+	MemberListResultDivMobile,
 	MemberSearchInput,
 	SearchMembersInput,
+	TagItem,
+	TagItemIcon,
+	TagItemName,
 } from './Styles';
 import ProfilePic from '../../../Components/ProfilePic';
 import DropDownComponent from '../../../Components/DropDown';
@@ -58,7 +63,7 @@ const MemberList: React.FC = () => {
 	});
 	const [expandFilter, setExpandFilter] = useState(true);
 	const [search, setSearch] = useState('');
-	const [members, setMembers] = useGet<Profile[]>(
+	const [members, setMembers] = useGet<MemberCard[]>(
 		`/profiles?skill=${skillFilter.id}&language=${languageFilter.id}&search=${search}`,
 	);
 
@@ -109,46 +114,142 @@ const MemberList: React.FC = () => {
 		}
 	};
 
-	const renderMembers = () => {
+	const renderDegrees = (member: MemberCard) => {
 		return (
-			members &&
-			members.map((member) => {
-				return (
-					<MemberListCard
-						onClick={() =>
-							handleMemberClick(member.u_id)
-						}
-						key={member.u_id}
-					>
-						<MemberCardPicDiv>
-							<MemberCardPicContainer>
-								<MemberCardPic>
-									<ProfilePic
-										src={
-											member.profile_pic
-										}
-									/>
-								</MemberCardPic>
-							</MemberCardPicContainer>
-						</MemberCardPicDiv>
-						<MemberCardContent>
-							<MemberCardName>{`${member.firstname} ${member.lastname}`}</MemberCardName>
-							<MemberCardInfo>
-								<MemberCardStudy>
-									{member.school &&
-										`Studying at ${capitalizeFirst(
-											member.school,
-										)}`}
-								</MemberCardStudy>
-								<MemberCardLocation>{`Currently in ${capitalizeFirst(
-									member.location,
-								)}`}</MemberCardLocation>
-							</MemberCardInfo>
-						</MemberCardContent>
-					</MemberListCard>
-				);
-			})
+			!!member.degrees.length && (
+				<MemberCardStudy>
+					{member.degrees.map((degree, index) => {
+						return (
+							<TagItem key={index}>
+								<TagItemIcon
+									src={degreeIcon}
+								/>
+								<TagItemName>
+									{degree}
+								</TagItemName>
+							</TagItem>
+						);
+					})}
+				</MemberCardStudy>
+			)
 		);
+	};
+
+	const renderLocation = (member: MemberCard) => {
+		return (
+			<MemberCardStudy>
+				{member.location && (
+					<TagItem>
+						<TagItemIcon src={locationIcon} />
+						<TagItemName>
+							{member.location}
+						</TagItemName>
+					</TagItem>
+				)}
+			</MemberCardStudy>
+		);
+	};
+
+	const renderStudying = (member: MemberCard) => {
+		return (
+			!!member.studying.length && (
+				<MemberCardStudy>
+					{member.studying.map(
+						(degree, index) => {
+							return (
+								<TagItem key={index}>
+									<TagItemIcon
+										src={studyIcon}
+									/>
+									<TagItemName>
+										{degree}
+									</TagItemName>
+								</TagItem>
+							);
+						},
+					)}
+				</MemberCardStudy>
+			)
+		);
+	};
+
+	const renderSchools = (member: MemberCard) => {
+		return (
+			!!member.schools.length && (
+				<MemberCardStudy>
+					{member.schools.map((school, index) => {
+						return (
+							<TagItem key={index}>
+								<TagItemIcon
+									src={schoolIcon}
+								/>
+								<TagItemName>
+									{school}
+								</TagItemName>
+							</TagItem>
+						);
+					})}
+				</MemberCardStudy>
+			)
+		);
+	};
+
+	const filterMembers = (
+		memberList: MemberCard[] | undefined,
+		lf: { title: string; id: number },
+		sf: { title: string; id: number },
+	) => {
+		if (memberList === undefined) {
+			return [];
+		} else {
+			return memberList
+				.filter((m) => {
+					return !lf.id
+						? !lf.id
+						: m.languages.find(
+								(l) => l === lf.title,
+						  );
+				})
+				.filter((m) => {
+					return !sf.id
+						? !sf.id
+						: m.skills.find(
+								(l) => l === sf.title,
+						  );
+				});
+		}
+	};
+
+	const renderMembers = (memberList: MemberCard[]) => {
+		return memberList.map((member) => {
+			return (
+				<MemberListCard
+					onClick={() =>
+						handleMemberClick(member.u_id)
+					}
+					key={member.u_id}
+				>
+					<MemberCardPicDiv>
+						<MemberCardPicContainer>
+							<MemberCardPic>
+								<ProfilePic
+									src={member.profile_pic}
+								/>
+							</MemberCardPic>
+						</MemberCardPicContainer>
+					</MemberCardPicDiv>
+					<MemberCardContent>
+						<MemberCardName>{`${member.firstname} ${member.lastname}`}</MemberCardName>
+						<MemberCardInfo>
+							{renderDegrees(member)}
+							{renderStudying(member)}
+							{renderSchools(member)}
+							{renderLocation(member)}
+						</MemberCardInfo>
+					</MemberCardContent>
+				</MemberListCard>
+			);
+		});
 	};
 
 	const closedHeight = -240;
@@ -188,16 +289,16 @@ const MemberList: React.FC = () => {
 			cancel,
 			canceled,
 		}) => {
-			console.log(
-				`last: ${last}\n`,
-				`movement-Y: ${my}\n`,
-				`speed-Y: ${vy}\n`,
-				`is-dragging: ${dragging}\n`,
-				`exceed-limit: ${my} / ${openHeight + 30}`,
-				`closing: ${
-					!dragging && my === openHeight
-				}`,
-			);
+			// console.log(
+			// 	`last: ${last}\n`,
+			// 	`movement-Y: ${my}\n`,
+			// 	`speed-Y: ${vy}\n`,
+			// 	`is-dragging: ${dragging}\n`,
+			// 	`exceed-limit: ${my} / ${openHeight + 30}`,
+			// 	`closing: ${
+			// 		!dragging && my === openHeight
+			// 	}`,
+			// );
 			// if the user drags up passed a threshold, then we cancel
 			// the drag so that the sheet resets to its open position
 			if (my > openHeight + 30 && cancel) {
@@ -354,9 +455,35 @@ const MemberList: React.FC = () => {
 					{/*/>*/}
 				</FilterOptionsDiv>
 			</MemberListOptions>
-			<MemberListResultDiv>
-				{renderMembers()}
-			</MemberListResultDiv>
+			<MemberListFeed>
+				<MemberListResultDiv>
+					{renderMembers(
+						filterMembers(
+							members,
+							languageFilter,
+							skillFilter,
+						).filter((m, i) => !(i % 2)),
+					)}
+				</MemberListResultDiv>
+				<MemberListResultDiv>
+					{renderMembers(
+						filterMembers(
+							members,
+							languageFilter,
+							skillFilter,
+						).filter((m, i) => i % 2),
+					)}
+				</MemberListResultDiv>
+				<MemberListResultDivMobile>
+					{renderMembers(
+						filterMembers(
+							members,
+							languageFilter,
+							skillFilter,
+						),
+					)}
+				</MemberListResultDivMobile>
+			</MemberListFeed>
 		</MemberListDiv>
 	);
 };

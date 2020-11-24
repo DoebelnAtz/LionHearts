@@ -77,6 +77,7 @@ export interface Profile {
 	school: string;
 	s_id: number;
 	degrees: Degree[];
+	studying: Degree[];
 	schools: School[];
 	instagram: string;
 	linkedin: string;
@@ -88,6 +89,19 @@ export interface Profile {
 	email: string;
 	profile_pic: string;
 	bio: string;
+}
+
+export interface MemberCard {
+	u_id: number;
+	degrees: string[];
+	studying: string[];
+	schools: string[];
+	languages: string[];
+	skills: string[];
+	location: string;
+	firstname: string;
+	lastname: string;
+	profile_pic: string;
 }
 
 export interface Skill {

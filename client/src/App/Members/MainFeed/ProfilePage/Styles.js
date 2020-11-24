@@ -77,7 +77,7 @@ export const ProfilePageName = styled.span`
 	color: ${color.primary};
 	text-transform: uppercase;
 	@media (max-width: ${units.mobile}) {
-		font-size: calc(14px + 2vw);
+		font-size: calc(14px + 3vw);
 		line-height: 22px;
 	}
 `;
@@ -153,7 +153,11 @@ export const AddTagItem = styled.div`
 
 export const TagItemList = styled.div`
     display: flex;
-    margin-top: ${units.margin};
+    
+    & > div > div{
+        margin-top: ${units.margin};
+
+    }
 `;
 
 export const TagItem = styled.div`
@@ -230,7 +234,7 @@ export const PlaceOfStudy = styled.div`
 	}
 `;
 
-export const LocationSpan = styled.span`
+export const LocationDiv = styled.div`
 	${font.DCBold};
 	font-size: 16px;
 	line-height: 20px;

@@ -35,14 +35,96 @@ export const MemberListFilterTitle = styled.span`
 	${font.DCBold};
 `;
 
-export const MemberListResultDiv = styled(animated.div)`
-	display: flex;
+export const MemberListResultDivMobile = styled(animated.div)`
 	flex-wrap: wrap;
 	padding: 5px 0;
 	margin-top: 30px;
 	overflow-y: auto;
 	width: 100%;
+	display: none;
+	@media(max-width: ${units.mobile}) {
+		display: flex;
+	}
 `;
+
+export const MemberListFeed = styled.div`
+    width: calc(100% - ${units.margin} * 2);
+    display: flex;
+    margin: 0 auto;
+    justify-content: space-between;
+`;
+
+export const MemberListResultDiv = styled(animated.div)`
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: column;
+	padding: 5px 0;
+	overflow-y: auto;
+	width: calc(50% - 5px);
+	@media(max-width: ${units.mobile}) {
+		display: none;
+	}
+`;
+
+export const TagItemIcon = styled.img`
+    height: 18px;
+    margin: auto 0 auto 6px;
+`;
+
+export const TagItemName = styled.span`
+    ${font.DCBold};
+        margin: auto 6px auto 6px;
+	line-height: 30px;
+    font-size: 16px;
+    padding: 0;
+    letter-spacing: 0.5px;
+    color: ${color.BG0};
+    &:hover {
+    	: 
+    }
+`;
+
+export const AddTagItem = styled.div`
+    padding: 0px 3px;
+    display: flex;
+    height: 26px;
+    border-radius: 12px/14px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    background-color: ${color.primary};
+    ${cursor.clickable};
+    transition: background-color 0.1s ease-in-out;
+    &:last-child {
+    	margin-right: 0;
+    }
+    &:hover {
+		background-color: ${color.primaryShade};
+	}
+`;
+
+export const TagItem = styled.div`
+    padding: 0px 3px;
+    display: flex;
+    height: 26px;
+    border-radius: 12px/14px;
+    margin-right: 10px;
+    margin-top: 10px;
+    background-color: ${color.primary};
+    &:last-child {
+    	margin-right: 0;
+    }
+    &:hover {
+		& ${TagItemName} {
+			${(props) =>
+			props.removable
+				? `text-decoration: line-through; ${cursor.clickable}`
+				: ''}
+			
+			};
+	}
+`;
+
+
 
 export const FilterListContainer = styled.div`
 	height: 0px;
@@ -206,11 +288,12 @@ export const SearchMembersInput = styled.label`
 `;
 
 export const MemberListCard = styled.div`
-	width: calc(50% - ${units.margin} * 2 - 4px);
-	margin: min(50px, max(6vw, 30px)) auto 20px
-		${units.margin};
+	width: calc(100% - 4px);
+	margin: max(40px, min(12vw, 80px)) 0 0
+		0;
 	display: flex;
 	border-width: 2px;
+	background-color: ${color.tertiary};
 	border-color: ${color.tertiary};
 	border-style: solid;
 	transition: all 0.2s;
@@ -218,8 +301,12 @@ export const MemberListCard = styled.div`
 	${cursor.clickable};
 	&:hover {
 		box-shadow: 0px 0px 6px 2px ${color.BG2};
-		transform: scale(1.02);
-		background-color: ${color.tertiary};
+		background-color: ${color.tertiaryShade};
+			border-color: ${color.tertiaryShade};
+
+	}
+	@media(max-width: ${units.mobile}) {
+		width: calc(100%W - 4px);
 	}
 `;
 
@@ -228,10 +315,11 @@ export const MemberCardName = styled.div`
 	text-align: center;
 	color: ${color.primary};
 	text-transform: uppercase;
-	font-size: 24px;
+	font-size: 28px;
+	margin-top: 15px;
 	margin-bottom: ${units.margin};
 	@media (max-width: ${units.mobile}) {
-		font-size: calc(10px + 2vw);
+		font-size: calc(20px + 2vw);
 	}
 `;
 
@@ -246,10 +334,10 @@ export const MemberCardInfo = styled.div`
 	}
 `;
 
-export const MemberCardStudy = styled.span`
-	color: ${color.text};
-	font-size: 16px;
-	${font.RReg};
+export const MemberCardStudy = styled.div`
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
 	@media (max-width: ${units.mobile}) {
 		font-size: calc(10px + 1vw);
 	}

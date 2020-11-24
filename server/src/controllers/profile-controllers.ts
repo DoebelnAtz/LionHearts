@@ -175,85 +175,63 @@ export const updateProfile = catchErrors(async (req, res) => {
 }, 'Failed to update profile');
 
 export const getProfiles = catchErrors(async (req, res) => {
-	let skill = req.query.skill || '';
-	let language = req.query.language || '';
 	let search = req.query.search || '';
 	let profiles: any;
 
-	let filterArrays: number[][] = [[], []];
-	let finalFilterArray: number[] = [];
-
-	// this feels like a ridiculous way of going about this, but it works...
-	if (Number(skill)) {
-		let skillArr = await query(
-			`
-			SELECT a.users FROM (
-			SELECT sc.s_id, array_agg(sc.u_id) as users
-			FROM skill_connections sc WHERE sc.s_id = $1 GROUP BY sc.s_id)a
-		`,
-			[skill],
-		);
-		filterArrays[0] = skillArr.rows[0]?.users || [];
-	}
-	if (Number(language)) {
-		let languageArr = await query(
-			`
-			SELECT a.languages FROM (
-			SELECT lc.language_id, array_agg(lc.u_id) as languages
-			FROM language_connections lc WHERE lc.language_id = $1 GROUP BY lc.language_id)a
-		`,
-			[language],
-		);
-		filterArrays[1] = languageArr.rows[0]?.languages || [];
-		if (Number(skill)) {
-			filterArrays[0].forEach((id, index) => {
-				if (filterArrays[1].includes(id)) {
-					finalFilterArray.push(id);
-				}
-			});
-		} else {
-			finalFilterArray = filterArrays[1];
-		}
-	} else if (Number(skill)) {
-		finalFilterArray = filterArrays[0];
-	}
-
-	if (Number(language) || Number(skill)) {
-		if (!finalFilterArray.length) {
-			profiles = [];
-		} else {
-			profiles = await query(
-				`
-			SELECT u.u_id, u.username, u.firstname, u.lastname, u.email, u.profile_pic,
-			l.name AS location, s.name AS school, d.name AS degree
-			FROM users u 
-			LEFT JOIN locations l ON u.location = l.l_id
-			LEFT JOIN degrees d ON u.degree = d.d_id
-			LEFT JOIN schools s ON u.school = s.s_id
-			WHERE LOWER(firstname::text || lastname::text) LIKE $1
-			AND u.u_id = ANY (array[${finalFilterArray}])
-			ORDER BY LOWER(firstname::text || lastname::text) ASC
-		`,
-				[`%${search}%`.toLowerCase()],
-			);
-		}
-		profiles = profiles.rows;
-	} else {
-		profiles = await query(
-			`
-			SELECT u_id, username, firstname, lastname, email, profile_pic,
-			l.name AS location, s.name AS school, d.name AS degree
+	profiles = await query(
+		`
+			SELECT u.u_id, username, firstname, lastname, email, profile_pic,
+			skills, degrees, schools, studying, languages, l.name as location
 			FROM users u
 			LEFT JOIN locations l ON u.location = l.l_id
-			LEFT JOIN degrees d ON u.degree = d.d_id
-			LEFT JOIN schools s ON u.school = s.s_id
+			LEFT JOIN (
+				SELECT sc.u_id, ARRAY_AGG(s.title) as skills
+				FROM skill_connections sc JOIN skills s 
+				ON s.s_id = sc.s_id 
+				GROUP BY sc.u_id) sk
+				ON sk.u_id = u.u_id
+			LEFT JOIN (
+				SELECT lc.u_id, ARRAY_AGG(l.name) as languages
+				FROM language_connections lc JOIN languages l
+				ON l.language_id = lc.language_id 
+				GROUP BY lc.u_id) la
+				ON la.u_id = u.u_id
+			LEFT JOIN (
+				SELECT dc.u_id, ARRAY_AGG(d.name) as degrees
+				FROM degree_connections dc JOIN degrees d
+				ON d.d_id = dc.d_id
+				 WHERE dc.completed = TRUE
+				GROUP BY dc.u_id) de
+				ON de.u_id = u.u_id 
+			LEFT JOIN (
+				SELECT dc.u_id, ARRAY_AGG(d.name) as studying
+				FROM degree_connections dc JOIN degrees d
+				ON d.d_id = dc.d_id
+				 WHERE dc.completed = FALSE
+				GROUP BY dc.u_id) st
+				ON st.u_id = u.u_id 
+			LEFT JOIN (
+				SELECT sc.u_id, ARRAY_AGG(s.name) as schools
+				FROM school_connections sc JOIN schools s
+				ON s.s_id = sc.s_id
+				GROUP BY sc.u_id) sch
+				ON sch.u_id = u.u_id
 			WHERE LOWER(firstname::text || lastname::text) LIKE $1 
 			ORDER BY LOWER(firstname::text || lastname::text) ASC
 	`,
-			[`%${search}%`.toLowerCase()],
-		);
-		profiles = profiles.rows;
-	}
+		[`%${search}%`.toLowerCase()],
+	);
+	// this feels like a ridiculous way of going about this, but it works...
+
+	profiles = profiles.rows.map((p: any) => {
+		return {
+			...p,
+			degrees: p.degrees || [],
+			schools: p.schools || [],
+			studying: p.studying || [],
+			skills: p.skills || [],
+		};
+	});
 
 	res.json(profiles);
 }, 'Failed to get profiles');

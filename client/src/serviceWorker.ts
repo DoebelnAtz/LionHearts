@@ -56,8 +56,6 @@ const askPushPermission = async (
 ) => {
 	const sub = await reg.pushManager.getSubscription();
 	const user = getLocal('user')?.user?.u_id;
-	console.log(user);
-	console.log(sub);
 
 	if (sub === undefined && user !== undefined) {
 		const permission = await window.Notification.requestPermission();
@@ -78,7 +76,6 @@ const askPushPermission = async (
 };
 
 export function register(config?: Config) {
-	console.log(process.env);
 	if (
 		process.env.NODE_ENV === 'production' &&
 		'serviceWorker' in navigator
