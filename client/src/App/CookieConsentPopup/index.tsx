@@ -13,10 +13,20 @@ import {
 	CookieConsentExplanationDiv,
 	CookieConsentList,
 	CookieConsentOptionRow,
+	CookieExplanationTableDiv,
 	CookieLabel,
 	CookieOptionMandatory,
 	CookieOptionOptional,
+	ReadMoreCookiesSpan,
 } from './Styles';
+import ExpandableDiv from '../Components/ExpandableDiv';
+import {
+	Header2,
+	Table,
+	TableCell,
+	TableHead,
+	TableRow,
+} from '../../Styles';
 
 type CookieConsentPopupProps = {
 	setShowCookieModal: Dispatch<SetStateAction<boolean>>;
@@ -30,6 +40,11 @@ const CookieConsentPopup: React.FC<CookieConsentPopupProps> = ({
 		setCookieConsent();
 		setShowCookieModal(false);
 	};
+	const [showOptional, setShowOptional] = useState(false);
+	const [showNecessary, setShowNecessary] = useState(
+		false,
+	);
+
 	const [
 		statisticsBoxValue,
 		setStatisticsBoxValue,
@@ -40,12 +55,20 @@ const CookieConsentPopup: React.FC<CookieConsentPopupProps> = ({
 		setStatisticsBoxValue(!statisticsBoxValue);
 	};
 
+	const handleExpandOptionalToggle = () => {
+		setShowOptional(!showOptional);
+	};
+
+	const handleExpandNecessaryToggle = () => {
+		setShowNecessary(!showNecessary);
+	};
+
 	const setCookieConsent = () => {
 		document.cookie = cookie.serialize(
 			'cookieCompliance',
 			statisticsBoxValue ? 'true' : 'false',
 			{
-				maxAge: 60 * 60 * 24 * 7 * 52,
+				maxAge: 60 * 60 * 24 * 365,
 			},
 		);
 		console.log(document.cookie);
@@ -56,6 +79,7 @@ const CookieConsentPopup: React.FC<CookieConsentPopupProps> = ({
 		<Modal inside={inside} close={close}>
 			<CookieConsentContainer>
 				<CookieConsentContent>
+					<Header2>Cookies</Header2>
 					<CookieConsentExplanationDiv>
 						When you visit any website, it may
 						store or retrieve information about
@@ -76,6 +100,47 @@ const CookieConsentPopup: React.FC<CookieConsentPopupProps> = ({
 								type={'checkBox'}
 							/>
 						</CookieLabel>
+						<ReadMoreCookiesSpan
+							onClick={
+								handleExpandNecessaryToggle
+							}
+						>
+							Read more
+						</ReadMoreCookiesSpan>
+						<ExpandableDiv open={showNecessary}>
+							<CookieExplanationTableDiv>
+								<Table>
+									<TableRow>
+										<TableHead>
+											Domain
+										</TableHead>
+										<TableHead>
+											Cookies
+										</TableHead>
+										<TableHead>
+											Cookies used
+										</TableHead>
+										<TableHead>
+											Lifespan
+										</TableHead>
+									</TableRow>
+									<TableRow>
+										<TableCell>
+											lionhearts.com
+										</TableCell>
+										<TableCell>
+											cookieCompliance
+										</TableCell>
+										<TableCell>
+											First party
+										</TableCell>
+										<TableCell>
+											365 days
+										</TableCell>
+									</TableRow>
+								</Table>
+							</CookieExplanationTableDiv>
+						</ExpandableDiv>
 						<CookieLabel>
 							Statistics Cookies
 							<CookieOptionOptional
@@ -84,6 +149,48 @@ const CookieConsentPopup: React.FC<CookieConsentPopupProps> = ({
 								onChange={handleCookieClick}
 							/>
 						</CookieLabel>
+						<ReadMoreCookiesSpan
+							onClick={
+								handleExpandOptionalToggle
+							}
+						>
+							Read more
+						</ReadMoreCookiesSpan>
+						<ExpandableDiv open={showOptional}>
+							<CookieExplanationTableDiv>
+								<Table>
+									<TableRow>
+										<TableHead>
+											Domain
+										</TableHead>
+										<TableHead>
+											Cookies
+										</TableHead>
+										<TableHead>
+											Cookies used
+										</TableHead>
+										<TableHead>
+											Lifespan
+										</TableHead>
+									</TableRow>
+									<TableRow>
+										<TableCell>
+											lionhearts.com
+										</TableCell>
+										<TableCell>
+											_gat, _gid, _ga
+										</TableCell>
+										<TableCell>
+											First party
+										</TableCell>
+										<TableCell>
+											0 days, 1 day,
+											730 days
+										</TableCell>
+									</TableRow>
+								</Table>
+							</CookieExplanationTableDiv>
+						</ExpandableDiv>
 					</CookieConsentList>
 					<CookieConsentOptionRow>
 						<CookieConsentAgreeButton

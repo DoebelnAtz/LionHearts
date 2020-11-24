@@ -1,12 +1,12 @@
 import styled from 'styled-components'
-import {color, components, font, units} from "../../Styles";
+import {color, components, cursor, font, units} from "../../Styles";
 
 export const CookieConsentContainer = styled.div`
-    width: 50vw;
+    width: 70vw;
     background-color: ${color.BG0} ;
     padding: 5%;
     @media(max-width: ${units.mobile}) {
-      width: 70vw;
+      width: 80vw;
       
     } 
 `;
@@ -45,6 +45,18 @@ export const CookieOptionMandatory = styled.input`
     height: 16px;
     width: 16px;
     
+`;
+
+export const ReadMoreCookiesSpan = styled.span`
+    ${font.RReg};
+    font-size: 14px;
+    ${cursor.clickable};
+    color: ${color.primary};
+`;
+
+export const CookieExplanationTableDiv = styled.div`
+    width: 100%;
+    margin: ${units.margin} 0;
 `;
 
 export const CookieOptionOptional = styled.input`

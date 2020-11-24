@@ -402,6 +402,37 @@ export const Header3 = styled.h3`
     }
 `;
 
+export const Table = styled.table`
+	border-style: solid;
+	border-width: 2px;
+	border-spacing: 0;
+    border-color: ${color.primary};
+        width: 100%;
+
+`;
+
+export const TableRow = styled.tr`
+    border-spacing: 0;
+    width: 100%;
+`;
+
+export const TableHead = styled.th`
+    background-color: ${color.BG1};
+    border-bottom: 2px solid ${color.primary};
+    border-spacing: 0;
+    padding: 5px 0;
+    font-size: 18px;
+    ${font.RCBold};
+    color: ${color.primary};
+`;
+
+export const TableCell = styled.td`
+        background-color: ${color.BG0};
+        text-align: center;
+        padding: 6px 0;
+		${font.RReg};
+`;
+
 export const AnimatedLabeledInputDiv = styled.div`
 	${components.animatedLabeledInput};
 `;

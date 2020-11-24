@@ -37,7 +37,7 @@ import CookieConsentPopup from './CookieConsentPopup';
 function App() {
 	const location = useLocation();
 	const [showCookieModal, setShowCookieModal] = useState(
-		true,
+		false,
 	);
 	let compliance = cookie.parse(document.cookie)
 		.cookieCompliance;
