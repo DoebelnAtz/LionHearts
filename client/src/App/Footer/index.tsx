@@ -130,9 +130,9 @@ const Footer: React.FC = () => {
 					</LinkDiv>
 				</FooterContentDiv>
 				<LegalInfoDiv>
-					<CopyRight>© Co-founders Oy </CopyRight>
+					<CopyRight>© Co-founders Oy</CopyRight>
 					<LegalLink href={PrivacyStatement}>
-						Privacy Policy
+						{`Privacy Policy`}
 					</LegalLink>
 					<RevokeCookieConsent
 						onClick={handleCookieConsent}

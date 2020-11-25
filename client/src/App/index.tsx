@@ -54,7 +54,7 @@ function App() {
 		pageViewGA(location.pathname);
 	}, [location.pathname]);
 
-	usePerformanceGA('app');
+	usePerformanceGA('app', 'performance');
 
 	return (
 		<AppDiv

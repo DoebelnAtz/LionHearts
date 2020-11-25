@@ -5,6 +5,7 @@ import {
 	ToggleMuteButtonDiv,
 	ToggleMuteIcon,
 } from './Styles';
+import { eventGA } from '../../../Utils/GoogleAnalytics';
 
 type ToggleMuteButtonProps = {
 	muted: boolean;
@@ -15,8 +16,12 @@ const ToggleMuteButton: React.FC<ToggleMuteButtonProps> = ({
 	muted,
 	onClick,
 }) => {
+	const handleMuteClick = () => {
+		eventGA('visitor', 'video-unmute', 'video', 50);
+		onClick();
+	};
 	return (
-		<ToggleMuteButtonDiv onClick={onClick}>
+		<ToggleMuteButtonDiv onClick={handleMuteClick}>
 			<ToggleMuteIcon
 				src={muted ? muteIcon : volumeIcon}
 			/>

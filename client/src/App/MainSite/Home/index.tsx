@@ -11,6 +11,7 @@ import NewsSection from './NewsSection';
 import { Route } from 'react-router-dom';
 import LoginPopup from '../../LoginPopup';
 import VideoSection from './VideoSection';
+import { BHNavBarContainer } from './HomeImg/Styles';
 
 const Home: React.FC = () => {
 	return (

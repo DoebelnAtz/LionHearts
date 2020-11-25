@@ -3,7 +3,6 @@ import { color, cursor, units } from '../../../Styles';
 import { font } from '../../../Styles';
 
 export const NewsPage = styled.div`
-	height: 100%;
 	width: 100%;
 
 	background-color: ${color.BG0};

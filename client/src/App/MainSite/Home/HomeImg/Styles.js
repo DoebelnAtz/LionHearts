@@ -17,8 +17,7 @@ export const BHContainer = styled(animated.div)`
 `;
 
 export const HomeBlurHash = styled.div`
-	max-height: 570px;
-	height: 100%;
+	height: 570px;
 	position: relative;
 	width: 100%;
 	display: flex;
@@ -27,13 +26,17 @@ export const HomeBlurHash = styled.div`
 `;
 
 export const BHNavBarContainer = styled.div`
-	position: absolute;
+	
+	z-index: 8;
 	width: 100%;
+	@media (max-width: 900px) {
+	position: sticky;
+	top: 0;
+	}
 `;
 
 export const BGImg = styled.div`
-	max-height: 570px;
-	height: 100%;
+	height: 570px;
 	width: 100%;
 	position: absolute;
 	opacity: ${props => props.completed ? 1 : 0};

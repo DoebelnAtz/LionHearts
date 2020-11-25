@@ -77,7 +77,7 @@ const ApplicationPage: React.FC = () => {
 				);
 				setApplication({
 					...application,
-					application_status: 'rejected',
+					application_status: 'accepted',
 				});
 			} catch (e) {
 				console.log(e);
@@ -192,8 +192,8 @@ const ApplicationPage: React.FC = () => {
 				</ApplicantInfoLabel>
 				{renderUploadedFiles()}
 			</ApplicantInfoDiv>
-			{application?.application_status ===
-				'pending' && (
+			{application?.application_status !==
+				'pendin' && (
 				<ApplicationDecisionButtonRow>
 					<ApplicationAcceptButton
 						onClick={handleApplicationApproval}

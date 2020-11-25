@@ -6,11 +6,12 @@ import { Link } from 'react-router-dom';
 export const NavBarDiv = styled.div`
 	width: 100%;
 	height: 60px;
-	position: relative;
+	position: absolute;
 	z-index: 10;
 	display: flex;
 	@media (max-width: 900px) {
-		position: fixed;
+		position: sticky;
+		top: 0;
 	}
 `;
 

@@ -15,9 +15,9 @@ import { getLocal, makeId } from '../../Utils';
 import { useWidth } from '../../Hooks';
 import MenuBurger from '../Components/MenuBurger';
 import MobileNav from './MobileNav';
-import {makeRequest} from "../../Api";
-import axios from "axios";
-import {url as baseURL} from "../../config";
+import { makeRequest } from '../../Api';
+import axios from 'axios';
+import { url as baseURL } from '../../config';
 
 const NavBar = () => {
 	const [isMobile] = useWidth();
@@ -38,7 +38,9 @@ const NavBar = () => {
 							(localStorage.getItem('user')
 								? getLocal('user').token
 								: ''),
-						'x-refresh-token': localStorage.getItem('user')
+						'x-refresh-token': localStorage.getItem(
+							'user',
+						)
 							? getLocal('user').refreshToken
 							: '',
 					},
@@ -47,7 +49,6 @@ const NavBar = () => {
 			} catch (e) {
 				history.push('/login');
 			}
-
 		} else {
 			history.push('/login');
 		}
@@ -62,19 +63,35 @@ const NavBar = () => {
 			/>
 			{isMobile && (
 				<MenuBtnDiv ref={burgerRef}>
-					<MenuBurger open={expandMenu} setOpen={setExpandMenu} />
+					<MenuBurger
+						open={expandMenu}
+						setOpen={setExpandMenu}
+					/>
 				</MenuBtnDiv>
 			)}
-			<NavBarLogoDiv id={'Navbar Logo'} isMobile={isMobile}>
+			<NavBarLogoDiv
+				id={'Navbar Logo'}
+				isMobile={isMobile}
+			>
 				<Logo height={isMobile ? '40ps' : '50px'} />
 			</NavBarLogoDiv>
 			{!isMobile && (
 				<NavBarLinksDiv>
-					<NavBarLink to={`/about-us`}>ABOUT US</NavBarLink>
-					<NavBarLink to={`/community`}>COMMUNITY</NavBarLink>
-					<NavBarLink to={`/events`}>EVENTS</NavBarLink>
-					<NavBarLink to={`/articles`}>ARTICLES</NavBarLink>
-					<NavBarLink to={`/apply`}>APPLY</NavBarLink>
+					<NavBarLink to={`/about-us`}>
+						ABOUT US
+					</NavBarLink>
+					<NavBarLink to={`/community`}>
+						COMMUNITY
+					</NavBarLink>
+					<NavBarLink to={`/events`}>
+						EVENTS
+					</NavBarLink>
+					<NavBarLink to={`/articles`}>
+						ARTICLES
+					</NavBarLink>
+					<NavBarLink to={`/apply`}>
+						APPLY
+					</NavBarLink>
 				</NavBarLinksDiv>
 			)}
 			<NavBarMemberIcon

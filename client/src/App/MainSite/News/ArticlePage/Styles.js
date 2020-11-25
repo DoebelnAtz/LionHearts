@@ -3,7 +3,6 @@ import { color, components, units } from '../../../../Styles';
 import { font } from '../../../../Styles';
 
 export const EventsDiv = styled.div`
-	height: 100%;
 	width: 100%;
 	background-color: ${color.BG0};
 `;

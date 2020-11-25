@@ -35,6 +35,7 @@ import {
 import HenrikPic from '../../../../assets/images/henrikr.jpg';
 import LeilahPic from '../../../../assets/images/leilah.jpg';
 import { eventGA } from '../../../../Utils/GoogleAnalytics';
+import LoadingButton from '../../../Components/LoadingButton';
 
 const acceptedTypes = [
 	'image/jpeg',
@@ -248,6 +249,7 @@ const ApplyFormSection: React.FC = () => {
 					100,
 				);
 				history.push('/apply/success');
+				return true;
 			} catch (e) {
 				if (
 					e.response.data.code === 2 ||
@@ -263,6 +265,7 @@ const ApplyFormSection: React.FC = () => {
 							'This email has already been used',
 					});
 				}
+				return false;
 			}
 		} else {
 			setErrors({
@@ -281,6 +284,7 @@ const ApplyFormSection: React.FC = () => {
 					: 'Description required',
 				legalError: input.legal ? '' : 'required',
 			});
+			return false;
 		}
 	};
 
@@ -356,8 +360,8 @@ const ApplyFormSection: React.FC = () => {
 					</ApplyHeader>
 					<InstructionList>
 						<InstructionListItem>
-							Fill in your contact details on
-							the right
+							Fill in your contact details
+							below
 						</InstructionListItem>
 						<InstructionListItem>
 							Share with us why you would like
@@ -515,12 +519,12 @@ const ApplyFormSection: React.FC = () => {
 								{errors.legalError}
 							</FormError>
 						</LegalRow>
-						<button
-							type={'submit'}
+						<LoadingButton
+							width={'100%'}
 							onClick={handleSubmit}
 						>
 							SUBMIT
-						</button>
+						</LoadingButton>
 					</ApplyForm>
 				</FormDiv>
 			</ApplyFormSectionDiv>

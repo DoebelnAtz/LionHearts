@@ -10,6 +10,7 @@ const MobileNavHeight = '60px';
 export const MemberHomeDiv = styled.div`
 	height: 100%;
 	width: 100%;
+	overflow: hidden;
 	background-color: ${color.BG0};
 	display: flex;
 `;
@@ -42,6 +43,7 @@ export const MemberViewDiv = styled.div`
 		100% - ${MemberNavigationWidth} - ${units.margin} -
 			${EventFeedWidth}
 	);
+	
 	@media (max-width: ${units.tablet}) {
 		width: calc(100% - ${NavigationMobileWidth});
 		margin: 0 0 0 5px;

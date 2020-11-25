@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import { color, units , font} from '../../../Styles';
 
 export const AboutUsDiv = styled.div`
-	height: 100%;
 	width: 100%;
 
 `;

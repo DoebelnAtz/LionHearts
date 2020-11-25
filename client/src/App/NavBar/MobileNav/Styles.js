@@ -30,7 +30,6 @@ export const MobileNavLinks = styled(animated.div)`
 	text-align: center;
 	@media (max-width: 900px) {
 		background-color: ${color.primary};
-		position: fixed;
 	}
 `;
 

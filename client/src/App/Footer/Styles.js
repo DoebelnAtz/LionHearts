@@ -79,7 +79,8 @@ export const CopyRight = styled.span`
 
 export const LegalLink = styled.a`
 	text-decoration: none;
-	${font.RBold};
+	margin-left: 5px;
+	${font.RReg};
 	color: ${color.primary};
 	&:visited {
 		color: ${color.primary};

@@ -50,7 +50,8 @@ export const MemberListResultDivMobile = styled(animated.div)`
 export const MemberListFeed = styled.div`
     width: calc(100% - ${units.margin} * 2);
     display: flex;
-    margin: 0 auto;
+    margin: ${units.margin} auto;
+    overflow-y: auto;
     justify-content: space-between;
 `;
 
@@ -59,7 +60,6 @@ export const MemberListResultDiv = styled(animated.div)`
 	flex-wrap: wrap;
 	flex-direction: column;
 	padding: 5px 0;
-	overflow-y: auto;
 	width: calc(50% - 5px);
 	@media(max-width: ${units.mobile}) {
 		display: none;

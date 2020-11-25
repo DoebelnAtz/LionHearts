@@ -4,8 +4,7 @@ import { color, components, font } from '../../../../Styles';
 
 export const ApplyNowSectionDiv = styled.div`
 	width: 100%;
-	max-height: 500px;
-	height: 100%;
+	height: min(500px, 100vh);
 	background-color: ${color.primary};
 	display: flex;
 `;

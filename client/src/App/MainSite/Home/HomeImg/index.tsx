@@ -51,28 +51,29 @@ const HomeImg: React.FC<HomeImgProps> = ({
 	}, [BGsrc]);
 
 	return (
-		<HomeBlurHash id={'blurhash'}>
-			<BHNavBarContainer>
+		<>
+			<BHNavBarContainer id={'navbar-container'}>
 				<NavBar />
 			</BHNavBarContainer>
-
-			<Vision>{text}</Vision>
-			<BGImg completed={loaded} src={src}>
-				<ImgDiv ref={fadeDiv}></ImgDiv>
-			</BGImg>
-			<BHContainer>
-				<Blurhash
-					style={{
-						position: 'relative',
-						zIndex: 1,
-						mixBlendMode: 'multiply',
-					}}
-					hash={hash}
-					width={'100%'}
-					height={'100%'}
-				/>
-			</BHContainer>
-		</HomeBlurHash>
+			<HomeBlurHash id={'blurhash'}>
+				<Vision>{text}</Vision>
+				<BGImg completed={loaded} src={src}>
+					<ImgDiv ref={fadeDiv}></ImgDiv>
+				</BGImg>
+				<BHContainer>
+					<Blurhash
+						style={{
+							position: 'relative',
+							zIndex: 1,
+							mixBlendMode: 'multiply',
+						}}
+						hash={hash}
+						width={'100%'}
+						height={'100%'}
+					/>
+				</BHContainer>
+			</HomeBlurHash>
+		</>
 	);
 };
 

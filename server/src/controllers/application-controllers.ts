@@ -1,10 +1,13 @@
 import { catchErrors } from '../errors/catchErrors';
 import fs from 'fs';
 import path from 'path';
+import nodemailer from 'nodemailer';
 import { connect, query } from '../postgres';
 import CustomError from '../errors/customError';
 import { transaction } from '../errors/transaction';
 import { storage } from '../middleware';
+const inlineBase64 = require('nodemailer-plugin-inline-base64');
+
 const mime = {
 	html: 'text/html',
 	txt: 'text/plain',
@@ -150,15 +153,99 @@ export const createApplication = catchErrors(async (req, res, next) => {
 
 export const acceptApplicant = catchErrors(async (req, res) => {
 	const applicationId = req.params.aid;
+	let application = await query(
+		`
+		SELECT email, application_id FROM applications WHERE a_id = $1
+	`,
+		[applicationId],
+	);
+	if (!application.rows) {
+		throw new CustomError(
+			'Failed to accept applicant',
+			404,
+			'Did not find applicant with given id',
+		);
+	}
 	await query(
 		`
 		UPDATE applications SET application_status = 'accepted' WHERE a_id = $1
 	`,
 		[applicationId],
 	);
-
+	await sendApplicantEmail(
+		application.rows[0].email,
+		application.rows[0].application_id,
+	);
 	res.json({ success: true });
 }, 'Failed to accept applicant');
+
+const sendApplicantEmail = async (
+	emailAddress: string,
+	applicationId: string,
+) => {
+	const transporter = nodemailer.createTransport({
+		host: process.env.EMAIL_HOST,
+		auth: {
+			user: process.env.EMAIL_USER,
+			pass: process.env.EMAIL_PASSWORD,
+		},
+	});
+
+	//transporter.use('compile', inlineBase64({ cidPrefix: 'base64image_' }));
+
+	const mailOptions = {
+		from: 'noreply@lionhearts.com',
+		to: emailAddress,
+		subject: 'Create your Lionhearts account',
+		text: 'test',
+		// html: `
+		// 	<div
+		// 		style="
+		// 			display: flex;
+		// 			width: 100%;
+		// 			justify-content: center;
+		// 			background-color: #FFFFFF"
+		// 	>
+		// 		<img
+		// 			src="https://storage.googleapis.com/lionhearts-images/lionhearts_512.png"
+		// 			style="height: 100px; width: 100px"
+		// 		/>
+		// 		<p
+		// 			style="
+		// 				text-decoration: none;
+		// 				font-family: Arial, sans-serif;
+		// 				color: #0064FF;
+		// 				font-size: 20px
+		// 			">
+		// 				Create you Lionhearts member account:
+		// 		</p>
+		// 		<a
+		// 			href="https://lionhearts.com/signup?id=${applicationId}"
+		// 			style="
+		// 				text-decoration: none;
+		// 				font-family: Arial, sans-serif;
+		// 				color: #0064FF;
+		// 				font-size: 20px
+		// 			">
+		// 			Sign up
+		// 		</a>
+		// 	</div>
+		// `,
+	};
+	try {
+		console.log(`sending email to: ${emailAddress}...`);
+		await transporter.sendMail(mailOptions, (error, info) => {
+			if (error) {
+				console.log('failed to send email: ' + error);
+			} else {
+				console.log(info);
+				console.log(`sent email to: ${emailAddress}`);
+			}
+		});
+	} catch (e) {
+		console.log('failed to send email: ' + e);
+	}
+};
 
 export const rejectApplicant = catchErrors(async (req, res) => {
 	const { applicationId } = req.body;

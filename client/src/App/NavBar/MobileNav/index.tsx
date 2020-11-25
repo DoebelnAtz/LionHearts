@@ -75,7 +75,7 @@ const MobileNav: React.FC<{
 
 	return (
 		<MobileNavLinks
-			id={'Mobile Nav'}
+			id={'mobile-nav'}
 			style={expandMenu}
 		>
 			{expanded && (

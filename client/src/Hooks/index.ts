@@ -140,7 +140,7 @@ export const usePerformanceGA = (
 						currentTime,
 				);
 		}
-	});
+	}, [categoryName]);
 };
 
 // A hook that keeps track of width used for mobile specific styles
