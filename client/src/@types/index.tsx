@@ -72,6 +72,7 @@ export interface EventParticipant {
 export interface Profile {
 	u_id: number;
 	location: string;
+	mentor: boolean;
 	l_id: number;
 	d_id: number;
 	school: string;
@@ -98,6 +99,7 @@ export interface MemberCard {
 	schools: string[];
 	languages: string[];
 	skills: string[];
+	mentor: boolean;
 	location: string;
 	firstname: string;
 	lastname: string;

@@ -192,8 +192,8 @@ const ApplicationPage: React.FC = () => {
 				</ApplicantInfoLabel>
 				{renderUploadedFiles()}
 			</ApplicantInfoDiv>
-			{application?.application_status !==
-				'pendin' && (
+			{application?.application_status ===
+				'pending' && (
 				<ApplicationDecisionButtonRow>
 					<ApplicationAcceptButton
 						onClick={handleApplicationApproval}

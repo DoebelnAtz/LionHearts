@@ -1,15 +1,35 @@
 import React from 'react';
-import { ProfilePicture } from './Styles';
+import {
+	ProfilePicture,
+	ProfilePictureContainer,
+	ProfilePictureLabelContainer,
+	ProfilePictureLabelIcon,
+	ProfilePictureLabelSpan,
+} from './Styles';
 import { url } from '../../../config';
 import ProfilePlaceHolder from '../../../assets/images/profile_placeholder.png';
-const ProfilePic: React.FC<{ src: string | undefined }> = ({
-	src,
-}) => {
+import StarIcon from '../../../assets/images/star.svg';
+import MemberIcon from '../../../assets/images/profile_icon.png';
+
+const ProfilePic: React.FC<{
+	src: string | undefined;
+	mentor?: boolean;
+}> = ({ src, mentor }) => {
 	return (
-		<ProfilePicture
-			src={src ? src : ProfilePlaceHolder}
-			fallback={ProfilePlaceHolder}
-		/>
+		<ProfilePictureContainer>
+			<ProfilePicture
+				src={src ? src : ProfilePlaceHolder}
+				fallback={ProfilePlaceHolder}
+			/>
+			<ProfilePictureLabelContainer>
+				<ProfilePictureLabelIcon
+					src={!mentor ? StarIcon : MemberIcon}
+				/>
+				<ProfilePictureLabelSpan>
+					{!mentor ? 'mentor' : 'member'}
+				</ProfilePictureLabelSpan>
+			</ProfilePictureLabelContainer>
+		</ProfilePictureContainer>
 	);
 };
 

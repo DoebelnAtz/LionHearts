@@ -787,10 +787,11 @@ const ProfilePage: React.FC = () => {
 		<ProfilePageDiv>
 			<ProfilePageInfo>
 				<ProfilePageInfoDiv>
-					{!editing && (
+					{!editing && profile && (
 						<ProfilePictureDiv>
 							<ProfilePic
-								src={profile?.profile_pic}
+								mentor={profile.mentor}
+								src={profile.profile_pic}
 							/>
 						</ProfilePictureDiv>
 					)}

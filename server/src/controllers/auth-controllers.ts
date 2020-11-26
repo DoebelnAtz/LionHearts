@@ -25,7 +25,7 @@ export const signup = catchErrors(async (req, res) => {
 	let application = await query(
 		`
 			SELECT application_id, 
-			firstname, lastname, 
+			firstname, lastname, mentor
 			email FROM applications 
 			WHERE application_id = $1
 	`,
@@ -60,8 +60,8 @@ export const signup = catchErrors(async (req, res) => {
 		await client.query('BEGIN');
 		await query(
 			`
-	        INSERT INTO users (firstname, lastname, password, email, username, phone, profile_pic)
-	        VALUES ($1, $2, $3, $4, $5, $6, $7)
+	        INSERT INTO users (firstname, lastname, password, email, username, phone, profile_pic, mentor)
+	        VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
 	    `,
 			[
 				capitalizeFirst(firstname),
@@ -71,6 +71,7 @@ export const signup = catchErrors(async (req, res) => {
 				username,
 				phone,
 				`https://storage.googleapis.com/lionhearts-profile-pictures/${profilePic}`,
+				application.rows[0].mentor,
 			],
 		);
 		await client.query('COMMIT');

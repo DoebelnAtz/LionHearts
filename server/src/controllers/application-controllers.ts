@@ -185,53 +185,49 @@ const sendApplicantEmail = async (
 ) => {
 	const transporter = nodemailer.createTransport({
 		host: process.env.EMAIL_HOST,
+		port: 465,
+		secure: true,
 		auth: {
 			user: process.env.EMAIL_USER,
 			pass: process.env.EMAIL_PASSWORD,
 		},
 	});
 
-	//transporter.use('compile', inlineBase64({ cidPrefix: 'base64image_' }));
+	transporter.use('compile', inlineBase64({ cidPrefix: 'base64image_' }));
 
 	const mailOptions = {
-		from: 'noreply@lionhearts.com',
+		from: process.env.EMAIL_USER,
 		to: emailAddress,
 		subject: 'Create your Lionhearts account',
-		text: 'test',
-		// html: `
-		// 	<div
-		// 		style="
-		// 			display: flex;
-		// 			width: 100%;
-		// 			justify-content: center;
-		// 			background-color: #FFFFFF"
-		// 	>
-		// 		<img
-		// 			src="https://storage.googleapis.com/lionhearts-images/lionhearts_512.png"
-		// 			style="height: 100px; width: 100px"
-		// 		/>
-		// 		<p
-		// 			style="
-		// 				text-decoration: none;
-		// 				font-family: Arial, sans-serif;
-		// 				color: #0064FF;
-		// 				font-size: 20px
-		// 			">
-		// 				Create you Lionhearts member account:
-		// 		</p>
-		// 		<a
-		// 			href="https://lionhearts.com/signup?id=${applicationId}"
-		// 			style="
-		// 				text-decoration: none;
-		// 				font-family: Arial, sans-serif;
-		// 				color: #0064FF;
-		// 				font-size: 20px
-		// 			">
-		// 			Sign up
-		// 		</a>
-		// 	</div>
-		// `,
+		html: `
+			<div
+				style="
+					display: flex;
+					flex-direction: column;
+					width: 100%;
+					justify-content: center;
+					background-color: #FFFFFF"
+			>
+				<img
+					src="https://storage.googleapis.com/lionhearts-images/lionhearts_512.png"
+					style="height: 100px; width: 100px; margin-top: 20px"
+				/>
+				
+				<a
+					href="https://lionhearts.com/signup?id=${applicationId}"
+					style="
+						text-decoration: none;
+						font-family: Arial, sans-serif;
+						color: #0064FF;
+						font-size: 20px;
+						margin: 20px auto;
+					">
+						Create you Lionhearts member account
+				</a>
+			</div>
+		`,
 	};
+	console.log(mailOptions);
 	try {
 		console.log(`sending email to: ${emailAddress}...`);
 		await transporter.sendMail(mailOptions, (error, info) => {
