@@ -8,7 +8,7 @@ const Apply: React.FC = () => {
 	return (
 		<ApplyDiv>
 			<HomeImg
-				BGsrc={'cows.jpg'}
+				BGsrc={'cows_gray.jpg'}
 				text={'BECOME A LIONHEART'}
 			/>
 			<ApplyFormSection />

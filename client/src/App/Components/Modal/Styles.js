@@ -9,18 +9,14 @@ import {
 
 export const OutsideContainer = styled.div`
     position: absolute;
-	width: 100%;
-	height: 100%;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	display: flex;
-	z-index: 11;
+    width: 100%;
+    height: 100%;
+    top: 0;
+
 `;
 
 export const OutsideDiv = styled.div`
-	position: fixed;
+	position: sticky;
 	width: 100%;
 	height: 100%;
 	top: 0;
@@ -33,7 +29,7 @@ export const OutsideDiv = styled.div`
 `;
 
 export const InsideDiv = styled.div`
-	margin: auto;
+	margin: 20% auto auto auto;
 	max-height: 80vh;
 	border: 5px solid ${color.BG0};
 	background: ${color.primary};

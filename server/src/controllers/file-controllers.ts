@@ -12,7 +12,6 @@ export const getArticleImages = catchErrors(async (req, res) => {
 
 	('');
 	files.forEach((file) => {
-		console.log(file.metadata.mediaLink);
 		fileNames.push({ link: file.metadata.mediaLink, name: file.name });
 	});
 

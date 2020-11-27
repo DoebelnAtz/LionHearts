@@ -186,6 +186,7 @@ const sendApplicantEmail = async (
 	const transporter = nodemailer.createTransport({
 		host: process.env.EMAIL_HOST,
 		port: 465,
+		ignoreTLS: true,
 		secure: true,
 		auth: {
 			user: process.env.EMAIL_USER,
@@ -227,7 +228,6 @@ const sendApplicantEmail = async (
 			</div>
 		`,
 	};
-	console.log(mailOptions);
 	try {
 		console.log(`sending email to: ${emailAddress}...`);
 		await transporter.sendMail(mailOptions, (error, info) => {

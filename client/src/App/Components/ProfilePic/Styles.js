@@ -4,7 +4,10 @@ import {color, font} from "../../../Styles";
 export const ProfilePictureContainer = styled.div`
     width: 100%;
     height: 100%;
-    
+    flex-shrink: 0;
+    display: flex;
+    position: relative;
+    flex-direction: column;
 `;
 
 export const ProfilePicture = styled.div`
@@ -17,13 +20,19 @@ export const ProfilePicture = styled.div`
     width: 100%;
 `;
 
+
+
 export const ProfilePictureLabelContainer = styled.div`
     height: 22px;
     display: flex;
+    position: absolute;
+    bottom: -25px;
+    left: calc(50% - 36px);
+    margin: 0 auto;
+    width: 64px;
     transform: translateY(-14px);
-    padding: 0 6px;
-    background: radial-gradient(ellipse farthest-corner at right bottom, #FEDB37 0%, #FDB931 8%, #9f7928 30%, #8A6E2F 40%, transparent 80%),
-                radial-gradient(ellipse farthest-corner at left top, #FFFFFF 0%, #FFFFAC 8%, #D1B464 25%, #5d4a1f 62.5%, #5d4a1f 100%);;
+    padding: 0 4px;
+    background-color: ${color.secondary};
     border-radius: 10px;
 `;
 
@@ -36,8 +45,8 @@ export const ProfilePictureLabelIcon = styled.img`
 export const ProfilePictureLabelSpan = styled.span`
     ${font.DCBold};
     line-height: 22px;
-    font-size: 16px;
+    font-size: 18px;
     padding-top: 1px;
     color: ${color.BG0};
-    margin: auto auto auto 3px;
+    margin: auto auto auto auto;
 `;

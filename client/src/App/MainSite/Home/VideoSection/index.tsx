@@ -8,15 +8,16 @@ import {
 } from './Styles';
 // @ts-ignore
 import LHIntroVideo from '../../../../assets/videos/LH_long_sub.mp4';
-import useVisibility from '../../../../Hooks';
+import useVisibility, { useWidth } from '../../../../Hooks';
 import ToggleMuteButton from '../../../Components/ToggleMuteButton';
 
 const VideoSection: React.FC = () => {
 	const [isVisible, ref] = useVisibility();
+	const [isMobile] = useWidth();
 	const videoRef = useRef<HTMLVideoElement>(null);
 	const [muted, setMuted] = useState(true);
 	useEffect(() => {
-		if (isVisible && videoRef.current) {
+		if (isVisible && videoRef.current && !isMobile) {
 			videoRef.current.play();
 			videoRef.current.volume = 0.5;
 		} else if (!isVisible && videoRef.current) {

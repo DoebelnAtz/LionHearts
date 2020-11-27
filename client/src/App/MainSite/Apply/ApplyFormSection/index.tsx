@@ -8,6 +8,7 @@ import {
 	ApplyTextDiv,
 	FormDiv,
 	FormError,
+	FormInputContainer,
 	InstructionList,
 	InstructionListItem,
 	LegalCheckBox,
@@ -19,6 +20,7 @@ import {
 	MemberProfileCardPicture,
 	MemberProfileText,
 	RemoveFileSpan,
+	UploadedFilesContainer,
 	UploadedFilesDiv,
 } from './Styles';
 import { makeRequest } from '../../../../Api';
@@ -48,7 +50,7 @@ const fileSizeLimit = 5000000;
 const ApplyFormSection: React.FC = () => {
 	const location = useLocation();
 	const history = useHistory();
-	const applicationId: any =
+	let applicationId: any =
 		getLocal('application')?.applicationId ||
 		setLocal('application', {
 			applicationId: makeId(15),
@@ -153,6 +155,7 @@ const ApplyFormSection: React.FC = () => {
 				...errors,
 				legalError: 'required',
 			});
+			return false;
 		} else if (
 			!!selectedFile &&
 			selectedFile.size < fileSizeLimit
@@ -175,14 +178,17 @@ const ApplyFormSection: React.FC = () => {
 						...uploadedFiles,
 						selectedFile,
 					]);
+					return true;
 				} else {
 					setErrors({
 						...errors,
 						fileError: 'File already added',
 					});
+					return false;
 				}
 			} catch (e) {
 				console.log(e);
+				return false;
 			}
 		} else {
 			setErrors({
@@ -191,6 +197,7 @@ const ApplyFormSection: React.FC = () => {
 					fileSizeLimit / 1000000
 				}mb`,
 			});
+			return false;
 		}
 	};
 
@@ -255,9 +262,15 @@ const ApplyFormSection: React.FC = () => {
 					e.response.data.code === 2 ||
 					e.response.data.code === 3
 				) {
-					history.push(
-						`/apply?application=${makeId(15)}`,
-					);
+					applicationId = makeId(15);
+					setLocal('application', {
+						applicationId: applicationId,
+					});
+					setErrors({
+						...errors,
+						fileError:
+							'An error occurred, please try again',
+					});
 				} else if (e.response.data.code === 1) {
 					setErrors({
 						...errors,
@@ -348,8 +361,6 @@ const ApplyFormSection: React.FC = () => {
 			</MemberProfileCard>
 		));
 
-	console.log(!selectedFile || !!errors.fileError.length);
-
 	return (
 		<ApplyContentDiv>
 			<ApplyFormSectionDiv>
@@ -365,10 +376,10 @@ const ApplyFormSection: React.FC = () => {
 						</InstructionListItem>
 						<InstructionListItem>
 							Share with us why you would like
-							to be a Lionheart. We have one
-							guiding question: If you know
-							you would succeed, which
-							challenge you would solve right
+							to become a Lionheart. We have
+							one guiding question: If you
+							know you would succeed, which
+							challenge would you solve right
 							now?
 						</InstructionListItem>
 						<InstructionListItem>
@@ -387,14 +398,14 @@ const ApplyFormSection: React.FC = () => {
 						<InstructionListItem>
 							Let’s have the interview! Or
 							it’s more like a relaxed yet
-							well-appointed dialogue. We want
-							to get to know you as much as
-							you want to get to know us.
+							thorough dialogue. We want to
+							get to know you as much as you
+							want to get to know us.
 						</InstructionListItem>
 						<InstructionListItem>
 							If we both get excited and think
-							it’s a great match, you become a
-							Lionheart!
+							it’s a great match, you will
+							become a Lionheart!
 						</InstructionListItem>
 						<InstructionListItem>
 							You will get your Lionhearts
@@ -404,7 +415,7 @@ const ApplyFormSection: React.FC = () => {
 							to projects that are relevant to
 							many, and building a community
 							that celebrates diverse views
-							over dogmas.
+							not dogmas.
 						</InstructionListItem>
 					</InstructionList>
 				</ApplyTextDiv>
@@ -413,42 +424,56 @@ const ApplyFormSection: React.FC = () => {
 				</ApplyMemberProfilesDiv>
 				<FormDiv>
 					<ApplyForm>
-						<label>
-							First name
-							<input
-								type={'text'}
-								placeholder={'firstname'}
-								value={input.firstname}
-								onChange={handleFNameChange}
-							/>
-							<FormError>
-								{errors.FNError}
-							</FormError>
-						</label>
-						<label>
-							Last name
-							<input
-								type={'text'}
-								placeholder={'lastname'}
-								value={input.lastname}
-								onChange={handleLNameChange}
-							/>
-							<FormError>
-								{errors.LNError}
-							</FormError>
-						</label>
-						<label>
-							Email address
-							<input
-								type={'email'}
-								placeholder={'email'}
-								value={input.email}
-								onChange={handleEmailChange}
-							/>
-							<FormError>
-								{errors.emailError}
-							</FormError>
-						</label>
+						<FormInputContainer>
+							<label>
+								First name
+								<input
+									type={'text'}
+									placeholder={
+										'firstname'
+									}
+									value={input.firstname}
+									onChange={
+										handleFNameChange
+									}
+								/>
+								<FormError>
+									{errors.FNError}
+								</FormError>
+							</label>
+						</FormInputContainer>
+						<FormInputContainer>
+							<label>
+								Last name
+								<input
+									type={'text'}
+									placeholder={'lastname'}
+									value={input.lastname}
+									onChange={
+										handleLNameChange
+									}
+								/>
+								<FormError>
+									{errors.LNError}
+								</FormError>
+							</label>
+						</FormInputContainer>
+						<FormInputContainer>
+							<label>
+								Email address
+								<input
+									type={'email'}
+									placeholder={'email'}
+									value={input.email}
+									onChange={
+										handleEmailChange
+									}
+								/>
+								<FormError>
+									{errors.emailError}
+								</FormError>
+							</label>
+						</FormInputContainer>
 						<label>
 							Why do you want to join
 							Lionhearts?
@@ -477,7 +502,8 @@ const ApplyFormSection: React.FC = () => {
 								{errors.fileError}
 							</FormError>
 						</label>
-						<button
+						<LoadingButton
+							width={'130px'}
 							disabled={
 								!selectedFile ||
 								!!errors.fileError.length
@@ -485,11 +511,13 @@ const ApplyFormSection: React.FC = () => {
 							onClick={handleFileUpload}
 						>
 							UPLOAD FILE
-						</button>
+						</LoadingButton>
 						{!!uploadedFiles?.length && (
 							<p>Uploaded files:</p>
 						)}
-						{renderUploadedFiles()}
+						<UploadedFilesContainer>
+							{renderUploadedFiles()}
+						</UploadedFilesContainer>
 						<LegalRow>
 							<LegalCheckDiv>
 								<LegalCheckBox
@@ -519,8 +547,9 @@ const ApplyFormSection: React.FC = () => {
 								{errors.legalError}
 							</FormError>
 						</LegalRow>
+
 						<LoadingButton
-							width={'100%'}
+							width={'130px'}
 							onClick={handleSubmit}
 						>
 							SUBMIT

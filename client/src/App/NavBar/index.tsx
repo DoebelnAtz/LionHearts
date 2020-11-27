@@ -47,10 +47,10 @@ const NavBar = () => {
 				});
 				history.push('/members/list');
 			} catch (e) {
-				history.push('/login');
+				history.push('/members/login');
 			}
 		} else {
-			history.push('/login');
+			history.push('/members/login');
 		}
 	};
 

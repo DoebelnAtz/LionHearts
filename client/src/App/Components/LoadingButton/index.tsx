@@ -8,6 +8,7 @@ type SaveButtonComponentProps = {
 	onClick: (event: any) => Promise<boolean>;
 	height?: string;
 	width?: string;
+	disabled?: boolean;
 };
 
 const LoadingButton: React.FC<SaveButtonComponentProps> = ({
@@ -15,6 +16,7 @@ const LoadingButton: React.FC<SaveButtonComponentProps> = ({
 	onClick,
 	height,
 	width,
+	disabled = false,
 }) => {
 	const [saved, setSaved] = useState(false);
 	const [error, setError] = useState(false);
@@ -58,6 +60,7 @@ const LoadingButton: React.FC<SaveButtonComponentProps> = ({
 			height={height}
 			width={width}
 			error={error}
+			disabled={disabled}
 			onClick={(e: any) => handleClick(e)}
 		>
 			{isSaving ? (

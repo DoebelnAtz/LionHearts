@@ -395,7 +395,7 @@ export const Header2 = styled.h2`
 
 export const Header3 = styled.h3`
     ${font.DCBold};
-    margin-top: 2.5em;
+    margin-top: 1.5em;
     font-size: 24px;
     color: ${color.primaryShade};
     @media (max-width: ${units.mobile}) {

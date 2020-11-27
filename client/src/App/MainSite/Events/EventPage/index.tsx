@@ -31,7 +31,11 @@ const EventPage: React.FC = () => {
 
 	return (
 		<EventsDiv>
-			<HomeImg text={'EVENTS'} />
+			<HomeImg
+				text={'EVENTS'}
+				BGsrc={'lh_code_meeting.jpg'}
+				hash={'CIEoY-E10Ks;~qIUIASP'}
+			/>
 			<ArticleContainer>
 				<ButtonDiv>
 					<BackToEventsButton

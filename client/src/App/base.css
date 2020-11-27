@@ -7,7 +7,7 @@ body {
     height: 100%;
     width: 100%;
     margin: 0;
-    background-color: #0064FF;
+    background-color: #ffffff00;
     overflow-y: auto;
     overflow-x: hidden;
 }
@@ -15,7 +15,6 @@ body {
 
 
 #root {
-    overflow: hidden;
     height: 100%;
     width: 100%;
 
@@ -37,11 +36,11 @@ body {
 
 .scrollbar::-webkit-scrollbar-thumb {
     background-color: var(--colorPrimary);
-    border-radius: 2px;
+    border-radius: 6px;
 }
 
 .scrollbar::-webkit-scrollbar-thumb:hover {
-    background-color: #0064FF90;
+    background-color: #0054FF;
 }
 
 

@@ -9,6 +9,7 @@ import {
 	ModalContent,
 	ModalButtonsRow,
 	CloseButton,
+	OutsideContainer,
 } from './Styles';
 import { useWidth } from '../../../Hooks';
 
@@ -25,22 +26,24 @@ const Modal: React.FC<ModalProps> = ({
 	const [, isMobile] = useWidth();
 
 	return (
-		<OutsideDiv>
-			<InsideDiv
-				id={'modal-inside'}
-				isMobile={isMobile}
-				ref={inside}
-			>
-				<ModalButtonsRow>
-					<CloseButton onClick={close}>
-						<span>✕</span>
-					</CloseButton>
-				</ModalButtonsRow>
-				<ModalContent id={'modal-content'}>
-					{children}
-				</ModalContent>
-			</InsideDiv>
-		</OutsideDiv>
+		<OutsideContainer>
+			<OutsideDiv>
+				<InsideDiv
+					id={'modal-inside'}
+					isMobile={isMobile}
+					ref={inside}
+				>
+					<ModalButtonsRow>
+						<CloseButton onClick={close}>
+							<span>✕</span>
+						</CloseButton>
+					</ModalButtonsRow>
+					<ModalContent id={'modal-content'}>
+						{children}
+					</ModalContent>
+				</InsideDiv>
+			</OutsideDiv>
+		</OutsideContainer>
 	);
 };
 

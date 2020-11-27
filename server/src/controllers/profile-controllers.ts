@@ -82,7 +82,7 @@ export const getProfileById = catchErrors(async (req, res) => {
 
 	let profile = await query(
 		`
-        SELECT u.username, u.firstname, u.lastname, u.phone,
+        SELECT u.username, u.firstname, u.lastname, u.phone, u.mentor,
         u.linkedin, u.instagram, u.twitter,
         u.email, u.profile_pic, u.bio, u.u_id, 
         s.name AS school, s.s_id,
@@ -180,7 +180,7 @@ export const getProfiles = catchErrors(async (req, res) => {
 
 	profiles = await query(
 		`
-			SELECT u.u_id, username, firstname, lastname, email, profile_pic,
+			SELECT u.u_id, username, firstname, lastname, email, profile_pic, mentor,
 			skills, degrees, schools, studying, languages, l.name as location
 			FROM users u
 			LEFT JOIN locations l ON u.location = l.l_id
@@ -392,7 +392,7 @@ export const createLanguage = catchErrors(async (req, res) => {
 
 	let createdLanguage = await query(
 		'INSERT INTO languages (name) VALUES ($1) RETURNING language_id',
-		[name],
+		[name.trim().toLowerCase()],
 	);
 
 	res.status(201).json({
@@ -402,7 +402,7 @@ export const createLanguage = catchErrors(async (req, res) => {
 }, 'Failed to create language');
 
 export const getLanguages = catchErrors(async (req, res) => {
-	const search = req.query.q || '';
+	const search = (req.query.q as string) || '';
 	console.log(req.query);
 	const filter = req.query.filter || 'none';
 	const limit = req.query.limit || 20;
@@ -415,7 +415,7 @@ export const getLanguages = catchErrors(async (req, res) => {
        		WHERE LOWER(l.name) 
        		LIKE $1 LIMIT $2 
     	`,
-			[`%${search}%`, limit],
+			[`%${search.toLowerCase()}%`, limit],
 		);
 	} else if (filter === 'available') {
 		('');
@@ -436,7 +436,7 @@ export const getLanguages = catchErrors(async (req, res) => {
        		WHERE LOWER(l.name) LIKE $1
        		AND NOT (l.language_id = ANY (array[${forbidden}])) LIMIT $2
 	`,
-			[`%${search}%`, limit],
+			[`%${search.toLowerCase()}%`, limit],
 		);
 	}
 	res.json(langauges.rows || []);

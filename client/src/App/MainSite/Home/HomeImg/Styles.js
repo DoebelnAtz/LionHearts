@@ -17,7 +17,7 @@ export const BHContainer = styled(animated.div)`
 `;
 
 export const HomeBlurHash = styled.div`
-	height: 570px;
+	height: min(540px, 100vh);
 	position: relative;
 	width: 100%;
 	display: flex;
@@ -36,12 +36,12 @@ export const BHNavBarContainer = styled.div`
 `;
 
 export const BGImg = styled.div`
-	height: 570px;
+	height: min(540px, 100vh);
 	width: 100%;
 	position: absolute;
 	opacity: ${props => props.completed ? 1 : 0};
 	z-index: 4;
-	transition: all 2s ease-in-out;
+	transition: opacity 2s ease-in-out;
 	background-image: url(${(props) => props.src});
 	background-color: ${color.primary};
 	background-blend-mode: multiply;
@@ -56,6 +56,7 @@ export const Vision = styled.h1`
 	margin: auto 0 60px min(10vw, 100px);
 	z-index: 5;
 	padding: 0;
+	line-height: min(86px, max(12vw, 34px));
 	width: calc(100% - 100px);
 	opacity: 1;
 	max-width: min(400px, 60vw);

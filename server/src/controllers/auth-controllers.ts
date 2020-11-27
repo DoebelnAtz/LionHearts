@@ -71,7 +71,7 @@ export const signup = catchErrors(async (req, res) => {
 				username,
 				phone,
 				`https://storage.googleapis.com/lionhearts-profile-pictures/${profilePic}`,
-				application.rows[0].mentor,
+				application.rows[0].mentor || false,
 			],
 		);
 		await client.query('COMMIT');

@@ -446,7 +446,7 @@ const ProfilePage: React.FC = () => {
 		if (e === '') {
 			setLanguageResults([]);
 		}
-		setLanguageSearch(e);
+		setLanguageSearch(e.toLowerCase);
 	};
 
 	const handleSkillRemoval = async (skillId: number) => {

@@ -21,14 +21,13 @@ const ProfilePic: React.FC<{
 				src={src ? src : ProfilePlaceHolder}
 				fallback={ProfilePlaceHolder}
 			/>
-			<ProfilePictureLabelContainer>
-				<ProfilePictureLabelIcon
-					src={!mentor ? StarIcon : MemberIcon}
-				/>
-				<ProfilePictureLabelSpan>
-					{!mentor ? 'mentor' : 'member'}
-				</ProfilePictureLabelSpan>
-			</ProfilePictureLabelContainer>
+			{mentor && (
+				<ProfilePictureLabelContainer>
+					<ProfilePictureLabelSpan>
+						{'mentor'}
+					</ProfilePictureLabelSpan>
+				</ProfilePictureLabelContainer>
+			)}
 		</ProfilePictureContainer>
 	);
 };

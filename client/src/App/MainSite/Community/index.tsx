@@ -66,6 +66,9 @@ const Community: React.FC = () => {
 		<CommunityDiv>
 			<HomeImg
 				BGsrc={'qvidja_group.jpeg'}
+				hash={
+					'yWIEz[9Gt6spM{xua}.9V[IUIoNFNGR*~qWAM|RjM|WAWB_3NGs;oJWBj?js%MWBWARjWVM|ax%MjuR%Rkt6WCWBt7oLRja}j[ayWB'
+				}
 				text={'COMMUNITY'}
 			/>
 			<CommunityContainer>

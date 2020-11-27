@@ -52,7 +52,7 @@ export const NewsCardContentContainer = styled.div`
 	width: 100%;
 	display: flex;
 	padding: 10px;
-	min-height: 100px;
+	min-height: 80px;
 	flex-direction: column;
 	margin: 0;
 	@media (max-width: 900px) {

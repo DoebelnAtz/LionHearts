@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { AppDiv } from './Styles';
 import {
 	Route,
@@ -36,6 +36,7 @@ import CookieConsentPopup from './CookieConsentPopup';
 
 function App() {
 	const location = useLocation();
+	const topRef = useRef<HTMLDivElement>(null);
 	const [showCookieModal, setShowCookieModal] = useState(
 		false,
 	);
@@ -51,6 +52,9 @@ function App() {
 	}, [compliance]);
 
 	useEffect(() => {
+		topRef.current?.scrollIntoView({
+			behavior: 'smooth',
+		});
 		pageViewGA(location.pathname);
 	}, [location.pathname]);
 
@@ -65,6 +69,10 @@ function App() {
 					: 'auto',
 			}}
 		>
+			<div
+				ref={topRef}
+				style={{ position: 'absolute', top: 0 }}
+			/>
 			{showCookieModal && (
 				<CookieConsentPopup
 					setShowCookieModal={setShowCookieModal}

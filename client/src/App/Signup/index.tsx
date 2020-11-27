@@ -277,40 +277,14 @@ const Signup: React.FC = () => {
 					<LionheartsLogo src={LionHeartsLogo} />
 				</LionheartsLogoDiv>
 				{application ? (
-					<>
-						<ApplicantInfoDiv>
-							<ApplicantLabel>
-								Firstname:
-							</ApplicantLabel>
-							<ApplicantInfo>
-								{application?.firstname}
-							</ApplicantInfo>
-						</ApplicantInfoDiv>
-						<ApplicantInfoDiv>
-							<ApplicantLabel>
-								Lastname:
-							</ApplicantLabel>
-							<ApplicantInfo>
-								{application?.lastname}
-							</ApplicantInfo>
-						</ApplicantInfoDiv>
-						<ApplicantInfoDiv>
-							<ApplicantLabel>
-								Username:
-							</ApplicantLabel>
-							<ApplicantInfo>
-								{application?.username}
-							</ApplicantInfo>
-						</ApplicantInfoDiv>
-						<ApplicantInfoDiv>
-							<ApplicantLabel>
-								Email:
-							</ApplicantLabel>
-							<ApplicantInfo>
-								{application?.email}
-							</ApplicantInfo>
-						</ApplicantInfoDiv>
-					</>
+					<ApplicantInfoDiv>
+						<ApplicantLabel>
+							Username:
+						</ApplicantLabel>
+						<ApplicantInfo>
+							{application?.username}
+						</ApplicantInfo>
+					</ApplicantInfoDiv>
 				) : (
 					'loading'
 				)}

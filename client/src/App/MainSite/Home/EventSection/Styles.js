@@ -45,7 +45,7 @@ export const ArticleThumbnail = styled.div`
 
 export const ArticleTitle = styled.div`
 	${font.BBold};
-	letter-spacing: 2px;
+	letter-spacing: 1px;
 	color: #ffffff;
 	width: 90%;
 	margin: auto;
@@ -53,9 +53,9 @@ export const ArticleTitle = styled.div`
 	position: relative;
 	text-transform: uppercase;
 	text-align: center;
-	font-size: 20px;
+	font-size: 18px;
 	@media (max-width: 900px) {
-		font-size: 2vw;
+		font-size: calc(10px + 1vw);
 	}
 `;
 

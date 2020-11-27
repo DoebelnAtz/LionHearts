@@ -233,6 +233,7 @@ const MemberList: React.FC = () => {
 						<MemberCardPicContainer>
 							<MemberCardPic>
 								<ProfilePic
+									mentor={member.mentor}
 									src={member.profile_pic}
 								/>
 							</MemberCardPic>

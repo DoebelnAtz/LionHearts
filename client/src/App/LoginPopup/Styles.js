@@ -18,9 +18,9 @@ export const LoginDiv = styled(animated.div)`
 `;
 
 export const LoginLogo = styled.div`
-	width: 100%;
-	margin-bottom: 20px;
-	margin-top: 30px;
+	width: calc(100% - 40px);
+	margin: 30px 20px 20px 20px;
+
 `;
 
 export const LoginForm = styled.form`

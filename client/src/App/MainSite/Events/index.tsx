@@ -66,6 +66,7 @@ const Events: React.FC = () => {
 			<HomeImg
 				text={'EVENTS'}
 				BGsrc={'lh_code_meeting.jpg'}
+				hash={'CIEoY-E10Ks;~qIUIASP'}
 			/>
 			<EventsDiv>
 				<EventList>{renderEvents()}</EventList>

@@ -13,16 +13,17 @@ import {
 import Footer from '../../Footer';
 import { Paragraph, Header2 } from '../../../Styles';
 import AboutUsLHVideo from '../../../assets/videos/Lionhearts.m4v';
-import useVisibility from '../../../Hooks';
+import useVisibility, { useWidth } from '../../../Hooks';
 import ToggleMuteButton from '../../Components/ToggleMuteButton';
 
 let AboutUs: React.FC;
 AboutUs = () => {
 	const [isVisible, ref] = useVisibility();
+	const [isMobile] = useWidth();
 	const videoRef = useRef<HTMLVideoElement>(null);
 	const [muted, setMuted] = useState(true);
 	useEffect(() => {
-		if (isVisible && videoRef.current) {
+		if (isVisible && videoRef.current && !isMobile) {
 			videoRef.current.play();
 			videoRef.current.volume = 0.5;
 		} else if (!isVisible && videoRef.current) {
@@ -39,36 +40,39 @@ AboutUs = () => {
 			<HomeImg
 				BGsrc={'lh_presentation.jpg'}
 				text={'ABOUT US'}
+				hash={
+					'VlJuAYIARhR*WF~qWBIUf5kDofj[WBayWBRjjtflj]ae'
+				}
 			/>
 			<AboutUsContainer>
 				<SectionContainer>
 					<Header2>Why do we exist?</Header2>
 					<Paragraph>
-						Arising from these challenging
-						times, inspired leaders from all
-						over the globe are looking for
-						newer, fresher perspectives in order
-						to improve and pave the way for the
-						generations to come. We want to
-						answer to that call, as it is only
-						by having different generations
-						working hand in hand that the world
-						can hope for a more equal, peaceful
-						and sustainable tomorrow.
+						In these challenging times, inspired
+						leaders from all over the globe are
+						looking for newer, fresher
+						perspectives in order to improve and
+						pave the way for the generations to
+						come. We want to answer that call,
+						as it is only by having different
+						generations working hand in hand
+						that the world can hope for a more
+						equal, peaceful and sustainable
+						tomorrow.
 					</Paragraph>
 				</SectionContainer>
 				<SectionContainer>
 					<Header2>How do we work?</Header2>
 
 					<Paragraph>
-						Lionhearts was created by a strategy
-						consultancy Co-Founders in 2019
-						under the initiative of Ia
-						Adlercreutz and Max Mickelsson.
-						Co-founders is committed to support
-						our community by offering a platform
-						for us to bring our best ideas to
-						life. Empowering young bright minds,
+						Lionhearts was created by the
+						strategy consultancy Co-Founders in
+						2019 and its partners Ia Adlercreutz
+						and Max Mickelsson. Co-founders is
+						committed to supporting our
+						community by offering a platform for
+						us to bring our best ideas to life.
+						Empowering young bright minds,
 						Co-founders also facilitates the
 						collaborative work between
 						Lionhearts and different
@@ -80,7 +84,7 @@ AboutUs = () => {
 					<Header2>What do we do?</Header2>
 					<Paragraph>
 						We put our hearts into different
-						projects, whether business or
+						projects, both business and
 						non-profit, that require innovative
 						ideas, fresh thinking and passionate
 						creativity. We are open to any
@@ -89,15 +93,14 @@ AboutUs = () => {
 						projects are always guided by the
 						collaborative principle and the aim
 						to provide new insights or feasible
-						solutions to the challenges faced by
-						seasoned professionals. Some
-						projects will be done pro-bono,
-						others will be performed in exchange
-						of compensation. From its amount,
-						some will be deduced to go to
-						co-founders' facilitators while the
-						majority will go back to the
-						organization.
+						solutions to the challenges seasoned
+						professionals face. Some projects
+						will be done pro-bono, others will
+						be performed in exchange for
+						compensation. A part of the
+						compensation will be channeled to
+						Co-founders while the majority will
+						go back to the Lionhearts Community.
 					</Paragraph>
 				</SectionContainer>
 				<AboutUsVideoSection ref={ref}>
@@ -144,7 +147,7 @@ AboutUs = () => {
 						members to challenge their ideas and
 						further enrich themselves.
 					</Paragraph>
-				</SectionContainer>{' '}
+				</SectionContainer>
 				<SectionContainer>
 					<Header2>
 						Excited to have you here!
@@ -154,7 +157,7 @@ AboutUs = () => {
 						Whether you are an organization
 						wanting to collaborate with us or a
 						talented mind willing to have an
-						impact on Society and beyond. We are
+						impact on Society and beyond, we are
 						happy that you are visiting our
 						website. Delve deeper into our
 						activities, events, and articles,

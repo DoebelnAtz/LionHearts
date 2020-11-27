@@ -9,7 +9,7 @@ export const EventsDiv = styled.div`
 
 export const ArticleContainer = styled.div`
 	width: 80%;
-	max-width: 1000px;
+	max-width: 700px;
 	margin: ${units.margin} auto 60px min(96px, 16vw);
 	@media (max-width: 900px) {
 		margin: ${units.margin} auto 60px min(10vw, 100px);

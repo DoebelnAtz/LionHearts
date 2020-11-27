@@ -39,7 +39,7 @@ export const InstructionList = styled.ol`
 `;
 
 export const InstructionListItem = styled.li`
-    ${font.RCReg};
+    ${font.RReg};
     font-size: 18px;
     line-height: 2em;
     margin-bottom: 2em;
@@ -109,11 +109,55 @@ export const ApplyHeader = styled.h2`
 
 export const FormDiv = styled.div`
 	width: 100%;
-	margin: ${units.margin} 0 auto auto;
+	max-width: 800px;
+	margin: ${units.margin} auto auto auto;
 	display: flex;
-	flex-direction: column;
+		flex-direction: column;
 	@media (max-width: 900px) {
 		width: 100%;
+		
+	}
+`;
+
+export const FormInputContainer = styled.div`
+    width: 30%;
+    @media (max-width: 900px) {
+		width: 100%;
+	}
+`;
+
+export const ApplyForm = styled.form`
+	display: flex;
+	width: 100%;
+		justify-content: space-between;
+
+	flex-direction: row;
+		flex-wrap: wrap;
+		@media (max-width: 900px) {
+		width: 100%;
+		flex-direction: column;	
+	}
+	& label {
+		${components.labeledInput};
+		width: 100%;
+		& input {
+		margin-top: 1em;
+		margin-bottom: 1.5em;
+		height: 24px;
+		}
+		& textarea {
+		margin-top: 1em;
+		margin-bottom: 1.5em;
+		height: 64px;
+		}
+	}
+	& button {
+		${components.buttonWhite};
+		margin-bottom: 10px;
+	}
+	& p {
+		${font.text};
+		margin: 5px 0;
 	}
 `;
 
@@ -129,6 +173,12 @@ export const RemoveFileSpan = styled.span`
 		text-decoration: underline !important;
 		text-decoration-color: ${color.primary};
 	}
+`;
+
+export const UploadedFilesContainer = styled.div`
+    width: 100%;
+    display: flex;
+    flex-direction: column;
 `;
 
 export const UploadedFilesDiv = styled.div`
@@ -166,28 +216,4 @@ export const LegalLink = styled.a`
 `;
 
 
-export const ApplyForm = styled.form`
-	display: flex;
-	flex-direction: column;
-	& label {
-		${components.labeledInput};
-		& input {
-		margin-top: 1em;
-		margin-bottom: 1.5em;
-		height: 24px;
-		}
-		& textarea {
-		margin-top: 1em;
-		margin-bottom: 1.5em;
-		height: 64px;
-		}
-	}
-	& button {
-		${components.buttonWhite};
-		margin-bottom: 10px;
-	}
-	& p {
-		${font.text};
-		margin: 5px 0;
-	}
-`;
+

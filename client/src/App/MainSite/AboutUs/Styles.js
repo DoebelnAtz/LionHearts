@@ -20,7 +20,7 @@ export const AboutUsParagraph = styled.p`
 
 export const VideoPlayerControlsRow = styled.div`
     display: flex;
-    margin-bottom: 5%;
+    margin-bottom: 3%;
     justify-content: center;
     width: 100%;
 `;
@@ -44,17 +44,17 @@ export const AboutUsVideo = styled.video`
 `;
 
 export const SectionContainer = styled.div`
-    margin: 5% 0;
+    margin: 2% 0;
 `;
 
 export const AboutUsContainer = styled.div`
     height: fit-content;
     display: flex;
     flex-direction: column;
-	margin: max(5%, 20px) max(5%, 20px) max(5%, 20px) min(10vw, 100px);
+	margin: max(2%, 20px) max(2%, 20px) max(2%, 20px) min(10vw, 100px);
 	
 	& div:nth-child(even) {
-	    margin-left: auto;
+	    //margin-left: auto;
 	    & h2 {
 	        color: ${color.secondaryShade};
 	    }
