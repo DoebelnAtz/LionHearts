@@ -1,84 +1,87 @@
-import styled from 'styled-components'
-import {color, components, cursor, font, units} from "../../Styles";
+import styled from 'styled-components';
+import {
+	color,
+	components,
+	cursor,
+	font,
+	units,
+} from '../../Styles';
 
 export const CookieConsentContainer = styled.div`
-    width: 70vw;
-    background-color: ${color.BG0} ;
-    padding: 5%;
-    @media(max-width: ${units.mobile}) {
-      width: 80vw;
-      
-    } 
+	width: 70vw;
+	background-color: ${color.BG0};
+	padding: 5%;
+	@media (max-width: ${units.mobile}) {
+		width: 80vw;
+	}
 `;
 
 export const CookieConsentContent = styled.div`
-    width: calc(90%);
+	width: calc(90%);
 `;
 
 export const CookieConsentExplanationDiv = styled.div`
-    ${font.RReg};
-    line-height: 1.5em;
-    margin: 20px 0 50px 0;
+	${font.RReg};
+	line-height: 1.5em;
+	margin: 20px 0 30px 0;
 `;
 
 export const CookieConsentOptionRow = styled.div`
-    display: flex;
-    width: 100%;
-    margin: 50px 0 20px 0;
+	display: flex;
+	width: 100%;
+	margin: 30px 0 20px 0;
 `;
 
 export const CookieConsentList = styled.div`
-    width: 100%;
-    display: flex;
-    flex-direction: column;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
 `;
 
 export const CookieLabel = styled.label`
-    width: 100%;
-    ${font.RReg};
-    display: flex;
-    margin: ${units.margin} 0;
+	width: 100%;
+	${font.RReg};
+	display: flex;
+	margin: ${units.margin} 0;
 `;
 
 export const CookieOptionMandatory = styled.input`
-    margin: auto ${units.margin} auto auto;
-    height: 16px;
-    width: 16px;
-    
+	margin: auto ${units.margin} auto auto;
+	height: 16px;
+	width: 16px;
 `;
 
 export const ReadMoreCookiesSpan = styled.span`
-    ${font.RReg};
-    font-size: 14px;
-    ${cursor.clickable};
-    color: ${color.primary};
+	${font.RReg};
+	font-size: 14px;
+	${cursor.clickable};
+	color: ${color.primary};
 `;
 
 export const CookieExplanationTableDiv = styled.div`
-    width: 100%;
-    margin: ${units.margin} 0;
+	width: 100%;
+	margin: ${units.margin} 0;
 `;
 
 export const CookieOptionOptional = styled.input`
-    margin: auto ${units.margin} auto auto;
-        height: 16px;
-    width: 16px;
-
+	margin: auto ${units.margin} auto auto;
+	height: 16px;
+	width: 16px;
 `;
 
 export const CookieConsentAgreeButton = styled.button`
-    ${components.buttonBlue};
-    height: 38px;
-    line-height: 38px;
-    border-color: ${color.primary};
-    margin: 0 auto;
-    width: 140px;
+	${components.buttonBlue};
+	height: 38px;
+	line-height: 38px;
+	border-color: ${color.primary};
+	margin: 0 auto;
+	width: 140px;
 `;
 
 export const CookieConsentRejectButton = styled.button`
-    ${components.buttonWhite};
-    margin: 0 auto;
-    width: 120px;
-    border-color: ${color.BG5};
-    color: ${color.BG5};
+	${components.buttonWhite};
+	margin: 0 auto;
+	width: 120px;
+	border-color: ${color.BG5};
+	color: ${color.BG5};
 `;

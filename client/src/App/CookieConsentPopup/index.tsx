@@ -27,6 +27,7 @@ import {
 	TableHead,
 	TableRow,
 } from '../../Styles';
+import ReadMoreSection from '../Components/ReadMoreSection';
 
 type CookieConsentPopupProps = {
 	setShowCookieModal: Dispatch<SetStateAction<boolean>>;
@@ -50,7 +51,6 @@ const CookieConsentPopup: React.FC<CookieConsentPopupProps> = ({
 		setStatisticsBoxValue,
 	] = useState(true);
 
-	console.log(document);
 	const handleCookieClick = () => {
 		setStatisticsBoxValue(!statisticsBoxValue);
 	};
@@ -80,16 +80,22 @@ const CookieConsentPopup: React.FC<CookieConsentPopupProps> = ({
 			<CookieConsentContainer>
 				<CookieConsentContent>
 					<Header2>Cookies</Header2>
-					<CookieConsentExplanationDiv>
-						When you visit any website, it may
-						store or retrieve information about
-						your use of this site. This
-						information is anonymous. However,
-						because we respect your right to
-						privacy, you can choose not to allow
-						some types of cookies. By continuing
-						to use this site you consent to the
-						use of the selected cookies below.
+					<CookieConsentExplanationDiv
+						id={'cookie-info'}
+					>
+						<ReadMoreSection previewHeight={70}>
+							When you visit any website, it
+							may store or retrieve
+							information about your use of
+							this site. This information is
+							anonymous. However, because we
+							respect your right to privacy,
+							you can choose not to allow some
+							types of cookies. By continuing
+							to use this site you consent to
+							the use of the selected cookies
+							below.
+						</ReadMoreSection>
 					</CookieConsentExplanationDiv>
 					<CookieConsentList>
 						<CookieLabel>
@@ -110,34 +116,36 @@ const CookieConsentPopup: React.FC<CookieConsentPopupProps> = ({
 						<ExpandableDiv open={showNecessary}>
 							<CookieExplanationTableDiv>
 								<Table>
-									<TableRow>
-										<TableHead>
-											Domain
-										</TableHead>
-										<TableHead>
-											Cookies
-										</TableHead>
-										<TableHead>
-											Cookies used
-										</TableHead>
-										<TableHead>
-											Lifespan
-										</TableHead>
-									</TableRow>
-									<TableRow>
-										<TableCell>
-											lionhearts.com
-										</TableCell>
-										<TableCell>
-											cookieCompliance
-										</TableCell>
-										<TableCell>
-											First party
-										</TableCell>
-										<TableCell>
-											365 days
-										</TableCell>
-									</TableRow>
+									<tbody>
+										<TableRow>
+											<TableHead>
+												Domain
+											</TableHead>
+											<TableHead>
+												Cookies
+											</TableHead>
+											<TableHead>
+												Cookies used
+											</TableHead>
+											<TableHead>
+												Lifespan
+											</TableHead>
+										</TableRow>
+										<TableRow>
+											<TableCell>
+												lionhearts.com
+											</TableCell>
+											<TableCell>
+												cookieCompliance
+											</TableCell>
+											<TableCell>
+												First party
+											</TableCell>
+											<TableCell>
+												365 days
+											</TableCell>
+										</TableRow>
+									</tbody>
 								</Table>
 							</CookieExplanationTableDiv>
 						</ExpandableDiv>
@@ -159,35 +167,39 @@ const CookieConsentPopup: React.FC<CookieConsentPopupProps> = ({
 						<ExpandableDiv open={showOptional}>
 							<CookieExplanationTableDiv>
 								<Table>
-									<TableRow>
-										<TableHead>
-											Domain
-										</TableHead>
-										<TableHead>
-											Cookies
-										</TableHead>
-										<TableHead>
-											Cookies used
-										</TableHead>
-										<TableHead>
-											Lifespan
-										</TableHead>
-									</TableRow>
-									<TableRow>
-										<TableCell>
-											lionhearts.com
-										</TableCell>
-										<TableCell>
-											_gat, _gid, _ga
-										</TableCell>
-										<TableCell>
-											First party
-										</TableCell>
-										<TableCell>
-											0 days, 1 day,
-											730 days
-										</TableCell>
-									</TableRow>
+									<tbody>
+										<TableRow>
+											<TableHead>
+												Domain
+											</TableHead>
+											<TableHead>
+												Cookies
+											</TableHead>
+											<TableHead>
+												Cookies used
+											</TableHead>
+											<TableHead>
+												Lifespan
+											</TableHead>
+										</TableRow>
+										<TableRow>
+											<TableCell>
+												lionhearts.com
+											</TableCell>
+											<TableCell>
+												_gat, _gid,
+												_ga
+											</TableCell>
+											<TableCell>
+												First party
+											</TableCell>
+											<TableCell>
+												0 days, 1
+												day, 730
+												days
+											</TableCell>
+										</TableRow>
+									</tbody>
 								</Table>
 							</CookieExplanationTableDiv>
 						</ExpandableDiv>

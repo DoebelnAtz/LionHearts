@@ -89,7 +89,7 @@ class QuillEditor extends Component<QuillEditorProps> {
 					}
 					modules={{
 						toolbar: {
-							container: this.props.simple
+							container: !this.props.simple
 								? [
 										[
 											{ font: [] },
@@ -123,19 +123,10 @@ class QuillEditor extends Component<QuillEditorProps> {
 								  ]
 								: [
 										[
-											{
-												header: [
-													1,
-													2,
-													3,
-													4,
-													5,
-													6,
-												],
-											},
-											{ font: [] },
+											'link',
+											'bold',
+											'italic',
 										],
-										['bold', 'italic'],
 										[
 											{
 												list:
@@ -145,11 +136,6 @@ class QuillEditor extends Component<QuillEditorProps> {
 												list:
 													'bullet',
 											},
-										],
-										[
-											'link',
-											'image',
-											'video',
 										],
 								  ],
 							handlers: {

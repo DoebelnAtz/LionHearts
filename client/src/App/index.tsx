@@ -38,7 +38,7 @@ function App() {
 	const location = useLocation();
 	const topRef = useRef<HTMLDivElement>(null);
 	const [showCookieModal, setShowCookieModal] = useState(
-		false,
+		true,
 	);
 	let compliance = cookie.parse(document.cookie)
 		.cookieCompliance;

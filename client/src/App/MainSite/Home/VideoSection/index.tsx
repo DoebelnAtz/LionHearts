@@ -20,7 +20,11 @@ const VideoSection: React.FC = () => {
 		if (isVisible && videoRef.current && !isMobile) {
 			videoRef.current.play();
 			videoRef.current.volume = 0.5;
-		} else if (!isVisible && videoRef.current) {
+		} else if (
+			!isVisible &&
+			videoRef.current &&
+			!isMobile
+		) {
 			videoRef.current.pause();
 		}
 	}, [isVisible]);

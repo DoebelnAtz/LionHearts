@@ -8,6 +8,7 @@ import {
 type ExpandableDivProps = {
 	open: boolean;
 	offset?: number;
+	initial?: number;
 	config?: {
 		tension?: number;
 		mass?: number;
@@ -21,6 +22,7 @@ const ExpandableDiv: React.FC<ExpandableDivProps> = ({
 	open,
 	offset = 0,
 	config,
+	initial = 0,
 	children,
 }) => {
 	const expandTarget = useRef<HTMLDivElement>(null);
@@ -30,7 +32,7 @@ const ExpandableDiv: React.FC<ExpandableDivProps> = ({
 			? offset +
 			  (expandTarget.current?.offsetHeight || 0) +
 			  'px'
-			: '0px',
+			: `${initial}px`,
 		config: config || {
 			tension: 200,
 			mass: 2,

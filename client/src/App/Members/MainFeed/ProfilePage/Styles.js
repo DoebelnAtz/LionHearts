@@ -359,6 +359,21 @@ export const ProfilePageContent = styled.div`
 	}
 `;
 
+export const ProfilePageBioContainer = styled.div`
+    width: 100%;
+`;
+
+export const ProfilePageBioPreview = styled.div`
+	
+    width: 100%;
+    & p:first-of-type {
+    	margin-top: 0;
+    }
+    & p:last-of-type {
+    	margin-bottom: 0;
+    }
+`;
+
 export const ProfilePageLanguageDiv = styled.div`
 	width: 100%;
 `;

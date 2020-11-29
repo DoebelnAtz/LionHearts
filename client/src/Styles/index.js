@@ -360,78 +360,81 @@ export const components = {
 	`,
 };
 
-export const UnorderedList = styled.ul`
-    
-`;
+export const UnorderedList = styled.ul``;
 
 export const ListItem = styled.li`
-    ${font.RReg};
-    font-size: 18px;
-    line-height: 1.5em;
-    @media (max-width: ${units.mobile}) {
-    	font-size: calc(8px + 2vw);
-    }
+	${font.RReg};
+	font-size: 18px;
+	line-height: 1.5em;
+	@media (max-width: ${units.mobile}) {
+		font-size: calc(8px + 2vw);
+	}
 `;
 
 export const Paragraph = styled.p`
-    ${font.RReg};
-    line-height: 1.5em;
-    max-width: 700px;
-    margin: 1.5em 0!important;
-    font-size: 18px!important;
-    @media (max-width: ${units.mobile}) {
-    	font-size: calc(8px + 2vw)!important;
-    }
+	${font.RReg};
+	line-height: 1.5em;
+	max-width: 700px;
+	margin: 1.5em 0 !important;
+	font-size: 18px !important;
+	@media (max-width: ${units.mobile}) {
+		font-size: calc(8px + 2vw) !important;
+	}
 `;
 
 export const Header2 = styled.h2`
-    ${font.DCBold};
-    color: ${color.primary};
-    font-size: 34px;
-    @media (max-width: ${units.mobile}) {
-    	font-size: calc(22px + 2vw);
-    }
+	${font.DCBold};
+	color: ${color.primary};
+	font-size: 34px;
+	@media (max-width: ${units.mobile}) {
+		font-size: calc(22px + 2vw);
+	}
 `;
 
 export const Header3 = styled.h3`
-    ${font.DCBold};
-    margin-top: 1.5em;
-    font-size: 24px;
-    color: ${color.primaryShade};
-    @media (max-width: ${units.mobile}) {
-    	font-size: calc(12px + 2vw);
-    }
+	${font.DCBold};
+	margin-top: 1.5em;
+	font-size: 24px;
+	color: ${color.primaryShade};
+	@media (max-width: ${units.mobile}) {
+		font-size: calc(12px + 2vw);
+	}
 `;
 
 export const Table = styled.table`
 	border-style: solid;
 	border-width: 2px;
 	border-spacing: 0;
-    border-color: ${color.primary};
-        width: 100%;
-
+	border-color: ${color.primary};
+	width: 100%;
 `;
 
 export const TableRow = styled.tr`
-    border-spacing: 0;
-    width: 100%;
+	border-spacing: 0;
+	width: 100%;
 `;
 
 export const TableHead = styled.th`
-    background-color: ${color.BG1};
-    border-bottom: 2px solid ${color.primary};
-    border-spacing: 0;
-    padding: 5px 0;
-    font-size: 18px;
-    ${font.RCBold};
-    color: ${color.primary};
+	background-color: ${color.BG1};
+	border-bottom: 2px solid ${color.primary};
+	border-spacing: 0;
+	padding: 5px 0;
+	font-size: 16px;
+	${font.RCBold};
+	color: ${color.primary};
+	@media (max-width: ${units.mobile}) {
+		font-size: calc(8px + 2vw);
+	}
 `;
 
 export const TableCell = styled.td`
-        background-color: ${color.BG0};
-        text-align: center;
-        padding: 6px 0;
-		${font.RReg};
+	background-color: ${color.BG0};
+	text-align: center;
+	padding: 6px 0;
+	${font.RReg};
+	@media (max-width: ${units.mobile}) {
+		font-size: calc(8px + 1vw);
+	}
 `;
 
 export const AnimatedLabeledInputDiv = styled.div`

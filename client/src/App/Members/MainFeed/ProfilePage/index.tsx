@@ -69,6 +69,8 @@ import {
 	ProfilePageInfoEditButtons,
 	AddTagItem,
 	TagItemList,
+	ProfilePageBioContainer,
+	ProfilePageBioPreview,
 } from './Styles';
 import CogWheel from '../../../../assets/images/cogwheel_blue.png';
 import { checkUser, getLocal } from '../../../../Utils';
@@ -88,6 +90,7 @@ import schoolIcon from '../../../../assets/images/school.svg';
 import ExpandableInput from '../../../Components/ExpandableInput';
 import AddDegreeButton from './AddDegreeButton';
 import { color } from '../../../../Styles';
+import QuillEditor from '../../../Components/QuillEditor';
 
 const ProfilePage: React.FC = () => {
 	const params = useParams<{ uid: string }>();
@@ -959,52 +962,6 @@ const ProfilePage: React.FC = () => {
 							</DegreeResultList>
 						)}
 					</OccupationInfoDiv>
-					{/*{profile &&*/}
-					{/*checkUser(profile.u_id) &&*/}
-					{/*editing ? (*/}
-					{/*	<OccupationInfoDiv>*/}
-					{/*		<PlaceOfStudy editing={editing}>*/}
-					{/*			/!*{!editing && (*!/*/}
-					{/*			/!*	<StudySpan>*!/*/}
-					{/*			/!*		{profile?.school &&*!/*/}
-					{/*			/!*			`Studying at ${profile?.school}`}*!/*/}
-					{/*			/!*	</StudySpan>*!/*/}
-					{/*			/!*)}*!/*/}
-
-					{/*			<DropDownComponent*/}
-					{/*				state={*/}
-					{/*					profile?.school ||*/}
-					{/*					'Select school'*/}
-					{/*				}*/}
-					{/*				setSelect={(*/}
-					{/*					newSchool,*/}
-					{/*				) =>*/}
-					{/*					handleSchoolChange(*/}
-					{/*						newSchool,*/}
-					{/*					)*/}
-					{/*				}*/}
-					{/*				optionList={*/}
-					{/*					schools*/}
-					{/*						? schools.map(*/}
-					{/*								(*/}
-					{/*									school,*/}
-					{/*								) => {*/}
-					{/*									return {*/}
-					{/*										option:*/}
-					{/*											school.name,*/}
-					{/*										id:*/}
-					{/*											school.s_id,*/}
-					{/*									};*/}
-					{/*								},*/}
-					{/*						  )*/}
-					{/*						: []*/}
-					{/*				}*/}
-					{/*				width={'200px'}*/}
-					{/*				height={'22px'}*/}
-					{/*			/>*/}
-					{/*		</PlaceOfStudy>*/}
-					{/*	</OccupationInfoDiv>*/}
-					{/*) : null}*/}
 				</ProfilePageTagDiv>
 			</ProfilePageInfo>
 			<ProfilePageContent id={'profile-content'}>
@@ -1139,11 +1096,27 @@ const ProfilePage: React.FC = () => {
 					</ProfilePageBioTitle>
 					<ProfilePageBio>
 						{profile && (
-							<TextEditor
-								editable={editing}
-								state={profile.bio}
-								onChange={handleBioChange}
-							/>
+							<ProfilePageBioContainer>
+								{editing ? (
+									<QuillEditor
+										simple
+										onChange={
+											handleBioChange
+										}
+										value={profile.bio}
+									/>
+								) : (
+									<ProfilePageBioPreview
+										className={
+											'article'
+										}
+										dangerouslySetInnerHTML={{
+											__html:
+												profile.bio,
+										}}
+									/>
+								)}
+							</ProfilePageBioContainer>
 						)}
 					</ProfilePageBio>
 					<ProfilePageLanguageDiv>

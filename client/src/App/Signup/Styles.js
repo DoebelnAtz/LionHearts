@@ -9,6 +9,8 @@ import {
 export const SignupDiv = styled.div`
 	width: 100%;
 	height: 100%;
+	
+	overflow-y: auto;
 	display: flex;
 	background-color: ${color.primary}70;
 	background: url(${props => props.src});
@@ -18,8 +20,9 @@ export const SignupDiv = styled.div`
 
 export const SignupDivContainer = styled.div`
 	width: min(50%, 400px);
+	max-width: 300px;
 	background-color: ${color.BG0};
-	padding: 5%;
+	padding: min(5%, 30px);
 	border-radius: 10px;
 	margin: auto;
 	display: flex;
@@ -120,6 +123,8 @@ export const PasswordStrengthMeterBarExcellent = styled.div`
 export const ProfilePicPreview = styled.img`
 	width: calc(10px + 8vw);
 	height: calc(10px + 8vw);
+	max-width: 100px;
+	max-height: 100px;
 	border-radius: 50%;
 	background: url(${props => props.src}), ${color.BG0};
 	background-position: center;
@@ -135,7 +140,7 @@ export const ProfilePicUploadButton = styled.button`
 
 export const AnimatedLabeledSignupInput = styled.div`
 	${components.animatedLabeledInput};
-	margin-bottom: 10px;
+	margin-bottom: 5px;
 `;
 
 export const ApplicantInfoDiv = styled.div`
