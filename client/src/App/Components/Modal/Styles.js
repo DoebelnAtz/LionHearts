@@ -29,7 +29,7 @@ export const OutsideDiv = styled.div`
 `;
 
 export const InsideDiv = styled.div`
-	margin: 20% auto auto auto;
+	margin: auto auto auto auto;
 	max-height: 80vh;
 	border: 5px solid ${color.BG0};
 	background: ${color.primary};

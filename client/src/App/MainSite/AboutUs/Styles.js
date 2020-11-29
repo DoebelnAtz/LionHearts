@@ -36,6 +36,7 @@ export const AboutUsVideoSection = styled.div`
 
 export const AboutUsVideo = styled.video`
     width: 80%;
+    max-width: 800px;
     margin: 5% auto ${units.margin} auto;
      &:focus {
     outline: none;

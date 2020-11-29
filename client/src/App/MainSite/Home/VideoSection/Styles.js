@@ -10,6 +10,7 @@ export const VideoSectionContainer = styled.div`
 export const VideoPlayerContainer = styled.div`
     width: 80%;
     margin: 5% auto;
+    max-width: 800px;
 `;
 
 export const VideoPlayerControlsRow = styled.div`
