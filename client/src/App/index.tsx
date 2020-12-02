@@ -11,7 +11,6 @@ import useVisibility, {
 	useWidth,
 } from '../Hooks';
 import cookie from 'cookie';
-
 import Home from './MainSite/Home';
 import './base.css';
 import Signup from './Signup';
