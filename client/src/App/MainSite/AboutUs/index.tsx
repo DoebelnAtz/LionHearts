@@ -15,6 +15,7 @@ import { Paragraph, Header2 } from '../../../Styles';
 import AboutUsLHVideo from '../../../assets/videos/Lionhearts.m4v';
 import useVisibility, { useWidth } from '../../../Hooks';
 import ToggleMuteButton from '../../Components/ToggleMuteButton';
+import LHPoster from '../../../assets/images/lh_thumb.png'
 
 let AboutUs: React.FC;
 AboutUs = () => {
@@ -110,6 +111,7 @@ AboutUs = () => {
 				<AboutUsVideoSection ref={ref}>
 					<AboutUsVideo
 						controls
+						poster={LHPoster}
 						muted={muted}
 						ref={videoRef}
 					>

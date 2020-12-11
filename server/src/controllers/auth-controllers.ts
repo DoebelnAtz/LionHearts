@@ -6,7 +6,6 @@ import { connect } from '../postgres';
 import { accessLogger } from '../logger';
 import { JsonWebTokenError, sign } from 'jsonwebtoken';
 import { capitalizeFirst } from '../utils';
-let config = require('../config');
 let jwt = require('jsonwebtoken');
 
 export const signup = catchErrors(async (req, res) => {
@@ -174,7 +173,7 @@ export const login = catchErrors(async (req, res, next) => {
 			u_id: existingUser.u_id,
 			role: existingUser.role,
 		},
-		config.secret,
+		process.env.TOKEN_PASS || 'development',
 		{
 			expiresIn: '24h', // expires in 24 hours
 		},
@@ -186,7 +185,7 @@ export const login = catchErrors(async (req, res, next) => {
 			u_id: existingUser.u_id,
 			role: existingUser.role,
 		},
-		config.refreshSecret,
+		process.env.REFRESH_PASS || 'development',
 		{
 			expiresIn: '4d', // expires in 4 days
 		},
@@ -223,7 +222,7 @@ export const checkToken = catchErrors(async (req, res) => {
 	if (token) {
 		jwt.verify(
 			token,
-			config.secret,
+		process.env.TOKEN_PASS || 'development',
 			(err: JsonWebTokenError, decoded: Decoded) => {
 				if (err) {
 					return res.status(401).json({
@@ -283,7 +282,7 @@ export const refreshToken = catchErrors(async (req, res) => {
 	if (refreshToken) {
 		jwt.verify(
 			refreshToken,
-			config.refreshSecret,
+		process.env.REFRESH_PASS || 'development',
 			(err: JsonWebTokenError, decoded: any) => {
 				if (err) {
 					throw new CustomError(
@@ -298,7 +297,7 @@ export const refreshToken = catchErrors(async (req, res) => {
 							u_id: decoded.u_id,
 							role: decoded.role,
 						},
-						config.secret,
+		process.env.TOKEN_PASS || 'development',
 						{
 							expiresIn: '24h', // expires in 24 hours
 						},
@@ -310,7 +309,7 @@ export const refreshToken = catchErrors(async (req, res) => {
 							u_id: decoded.u_id,
 							role: decoded.role,
 						},
-						config.refreshSecret,
+		process.env.REFRESH_PASS || 'development',
 						{
 							expiresIn: '4d', // expires in 4 days
 						},

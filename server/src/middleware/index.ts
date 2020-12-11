@@ -7,7 +7,6 @@ import { Storage } from '@google-cloud/storage';
 import { format } from 'util';
 import exp from 'constants';
 const jwt = require('jsonwebtoken');
-const config = require('../config');
 let errors: any;
 if (process.env.NODE_ENV === 'produciton') {
 	errors = new ErrorReporting({ reportMode: 'always' });
@@ -65,7 +64,7 @@ export const checkToken: RequestHandler = (req, res, next) => {
 	if (token) {
 		jwt.verify(
 			token,
-			config.secret,
+			process.env.TOKEN_PASS,
 			(err: JsonWebTokenError, decoded: Decoded) => {
 				if (err) {
 					return res.status(401).json({

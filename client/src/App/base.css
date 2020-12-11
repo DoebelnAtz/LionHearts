@@ -149,8 +149,8 @@ body {
 
 p {
     font-family: roboto-regular, sans-serif;
-    font-size: 14px;
-    line-height: 18px;
+    font-size: 16px;
+    line-height: 1.5em;
     letter-spacing: 0.5px;
     margin: 1.5em 0;
     color: black;
@@ -158,7 +158,7 @@ p {
 
 .text {
     font-family: roboto-regular, sans-serif;
-    font-size: 14px;
+    font-size: 16px;
     color: black;
 }
 

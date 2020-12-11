@@ -27,6 +27,8 @@ export const ApplyFormSectionDiv = styled.div`
 
 export const ApplyTextDiv = styled.div`
 	width: 100%;
+	display: flex;
+	flex-direction: column;
 	@media (max-width: 900px) {
 		width: 100%;
 	}
@@ -35,7 +37,8 @@ export const ApplyTextDiv = styled.div`
 export const InstructionList = styled.ol`
     
     padding: 0;
-    margin-left: 20px;
+    margin: 10px auto 30px 20px;
+    max-width: 800px;
 `;
 
 export const InstructionListItem = styled.li`

@@ -221,7 +221,6 @@ export const getProfiles = catchErrors(async (req, res) => {
 	`,
 		[`%${search}%`.toLowerCase()],
 	);
-	// this feels like a ridiculous way of going about this, but it works...
 
 	profiles = profiles.rows.map((p: any) => {
 		return {
@@ -230,6 +229,7 @@ export const getProfiles = catchErrors(async (req, res) => {
 			schools: p.schools || [],
 			studying: p.studying || [],
 			skills: p.skills || [],
+			languages: p.languages || []
 		};
 	});
 

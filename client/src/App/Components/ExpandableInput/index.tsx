@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, {ChangeEvent, useRef, useState} from 'react';
 import { useSpring } from 'react-spring';
 import {
 	ExpandButton,
@@ -23,6 +23,7 @@ const ExpandableInput: React.FC<expandableInputProps> = ({
 	backgroundColor = color.primary,
 }) => {
 	const [expand, setExpand] = useState(false);
+	const inputRef = useRef<HTMLInputElement>(null);
 
 	const expandInput = useSpring({
 		width: expand ? '100px' : '0px',
@@ -47,11 +48,19 @@ const ExpandableInput: React.FC<expandableInputProps> = ({
 		delay: expand ? 0 : 300,
 	});
 
+	const handleExpandButtonClick = () => {
+		if(!expand)
+			inputRef.current?.focus();
+		else
+			inputRef.current?.blur();
+		setExpand(!expand)
+	};
+
 	return (
 		<ExpandableInputDiv>
 			<ExpandButton
 				height={height}
-				onClick={() => setExpand(!expand)}
+				onClick={handleExpandButtonClick}
 				style={expandInputButton}
 				backgroundColor={backgroundColor}
 			>
@@ -63,13 +72,14 @@ const ExpandableInput: React.FC<expandableInputProps> = ({
 				</ExpandButtonIconContainer>
 			</ExpandButton>
 			<ExpandInput
+				ref={inputRef}
 				height={height}
 				backgroundColor={backgroundColor}
-				value={value}
+				value={value || ''}
 				onChange={(e: ChangeEvent) => {
+					let target = e.target as HTMLInputElement;
 					onChange(
-						(e.target as HTMLInputElement)
-							.value,
+						target.value
 					);
 				}}
 				style={expandInput}

@@ -57,7 +57,7 @@ export const MemberListFeed = styled.div`
 
 export const MemberListResultDiv = styled(animated.div)`
 	display: flex;
-	flex-wrap: wrap;
+	flex-wrap: nowrap;
 	flex-direction: column;
 	padding: 5px 0;
 	width: calc(50% - 5px);
@@ -292,6 +292,7 @@ export const MemberListCard = styled.div`
 	margin: max(40px, min(12vw, 80px)) 0 0
 		0;
 	display: flex;
+	flex-shrink: 0;
 	border-width: 2px;
 	background-color: ${color.tertiary};
 	border-color: ${color.tertiary};

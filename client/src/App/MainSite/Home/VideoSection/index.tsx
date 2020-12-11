@@ -7,6 +7,7 @@ import {
 	VideoSectionContainer,
 } from './Styles';
 // @ts-ignore
+import LHPoster from '../../../../assets/images/lh_thumb.png'
 import LHIntroVideo from '../../../../assets/videos/LH_long_sub.mp4';
 import useVisibility, { useWidth } from '../../../../Hooks';
 import ToggleMuteButton from '../../../Components/ToggleMuteButton';
@@ -38,6 +39,7 @@ const VideoSection: React.FC = () => {
 			<VideoPlayerContainer>
 				<VideoPlayerDiv ref={ref}>
 					<VideoPlayer
+						poster={LHPoster}
 						muted={muted}
 						ref={videoRef}
 						width={'100%'}

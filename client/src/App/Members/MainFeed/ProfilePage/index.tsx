@@ -435,21 +435,12 @@ const ProfilePage: React.FC = () => {
 		}
 	};
 
-	const handleSchoolChange = (newSchool: Option) => {
-		if (profile) {
-			setProfile({
-				...profile,
-				school: newSchool.option,
-				s_id: newSchool.id || 1,
-			});
-		}
-	};
 
 	const handleLanguageSearchChange = (e: string) => {
 		if (e === '') {
 			setLanguageResults([]);
 		}
-		setLanguageSearch(e.toLowerCase);
+		setLanguageSearch(e.toLowerCase());
 	};
 
 	const handleSkillRemoval = async (skillId: number) => {
