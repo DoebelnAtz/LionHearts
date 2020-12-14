@@ -1,5 +1,4 @@
 # LionHearts
-Lion Hearts project 
 
 <a href="https://lionhearts.com">lionhearts.com</a>
 
