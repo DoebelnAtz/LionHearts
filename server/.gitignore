@@ -1,7 +1,7 @@
 /node_modules/
 /logs/
 .env
+./keyfile.json
 /member-applications/*
 !/member-applications/
 /build
-/keyfile.json
