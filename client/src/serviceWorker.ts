@@ -128,7 +128,6 @@ function registerValidSW(swUrl: string, config?: Config) {
 		.register(swUrl)
 		.then((registration) => {
 			const user = getLocal('user')?.user?.u_id;
-			console.log(user);
 			if (user !== undefined) {
 				registration.pushManager
 					.subscribe({
@@ -138,7 +137,6 @@ function registerValidSW(swUrl: string, config?: Config) {
 						userVisibleOnly: true,
 					})
 					.then((sub) => {
-						console.log(sub);
 
 						if (sub && user) {
 							makeRequest(

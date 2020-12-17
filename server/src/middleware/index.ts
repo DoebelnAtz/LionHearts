@@ -8,7 +8,7 @@ import { format } from 'util';
 import exp from 'constants';
 const jwt = require('jsonwebtoken');
 let errors: any;
-if (process.env.NODE_ENV === 'produciton') {
+if (process.env.NODE_ENV === 'production') {
 	errors = new ErrorReporting({ reportMode: 'always' });
 }
 
@@ -86,7 +86,9 @@ export const checkToken: RequestHandler = (req, res, next) => {
 };
 
 export const logRequests: RequestHandler = (req, res, next) => {
-	if (req.method === 'GET')
+	if (process.env.NODE_ENV !== 'production') {
+
+		if (req.method === 'GET')
 		accessLogger.info(
 			`Method: ${req.method} | To: ${req.path} | Query: ${JSON.stringify(
 				req.query,
@@ -99,13 +101,18 @@ export const logRequests: RequestHandler = (req, res, next) => {
 			)}`,
 		);
 	}
+		} else {
+
+	}
 	next();
 };
 
 export const handleError: ErrorRequestHandler = (error, req, res, next) => {
-	errorLogger.error(`${error.status}: ${error.description}`);
-	if (process.env.NODE_ENV === 'produciton') {
+	if (process.env.NODE_ENV === 'production' && errors) {
 		errors.report(`${error.status}: ${error.description}`);
+	} else {
+
+		errorLogger.error(`${error.status}: ${error.description}`);
 	}
 	return res.status(error.status || 500).json({
 		error: error.response,

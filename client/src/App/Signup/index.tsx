@@ -409,7 +409,7 @@ const Signup: React.FC = () => {
 						<LoadingButton
 							onClick={handleSignup}
 						>
-							Signup
+							Sign up
 						</LoadingButton>
 					</form>
 				</SignupForm>

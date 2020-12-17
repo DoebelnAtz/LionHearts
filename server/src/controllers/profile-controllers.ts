@@ -95,6 +95,10 @@ export const getProfileById = catchErrors(async (req, res) => {
 		[userId],
 	);
 
+	if (profile.rows.length !== 1) {
+		throw new CustomError('Failed to get profile', 404, 'No profile matching given user id', 'Profile not found')
+	}
+
 	let degrees = await query(
 		`
 		SELECT d.name, d.d_id, dc.completed FROM degrees d JOIN degree_connections dc
