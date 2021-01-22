@@ -28,6 +28,7 @@ export const makeRequest = async (
 					: '',
 			},
 		});
+		console.log(resp);
 	} catch (e) {
 		console.log(e);
 		if (!e.response) {
@@ -80,6 +81,7 @@ export const makeRequest = async (
 						},
 					});
 				} catch (e) {
+					console.log(e);
 					if (e.response.status === 401) {
 						window.location.replace(
 							'/members/login',
@@ -88,6 +90,7 @@ export const makeRequest = async (
 					localStorage.clear();
 				}
 			} catch (e) {
+				console.log(e);
 				if (e.response.status === 401) {
 					window.location.replace(
 						'/members/login',

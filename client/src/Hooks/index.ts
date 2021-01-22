@@ -259,5 +259,5 @@ export const useAuth = () => {
 			}
 		}
 		checkAuth();
-	}, [getLocal('user')?.user?.token]);
+	}, [getLocal('user')?.token]);
 };

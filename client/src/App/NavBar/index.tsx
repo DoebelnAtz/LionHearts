@@ -28,23 +28,8 @@ const NavBar = () => {
 	const handleMemberIconClick = async () => {
 		if (getLocal('user')) {
 			try {
-				let resp = await axios({
-					url: `${baseURL}/api/auth/check_token`,
-					method: 'GET',
-					headers: {
-						'Content-Type': 'application/json',
-						Authorization:
-							'Bearer ' +
-							(localStorage.getItem('user')
-								? getLocal('user').token
-								: ''),
-						'x-refresh-token': localStorage.getItem(
-							'user',
-						)
-							? getLocal('user').refreshToken
-							: '',
-					},
-				});
+				await makeRequest('/auth/check_token', 'GET');
+
 				history.push('/members/list');
 			} catch (e) {
 				history.push('/members/login');

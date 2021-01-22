@@ -73,7 +73,7 @@ import {
 	ProfilePageBioPreview,
 } from './Styles';
 import CogWheel from '../../../../assets/images/cogwheel_blue.png';
-import { checkUser, getLocal } from '../../../../Utils';
+import {checkUser, getLocal, removeAtToken} from '../../../../Utils';
 import { makeRequest } from '../../../../Api';
 import TextEditor from '../../../Components/TextEditor';
 import ProfilePic from '../../../Components/ProfilePic';
@@ -991,7 +991,7 @@ const ProfilePage: React.FC = () => {
 								<SocialMediaIcon
 									onClick={() =>
 										window.open(
-											`https://instagram.com/${profile?.instagram}`,
+											`https://instagram.com/${removeAtToken(profile?.instagram)}`,
 											'_blank',
 										)
 									}
@@ -1010,7 +1010,7 @@ const ProfilePage: React.FC = () => {
 								) : (
 									<SocialMediaLink
 										target={'_blank'}
-										href={`https://instagram.com/${profile?.instagram}`}
+										href={`https://instagram.com/${removeAtToken(profile?.instagram)}`}
 									>
 										{profile?.instagram}
 									</SocialMediaLink>
@@ -1022,7 +1022,7 @@ const ProfilePage: React.FC = () => {
 								<SocialMediaIcon
 									onClick={() =>
 										window.open(
-											`https://twitter.com/${profile?.twitter}`,
+											`https://twitter.com/${removeAtToken(profile?.twitter)}`,
 											'_blank',
 										)
 									}
@@ -1041,7 +1041,7 @@ const ProfilePage: React.FC = () => {
 								) : (
 									<SocialMediaLink
 										target={'_blank'}
-										href={`https://twitter.com/${profile?.twitter}`}
+										href={`https://twitter.com/${removeAtToken(profile?.twitter)}`}
 									>
 										{profile?.twitter}
 									</SocialMediaLink>
@@ -1055,7 +1055,7 @@ const ProfilePage: React.FC = () => {
 									alt={'linkedin'}
 									onClick={() =>
 										window.open(
-											`https://www.linkedin.com/in/${profile?.linkedin}`,
+											`https://www.linkedin.com/in/${removeAtToken(profile?.linkedin)}`,
 											'_blank',
 										)
 									}
@@ -1072,7 +1072,7 @@ const ProfilePage: React.FC = () => {
 								) : (
 									<SocialMediaLink
 										target={'_blank'}
-										href={`https://www.linkedin.com/in/${profile?.linkedin}`}
+										href={`https://www.linkedin.com/in/${removeAtToken(profile?.linkedin)}`}
 									>
 										{profile?.linkedin}
 									</SocialMediaLink>

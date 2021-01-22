@@ -204,7 +204,6 @@ const MemberList: React.FC = () => {
 		} else {
 			return memberList
 				.filter((m) => {
-					console.log(m, lf);
 					return !lf.id
 						? !lf.id
 						: m.languages.find(

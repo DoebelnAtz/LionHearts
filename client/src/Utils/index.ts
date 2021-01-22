@@ -43,6 +43,17 @@ export const getLocalDateFormat = (date: string) => {
 	});
 };
 
+export const removeAtToken = (username: string | undefined) => {
+	if (username === undefined) {
+		return '';
+	}
+	if (username.charAt(0) === '@') {
+		return username.substr(1, username.length)
+	} else {
+		return username
+	}
+};
+
 export const checkUser = (uid: number) => {
 	try {
 		let userId = getLocal('user').user.u_id;
