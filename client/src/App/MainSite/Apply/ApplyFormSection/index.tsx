@@ -384,7 +384,7 @@ const ApplyFormSection: React.FC = () => {
 						</InstructionListItem>
 						<InstructionListItem>
 							Send us your thoughts wrapped in
-							a motivational letter, together
+							a motivation letter, together
 							with your CV and other optional
 							attachments. Any of the main
 							languages do. We do our best to
